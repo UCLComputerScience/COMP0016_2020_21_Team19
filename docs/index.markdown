@@ -2,7 +2,7 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: home
-title: Contemptoremque utrumque et aut alvum sua
+title: Home
 
 ---
 
