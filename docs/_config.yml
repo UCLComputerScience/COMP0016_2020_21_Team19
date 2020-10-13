@@ -20,11 +20,12 @@
 
 title: NHS4 Activity Diary
 description: >- # this means to ignore newlines until "baseurl:"
-  Team 19
-  COMP0016 Systems Engineering
+  Development Blog
 baseurl: "/COMP0016_2020_21_Team19" # the subpath of your site, e.g. /blog
 url: "https://uclcomputerscience.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-
+# author: Team 19 COMP0016 Systems Engineering
+team: Team 19
+module: COMP0016 Systems Engineering
 # Build settings
 # removed minima theme as it is now a regular theme
 # theme: minima
