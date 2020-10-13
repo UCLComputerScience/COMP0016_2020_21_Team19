@@ -26,7 +26,7 @@ baseurl: "/COMP0016_2020_21_Team19" # the subpath of your site, e.g. /blog
 url: "https://uclcomputerscience.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
-theme: poole/hyde
+theme: jekyll-theme-slate
 plugins:
   - jekyll-feed
 
