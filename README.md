@@ -15,7 +15,7 @@ To add a blog post:
     ---
     layout: post
     title:  "Post Title"
-    date:   2020-10-13 17:57:48 +0100
+    date:   2020-10-20
     categories: cat1, cat2
     author: Name
     ---
