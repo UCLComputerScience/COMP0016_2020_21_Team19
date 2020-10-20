@@ -11,7 +11,7 @@ To add a blog post:
     Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers
 
 - The file must have a header enclosed in `---`
-    ```
+    ```yml
     ---
     layout: post
     title:  "Post Title"
