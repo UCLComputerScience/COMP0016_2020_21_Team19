@@ -22,7 +22,7 @@ After meeting with our client, we have established the following ideas/problems:
 
 - We could implement a league table for students, in order to motivate them towards achieving the objective
 
-- There nbeeds to be a focus on code-readability
+- There needs to be a focus on code-readability
 
 # Tech Stack
 
