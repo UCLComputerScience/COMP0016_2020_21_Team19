@@ -22,9 +22,15 @@ To add a blog post:
     ```
     note that the `layout` must always be `post`
 
+- To work on draft posts, simply place the file in the [`docs/_drafts`](docs/_drafts) directory.
+
 - You can view a live preview of the blog post as you write it by running
     ```
     $ bundle exec jekyll serve --livereload
+    ```
+    or if the post is a draft
+    ```
+    $ bundle exec jekyll serve --livereload --drafts
     ```
     within the [`docs`](docs/) directory
 
