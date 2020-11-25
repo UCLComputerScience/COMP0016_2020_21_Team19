@@ -1,4 +1,4 @@
-#!/Users/karanc/CS/SysEng/COMP0016_2020_21_Team19/djangoProject/venv/bin/python
+#!/Users/karanc/CS/SysEng/COMP0016_2020_21_Team19/venv/bin/python
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
