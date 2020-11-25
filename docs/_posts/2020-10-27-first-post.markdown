@@ -1,0 +1,33 @@
+---
+layout: post
+title:  "First Post"
+date:   2020-10-27
+categories: project, requirements
+name: Team 19
+---
+
+# Gathering Requirements
+
+After meeting with our client, we have established the following ideas/problems:
+
+- We are building a web app for teachers to be able to track student progress.
+
+- The web app is mainly for tracking their physical activity but should be usable for other purposes.
+
+- Teachers are able to specify a set of objectives for students to achieve.
+
+- The web app allows students to give feedback thorugh a Likert Scale and also describing, in 5 words, what they found held them back and what helped them to achieve the objective.
+
+- The feedback needs to be viewable in a graphic format, and the feedback needs to be transformed into a word cloud specific to each student and school.
+
+- We could implement a league table for students, in order to motivate them towards achieving the objective
+
+- There needs to be a focus on code-readability
+
+# Tech Stack
+
+- Django (for the web framework)
+
+- SQL database
+
+- Linode (web server)
