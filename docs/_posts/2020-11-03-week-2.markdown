@@ -1,0 +1,14 @@
+---
+layout: post
+title:  "Representing Users"
+date:   2020-11-03
+categories: project, requirements
+name: Team 19
+---
+
+# Representing Users
+
+This week, the three of us decided to create personas and scenarios to use as a frame of reference for our later designs. To do this, we had a semi-structured interview with our client in which we asked our client who our users should be. Here, we were told that we would have two principle users of the solution - KS2 teachers and their corresponding students.
+
+Given our module constraints (not being able to engage with KS2 users), we had our friends, coursemates and relatives simulate KS2 students in another semi-structured interview that we had designed. 
+

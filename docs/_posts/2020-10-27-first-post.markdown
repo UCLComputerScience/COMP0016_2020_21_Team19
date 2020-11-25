@@ -8,6 +8,10 @@ name: Team 19
 
 # Gathering Requirements
 
+## Problem
+
+After meeting our client for the first time, we outlined problems currently faced by the UK's healthcare system. Most notably, we outlined the issue of there being a generation of people who will be growing up in an environment where being physically active is considered much less normal than it used to be by kids themselves.
+
 After meeting with our client, we have established the following ideas/problems:
 
 - We are building a web app for teachers to be able to track student progress.
