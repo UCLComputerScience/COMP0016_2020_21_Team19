@@ -1,4 +1,4 @@
-# NHS4 Activity Diary
+# Activity League
 
 ### The blog is ready to host content.
 
