@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "First Post"
+title:  "Week 1"
 date:   2020-10-27
 categories: project, requirements
 name: Team 19
