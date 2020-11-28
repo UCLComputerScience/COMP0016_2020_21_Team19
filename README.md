@@ -1,5 +1,21 @@
 # Activity League
 
+### Working with Django
+#### Clone this repo
+
+SSH
+```bash
+git clone git@github.com:UCLComputerScience/COMP0016_2020_21_Team19.git; cd COMP0016_2020_21_Team19; python -m venv venv; source venv/bin/activate; pip install -r requirements.txt;   
+```
+HTTPS
+```bash
+git clone https://github.com/UCLComputerScience/COMP0016_2020_21_Team19.git; cd COMP0016_2020_21_Team19; python -m venv venv; source venv/bin/activate; pip install -r requirements.txt;   
+```
+This will:
+- Clone the repository
+- `cd` into to the `COMP0016_2020_21_Team19` directory
+- Create a new virtual environment and install all the requirements
+
 ### The blog is ready to host content.
 
 To add a blog post:
