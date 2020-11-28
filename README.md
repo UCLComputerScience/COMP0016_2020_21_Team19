@@ -16,6 +16,8 @@ This will:
 - `cd` into to the `COMP0016_2020_21_Team19` directory
 - Create a new virtual environment and install all the requirements
 
+---
+
 ### The blog is ready to host content.
 
 To add a blog post:
