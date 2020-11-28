@@ -1,7 +1,10 @@
 # Activity League
 
 ### Working with Django
+
 #### Clone this repo
+
+Paste one of the below lines into terminal (depending on if you use SSH or HTTPS with `git`)
 
 SSH
 ```bash
