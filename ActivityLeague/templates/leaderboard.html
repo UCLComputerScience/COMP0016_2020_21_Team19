@@ -32,45 +32,21 @@
       </ul>
     </nav>
 
-
-    {% comment %} <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link active" href="#">Active</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-            <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-            </div>
-        </li>
-    </ul> {% endcomment %}
-
-
     <div class="container-fluid">
       <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link active" href="#">
+              <li class="nav-item" onclick="document.location = '../Interviewee';">
+                <a class="nav-link" href="#">
                   <span data-feather="home"></span>
                   Dashboard <span class="sr-only">(current)</span>
                 </a>
               </li>
-              <li class="nav-item" onclick="document.location = 'Interviewee/leaderboard';">
-                <a class="nav-link" href="#">
+              <li class="nav-item">
+                <a class="nav-link active" href="#">
                   <span data-feather="bar-chart-2"></span>
-                  Leaderboard
+                  Leaderboard <span class="sr-only">(current)</span>
                 </a>
               </li>
         </nav>
@@ -81,102 +57,29 @@
             <table class="table table-striped table-hover">
                 <thead class="thead">
                 <tr>
-                    <th>Task Name</th>
-                    <th>Subject</th>
-                    <th>Hand In Date</th>
-                    <th>Time Remaining</th>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Score</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr onclick="document.location = 'Interviewee';">
-                    <td class="align-middle"><button type="button" class="btn btn-info">Read about a country of your choice</button></td>
-                    <td class="align-middle">Geography</td>
-                    <td class="align-middle">
-                        Dec 2, 2020
-                        <small class="text-muted d-block">6:30 PM</small>
-                    </td>
-                    <td class="align-middle" style="color:red">10 hours 40 minutes</td>
+                    <tr>
+                    <td>1</button></td>
+                    <td class="align-middle">John Cena</td>
+                    <td class="align-middle">100<td>
                     </tr>
 
-                    <tr onclick="document.location = 'Interviewee';">
-                    <td class="align-middle"><button type="button" class="btn btn-info">Read page 11 of a book</button></td>
-                    <td class="align-middle">Literacy</td>
-                    <td class="align-middle">
-                        Dec 4, 2020
-                        <small class="text-muted d-block">6:30 PM</small>
-                    </td>
-                    <td class="align-middle" style="color:orange">2 days 10 hours 40 minutes</td>
+                    <tr>
+                    <td>1</button></td>
+                    <td class="align-middle">Randy Orton</td>
+                    <td class="align-middle">89<td>
                     </tr>
-
-                    <tr onclick="document.location = 'Interviewee';">
-                    <td class="align-middle"><button type="button" class="btn btn-info">Complete fractions worksheet</button></td>
-                    <td class="align-middle">Numeracy</td>
-                    <td class="align-middle">
-                        Dec 6, 2020
-                        <small class="text-muted d-block">6:30 PM</small>
-                    </td>
-                    <td class="align-middle" style="color:darkgreen">4 days 10 hours 40 minutes</td>
+                    
+                    <tr>
+                    <td>1</button></td>
+                    <td class="align-middle">The Undertaker</td>
+                    <td class="align-middle">88<td>
                     </tr>
-
-                    <tr onclick="document.location = 'Interviewee';">
-                    <td class="align-middle"><button type="button" class="btn btn-info">Learn rules of rounders</button></td>
-                    <td class="align-middle">PE</td>
-                    <td class="align-middle">
-                        Dec 8, 2020
-                        <small class="text-muted d-block">12:30 PM</small>
-                    </td>
-                    <td class="align-middle" style="color:darkgreen">6 days 4 hours 40 minutes</td>
-                    </tr>
-
-                    <tr onclick="document.location = 'Interviewee';">
-                    <td class="align-middle"><button type="button" class="btn btn-info">Watch video about the Animal Kingdom</button></td>
-                    <td class="align-middle">Science</td>
-                    <td class="align-middle">
-                        Dec 8, 2020
-                        <small class="text-muted d-block">6:30 PM</small>
-                    </td>
-                    <td class="align-middle" style="color:darkgreen">6 days 10 hours 40 minutes</td>
-                    </tr>
-
-                    <tr onclick="document.location = 'Interviewee';">
-                    <td class="align-middle"><button type="button" class="btn btn-info">Complete drawing</button></td>
-                    <td class="align-middle">Art</td>
-                    <td class="align-middle">
-                        Dec 10, 2020
-                        <small class="text-muted d-block">3:00 PM</small>
-                    </td>
-                    <td class="align-middle" style="color:darkgreen">8 days 7 hours 10 minutes</td>
-                    </tr>
-
-                    {% comment %} <tr onclick="document.location = 'Interviewee';">
-                    <td class="align-middle"><button type="button" class="btn btn-info">Read page 11 of a book</button></td>
-                    <td class="align-middle">Literacy</td>
-                    <td class="align-middle">
-                        Dec 4, 2020
-                        <small class="text-muted d-block">6:30 PM</small>
-                    </td>
-                    <td class="align-middle" style="color:red">2 days 10 hours 40 minutes</td>
-                    </tr>
-
-                    <tr onclick="document.location = 'Interviewee';">
-                    <td class="align-middle"><button type="button" class="btn btn-info">Read page 11 of a book</button></td>
-                    <td class="align-middle">Literacy</td>
-                    <td class="align-middle">
-                        Dec 4, 2020
-                        <small class="text-muted d-block">6:30 PM</small>
-                    </td>
-                    <td class="align-middle" style="color:red">2 days 10 hours 40 minutes</td>
-                    </tr>
-
-                    <tr onclick="document.location = 'Interviewee';">
-                    <td class="align-middle"><button type="button" class="btn btn-info">Read page 11 of a book</button></td>
-                    <td class="align-middle">Literacy</td>
-                    <td class="align-middle">
-                        Dec 4, 2020
-                        <small class="text-muted d-block">6:30 PM</small>
-                    </td>
-                    <td class="align-middle" style="color:red">2 days 10 hours 40 minutes</td>
-                    </tr> {% endcomment %}
                 </tbody>
             </table>
             </div>
