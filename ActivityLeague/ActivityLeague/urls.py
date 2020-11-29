@@ -20,5 +20,8 @@ from Interviewee import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('Interviewee', views.tasks, name='tasks')
+    path('login', views.login, name='login'),
+    path('Interviewee', views.dashboard, name='dashboard'),
+    path('Interviewee/leaderboard', views.leaderboard, name='leaderboard'),
+    path('Interviewee/response', views.response, name="response")
 ]

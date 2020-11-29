@@ -1,0 +1,98 @@
+{% load static %}<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Activity League - Dashboard</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'bootstrap/css/dashboard.css' %}" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Activity League</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="#">
+              User Name<span data-feather="user"></span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item" onclick="document.location = '../Interviewee';">
+                <a class="nav-link active" href="#">
+                  <span data-feather="home"></span>
+                  Dashboard <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="bar-chart-2"></span>
+                  Leaderboard
+                </a>
+              </li>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" id="MainSection">
+          <h2>Complete fractions worksheet: Feedback</h2>
+          <!-- Link back to task links -->
+          <li onclick="document.location = '../Interviewee';">Back to Task List</li>
+          <table class="table">
+            <tbody>
+                <tr>
+                    <div class="Question">
+                        <td class="align-middle">
+                            This should be above
+                            <small class="text-muted d-block">This should be below</small>
+                        </td>
+                        <slidecontainer>
+                            <input type="range" min="1" max="10" value="5" class="slider">
+                        </slidecontainer>
+                    </div>
+                </tr>
+                <tr>
+                    <div class="Question">
+                        <td class="align-middle">
+                            Second question
+                            <small class="text-muted d-block">Second question small</small>
+                        </td>
+                        <slidecontainer>
+                            <input type="range" min="1" max="10" value="5" class="slider">
+                        </slidecontainer>
+                    </div>
+                </tr>
+            </tbody>
+          </table>  
+        </main>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../../../dist/js/bootstrap.min.js"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>

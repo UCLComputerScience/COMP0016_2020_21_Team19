@@ -1,5 +1,14 @@
 from django.shortcuts import render
 
 # Create your views here.
-def tasks(request):
-    return render(request, 'file.html',)
+def dashboard(request):
+    return render(request, 'dashboard.html',)
+
+def leaderboard(request):
+    return render(request, 'leaderboard.html')
+
+def response(request):
+    return render(request, 'response.html')
+
+def login(request):
+    return render(request, 'login.html')
