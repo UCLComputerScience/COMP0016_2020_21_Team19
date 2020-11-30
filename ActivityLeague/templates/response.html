@@ -20,10 +20,13 @@
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Activity League</a>
       <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
               User Name<span data-feather="user"></span>
           </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Sign Out</a>
+          </div>
         </li>
       </ul>
     </nav>
@@ -58,10 +61,10 @@
                         <td class="align-middle">
                             This should be above
                             <small class="text-muted d-block">This should be below</small>
-                        </td>
-                        <slidecontainer>
-                            <input type="range" min="1" max="10" value="5" class="slider">
-                        </slidecontainer>
+                          <slidecontainer>
+                              <input type="range" min="1" max="10" value="5" class="custom-range">
+                          </slidecontainer>
+                      </td>
                     </div>
                 </tr>
                 <tr>
@@ -69,17 +72,182 @@
                         <td class="align-middle">
                             Second question
                             <small class="text-muted d-block">Second question small</small>
-                        </td>
-                        <slidecontainer>
-                            <input type="range" min="1" max="10" value="5" class="slider">
-                        </slidecontainer>
+                          <slidecontainer>
+                              <input type="range" min="1" max="10" value="5" class="custom-range">
+                          </slidecontainer>
+                      </td>
                     </div>
                 </tr>
+                <tr>
+                  <div class="Question">
+                      <td class="align-middle">
+                          Third question
+                          <small class="text-muted d-block">Third question small</small>
+                        <slidecontainer>
+                            <input type="range" min="1" max="10" value="5" class="custom-range">
+                        </slidecontainer>
+                    </td>
+                  </div>
+              </tr>
+              <tr>
+                <div class="Question">
+                    <td class="align-middle">
+                        Fourth question
+                        <small class="text-muted d-block">Fourth question small</small>
+                      <slidecontainer>
+                          <input type="range" min="1" max="10" value="5" class="custom-range">
+                      </slidecontainer>
+                  </td>
+                </div>
+            </tr>
+            <tr>
+              <div class="Question">
+                  <td class="align-middle">
+                      Fifth question
+                      <small class="text-muted d-block">Fifth question small</small>
+                    <slidecontainer>
+                        <input type="range" min="1" max="10" value="5" class="custom-range">
+                    </slidecontainer>
+                </td>
+              </div>
+          </tr>
             </tbody>
-          </table>  
+          </table>          
+          <!-- Individual words area -->
+          <div class="row">
+            <div class="col" id="positive-questions">
+              <h3>Enter 5 words describing things making your task easier.</h3>
+              <div class="form-group">
+                <label for="goodResponse1"></label>
+                <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="goodResponse1"></label>
+                <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="goodResponse1"></label>
+                <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="goodResponse1"></label>
+                <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="goodResponse1"></label>
+                <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+              </div>
+            </div>
+            <div class="col" id="negative-questions">
+              <h3>Enter 5 words describing something making your task harder.</h3>
+              <div class="form-group">
+                <label for="goodResponse1"></label>
+                <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="goodResponse1"></label>
+                <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="goodResponse1"></label>
+                <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="goodResponse1"></label>
+                <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="goodResponse1"></label>
+                <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+              </div>
+            </div>
+          </div>
+        
+
+          <div class="container-fluid page-container">
+          How did this task affect your understanding of the topic?
+              <!-- divide main content into three sections left, middle, right -->
+              <!-- top section container -->
+              <div class="row top-container">
+                  <!-- top section -->
+                  <div class="col-sm-12">
+
+                  </div>
+              </div>
+
+              <div class="row">
+                  <!-- right side -->
+                  <div class="col-sm-1">
+                      <div class="middle-container">
+                          <div class="middle-top"><center>
+                              <button class="btn btn-default" type="button">I know more than I did before</button></center>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-sm-8">
+                      <!-- MIDDLE CONTAINER (horizontal)  -->
+                      <div class="middle-container">
+                          <div class="middle-top"><center>
+                              <button class="btn btn-default" type="button">I know the same as I did before</button></center>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- RIGHT CONTAINER (vertical)     -->
+                  <div class="col-sm-1">
+                      <div class="middle-container">
+                          <div class="middle-top"><center>
+                              <button class="btn btn-default" type="button">I know more than I did before</button></center>
+                          </div>
+                      </div>
+                  </div>
+
+                  </div>
+
+              </div>
+          </div>
+          
+          {% comment %} Choose from three options {% endcomment %}
+          {% comment %} <div class="btn-group card-deck mb-3 text-center">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+              <h4 class="my-0 font-weight-normal"></h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">I know less than I did before<h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li></li>
+                <li>2 GB of storage</li>
+                <li>Email support</li>
+                <li>Help center access</li>
+              </ul>
+              <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button>
+            </div>
+          </div>
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+              <h4 class="my-0 font-weight-normal"></h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">I know the same amount as I did before</h1>
+              <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
+            </div>
+          </div>
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+              <h4 class="my-0 font-weight-normal"></h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title pricing-card-title">I know more than I did before</h1>
+              <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
+            </div>
+          </div>
+        </div>
+        </div>
         </main>
       </div>
-    </div>
+    </div> {% endcomment %}
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
