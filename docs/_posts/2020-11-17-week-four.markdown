@@ -9,8 +9,6 @@ name: Team 19
 Over reading week, we continued to meet regularly as a team and with our client.
 After showing our revised prototype to the client, we finalised the tech stack and began thinking about the system architecture.
 
-## 
-
 ## Stack
 
 Our client had already given us some suggestions regarding the technologies we could use for the system. After considering their preferences and our strengths as a group, we decided on the following:
