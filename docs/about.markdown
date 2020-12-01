@@ -6,7 +6,7 @@ permalink: /about/
 
 This website is home of the development blog for Team 19 of the COMP0016 Systems Engineering module.
 
-Our project is titled **NHS4 Activity Diary** and is in collaboration with **NHS Wales** and **Activity Rocks**.
+Our project is titled **Activity League**.
 
 ## Members
 
@@ -14,4 +14,4 @@ Our project is titled **NHS4 Activity Diary** and is in collaboration with **NHS
 
 #### [Jamie Weigold](mailto:jamie.weigold.19@ucl.ac.uk)
 
-#### [Karan Chawla](https://www.karanchawla.me)
+#### [Karan Chawla](https://karanchawla.me)
