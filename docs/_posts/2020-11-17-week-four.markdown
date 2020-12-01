@@ -20,7 +20,7 @@ Our client had already given us some suggestions regarding the technologies we c
 All of us have experience with Python and feel comfortable using it for the backend.
 On the other hand, we are quite new to front-end development, and thought it would be best to proceed with a simple, responsive CSS framework like Bootstrap, which has ample documentation for us to refer to.
 
-Our client had initally proposed using a PostgreSQL database - which we were happy to proceed with given our knowledge of SQL. However, after researching its features and compatibility with Django, we found that PostgreSQL may not meet the needs of our system in an efficient manner. In particular, we concluded that PostgreSQL's memory performance was inefficient for such a read-heavy system like ours, and that a MySQL or NoSQL database, such as MongoDB, may be more suitable. The additional functionality PostgreSQL offers in comparison to alternatives is not something we think will be required for our system. We will convery these findings to our client in the next meeting.
+Our client had initally proposed using a PostgreSQL database - which we were happy to proceed with given our knowledge of SQL. However, after researching its features and compatibility with Django, we found that PostgreSQL may not meet the needs of our system in an efficient manner. In particular, we concluded that PostgreSQL's memory performance was inefficient for such a read-heavy system like ours, and that a MySQL or NoSQL database, such as MongoDB, may be more suitable. The additional functionality PostgreSQL offers in comparison to alternatives is not something we think will be required for our system. We will convey these findings to our client in the next meeting.
 
 ## Next Steps
 
