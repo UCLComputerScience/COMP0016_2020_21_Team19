@@ -19,7 +19,7 @@ feedback form.
 
 ### Teacher Dashboard
 #### Initial
-![Initial Teacher Dashboard](/COMP0016_2020_21_Team19/assets/teacher-dashboard-1.jpeg){:height="60%" width="60%"}
+![Initial Teacher Dashboard](/COMP0016_2020_21_Team19/assets/teacher-dashboard-1.jpeg)
 
 From these intial designs for the teacher dashboard, the users preferred the design in the top-right, stating that
 it was the most visually appealing layout. Therefore we produced the following improved sketches to develop on this
