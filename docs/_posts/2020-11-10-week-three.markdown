@@ -2,7 +2,7 @@
 layout: post
 title:  "Week Three"
 date:   2020-11-10
-categories: project, requirements
+categories: sketching, prototypes
 name: Team 19
 ---
 
