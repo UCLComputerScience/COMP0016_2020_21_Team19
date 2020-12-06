@@ -2,10 +2,10 @@ from django.shortcuts import render
 
 # Create your views here.
 def dashboard(request):
-    return render(request, 'dashboard.html',)
+    return render(request, 'interviewee_dashboard.html',)
 
 def leaderboard(request):
-    return render(request, 'leaderboard.html')
+    return render(request, 'interviewee_leaderboard.html')
 
 def response(request):
     return render(request, 'response.html')

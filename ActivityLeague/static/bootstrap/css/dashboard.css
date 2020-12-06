@@ -91,6 +91,14 @@ body {
 }
 
 /*
+ * Graph Containers
+ */
+
+.graphContainer {
+  background-color: green;
+}
+
+/*
  * Utilities
  */
 

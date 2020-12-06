@@ -16,12 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from Interviewee import views
+from Interviewee import views as interviewee
+from Interviewer import views as interviewer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login', views.login, name='login'),
-    path('Interviewee', views.dashboard, name='dashboard'),
-    path('Interviewee/leaderboard', views.leaderboard, name='leaderboard'),
-    path('Interviewee/response', views.response, name="response")
+    path('login', interviewee.login, name='login'),
+    
+    path('Interviewee', interviewee.dashboard, name='dashboard'),
+    path('Interviewee/leaderboard', interviewee.leaderboard, name='leaderboard'),
+    path('Interviewee/response', interviewee.response, name="response"),
+
+    path('Interviewer', interviewer.dashboard, name="dashboard"),
+    path('Interviewer/leaderboard', interviewer.leaderboard, name="leaderboard")
 ]
