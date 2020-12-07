@@ -28,5 +28,7 @@ urlpatterns = [
     path('Interviewee/response', interviewee.response, name="response"),
 
     path('Interviewer', interviewer.dashboard, name="dashboard"),
-    path('Interviewer/leaderboard', interviewer.leaderboard, name="leaderboard")
+    path('Interviewer/leaderboard', interviewer.leaderboard, name="leaderboard"),
+    path('Interviewer/task_overview', interviewer.task_overview, name="task_overview"),
+    path('Interviewer/new_task', interviewer.new_task, name="new_task")
 ]

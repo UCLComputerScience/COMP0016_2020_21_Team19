@@ -1,0 +1,184 @@
+{% load static %}<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Activity League - Dashboard</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'bootstrap/css/dashboard.css' %}" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Activity League</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                User Name<span data-feather="user"></span>
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="../login">Sign Out</a>
+            </div>
+          </li>
+      </ul>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="#">
+                  <span data-feather="home"></span>
+                  Dashboard <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item" onclick="document.location = '../Interviewer/leaderboard';">
+                <a class="nav-link" href="#">
+                  <span data-feather="bar-chart-2"></span>
+                  Leaderboard
+                </a>
+              </li>
+        </nav>
+        
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h1 class="h2">Task Overview: Read about a country of your choice</h1>
+          </div>
+
+
+          <!-- Info Cards -->
+          <div class="card-deck justify-content-center m-5 rounded">
+            <div class="col-auto">
+              <div class="card text-center border-primary ml-5 mr-5 h-100" style="width: 18rem;">
+                <div class="card-header"><b>Total Students</b></div>
+                <div class="card-body">
+                  <p class="card-text text-primary" style="font-size: 300%;"><b>25</b></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <div class="card text-center border-primary ml-5 mr-5 h-100" style="width: 18rem;">
+                <div class="card-header"><b>Students Completed</b></div>
+                <div class="card-body">
+                  <p class="card-text text-primary" style="font-size: 300%;"><b>16</b></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <div class="card text-center border-primary ml-5 mr-5 h-100" style="width: 18rem;">
+                <div class="card-header"><b>Due Date</b></div>
+                <div class="card-body">
+                  <p class="card-text text-primary" style="font-size: 300%;"><b>03/11/2020</b></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Word Lists -->
+          <div class="row border mr-5 ml-5 p-3 mb-5 bg-light text-dark">
+            <div class="col">Interviewee Word List
+            </div>
+            <div class="col">
+              <table class="table">
+                <tbody>
+                  <tr>
+                      <td style="color:darkgreen">Internet</td>
+                  </tr>
+                  <tr>
+                      <td style="color:darkgreen">Computer</td>
+                  </tr>
+                  <tr>
+                      <td style="color:darkgreen">History</td>
+                  </tr>
+                  <tr>
+                      <td style="color:darkgreen">Mum</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col">
+              <table class="table">
+                <tbody>
+                  <tr>
+                      <td style="color:red">Noise</td>
+                  </tr>
+                  <tr>
+                      <td style="color:red">Boring</td>
+                  </tr>
+                  <tr>
+                      <td style="color:red">Computer</td>
+                  </tr>
+                  <tr>
+                      <td style="color:red">Hard</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div> 
+
+          <!-- Responses Section -->
+          <div class="text-center border mr-5 ml-5 rounded bg-light">
+            <div class="row border-bottom mr-2 ml-2">
+              <div class="col">Picking a country was easy.</div>
+              <div class="col">
+                <div class="card border-primary m-2">
+                  <div class="card-body">
+                    <h5>1</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="col">Pie Chart Here</div>
+            </div>
+            <div class="row border-bottom mr-2 ml-2">
+              <div class="col">Finding information on a country was easy.</div>
+              <div class="col">
+                <div class="card border-primary m-2">
+                    <div class="card-body">
+                        <h5 class="card-title">2</h5>
+                    </div>
+                </div>
+            </div>
+              <div class="col">Pie Chart Here</div>
+            </div>
+            <div class="row mr-2 ml-2">
+              <div class="col">I know what the capital city of a country is.</div>
+              <div class="col">
+                <div class="card border-primary m-2">
+                    <div class="card-body">
+                        <h5 class="card-title">15</h5>
+                    </div>
+                </div>
+              </div>
+              <div class="col">Pie Chart Here</div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
+

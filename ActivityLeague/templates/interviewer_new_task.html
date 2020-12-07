@@ -1,0 +1,269 @@
+{% load static %}<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Activity League - Dashboard</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'bootstrap/css/dashboard.css' %}" rel="stylesheet">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Activity League</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="#">Sign out</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="#">
+                  <span data-feather="home"></span>
+                  Dashboard <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item" onclick="document.location = '../Interviewer/leaderboard';">
+                <a class="nav-link" href="#">
+                  <span data-feather="bar-chart-2"></span>
+                  Leaderboard
+                </a>
+              </li>
+        </nav>
+        
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h1 class="h2">Create New Task</h1>
+            <div>
+                <button class="btn btn-primary" onclick="document.location = '../Interviewer';" for="question1">Cancel</button>
+            </div>
+          </div>
+          <form>
+            <div class="row">
+              <div class="col-md-7 mb-2">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" placeholder="Maths homework" value="" required="">
+              </div>
+              <div class="col-md-5 mb-2">
+                <label for="class">Class</label>
+                <select class="custom-select d-block w-100" id="class" required="">
+                  <option value="">Choose...</option>
+                  <option>English 1</option>
+                  <option>English 2</option>
+                  <option>Maths 1</option>
+                  <option>Maths 2</option>
+                  <option>P.E.</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a class.
+                </div>
+              </div>
+            </div>
+
+            <hr class="mb-4">
+            <h4 class="mb-3">Content</h4>
+
+            <div class="row">
+
+              <div class="col-md-6 mb-3">
+                <label for="question1">Question 1</label>
+                <input type="text" class="form-control" id="question1" placeholder="How easy did you find this task?" required="">
+                <div class="invalid-feedback">
+                  Please enter a question.
+                </div>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="url">URL <span class="text-muted">(Optional)</span></label>
+                <input type="text" class="form-control" id="url" placeholder="https://www.bbc.co.uk/bitesize">
+              </div>
+              
+              <div class="col-md-2 mb-3">
+                <label for="responseType">Response Type</label>
+                <select class="custom-select d-block w-100" id="responseType" required="">
+                  <option value="">Choose...</option>
+                  <option>Likert Scale</option>
+                  <option>Traffic Light</option>
+                  <option>Text Field</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a response type.
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-md-6 mb-3">
+                <label for="question2">Question 2</label>
+                <input type="text" class="form-control" id="question2" placeholder="'I knew about this topic before.' To what extent do you agree?" required="">
+                <div class="invalid-feedback">
+                  Please enter a question.
+                </div>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="url">URL <span class="text-muted">(Optional)</span></label>
+                <input type="text" class="form-control" id="url" placeholder="">
+              </div>
+              
+              <div class="col-md-2 mb-3">
+                <label for="responseType">Response Type</label>
+                <select class="custom-select d-block w-100" id="responseType" required="">
+                  <option value="">Choose...</option>
+                  <option>Likert Scale</option>
+                  <option>Traffic Light</option>
+                  <option>Text Field</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a response type.
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-md-6 mb-3">
+                <label for="question3">Question 3</label>
+                <input type="text" class="form-control" id="question3" placeholder="How well do you understand simplifying fractions?" required="">
+                <div class="invalid-feedback">
+                  Please enter a question.
+                </div>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="url">URL <span class="text-muted">(Optional)</span></label>
+                <input type="text" class="form-control" id="url">
+              </div>
+              
+              <div class="col-md-2 mb-3">
+                <label for="responseType">Response Type</label>
+                <select class="custom-select d-block w-100" id="responseType" required="">
+                  <option value="">Choose...</option>
+                  <option>Likert Scale</option>
+                  <option>Traffic Light</option>
+                  <option>Text Field</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a response type.
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-md-6 mb-3">
+                <label for="question4">Question 4</label>
+                <input type="text" class="form-control" id="question4" placeholder="What made this task easy?" required="">
+                <div class="invalid-feedback">
+                  Please enter a question.
+                </div>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="url">URL <span class="text-muted">(Optional)</span></label>
+                <input type="text" class="form-control" id="url">
+              </div>
+              
+              <div class="col-md-2 mb-3">
+                <label for="responseType">Response Type</label>
+                <select class="custom-select d-block w-100" id="responseType" required="">
+                  <option value="">Choose...</option>
+                  <option>Likert Scale</option>
+                  <option>Traffic Light</option>
+                  <option>Text Field</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a response type.
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-md-6 mb-3">
+                <label for="question5">Question 5</label>
+                <input type="text" class="form-control" id="url" placeholder="What made this task hard?" required="">
+                <div class="invalid-feedback">
+                  Please enter a question.
+                </div>
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="url">URL <span class="text-muted">(Optional)</span></label>
+                <input type="text" class="form-control" id="url">
+              </div>
+              
+              <div class="col-md-2 mb-3">
+                <label for="responseType">Response Type</label>
+                <select class="custom-select d-block w-100" id="responseType" required="">
+                  <option value="">Choose...</option>
+                  <option>Likert Scale</option>
+                  <option>Traffic Light</option>
+                  <option>Text Field</option>
+                </select>
+                <div class="invalid-feedback">
+                  Please select a response type.
+                </div>
+              </div>
+            </div>
+            
+            <hr class="mb-4">
+
+            <h4 class="mb-3">Due</h4>
+
+            <div class="row">
+              <div class="col-md-4 mb-2">
+                <label for="date">Date</label>
+                <input type="text" class="form-control" id="date" placeholder="" required="">
+                <small class="text-muted">DD/MM/YY</small>
+                <div class="invalid-feedback">
+                  Date is required
+                </div>
+              </div>
+
+              <div class="col-md-4 mb-2">
+                <label for="time">Time <span class="text-muted">(Optional)</span></label>
+                <input type="text" class="form-control" id="time" placeholder="Default if left blank - 18:00">
+                <small class="text-muted">HH:MM</small>
+              </div>
+            </div>
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+          </form>
+          <div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+  </body>
+</html>
+

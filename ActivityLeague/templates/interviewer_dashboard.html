@@ -9,8 +9,6 @@
 
     <title>Activity League - Dashboard</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/dashboard/">
-
     <!-- Bootstrap core CSS -->
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
@@ -22,8 +20,13 @@
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Activity League</a>
       <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">Sign out</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+              User Name<span data-feather="user"></span>
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="../login">Sign Out</a>
+          </div>
         </li>
       </ul>
     </nav>
@@ -54,10 +57,10 @@
           </div>
           <div class="overflow-auto">
           <div class="table-responsive">
-            <table class="table table-striped table-sm">
+            <table class="table table-striped table-hover">
               <thead>
                 <tr>
-                  <th>Set Task</th>
+                  <th >Set Task</th>
                   <th>Class</th>
                   <th>Students</th>
                   <th>Responses</th>
@@ -79,7 +82,7 @@
                   <td>7</td>
                   <td>14/11/2020</td>
                 </tr>
-                <tr>
+                <tr onclick="document.location = 'Interviewer/task_overview';">
                   <td>Read about a country of your choice</td>
                   <td>Geography 2</td>
                   <td>23</td>
@@ -123,14 +126,54 @@
                 </tr>
               </tbody>
             </table>
-            <button type="button" class="btn btn-dark">Create New...</button>
+            <button type="button" class="btn btn-primary" onclick="document.location = '../Interviewer/new_task';">Create New...</button>
+          </div>
+          <!-- Whitespace -->
+          <div>
+
           </div>
           </div>
-
-
-          
-          <div class="graphContainer">
-            <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
+          <div>
+            <div style="margin: 100px; border-radius: 25px;" class="row bg-light">
+              <div class="col">
+                <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
+              </div>
+              <div style="margin: 50px;" class="col">
+                <table class="table table-striped"
+  data-toggle="table"
+  data-url="data1.json"
+  data-pagination="true"
+  data-search="true">
+                  <thead>
+                    <tr>
+                      <th>Student</th>
+                      <th>Ranking</th>
+                      <th>Score</th>
+                    </tr>
+                    <tr>
+                      <td>Joseph Connor 👑</td>
+                      <td>1</td>
+                      <td>10</td>
+                    </tr>
+                    <tr>
+                      <td>Dean Mohammedally</td>
+                      <td>2</td>
+                      <td>9</td>
+                    </tr>
+                    <tr>
+                      <td>Boris Johnson</td>
+                      <td>3</td>
+                      <td>6</td>
+                    </tr>
+                    <tr>
+                      <td>Diane Abbott</td>
+                      <td>4</td>
+                      <td>3</td>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
           </div>
         </main>
       </div>
