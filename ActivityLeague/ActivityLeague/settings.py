@@ -77,10 +77,22 @@ WSGI_APPLICATION = 'ActivityLeague.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql', # 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.mysql', # BASE_DIR / 'db.sqlite3'
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'activity_league',
+        'USER': 'djangouser',
+        'PASSWORD': 'password',
+        'OPTIONS': {
+            'read_default_file': '/usr/local/etc/my.cnf',
+        },
     }
 }
 
@@ -116,7 +128,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

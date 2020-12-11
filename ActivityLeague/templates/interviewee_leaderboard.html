@@ -63,23 +63,26 @@
                 </tr>
                 </thead>
                 <tbody>
+                    {% for iv in interviewees %}
                     <tr>
-                    <td>1</button></td>
-                    <td class="align-middle">Joseph Connor 👑</td>
+                    <td>{{ forloop.counter }}</button></td>
+                    <td class="align-middle">{{iv}}</td>
                     <td class="align-middle">100<td>
                     </tr>
+                    {% endfor %}
 
-                    <tr>
+ 
+                    {% comment %} <tr>
                     <td>2</button></td>
                     <td class="align-middle">Dean Mohamedally</td>
                     <td class="align-middle">89<td>
-                    </tr>
+                    </tr> {% endcomment %}
                     
-                    <tr>
+                    {% comment %} <tr>
                     <td>3</button></td>
                     <td class="align-middle">Graham Roberts</td>
                     <td class="align-middle">88<td>
-                    </tr>
+                    </tr> {% endcomment %}
                 </tbody>
             </table>
             </div>

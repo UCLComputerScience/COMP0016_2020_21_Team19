@@ -1,3 +1,4 @@
+from Interviewer.models import Group, Question
 from django.db import models
 
 """
@@ -7,20 +8,11 @@ definition here.
 """
 
 class Interviewee(models.Model):
-    pass
+    firstname = models.CharField(max_length=30)
+    surname = models.CharField(max_length=30)
 
-
-class Interviewer(models.Model):
-    pass
-
-
-class Group(models.Model):
-    name = models.CharField(max_length=30)
-
-
-class GroupInterviewer(models.Model):
-    interviewer_id = models.ForeignKey(Interviewer, on_delete=models.CASCADE)
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.firstname + " " + self.surname
 
 
 class GroupInterviewee(models.Model):
@@ -28,17 +20,8 @@ class GroupInterviewee(models.Model):
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
 
 
-class Task(models.Model):
-    title = models.CharField(max_length=50)
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-
-
-class Question(models.Model):
-    task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
-    link = models.CharField(max_length=100)
-    description = models.CharField(max_length=100)
-
-
 class Response(models.Model):
+    question_id = models.ForeignKey(Question, on_delete=models.CASCADE)
+    interviewee_id = models.ForeignKey(Interviewee, on_delete=models.SET_NULL, null=True)
     value = models.SmallIntegerField()
 
