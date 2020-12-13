@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block sidebar %}
-<li class="nav-item" onclick="document.location = '../interviewee@1';">
-  <a class="nav-link" href="#">
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'interviewee_dashboard' user.pk %}">
     <span data-feather="home"></span>
     Dashboard
   </a>

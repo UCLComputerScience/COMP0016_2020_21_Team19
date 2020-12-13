@@ -7,8 +7,8 @@
         Dashboard <span class="sr-only">(current)</span>
     </a>
     </li>
-    <li class="nav-item" onclick="document.location = '../Interviewer/leaderboard';">
-    <a class="nav-link" href="#">
+    <li class="nav-item">
+    <a class="nav-link" href="{% url 'interviewer_leaderboard' user.pk %}">
         <span data-feather="bar-chart-2"></span>
         Leaderboard
     </a>
@@ -19,7 +19,7 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
 <h1 class="h2">Create New Task</h1>
 <div>
-    <button class="btn btn-primary" onclick="document.location = '../Interviewer';" for="question1">Cancel</button>
+    <button class="btn btn-primary" href="{% url 'interviewer_dashboard' user.pk %}" for="question1">Cancel</button>
 </div>
 </div>
 <form>

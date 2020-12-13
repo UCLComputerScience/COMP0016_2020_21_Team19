@@ -28,7 +28,7 @@
     </tr>
     </thead>
     <tbody>
-        <tr onclick="document.location = 'Interviewee';">
+        <tr>
         <td class="align-middle">Read about a country of your choice</td>
         <td class="align-middle">Geography</td>
         <td class="align-middle">
@@ -38,7 +38,7 @@
         <td class="align-middle" style="color:red">10 hours 40 minutes</td>
         </tr>
 
-        <tr onclick="document.location = 'Interviewee';">
+        <tr>
         <td class="align-middle">Read page 11 of a book</td>
         <td class="align-middle">Literacy</td>
         <td class="align-middle">
@@ -48,7 +48,7 @@
         <td class="align-middle" style="color:orange">2 days 10 hours 40 minutes</td>
         </tr>
 
-        <tr onclick="document.location = 'Interviewee/response';">
+        <tr onclick="document.location = '{% url 'response' user.pk %}';">
         <td class="align-middle">Complete fractions worksheet</td>
         <td class="align-middle">Numeracy</td>
         <td class="align-middle">
@@ -57,8 +57,8 @@
         </td>
         <td class="align-middle" style="color:darkgreen">4 days 10 hours 40 minutes</td>
         </tr>
-
-        <tr onclick="document.location = 'Interviewee';">
+        
+        <tr>
         <td class="align-middle">Learn rules of rounders</td>
         <td class="align-middle">PE</td>
         <td class="align-middle">
@@ -68,7 +68,7 @@
         <td class="align-middle" style="color:darkgreen">6 days 4 hours 40 minutes</td>
         </tr>
 
-        <tr onclick="document.location = 'Interviewee';">
+        <tr>
         <td class="align-middle">Watch video about the Animal Kingdom</td>
         <td class="align-middle">Science</td>
         <td class="align-middle">
@@ -78,7 +78,7 @@
         <td class="align-middle" style="color:darkgreen">6 days 10 hours 40 minutes</td>
         </tr>
 
-        <tr onclick="document.location = 'Interviewee';">
+        <tr>
         <td class="align-middle">Complete drawing</td>
         <td class="align-middle">Art</td>
         <td class="align-middle">

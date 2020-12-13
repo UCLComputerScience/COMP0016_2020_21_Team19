@@ -26,17 +26,19 @@ urlpatterns = [
     # INTERVIEWEE
     url(r'^interviewee@(?P<pk>\d+)/?$', interviewee.dashboard, name='interviewee_dashboard'),
     url(r'^interviewee@(?P<pk>\d+)/leaderboard/?$', interviewee.leaderboard, name='interviewee_leaderboard'),
+    url(r'^interviewee@(?P<pk>\d+)/response/?$', interviewee.response, name='response'),
 
     # INTERVIEWER
     url(r'^interviewer@(?P<pk>\d+)/?$', interviewer.dashboard, name='interviewer_dashboard'),
     url(r'^interviewer@(?P<pk>\d+)/leaderboard/?$', interviewer.leaderboard, name='interviewer_leaderboard'),
+    url(r'^interviewer@(?P<pk>\d+)/new_task/?$', interviewer.new_task, name='new_task'),
+    url(r'^interviewer@(?P<pk>\d+)/task_overview/?$', interviewer.task_overview, name='task_overview')
     
-    path('admin/', admin.site.urls),
-    # path('Interviewee/leaderboard/', interviewee.leaderboard, name='leaderboard'),
-    path('Interviewee/response/', interviewee.response, name="response"),
+    # path('admin/', admin.site.urls),
+    # # path('Interviewee/leaderboard/', interviewee.leaderboard, name='leaderboard'),
 
-    path('Interviewer/', interviewer.dashboard, name="dashboard"),
-    path('Interviewer/leaderboard/', interviewer.leaderboard, name="leaderboard"),
-    path('Interviewer/task_overview/', interviewer.task_overview, name="task_overview"),
-    path('Interviewer/new_task', interviewer.new_task, name="new_task")
+    # path('Interviewer/', interviewer.dashboard, name="dashboard"),
+    # path('Interviewer/leaderboard/', interviewer.leaderboard, name="leaderboard"),
+    # path('Interviewer/task_overview/', interviewer.task_overview, name="task_overview"),
+    # path('Interviewer/new_task', interviewer.new_task, name="new_task")
 ]

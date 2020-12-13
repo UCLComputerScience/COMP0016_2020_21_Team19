@@ -10,8 +10,9 @@ def leaderboard(request, pk):
     user = Interviewee.objects.get(pk=pk)
     return render(request, 'interviewee_leaderboard.html', {'user' : user})
 
-def response(request):
-    return render(request, 'response.html')
+def response(request, pk):
+    user = Interviewee.objects.get(pk=pk)
+    return render(request, 'response.html', {'user' : user})
 
 def login(request):
     return render(request, 'login.html')
