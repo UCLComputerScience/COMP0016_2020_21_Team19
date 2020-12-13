@@ -2,14 +2,13 @@ from django.shortcuts import render
 from .models import Interviewee
 
 # Create your views here.
-def dashboard(request):
-    return render(request, 'interviewee_dashboard.html',)
+def dashboard(request, pk):
+    user = Interviewee.objects.get(pk=pk)
+    return render(request, 'interviewee_dashboard.html', {'user' : user})
 
-def leaderboard(request):
-    # jc = Interviewee.objects.create(firstname='Joseph', surname='Connor')
-    # dm = Interviewee.objects.create(firstname='Dean', surname='Mohammedally')
-    interviewees = Interviewee.objects.all()
-    return render(request, 'interviewee_leaderboard.html', {'interviewees' : interviewees})
+def leaderboard(request, pk):
+    user = Interviewee.objects.get(pk=pk)
+    return render(request, 'interviewee_leaderboard.html', {'user' : user})
 
 def response(request):
     return render(request, 'response.html')

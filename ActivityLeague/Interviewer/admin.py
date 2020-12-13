@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Interviewer
-# Register your models here.
+from .models import *
 
 admin.site.register(Interviewer)
+admin.site.register(Task)
+admin.site.register(Group)
+admin.site.register(GroupInterviewer)

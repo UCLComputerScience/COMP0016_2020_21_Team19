@@ -29,7 +29,7 @@ class GroupInterviewer(models.Model):
 class Task(models.Model):
     title = models.CharField(max_length=50)
     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
-    due_date = models.DateTimeField()
+    due_date = models.DateTimeField(null=True)
     
     def __str__(self):
         return self.title
