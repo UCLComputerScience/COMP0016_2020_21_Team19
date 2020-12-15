@@ -40,3 +40,4 @@ class Question(models.Model):
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
     link = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
+    response_type = models.SmallIntegerField()

@@ -5,10 +5,12 @@ from .models import *
 
 GROUP_CHOICES = Group.objects.all()
 
+RESPONSE_TYPES = [(1, 'Likert Scale'), (2, 'Traffic Light'),(3, 'Text Field')]
+
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ('title', 'group_id', 'due_date', 'due_time')
+        fields = ('title', 'group_id', 'due_date')
         labels = {
             'title': 'Task Title',
             'group_id': 'Group',
@@ -18,7 +20,7 @@ class TaskForm(forms.ModelForm):
         widgets={
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter Task Tile here'
+                'placeholder': 'Enter Task Title here'
                 }
             ),
             'group_id': forms.Select(choices=GROUP_CHOICES),
@@ -26,19 +28,19 @@ class TaskForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'DD/MM/YYYY'
                 }
-            ),
-            'due_time': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'HH:MM'
-                }
             )
+            # 'due_time': forms.TextInput(attrs={
+            #     'class': 'form-control',
+            #     'placeholder': 'HH:MM'
+            #     }
+            # )
         }
 
 
 QuestionFormset = modelformset_factory(
     Question,
-    fields=('link', 'description'),
-    extra=4,
+    fields=('link', 'description', 'response_type'),
+    extra=5,
     widgets={
         'description': forms.TextInput(
             attrs={
@@ -49,8 +51,9 @@ QuestionFormset = modelformset_factory(
         'link': forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'URL (optional)'
+                'placeholder': 'URL'
             }
         ),
+        'response_type': forms.Select(choices=RESPONSE_TYPES)
     }
 )
