@@ -46,7 +46,7 @@
         <td>7</td>
         <td>14/11/2020</td>
       </tr>
-      <tr onclick="document.location = 'Interviewer/task_overview';">
+      <tr onclick="document.location = '{% url 'task_overview' user.pk %}';">
         <td>Read about a country of your choice</td>
         <td>Geography 2</td>
         <td>23</td>
@@ -90,7 +90,7 @@
       </tr>
     </tbody>
   </table>
-  <button type="button" class="btn btn-primary" onclick="document.location = '/new_task';">Create New...</button>
+  <button type="button" class="btn btn-primary" onclick="document.location = '{% url 'new_task' user.pk %}';">Create New...</button>
 </div>
 <!-- Whitespace -->
 <div>

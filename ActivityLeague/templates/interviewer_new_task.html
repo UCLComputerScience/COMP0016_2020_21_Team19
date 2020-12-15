@@ -22,21 +22,21 @@
     <button class="btn btn-primary" href="{% url 'interviewer_dashboard' user.pk %}" for="question1">Cancel</button>
 </div>
 </div>
-<form>
+<form method="post" novalidate>
+{% comment %} <input type="hidden" name="csrfmiddlewaretoken" value="jG2o6aWj65YGaqzCpl0TYTg5jn6SctjzRZ9KmluifVx0IVaxlwh97YarZKs54Y32"> {% endcomment %}
+{% csrf_token %}
 <div class="row">
     <div class="col-md-7 mb-2">
     <label for="title">Title</label>
-    <input type="text" class="form-control" id="title" placeholder="Maths homework" value="" required="">
+    <input type="text" class="form-control" id="title" placeholder="Maths homework" value="" required="" name="title">
     </div>
     <div class="col-md-5 mb-2">
     <label for="class">Class</label>
-    <select class="custom-select d-block w-100" id="class" required="">
+    <select class="custom-select d-block w-100" id="group" required="" name="group">
         <option value="">Choose...</option>
-        <option>English 1</option>
-        <option>English 2</option>
-        <option>Maths 1</option>
-        <option>Maths 2</option>
-        <option>P.E.</option>
+        {% for group in groups %}
+        <option value={{group}}>{{group.name}}</option>
+        {% endfor %}
     </select>
     <div class="invalid-feedback">
         Please select a class.
@@ -51,7 +51,7 @@
 
     <div class="col-md-6 mb-3">
     <label for="question1">Question 1</label>
-    <input type="text" class="form-control" id="question1" placeholder="How easy did you find this task?" required="">
+    <input type="text" class="form-control" id="question1" placeholder="How easy did you find this task?" required="" name="question1">
     <div class="invalid-feedback">
         Please enter a question.
     </div>
@@ -59,7 +59,7 @@
 
     <div class="col-md-4 mb-3">
     <label for="url">URL <span class="text-muted">(Optional)</span></label>
-    <input type="text" class="form-control" id="url" placeholder="https://www.bbc.co.uk/bitesize">
+    <input type="text" class="form-control" id="q1_url" placeholder="https://www.bbc.co.uk/bitesize" name="q1_url">
     </div>
     
     <div class="col-md-2 mb-3">
@@ -80,7 +80,7 @@
 
     <div class="col-md-6 mb-3">
     <label for="question2">Question 2</label>
-    <input type="text" class="form-control" id="question2" placeholder="'I knew about this topic before.' To what extent do you agree?" required="">
+    <input type="text" class="form-control" id="question2" placeholder="'I knew about this topic before.' To what extent do you agree?" required="" name="question2">
     <div class="invalid-feedback">
         Please enter a question.
     </div>
@@ -88,7 +88,7 @@
 
     <div class="col-md-4 mb-3">
     <label for="url">URL <span class="text-muted">(Optional)</span></label>
-    <input type="text" class="form-control" id="url" placeholder="">
+    <input type="text" class="form-control" id="q2_url" placeholder="" name="q2_url">
     </div>
     
     <div class="col-md-2 mb-3">
@@ -109,7 +109,7 @@
 
     <div class="col-md-6 mb-3">
     <label for="question3">Question 3</label>
-    <input type="text" class="form-control" id="question3" placeholder="How well do you understand simplifying fractions?" required="">
+    <input type="text" class="form-control" id="question3" placeholder="How well do you understand simplifying fractions?" required="" name="question3">
     <div class="invalid-feedback">
         Please enter a question.
     </div>
@@ -117,7 +117,7 @@
 
     <div class="col-md-4 mb-3">
     <label for="url">URL <span class="text-muted">(Optional)</span></label>
-    <input type="text" class="form-control" id="url">
+    <input type="text" class="form-control" id="q3_url" name="q3_url">
     </div>
     
     <div class="col-md-2 mb-3">
@@ -138,7 +138,7 @@
 
     <div class="col-md-6 mb-3">
     <label for="question4">Question 4</label>
-    <input type="text" class="form-control" id="question4" placeholder="What made this task easy?" required="">
+    <input type="text" class="form-control" id="question4" placeholder="What made this task easy?" required="" name="question4">
     <div class="invalid-feedback">
         Please enter a question.
     </div>
@@ -146,7 +146,7 @@
 
     <div class="col-md-4 mb-3">
     <label for="url">URL <span class="text-muted">(Optional)</span></label>
-    <input type="text" class="form-control" id="url">
+    <input type="text" class="form-control" id="q4_url" name="q4_url">
     </div>
     
     <div class="col-md-2 mb-3">
@@ -167,7 +167,7 @@
 
     <div class="col-md-6 mb-3">
     <label for="question5">Question 5</label>
-    <input type="text" class="form-control" id="url" placeholder="What made this task hard?" required="">
+    <input type="text" class="form-control" id="question5" placeholder="What made this task hard?" required="" name="question5">
     <div class="invalid-feedback">
         Please enter a question.
     </div>
@@ -175,7 +175,7 @@
 
     <div class="col-md-4 mb-3">
     <label for="url">URL <span class="text-muted">(Optional)</span></label>
-    <input type="text" class="form-control" id="url">
+    <input type="text" class="form-control" id="q5_url" name="q5_url">
     </div>
     
     <div class="col-md-2 mb-3">
@@ -199,7 +199,7 @@
 <div class="row">
     <div class="col-md-4 mb-2">
     <label for="date">Date</label>
-    <input type="text" class="form-control" id="date" placeholder="" required="">
+    <input type="text" class="form-control" id="date" placeholder="" required="" name="date">
     <small class="text-muted">DD/MM/YY</small>
     <div class="invalid-feedback">
         Date is required
@@ -208,7 +208,7 @@
 
     <div class="col-md-4 mb-2">
     <label for="time">Time <span class="text-muted">(Optional)</span></label>
-    <input type="text" class="form-control" id="time" placeholder="Default if left blank - 18:00">
+    <input type="text" class="form-control" id="time" placeholder="Default if left blank - 18:00" name="time">
     <small class="text-muted">HH:MM</small>
     </div>
 </div>

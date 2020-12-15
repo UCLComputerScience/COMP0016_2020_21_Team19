@@ -21,6 +21,7 @@ from Interviewee import views as interviewee
 from Interviewer import views as interviewer
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', interviewee.login, name='login'),
     
     # INTERVIEWEE
@@ -34,7 +35,6 @@ urlpatterns = [
     url(r'^interviewer@(?P<pk>\d+)/new_task/?$', interviewer.new_task, name='new_task'),
     url(r'^interviewer@(?P<pk>\d+)/task_overview/?$', interviewer.task_overview, name='task_overview')
     
-    # path('admin/', admin.site.urls),
     # # path('Interviewee/leaderboard/', interviewee.leaderboard, name='leaderboard'),
 
     # path('Interviewer/', interviewer.dashboard, name="dashboard"),
