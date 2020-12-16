@@ -6,7 +6,7 @@ categories: sso, system architecture, linode, frontend, backend
 name: Team 19
 ---
 
-This week, our primary focus was on completing the front end and beginning the implementation of the back end. Similar to previous weeks, we have continued to meet as a team on a (almost) daily basis as we have found that collaborative programming has been a very effective approach thus far.
+This week, our primary focus was on completing the frontend and beginning the implementation of the back end. Similar to previous weeks, we have continued to meet as a team on a (almost) daily basis as we have found that collaborative programming has been a very effective approach thus far.
 
 ## Frontend
 
