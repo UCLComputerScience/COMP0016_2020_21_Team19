@@ -6,9 +6,10 @@ categories: sso, system architecture, linode, frontend, backend
 name: Team 19
 ---
 
-This week, our primary focus was on completing the front end, devising a system architecture diagram for our client and beginning the implementation of the back end. Similar to previous weeks, we have continued to meet as a team on a (almost) daily basis as we have found that collaborative programming has been a very effective approach thus far.
+This week, our primary focus was on completing the front end and beginning the implementation of the back end. Similar to previous weeks, we have continued to meet as a team on a (almost) daily basis as we have found that collaborative programming has been a very effective approach thus far.
 
 # Frontend
+---
 
 We have implemented the majority of the frontend. However, it is currently all hardcoded and not integrated with the Django backend - this is something we will be working on in the coming week. Although there are some further refinements to be made on the frontend, we feel are only minor concerns which can be resolved after some progress has been made on the backend, which is a more important task at this stage of the development cycle.
 
@@ -48,12 +49,14 @@ We created the following pages following our Figma prototype as a guide and poin
 *New Task*
 
 # Linode
+---
 
 Our client asked us to decide on a Linode server for our project, for which we opted for the following specification:
 Ubuntu 20.10, Nanode 1GB: 1 CPU, 25GB Storage, 1GB RAM.
 We feel this is sufficient for the time being, given our scale of deployment.
 
 # Next Steps
+---
 
 ## Backend
 
