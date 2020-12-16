@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Week Eight"
+title:  "Week Seven"
 date:   2020-12-08
 categories: sso, system architecture, linode, frontend, backend
 name: Team 19
