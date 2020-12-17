@@ -6,7 +6,7 @@ categories: project, requirements
 name: Team 19
 ---
 
-# Gathering Requirements
+## Gathering Requirements
 
 After meeting with our client, we have established the following ideas/problems:
 
@@ -24,7 +24,7 @@ After meeting with our client, we have established the following ideas/problems:
 
 - There needs to be a focus on code-readability
 
-# Tech Stack
+## Tech Stack
 
 - Django (for the web framework)
 

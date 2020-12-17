@@ -21,6 +21,19 @@ This will:
 
 ---
 
+### UCL Project Report Website
+
+The [`ucl`](ucl) directory has the Jekyll project which we will use to generate the static site being deployed on UCL servers.
+
+Since the UCL cannot build the Jekyll site, we need to manually build the site and then copy the generated site into the `/cs/student/www/2020/group19/` directory on UCL servers.
+
+- Run `jekyll build` in the [`ucl`](ucl) directory
+
+- Copy the contents in the [`_site`](ucl/_site) direcory over to `/cs/student/www/2020/group19/` (through ThinLinc or SSH)
+
+
+---
+
 ### The blog is ready to host content.
 
 To add a blog post:
