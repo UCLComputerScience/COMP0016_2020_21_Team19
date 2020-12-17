@@ -29,8 +29,10 @@ Since the UCL servers cannot build the Jekyll site, we need to manually build th
 
 - Run `jekyll build` in the [`ucl`](ucl) directory
 
-- Copy the contents in the [`_site`](ucl/_site) direcory over to `/cs/student/www/2020/group19/` (through ThinLinc or SSH)
-
+- Copy the contents in the [`_site`](ucl/_site) direcory over to `/cs/student/www/2020/group19/` (through ThinLinc or SSH). This can be done easily with
+    ```
+    $ scp -r path/to/COMP0016_2020_21_Team19/ucl/_site/. UCLCSUSERNAME@csrw2.cs.ucl.ac.uk:/cs/student/www/2020/group19/
+    ```
 
 ---
 
