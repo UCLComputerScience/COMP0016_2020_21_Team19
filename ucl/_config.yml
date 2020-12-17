@@ -36,7 +36,7 @@ collections:
   topics:
     title: true
     output: true
-    permalink: /:name
+    permalink: /:name/
     order:
     - requirements.markdown
     - research.markdown
