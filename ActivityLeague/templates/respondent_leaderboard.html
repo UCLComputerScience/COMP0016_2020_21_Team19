@@ -2,7 +2,7 @@
 
 {% block sidebar %}
 <li class="nav-item">
-  <a class="nav-link" href="{% url 'interviewee_dashboard' user.pk %}">
+  <a class="nav-link" href="{% url 'respondent_dashboard' user.pk %}">
     <span data-feather="home"></span>
     Dashboard
   </a>
@@ -27,7 +27,7 @@
     </tr>
     </thead>
     <tbody>
-        {% for iv in interviewees %}
+        {% for respondent in respondents %}
         <tr>
         <td>{{ forloop.counter }}</button></td>
         <td class="align-middle">{{iv}}</td>

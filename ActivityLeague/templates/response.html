@@ -3,13 +3,13 @@
 
 {% block sidebar %}
 <li class="nav-item">
-  <a class="nav-link active" href="{% url 'interviewee_dashboard' user.pk %}">
+  <a class="nav-link active" href="{% url 'respondent_dashboard' user.pk %}">
     <span data-feather="home"></span>
     Dashboard <span class="sr-only">(current)</span>
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="{% url 'interviewee_leaderboard' user.pk %}">
+  <a class="nav-link" href="{% url 'respondent_leaderboard' user.pk %}">
     <span data-feather="bar-chart-2"></span>
     Leaderboard
   </a>
@@ -20,7 +20,7 @@
 {% block content %}
 <h2>Complete fractions worksheet: Feedback</h2>
 <!-- Link back to task links -->
-<li onclick="document.location = '../Interviewee';">Back to Task List</li>
+<li onclick="document.location = '../respondent';">Back to Task List</li>
 <table class="table">
   <tbody>
       <tr>

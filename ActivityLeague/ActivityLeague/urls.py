@@ -17,28 +17,28 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 
-from Interviewee import views as interviewee
-from Interviewer import views as interviewer
+from respondent import views as respondent
+from surveyor import views as surveyor
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', interviewee.login, name='login'),
+    path('', respondent.login, name='login'),
     
-    # INTERVIEWEE
-    url(r'^interviewee@(?P<pk>\d+)/?$', interviewee.dashboard, name='interviewee_dashboard'),
-    url(r'^interviewee@(?P<pk>\d+)/leaderboard/?$', interviewee.leaderboard, name='interviewee_leaderboard'),
-    url(r'^interviewee@(?P<pk>\d+)/response/?$', interviewee.response, name='response'),
+    # respondent
+    url(r'^respondent@(?P<pk>\d+)/?$', respondent.dashboard, name='respondent_dashboard'),
+    url(r'^respondent@(?P<pk>\d+)/leaderboard/?$', respondent.leaderboard, name='respondent_leaderboard'),
+    url(r'^respondent@(?P<pk>\d+)/response/?$', respondent.response, name='response'),
 
-    # INTERVIEWER
-    url(r'^interviewer@(?P<pk>\d+)/?$', interviewer.dashboard, name='interviewer_dashboard'),
-    url(r'^interviewer@(?P<pk>\d+)/leaderboard/?$', interviewer.leaderboard, name='interviewer_leaderboard'),
-    url(r'^interviewer@(?P<pk>\d+)/new_task/?$', interviewer.new_task, name='new_task'),
-    url(r'^interviewer@(?P<pk>\d+)/task_overview/?$', interviewer.task_overview, name='task_overview')
+    # surveyor
+    url(r'^surveyor@(?P<pk>\d+)/?$', surveyor.dashboard, name='surveyor_dashboard'),
+    url(r'^surveyor@(?P<pk>\d+)/leaderboard/?$', surveyor.leaderboard, name='surveyor_leaderboard'),
+    url(r'^surveyor@(?P<pk>\d+)/new_task/?$', surveyor.new_task, name='new_task'),
+    url(r'^surveyor@(?P<pk>\d+)/task_overview/?$', surveyor.task_overview, name='task_overview')
     
-    # # path('Interviewee/leaderboard/', interviewee.leaderboard, name='leaderboard'),
+    # path('respondent/leaderboard/', respondent.leaderboard, name='leaderboard'),
 
-    # path('Interviewer/', interviewer.dashboard, name="dashboard"),
-    # path('Interviewer/leaderboard/', interviewer.leaderboard, name="leaderboard"),
-    # path('Interviewer/task_overview/', interviewer.task_overview, name="task_overview"),
-    # path('Interviewer/new_task', interviewer.new_task, name="new_task")
+    # path('surveyor/', surveyor.dashboard, name="dashboard"),
+    # path('surveyor/leaderboard/', surveyor.leaderboard, name="leaderboard"),
+    # path('surveyor/task_overview/', surveyor.task_overview, name="task_overview"),
+    # path('surveyor/new_task', surveyor.new_task, name="new_task")
 ]
