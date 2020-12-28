@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+<li class="nav-item">
+  <a class="nav-link active" href="#">
+    <span data-feather="home"></span>
+    Dashboard <span class="sr-only">(current)</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'respondent_leaderboard' user.pk %}">
+    <span data-feather="bar-chart-2"></span>
+    Leaderboard
+  </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h2>All Tasks</h2>
+<div> {# class="container" #}
+<table class="table table-striped table-hover">
+    <thead class="thead">
+    <tr>
+        <th>Task Name</th>
+        <th>Subject</th>
+        <th>Hand In Date</th>
+        <th>Time Remaining</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td class="align-middle">Read about a country of your choice</td>
+        <td class="align-middle">Geography</td>
+        <td class="align-middle">
+            Dec 2, 2020
+            <small class="text-muted d-block">6:30 PM</small>
+        </td>
+        <td class="align-middle" style="color:red">10 hours 40 minutes</td>
+        </tr>
+
+        <tr>
+        <td class="align-middle">Read page 11 of a book</td>
+        <td class="align-middle">Literacy</td>
+        <td class="align-middle">
+            Dec 4, 2020
+            <small class="text-muted d-block">6:30 PM</small>
+        </td>
+        <td class="align-middle" style="color:orange">2 days 10 hours 40 minutes</td>
+        </tr>
+
+        <tr onclick="document.location = '{% url 'response' user.pk %}';">
+        <td class="align-middle">Complete fractions worksheet</td>
+        <td class="align-middle">Numeracy</td>
+        <td class="align-middle">
+            Dec 6, 2020
+            <small class="text-muted d-block">6:30 PM</small>
+        </td>
+        <td class="align-middle" style="color:darkgreen">4 days 10 hours 40 minutes</td>
+        </tr>
+        
+        <tr>
+        <td class="align-middle">Learn rules of rounders</td>
+        <td class="align-middle">PE</td>
+        <td class="align-middle">
+            Dec 8, 2020
+            <small class="text-muted d-block">12:30 PM</small>
+        </td>
+        <td class="align-middle" style="color:darkgreen">6 days 4 hours 40 minutes</td>
+        </tr>
+
+        <tr>
+        <td class="align-middle">Watch video about the Animal Kingdom</td>
+        <td class="align-middle">Science</td>
+        <td class="align-middle">
+            Dec 8, 2020
+            <small class="text-muted d-block">6:30 PM</small>
+        </td>
+        <td class="align-middle" style="color:darkgreen">6 days 10 hours 40 minutes</td>
+        </tr>
+
+        <tr>
+        <td class="align-middle">Complete drawing</td>
+        <td class="align-middle">Art</td>
+        <td class="align-middle">
+            Dec 10, 2020
+            <small class="text-muted d-block">3:00 PM</small>
+        </td>
+        <td class="align-middle" style="color:darkgreen">8 days 7 hours 10 minutes</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

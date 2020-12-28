@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+<li class="nav-item">
+  <a class="nav-link active" href="#">
+    <span data-feather="home"></span>
+    Dashboard <span class="sr-only">(current)</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'surveyor_leaderboard' user.pk %}">
+    <span data-feather="bar-chart-2"></span>
+    Leaderboard
+  </a>
+</li>
+{% endblock %}
+        
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2">Task Overview: Read about a country of your choice</h1>
+</div>
+
+<!-- Info Cards -->
+<div class="card-deck justify-content-center m-5 rounded">
+  <div class="col-auto">
+    <div class="card text-center border-primary ml-5 mr-5 h-100" style="width: 18rem;">
+      <div class="card-header"><b>Total Students</b></div>
+      <div class="card-body">
+        <p class="card-text text-primary" style="font-size: 300%;"><b>25</b></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="card text-center border-primary ml-5 mr-5 h-100" style="width: 18rem;">
+      <div class="card-header"><b>Students Completed</b></div>
+      <div class="card-body">
+        <p class="card-text text-primary" style="font-size: 300%;"><b>16</b></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="card text-center border-primary ml-5 mr-5 h-100" style="width: 18rem;">
+      <div class="card-header"><b>Due Date</b></div>
+      <div class="card-body">
+        <p class="card-text text-primary" style="font-size: 300%;"><b>03/11/2020</b></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Word Lists -->
+<div class="row border mr-5 ml-5 p-3 mb-5 bg-light text-dark">
+  <div class="col">respondent Word List
+  </div>
+  <div class="col">
+    <table class="table">
+      <tbody>
+        <tr>
+            <td style="color:darkgreen">Internet</td>
+        </tr>
+        <tr>
+            <td style="color:darkgreen">Computer</td>
+        </tr>
+        <tr>
+            <td style="color:darkgreen">History</td>
+        </tr>
+        <tr>
+            <td style="color:darkgreen">Mum</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col">
+    <table class="table">
+      <tbody>
+        <tr>
+            <td style="color:red">Noise</td>
+        </tr>
+        <tr>
+            <td style="color:red">Boring</td>
+        </tr>
+        <tr>
+            <td style="color:red">Computer</td>
+        </tr>
+        <tr>
+            <td style="color:red">Hard</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div> 
+
+<!-- Responses Section -->
+<div class="text-center border mr-5 ml-5 rounded bg-light">
+  <div class="row border-bottom mr-2 ml-2">
+    <div class="col">Picking a country was easy.</div>
+    <div class="col">
+      <div class="card border-primary m-2">
+        <div class="card-body">
+          <h5>1</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col">Pie Chart Here</div>
+  </div>
+  <div class="row border-bottom mr-2 ml-2">
+    <div class="col">Finding information on a country was easy.</div>
+    <div class="col">
+      <div class="card border-primary m-2">
+          <div class="card-body">
+              <h5 class="card-title">2</h5>
+          </div>
+      </div>
+  </div>
+    <div class="col">Pie Chart Here</div>
+  </div>
+  <div class="row mr-2 ml-2">
+    <div class="col">I know what the capital city of a country is.</div>
+    <div class="col">
+      <div class="card border-primary m-2">
+          <div class="card-body">
+              <h5 class="card-title">15</h5>
+          </div>
+      </div>
+    </div>
+    <div class="col">Pie Chart Here</div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

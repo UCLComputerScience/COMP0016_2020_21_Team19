@@ -1,0 +1,296 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+<li class="nav-item">
+    <a class="nav-link active" href="#">
+        <span data-feather="home"></span>
+        Dashboard <span class="sr-only">(current)</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'surveyor_leaderboard' user.pk %}">
+        <span data-feather="bar-chart-2"></span>
+        Leaderboard
+    </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">Create New Task</h1>
+    <div>
+        <button class="btn btn-primary" href="{% url 'surveyor_dashboard' user.pk %}" for="question1">Cancel</button>
+    </div>
+</div>
+<form method="post" novalidate>
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-7 mb-2">
+            <label for="title">{{ taskform.title.label }}</label>
+            {{ taskform.title }}
+            {% comment %} <input type="text" class="form-control" id="title" placeholder="Maths homework" value=""
+                required="" name="title"> {% endcomment %}
+        </div>
+        <div class="col-md-5 mb-2">
+            <label>{{ taskform.group_id.label }}</label>
+            {{ taskform.group_id }}
+            {% comment %} <select class="custom-select d-block w-100" id="group" required="" name="group">
+                <option value="">Choose...</option>
+                {% for group in groups %}
+                <option value={{group}}>{{group.name}}</option>
+                {% endfor %}
+            </select>
+            <div class="invalid-feedback">
+                Please select a class.
+            </div> {% endcomment %}
+        </div>
+    </div>
+
+    <hr class="mb-4">
+    <h4 class="mb-3">Content</h4>
+
+    {{ formset.management_form }}
+    {% for form in formset %}
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <label for="question1">{{ form.description.label }}</label>
+            {{ form.description }}
+            {% comment %} <input type="text" class="form-control" id="question1" placeholder="How easy did you find this task?"
+                required="" name="question1">
+            <div class="invalid-feedback">
+                Please enter a question.
+            </div> {% endcomment %}
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label for="url">{{ form.link.label }}<span class="text-muted"> (Optional)</span></label>
+            {{form.link}}
+            {% comment %} <input type="text" class="form-control" id="q1_url" placeholder="https://www.bbc.co.uk/bitesize"
+                name="q1_url"> {% endcomment %}
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <label for="responseType">{{ form.response_type.label }}</label>
+            {{ form.response_type }}
+            {% comment %} <select class="custom-select d-block w-100" id="responseType" required="">
+                <option value="">Choose...</option>
+                <option>Likert Scale</option>
+                <option>Traffic Light</option>
+                <option>Text Field</option>
+            </select>
+            <div class="invalid-feedback">
+                Please select a response type.
+            </div> {% endcomment %}
+        </div>
+    </div>
+    {% endfor %} 
+
+    {% comment %} <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <label for="question2">Question 2</label>
+            <input type="text" class="form-control" id="question2"
+                placeholder="'I knew about this topic before.' To what extent do you agree?" required=""
+                name="question2">
+            <div class="invalid-feedback">
+                Please enter a question.
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label for="url">URL <span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="q2_url" placeholder="" name="q2_url">
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <label for="responseType">Response Type</label>
+            <select class="custom-select d-block w-100" id="responseType" required="">
+                <option value="">Choose...</option>
+                <option>Likert Scale</option>
+                <option>Traffic Light</option>
+                <option>Text Field</option>
+            </select>
+            <div class="invalid-feedback">
+                Please select a response type.
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <label for="question3">Question 3</label>
+            <input type="text" class="form-control" id="question3"
+                placeholder="How well do you understand simplifying fractions?" required="" name="question3">
+            <div class="invalid-feedback">
+                Please enter a question.
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label for="url">URL <span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="q3_url" name="q3_url">
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <label for="responseType">Response Type</label>
+            <select class="custom-select d-block w-100" id="responseType" required="">
+                <option value="">Choose...</option>
+                <option>Likert Scale</option>
+                <option>Traffic Light</option>
+                <option>Text Field</option>
+            </select>
+            <div class="invalid-feedback">
+                Please select a response type.
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <label for="question4">Question 4</label>
+            <input type="text" class="form-control" id="question4" placeholder="What made this task easy?" required=""
+                name="question4">
+            <div class="invalid-feedback">
+                Please enter a question.
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label for="url">URL <span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="q4_url" name="q4_url">
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <label for="responseType">Response Type</label>
+            <select class="custom-select d-block w-100" id="responseType" required="">
+                <option value="">Choose...</option>
+                <option>Likert Scale</option>
+                <option>Traffic Light</option>
+                <option>Text Field</option>
+            </select>
+            <div class="invalid-feedback">
+                Please select a response type.
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <label for="question5">Question 5</label>
+            <input type="text" class="form-control" id="question5" placeholder="What made this task hard?" required=""
+                name="question5">
+            <div class="invalid-feedback">
+                Please enter a question.
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label for="url">URL <span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="q5_url" name="q5_url">
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <label for="responseType">Response Type</label>
+            <select class="custom-select d-block w-100" id="responseType" required="">
+                <option value="">Choose...</option>
+                <option>Likert Scale</option>
+                <option>Traffic Light</option>
+                <option>Text Field</option>
+            </select>
+            <div class="invalid-feedback">
+                Please select a response type.
+            </div>
+        </div>
+    </div> {% endcomment %}
+
+    <hr class="mb-4">
+
+    <h4 class="mb-3">Due</h4>
+
+    <div class="row">
+        <div class="col-md-4 mb-2">
+            <label for="date">{{ taskform.due_date.label }}</label>
+            {{ taskform.due_date }}
+            {% comment %} <input type="text" class="form-control" id="date" placeholder="" required="" name="date">
+            <small class="text-muted">DD/MM/YY</small>
+            <div class="invalid-feedback">
+                Date is required
+            </div> {% endcomment %}
+        </div>
+        {% comment %} <div class="col-md-4 mb-2">
+            <label for="time">Time <span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="time" placeholder="Default if left blank - 18:00" name="time">
+            <small class="text-muted">HH:MM</small>
+        </div> {% endcomment %}
+    </div>
+    <hr class="mb-4">
+    <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+</form>
+<div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+ <script type='text/javascript'>
+function updateElementIndex(el, prefix, ndx) {
+    var id_regex = new RegExp('(' + prefix + '-\\d+)');
+    var replacement = prefix + '-' + ndx;
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
+}
+function cloneMore(selector, prefix) {
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+    newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
+        var name = $(this).attr('name').replace('-' + (total-1) + '-', '-' + total + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+    });
+    newElement.find('label').each(function() {
+        var forValue = $(this).attr('for');
+        if (forValue) {
+          forValue = forValue.replace('-' + (total-1) + '-', '-' + total + '-');
+          $(this).attr({'for': forValue});
+        }
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement);
+    var conditionRow = $('.form-row:not(:last)');
+    conditionRow.find('.btn.add-form-row')
+    .removeClass('btn-success').addClass('btn-danger')
+    .removeClass('add-form-row').addClass('remove-form-row')
+    .html('<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>');
+    return false;
+}
+function deleteForm(prefix, btn) {
+    var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+    if (total > 1){
+        btn.closest('.form-row').remove();
+        var forms = $('.form-row');
+        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+        for (var i=0, formCount=forms.length; i<formCount; i++) {
+            $(forms.get(i)).find(':input').each(function() {
+                updateElementIndex(this, prefix, i);
+            });
+        }
+    }
+    return false;
+}
+$(document).on('click', '.add-form-row', function(e){
+    e.preventDefault();
+    cloneMore('.form-row:last', 'form');
+    return false;
+});
+$(document).on('click', '.remove-form-row', function(e){
+    e.preventDefault();
+    deleteForm('form', $(this));
+    return false;
+});
+</script>
+{% endblock %}

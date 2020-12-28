@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+
+{% block sidebar %}
+<li class="nav-item">
+  <a class="nav-link active" href="{% url 'respondent_dashboard' user.pk %}">
+    <span data-feather="home"></span>
+    Dashboard <span class="sr-only">(current)</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'respondent_leaderboard' user.pk %}">
+    <span data-feather="bar-chart-2"></span>
+    Leaderboard
+  </a>
+</li>
+{% endblock %}
+
+
+{% block content %}
+<h2>Complete fractions worksheet: Feedback</h2>
+<!-- Link back to task links -->
+<li onclick="document.location = '../respondent';">Back to Task List</li>
+<table class="table">
+  <tbody>
+      <tr>
+          <div class="Question">
+              <td class="align-middle">
+                  First Question
+                  <small class="text-muted d-block">URL</small>
+                <slidecontainer>
+                    <input type="range" min="1" max="10" value="5" class="custom-range">
+                </slidecontainer>
+            </td>
+          </div>
+      </tr>
+      <tr>
+          <div class="Question">
+              <td class="align-middle">
+                  Second question
+                  <small class="text-muted d-block">URL</small>
+                <slidecontainer>
+                    <input type="range" min="1" max="10" value="5" class="custom-range">
+                </slidecontainer>
+            </td>
+          </div>
+      </tr>
+      <tr>
+        <div class="Question">
+            <td class="align-middle">
+                Third question
+                <small class="text-muted d-block">URL</small>
+              <slidecontainer>
+                  <input type="range" min="1" max="10" value="5" class="custom-range">
+              </slidecontainer>
+          </td>
+        </div>
+    </tr>
+    <tr>
+      <div class="Question">
+          <td class="align-middle">
+              Fourth question
+              <small class="text-muted d-block">URL</small>
+            <slidecontainer>
+                <input type="range" min="1" max="10" value="5" class="custom-range">
+            </slidecontainer>
+        </td>
+      </div>
+  </tr>
+  </tbody>
+</table>          
+<!-- Individual words area -->
+<div class="row">
+  <div class="col" id="positive-questions">
+    <h3>Enter 5 words describing things making your task easier.</h3>
+    <div class="form-group">
+      <label for="goodResponse1"></label>
+      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="goodResponse1"></label>
+      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="goodResponse1"></label>
+      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="goodResponse1"></label>
+      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="goodResponse1"></label>
+      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+    </div>
+  </div>
+  <div class="col" id="negative-questions">
+    <h3>Enter 5 words describing things making your task harder.</h3>
+    <div class="form-group">
+      <label for="goodResponse1"></label>
+      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="goodResponse1"></label>
+      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="goodResponse1"></label>
+      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="goodResponse1"></label>
+      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="goodResponse1"></label>
+      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid page-container">
+  How did this task affect your understanding of the topic?
+  <div class="row">
+
+    <div class="col-sm-1">
+      <div class="middle-container">
+        <div class="middle-top">
+          <center><button class="btn btn-default" type="button">I know more than I did before</button></center>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-8">
+      <div class="middle-container">
+        <div class="middle-top">
+          <center><button class="btn btn-default" type="button">I know the same as I did before</button></center>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-1">
+      <div class="middle-container">
+        <div class="middle-top">
+          <center><button class="btn btn-default" type="button">I know more than I did before</button></center>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

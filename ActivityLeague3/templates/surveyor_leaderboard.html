@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'surveyor_dashboard' user.pk %}">
+    <span data-feather="home"></span>
+    Dashboard
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link active" href="#">
+    <span data-feather="bar-chart-2"></span>
+    Leaderboard <span class="sr-only">(current)</span>
+  </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h2>Leaderboard</h2>
+<div class="btn-group pt-3 mb-4" role="group">
+  <!-- Button Group Here for the classes -->
+  <button type="button" class="btn btn-primary mr-2 rounded">Ankle Sprain 1</button>
+  <button type="button" class="btn mr-2 rounded">Ankle Sprain 2</button>
+  <button type="button" class="btn mr-2 rounded">Dislocated Shoulder</button>
+</div>
+<div> {# class="container" #}
+  <table class="table table-striped table-hover">
+      <thead class="thead">
+      <tr>
+          <th>Rank</th>
+          <th>Name</th>
+          <th>Score</th>
+      </tr>
+      </thead>
+      <tbody>
+          <tr>
+          <td>1</button></td>
+          <td class="align-middle">Joseph Connor 👑</td>
+          <td class="align-middle">100<td>
+          </tr>
+
+          <tr>
+          <td>2</button></td>
+          <td class="align-middle">Dean Mohamedally</td>
+          <td class="align-middle">89<td>
+          </tr>
+          
+          <tr>
+          <td>3</button></td>
+          <td class="align-middle">Graham Roberts</td>
+          <td class="align-middle">88<td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

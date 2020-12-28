@@ -15,9 +15,9 @@ class Interviewee(models.Model):
         return self.firstname + " " + self.surname
 
 
-class GroupInterviewee(models.Model):
-    interviewee_id = models.ForeignKey(Interviewee, on_delete=models.CASCADE)
-    group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
+# class GroupInterviewee(models.Model):
+#     interviewee_id = models.ForeignKey(Interviewee, on_delete=models.CASCADE)
+#     group_id = models.ForeignKey(Group, on_delete=models.CASCADE)
 
 
 class Response(models.Model):
