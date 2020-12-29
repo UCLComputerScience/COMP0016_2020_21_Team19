@@ -7,5 +7,4 @@ COPY . /code/
 
 RUN chmod +x /code/start.sh
 
-
 CMD ["/code/start.sh"]

@@ -1,3 +1,4 @@
+
 """
 Django settings for ActivityLeague project.
 
@@ -26,7 +27,7 @@ SECRET_KEY = 'kq67&^o(dce07$=gd5%(%-6kaw9q&l2di$$c6_rie4y)+j_sf('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -88,7 +89,15 @@ WSGI_APPLICATION = 'ActivityLeague.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
+DATABASES = { # try to connect to db host, fallback to localhost
+    'follower': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432,
+    },
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
