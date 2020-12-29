@@ -8,12 +8,14 @@ jobs:
   push_to_registry:
     name: Push Docker image to GitHub Packages
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ActivityLeague
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
       - name: Publish Image
         uses: craftech-io/package-action@v3.1.0
-        working-directory: ./ActivityLeague
         with:
           tags: latest
           image_name: activityleague_web
