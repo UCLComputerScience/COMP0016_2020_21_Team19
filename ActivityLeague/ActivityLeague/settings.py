@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_keycloak.apps.KeycloakAppConfig',
+    # 'django_keycloak.apps.KeycloakAppConfig',
     'surveyor',
     'respondent'
 ]
@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django_keycloak.middleware.BaseKeycloakMiddleware',
+    # 'django_keycloak.middleware.BaseKeycloakMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -54,13 +54,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-AUTHENTICATION_BACKENDS = [
-    'django_keycloak.auth.backends.KeycloakAuthorizationCodeBackend',
-]
+# AUTHENTICATION_BACKENDS = [
+#     'django_keycloak.auth.backends.KeycloakAuthorizationCodeBackend',
+# ]
 
-LOGIN_URL = 'keycloak_login'
+# LOGIN_URL = 'keycloak_login'
 
-KEYCLOAK_OIDC_PROFILE_MODEL = 'django_keycloak.OpenIdConnectProfile'
+# KEYCLOAK_OIDC_PROFILE_MODEL = 'django_keycloak.OpenIdConnectProfile'
 
 ROOT_URLCONF = 'ActivityLeague.urls'
 
