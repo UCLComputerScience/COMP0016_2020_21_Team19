@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+<li class="nav-item">
+  <a class="nav-link active" href="#">
+    <span data-feather="home"></span>
+    Dashboard <span class="sr-only">(current)</span>
+  </a>
+</li>
+<li class="nav-item" >
+  <a class="nav-link" href="{% url 'respondent_leaderboard' user.pk %}">
+    <span data-feather="bar-chart-2"></span>
+    Leaderboard
+  </a>
+</li>
+<li class="nav-item" >
+    <a class="nav-link" href="{% url 'respondent_progress' user.pk %}">
+      <span data-feather="bar-chart-2"></span>
+      Progress
+    </a>
+</li>
+{% endblock %} 
+        
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2">Progress</h1>
+</div>
+
+<div>
+  <div style="margin: 100px; border-radius: 25px;" class="row bg-light">
+    <div class="col">
+      <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
+    </div>
+    <div style="margin: 50px;" class="col">
+      <table class="table table-striped"
+data-toggle="table"
+data-url="data1.json"
+data-pagination="true"
+data-search="true">
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Graphs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+  var ctx = document.getElementById("myChart");
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      datasets: [{
+        data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+        lineTension: 0,
+        backgroundColor: 'transparent',
+        borderColor: '#007bff',
+        borderWidth: 4,
+        pointBackgroundColor: '#007bff'
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: false
+          }
+        }]
+      },
+      legend: {
+        display: false,
+      }
+    }
+  });
+</script>
+{% endblock %}
+

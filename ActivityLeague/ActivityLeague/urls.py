@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^respondent@(?P<pk>\d+)/?$', respondent.dashboard, name='respondent_dashboard'),
     url(r'^respondent@(?P<pk>\d+)/leaderboard/?$', respondent.leaderboard, name='respondent_leaderboard'),
     url(r'^respondent@(?P<pk>\d+)/response/?$', respondent.response, name='response'),
+    url(r'^respondent@(?P<pk>\d+)/progress/?$', respondent.progress, name='respondent_progress'),
 
     # surveyor
     url(r'^surveyor@(?P<pk>\d+)/?$', surveyor.dashboard, name='surveyor_dashboard'),

@@ -13,6 +13,10 @@ def leaderboard(request, pk):
     return render(request, 'respondent_leaderboard.html', {'user' : user, 'respondents' : respondents})
     # return render(request, 'respondent_leaderboard.html')
 
+def progress(request, pk):
+    user = get_object_or_404(Respondent, pk=pk)
+    return render(request, 'respondent_progress_page.html', {'user' : user})
+
 def response(request, pk):
     user = get_object_or_404(Respondent, pk=pk)
     return render(request, 'response.html', {'user' : user})
