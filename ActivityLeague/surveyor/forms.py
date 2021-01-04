@@ -40,7 +40,7 @@ class TaskForm(forms.ModelForm):
 QuestionFormset = modelformset_factory(
     Question,
     fields=('link', 'description', 'response_type'),
-    extra=5,
+    extra=1,
     widgets={
         'description': forms.TextInput(
             attrs={
