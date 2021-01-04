@@ -16,11 +16,11 @@ class Respondent(models.Model):
 
 
 class GroupRespondent(models.Model):
-    interviewee = models.ForeignKey(Respondent, on_delete=models.CASCADE)
+    respondent = models.ForeignKey(Respondent, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
 
 class Response(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    interviewee = models.ForeignKey(Respondent, on_delete=models.SET_NULL, null=True)
+    respondent = models.ForeignKey(Respondent, on_delete=models.SET_NULL, null=True)
     value = models.SmallIntegerField()
