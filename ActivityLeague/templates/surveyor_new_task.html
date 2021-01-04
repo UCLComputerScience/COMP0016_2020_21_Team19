@@ -32,8 +32,8 @@
                 required="" name="title"> {% endcomment %}
         </div>
         <div class="col-md-5 mb-2">
-            <label>{{ taskform.group_id.label }}</label>
-            {{ taskform.group_id }}
+            <label>{{ taskform.group.label }}</label>
+            {{ taskform.group }}
             {% comment %} <select class="custom-select d-block w-100" id="group" required="" name="group">
                 <option value="">Choose...</option>
                 {% for group in groups %}
