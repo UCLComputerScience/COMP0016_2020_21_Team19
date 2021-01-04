@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('value', models.SmallIntegerField()),
-                ('interviewee', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='respondent.respondent')),
+                ('respondent', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='respondent.respondent')),
                 ('question', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='surveyor.question')),
             ],
         ),
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('group', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='surveyor.group')),
-                ('interviewee', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='respondent.respondent')),
+                ('respondent', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='respondent.respondent')),
             ],
         ),
     ]
