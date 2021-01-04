@@ -15,6 +15,7 @@ def leaderboard(request, pk):
 
 def progress(request, pk):
     user = get_object_or_404(Respondent, pk=pk)
+    
     return render(request, 'respondent_progress_page.html', {'user' : user})
 
 def response(request, pk):
@@ -24,3 +25,11 @@ def response(request, pk):
 
 def login(request):
     return render(request, 'login.html')
+
+
+""" 
+function getting the dates which we are going to have as labels.
+
+functions which are
+
+"""
