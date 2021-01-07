@@ -10,7 +10,7 @@ RESPONSE_TYPES = [(1, 'Likert Scale'), (2, 'Traffic Light'),(3, 'Text Field')]
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ('title', 'group', 'due_date')
+        fields = ('title', 'group', 'due_date', 'due_time')
         labels = {
             'title': 'Task Title',
             'group': 'Group',
@@ -23,17 +23,17 @@ class TaskForm(forms.ModelForm):
                 'placeholder': 'Enter Task Title here'
                 }
             ),
-            'group': forms.Select(choices=GROUP_CHOICES),
+            'group': forms.Select(choices=GROUP_CHOICES, attrs={'class' : 'custom-select d-block w-100'}),
             'due_date': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'DD/MM/YYYY'
+                'placeholder': 'MM/DD/YYYY'
+                }
+            ),
+            'due_time': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'HH:MM'
                 }
             )
-            # 'due_time': forms.TextInput(attrs={
-            #     'class': 'form-control',
-            #     'placeholder': 'HH:MM'
-            #     }
-            # )
         }
 
 
@@ -54,6 +54,6 @@ QuestionFormset = modelformset_factory(
                 'placeholder': 'URL'
             }
         ),
-        'response_type': forms.Select(choices=RESPONSE_TYPES)
+        'response_type': forms.Select(choices=RESPONSE_TYPES, attrs={'class' : 'custom-select d-block w-100'})
     }
 )

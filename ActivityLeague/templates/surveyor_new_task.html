@@ -57,12 +57,10 @@
         </div>
     </div>
     {% endfor %}
+
     <input type="button" class="btn btn-success" value="Add More" id="add_more">
 
     <div id="empty_form" style="display:none">
-        {% comment %} <table class='no_error'>
-            {{ formset.empty_form.as_table }}
-        </table> {% endcomment %}
         <div class="col-md-6 mb-3">
             <label for="question1">{{ formset.empty_form.description.label }}</label>
             {{ formset.empty_form.description }}
@@ -84,9 +82,13 @@
     <h4 class="mb-3">Due</h4>
 
     <div class="row">
-        <div class="col-md-4 mb-2">
+        <div class="col-md-3 mb-2">
             <label for="date">{{ taskform.due_date.label }}</label>
             {{ taskform.due_date }}
+        </div>
+        <div class="col-md-3 mb-2">
+            <label for="time">{{ taskform.due_time.label }}</label>
+            {{ taskform.due_time }}
         </div>
     </div>
     <hr class="mb-4">
@@ -98,7 +100,7 @@
 
 {% block scripts %}
 <script>
-    $('#add_more').click(function() {
+    $('#add_more').click(function () {
         var form_idx = $('#id_form-TOTAL_FORMS').val();
         $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
         $('#id_form-TOTAL_FORMS').val(parseInt(form_idx) + 1);
