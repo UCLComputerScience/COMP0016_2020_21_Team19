@@ -29,43 +29,49 @@ def login(request):
 
 def get_progress_labels(pk, **kwargs):
     respondent = Respondent.objects.get(pk=pk)
-    queryset = Response.objects.filter(pk=respondent)
+    queryset = Response.objects.get(respondent=respondent)
     return queryset
 
-def get_responses(pk):
+def get_responses(pk, **kwargs):
     respondent = Respondent.objects.get(pk=pk)
+    if kwargs.get('task') is not None: # TODO
+        task = kwargs.get('task')
+        # return Response.objects.select_related()
+        pass
 
-    
-@deprecation.deprecated("Deprecated for the purposes of testing whether all labels will load at once.")
-def progress_labels(pk, num_intervals): # TODO: I am currently working here
-    oldest_task_time = get_oldest_task(pk) # type datetime.date 
-    newest_task_time = get_newest_task(pk)
+    elif kwargs.get('question') is not None: # TODO
+        question = kwargs.get('question')
+        pass
+    else:
+        return Response.objects.filter(respondent=respondent)
 
-
-def get_oldest_task(pk): # TODO: Handle case for empty queryset
+def get_tasks(pk):
     respondent = Respondent.objects.get(pk=pk)
-    group_respondents = GroupRespondent.objects.get(respondent=respondent)
-    group = Group.objects.get(pk=group_respondents.group_id)
-    time = Task.objects.filter(group=group).order_by('due_date')[0]
-    print(time.due_date)
-    return time.due_date
+    group_respondent = GroupRespondent.objects.get(respondent=respondent)
+    return Task.objects.filter(group=group_respondent.group)
 
-def get_newest_task(pk): # TODO: Handle case for empty queryset
-    respondent = Respondent.objects.get(pk=pk)
-    group_respondents = GroupRespondent.objects.get(respondent=respondent)
-    group = Group.objects.get(pk=group_respondents.group_id)
-    time = Task.objects.filter(group=group).order_by('-due_date')[0]
-    print(time.due_date)
-    return time.due_date
+def get_response_values(pk):
+    """
+    :param pk: Primary key of the Respondent object for which you want to obtain
+               the quantitative response values.
+    """
+    responses = get_responses(pk)
+    dates = []
+    scores = []
+    for response in responses:
+        pass
 
-def get_task_score(respondent, task): # TODO: Test this
-    questions = Question.objects.filter(task=task)
-    responses = Response.objects.filter(question=questions)
-    print(responses)
-    num_questions = 0
-    for question in questions:
-        num_questions += 1
 
-def get_user_tasks(respondent):
-    # TODO:
-    pass
+def calculate_score(responses):
+    """
+    :param responses: QuerySet of Repsonse objects of which you want to calculate
+                      a score from. Only contains responses from fields that are
+                      quantitative (e.g. likert responses), NOT qualitative (eg.
+                      text responses).
+    """
+    score = 0
+    n_questions = 0
+    for response in responses:
+        score += response.value
+        n_questions += 1
+    return score / n_questions
