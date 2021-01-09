@@ -23,7 +23,7 @@ class TaskForm(forms.ModelForm):
                 'placeholder': 'Enter Task Title here'
                 }
             ),
-            'group': forms.Select(choices=GROUP_CHOICES),
+            # 'group': forms.Select(choices=GROUP_CHOICES),
             'due_date': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'DD/MM/YYYY'

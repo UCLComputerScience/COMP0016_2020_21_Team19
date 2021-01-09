@@ -14,7 +14,7 @@ from psycopg2 import Error
 def run_migrations():
     from django.core import management
 
-    management.call_command("makemigrations")
+    management.call_command("makemigrations", "surveyor", "respondent")
     management.call_command("migrate")
     os.environ.setdefault('DJANGO_SUPERUSER_PASSWORD', 'activityleague')
 
