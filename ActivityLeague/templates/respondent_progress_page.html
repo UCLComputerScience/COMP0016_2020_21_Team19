@@ -51,9 +51,9 @@ data-search="true">
   var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      labels: {{ labels|safe }},
       datasets: [{
-        data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+        data: {{ scores|safe }},
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: '#007bff',
@@ -62,10 +62,25 @@ data-search="true">
       }]
     },
     options: {
+      title: {
+        display: true,
+        text: 'Overall Progress (All Groups)'
+      },
       scales: {
         yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Score'
+          },
           ticks: {
-            beginAtZero: false
+            min: 0,
+            max: 5
+          }
+        }],
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Time'
           }
         }]
       },

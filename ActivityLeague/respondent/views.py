@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, get_object_or_404
 from .models import *
 from surveyor.models import *
@@ -16,8 +17,9 @@ def leaderboard(request, pk):
 
 def progress(request, pk):
     user = get_object_or_404(Respondent, pk=pk)
-    progress_labels(pk, 5)
-    return render(request, 'respondent_progress_page.html', {'user' : user})
+    labels = get_progress_labels(pk)
+    scores = get_progress_values(pk, labels)
+    return render(request, 'respondent_progress_page.html', {'user' : user, 'labels': labels, 'scores': scores})
 
 def response(request, pk):
     user = get_object_or_404(Respondent, pk=pk)
@@ -27,51 +29,102 @@ def response(request, pk):
 def login(request):
     return render(request, 'login.html')
 
-def get_progress_labels(pk, **kwargs):
-    respondent = Respondent.objects.get(pk=pk)
-    queryset = Response.objects.get(respondent=respondent)
-    return queryset
-
 def get_responses(pk, **kwargs):
     respondent = Respondent.objects.get(pk=pk)
-    if kwargs.get('task') is not None: # TODO
+    if kwargs.get('task') is not None:
         task = kwargs.get('task')
-        # return Response.objects.select_related()
-        pass
-
-    elif kwargs.get('question') is not None: # TODO
+        questions = Question.objects.filter(task=task)
+        return Response.objects.filter(respondent=respondent, question__in=questions).order_by('date', 'time')
+    elif kwargs.get('question') is not None:
         question = kwargs.get('question')
-        pass
+        return Response.objects.filter(respondent=respondent, question=question).order_by('date', 'time')
+    elif kwargs.get('group') is not None:
+        group = kwargs.get('group')
+        tasks = Task.objects.filter(group=group)
+        questions = Question.objects.filter(task__in=tasks)
+        return Response.objects.filter(respondent=respondent, question__in=questions).order_by('date', 'time')
     else:
-        return Response.objects.filter(respondent=respondent)
+        return Response.objects.filter(respondent=respondent).order_by('date', 'time')
 
-def get_tasks(pk):
-    respondent = Respondent.objects.get(pk=pk)
-    group_respondent = GroupRespondent.objects.get(respondent=respondent)
-    return Task.objects.filter(group=group_respondent.group)
-
-def get_response_values(pk):
+def get_progress_values(pk, labels,  **kwargs):
     """
-    :param pk: Primary key of the Respondent object for which you want to obtain
-               the quantitative response values.
+    Retrieves the values to be plotted by Chart.js on respondent_progress_page.html.
+
+    Args:
+        pk (int): Primary key of the respondent whose progress we are to be 
+                  displaying.
+        labels (list: string): List of string datetimes that are the labels
+                               on the x-axis of the graph that to be displayed.
+        **kwargs: Expects group of type Group. This is passed, this methiod 
+                  shall return the progress values for the labels for the
+                  group that is passed.
+
+    Returns:
+        (list:num): List of values of length labels.length corresponding to the
+                    values to be plotted.
     """
     responses = get_responses(pk)
-    dates = []
+
+    dates = [datetime.datetime.strptime(label, '%Y-%m-%d').date() for label in labels]
+
+    if len(dates) == 0:
+        return None
+    elif len(dates) == 1:
+        return responses[0].value
+
     scores = []
-    for response in responses:
-        pass
+    previous_date = datetime.date.min
+    previous_score = 0
+    for date in dates:
+        queryset = []
+        for response in responses:
+            if response.date > date:
+                break
+            if response.date > previous_date:
+                queryset.append(response.value)
+        scores.append(calculate_score(queryset) if queryset else previous_score)
+        previous_date = date
+        previous_score = scores[-1]
+    
+    assert(len(dates) == len(scores))
+    print(scores)
+    return scores
 
 
-def calculate_score(responses):
+# TODO: Rewrite this method to consider the text values.
+def get_progress_labels(pk, **kwargs):
     """
-    :param responses: QuerySet of Repsonse objects of which you want to calculate
-                      a score from. Only contains responses from fields that are
-                      quantitative (e.g. likert responses), NOT qualitative (eg.
-                      text responses).
+    Retrieves labels for chart.js on respondent_progress_page.html based on
+    the existing respondent's responses.
+    
+    Args:
+        pk (int): Primary key of the respondent for which we are rendering a chart.
+
+    Returns:
+        list: 
     """
-    score = 0
-    n_questions = 0
-    for response in responses:
-        score += response.value
-        n_questions += 1
-    return score / n_questions
+    responses = get_responses(pk, **kwargs)
+    num_intervals = min(len(responses), 10)
+    dates = [query['date'] for query in responses.values('date')]
+    
+    if len(responses) == 0:
+        return None
+    elif len(dates) == 1:
+        return dates
+    
+    latest = dates[-1]
+    earliest = dates[0]
+    time_range = latest - earliest
+
+    interval = time_range / num_intervals
+
+    labels = [str(earliest + (interval * i)) for i in range(num_intervals + 1)]
+    
+    return labels
+    
+
+def calculate_score(values):
+    """
+    :param responses: List of numbers from which you want to calculate a score.
+    """
+    return sum(values) / len(values)
