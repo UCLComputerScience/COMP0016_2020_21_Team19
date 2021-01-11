@@ -31,14 +31,6 @@
     <div class="col">
       <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
     </div>
-    <div style="margin: 50px;" class="col">
-      <table class="table table-striped"
-data-toggle="table"
-data-url="data1.json"
-data-pagination="true"
-data-search="true">
-      </table>
-    </div>
   </div>
 </div>
 {% endblock %}
@@ -47,47 +39,49 @@ data-search="true">
 <!-- Graphs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 <script>
-  var ctx = document.getElementById("myChart");
-  var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: {{ labels|safe }},
-      datasets: [{
-        data: {{ scores|safe }},
-        lineTension: 0,
-        backgroundColor: 'transparent',
-        borderColor: '#007bff',
-        borderWidth: 4,
-        pointBackgroundColor: '#007bff'
-      }]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Overall Progress (All Groups)'
-      },
-      scales: {
-        yAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: 'Score'
-          },
-          ticks: {
-            min: 0,
-            max: 5
-          }
-        }],
-        xAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: 'Time'
-          }
+  $(function () {
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: {{ labels|safe }},
+        datasets: [{
+          data: {{ scores|safe }},
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: '#007bff',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff'
         }]
       },
-      legend: {
-        display: false,
+      options: {
+        title: {
+          display: true,
+          text: 'Overall Progress (All Groups)'
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Score'
+            },
+            ticks: {
+              min: 0,
+              max: 5
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Time'
+            }
+          }]
+        },
+        legend: {
+          display: false,
+        }
       }
-    }
+    });
   });
 </script>
 {% endblock %}

@@ -19,7 +19,8 @@ def progress(request, pk):
     user = get_object_or_404(Respondent, pk=pk)
     labels = get_progress_labels(pk)
     scores = get_progress_values(pk, labels)
-    return render(request, 'respondent_progress_page.html', {'user' : user, 'labels': labels, 'scores': scores})
+    groups = get_groups(pk)
+    return render(request, 'respondent_progress_page.html', {'user' : user, 'labels': labels, 'scores': scores, 'groups': groups})
 
 def response(request, pk):
     user = get_object_or_404(Respondent, pk=pk)
@@ -63,7 +64,7 @@ def get_progress_values(pk, labels,  **kwargs):
         (list:num): List of values of length labels.length corresponding to the
                     values to be plotted.
     """
-    responses = get_responses(pk)
+    responses = get_responses(pk, **kwargs)
 
     dates = [datetime.datetime.strptime(label, '%Y-%m-%d').date() for label in labels]
 
@@ -87,7 +88,6 @@ def get_progress_values(pk, labels,  **kwargs):
         previous_score = scores[-1]
     
     assert(len(dates) == len(scores))
-    print(scores)
     return scores
 
 
@@ -105,7 +105,7 @@ def get_progress_labels(pk, **kwargs):
     """
     responses = get_responses(pk, **kwargs)
     num_intervals = min(len(responses), 10)
-    dates = [query['date'] for query in responses.values('date')]
+    dates = list(responses.values_list('date', flat=True))
     
     if len(responses) == 0:
         return None
@@ -128,3 +128,9 @@ def calculate_score(values):
     :param responses: List of numbers from which you want to calculate a score.
     """
     return sum(values) / len(values)
+
+def get_groups(pk):
+    respondent = Respondent.objects.get(pk=pk)
+    group_ids = GroupRespondent.objects.filter(respondent=respondent).values_list('group', flat=True)
+    groups = Group.objects.filter(pk__in=group_ids)
+    return groups
