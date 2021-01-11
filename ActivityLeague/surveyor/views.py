@@ -48,6 +48,7 @@ def new_task(request, pk):
 
             task.title = form.cleaned_data['title']
             task.due_date = form.cleaned_data['due_date']
+            task.due_time = form.cleaned_data['due_time']
             task.group = Group.objects.get(name=form.cleaned_data['group'])
             print(task.title)
             # task.save()

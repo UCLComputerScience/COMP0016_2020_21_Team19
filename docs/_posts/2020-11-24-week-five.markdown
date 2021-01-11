@@ -2,7 +2,7 @@
 layout: post
 title:  "Week Five: Beginning Frontend Implementation"
 date:   2020-11-24
-categories: project, frontend, implementation
+categories: docker, continuous-deployment, github
 name: Team 19
 ---
 
