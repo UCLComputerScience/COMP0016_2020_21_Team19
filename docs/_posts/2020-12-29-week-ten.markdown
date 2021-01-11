@@ -1,0 +1,80 @@
+---
+layout: post
+title:  "Week Ten: Dockerizing and Continuous Deployment"
+date:   2020-12-08
+categories: sso, system architecture, linode, frontend, backend
+name: Team 19
+---
+
+This week we somewhat shifted our focus from the development of our web app, to DevOps and deployment. We made this decision after facing some issues with local develpoment and subsequent deployment on the Linode server.
+
+## Docker
+
+None of us were very familiar with Docker prior to this, so a lot of research was needed for us to get up to speed.
+
+We realised that the best way to dockerize our project would be to use a database image coupled with a standard python image through docker compose.
+At present, our Dockerfile looks like this:
+
+```Dockerfile
+FROM python:3
+ENV PYTHONUNBUFFERED=1
+WORKDIR /code
+COPY requirements.txt /code/
+RUN pip install -r requirements.txt
+COPY . /code/
+
+RUN chmod +x /code/start.sh
+
+CMD ["/code/start.sh"]
+```
+
+This creates a container using a standard `python3` environment along with our requirements, and creates a directory `code/` for the Django project files. We also created a basic entrypoint shell script which updates the Django project [migrations](https://docs.djangoproject.com/en/3.1/topics/migrations/) and starts the server on port 8000.
+
+The `docker-compose.yml` file specifies the database image as follows:
+```yml
+version: "3.9"
+   
+services:
+  db:
+    image: postgres
+    environment:
+        # the following details have been redacted for the purposes of this blog post
+      - POSTGRES_DB=
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
+```
+
+It's important to note that, in line with our client's original recommendation and after facing compatibility issues with Docker and MySQL, we have reverted back to using PostgreSQL for this project. Fortunately, there is no conflict between our existing database schema and what PostgreSQL supports so there are no changes to be made in that regard.
+
+During the process of dockerizing, we also decided to address our client's concern regarding the "Interviewe(e/r)" naming convention, by replacing "Interviewer" with "Surveyor" and "Interviewee" with "Respondent".
+
+## Continuous Deployment
+
+To enable continuous deployment, we first needed a repository for our Docker image. Since we are already using GitHub for version control, it seemed most appropriate to use [GitHub Packages](https://github.com/features/packages) since it offers the best integration.
+
+We also wanted a workflow whereby we could redeploy our project on Linode automatically after 
+pushing a stable, working commit to GitHub. We used [GitHub Actions](https://github.com/features/actions) to achieve this. Logically, it followed that we needed to use the `main` branch as the production branch and divert development onto other branches. Additionally, we created a script on our Linode server which periodically pulls the latest Docker Image from GitHub Packages and redeploys the project.
+
+As it stands, this is our current CD workflow, which is triggered each time a push is made to the main branch:
+
+1. GitHub Actions rebuilds and publishes the Docker image to GitHub Packages.
+2. The Linode Server pulls the latest Docker image.
+3. The docker image is rebuilt and redeployed on the server.
+
+This has allowed us to be able to give a URL to our client where they can view our progress and provide feedback as required.
+
+## Next steps
+
+Now that we have our project dockerized and CD set up, we can concentrate our efforts on development and adding functionality as per the client requirements.
+Also, since we have established that our `main` branch will be used as the production branch, naturally we will resume development with a more asynchronous development style, with each of us working independently on different aspects of the project.

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Week Three"
+title:  "Week Three: Prototyping"
 date:   2020-11-10
 categories: sketching, prototypes
 name: Team 19
