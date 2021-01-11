@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Week Ten: Dockerizing and Continuous Deployment"
-date:   2020-12-08
+date:   2020-12-29
 categories: sso, system architecture, linode, frontend, backend
 name: Team 19
 ---
