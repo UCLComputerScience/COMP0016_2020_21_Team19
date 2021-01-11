@@ -1,4 +1,5 @@
 import datetime
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from .models import *
 from surveyor.models import *
@@ -20,8 +21,25 @@ def progress(request, pk):
     labels = get_progress_labels(pk)
     scores = get_progress_values(pk, labels)
     groups = get_groups(pk)
-    return render(request, 'respondent_progress_page.html', {'user' : user, 'labels': labels, 'scores': scores, 'groups': groups})
+    return render(request, 'respondent_progress_page.html', {'pk': pk, 'user' : user, 'labels': labels, 'scores': scores, 'groups': groups})
 
+def get_progress_json(request, pk):
+    groups = get_groups(pk)
+    overall_labels = get_progress_labels(pk)
+
+    overall_progress = { 'labels': overall_labels, 'scores': get_progress_values(pk, overall_labels) }
+    group_graphs = []
+    for group in groups:
+        group_labels = get_progress_labels(pk, group=group)
+        group_scores = get_progress_values(pk, group_labels, group=group)
+        group_title = group.name
+        group_graphs.append({ 'title': group_title, 'labels': group_labels, 'scores': group_scores })
+
+    return JsonResponse(data={
+        'overall': overall_progress,
+        'groups': group_graphs
+    })
+    
 def response(request, pk):
     user = get_object_or_404(Respondent, pk=pk)
     return render(request, 'response.html', {'user' : user})
@@ -121,7 +139,7 @@ def get_progress_labels(pk, **kwargs):
     labels = [str(earliest + (interval * i)) for i in range(num_intervals + 1)]
     
     return labels
-    
+
 
 def calculate_score(values):
     """

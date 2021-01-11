@@ -27,11 +27,11 @@
 </div>
 
 <div>
-  <div style="margin: 100px; border-radius: 25px;" class="row bg-light">
-    <div class="col">
-      <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
-    </div>
+  <div class="col" id="graph-container">
   </div>
+  <!-- <div style="margin: 100px; border-radius: 25px;" class="row bg-light">
+    
+  </div> -->
 </div>
 {% endblock %}
 
@@ -39,14 +39,26 @@
 <!-- Graphs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 <script>
-  $(function () {
-    var ctx = document.getElementById("myChart");
-    var myChart = new Chart(ctx, {
+  var pk = {{ pk }};
+
+  function render_graph(parent, title, labels, data) {
+    var wrapper = document.createElement('div');
+    wrapper.classList.add('row');
+    wrapper.classList.add('bg-light');
+
+    var element = document.createElement('canvas');
+    element.width = 900;
+    element.height = 380;
+
+    wrapper.appendChild(element);
+    parent.appendChild(wrapper);
+
+    new Chart(element, {
       type: 'line',
       data: {
-        labels: {{ labels|safe }},
+        labels,
         datasets: [{
-          data: {{ scores|safe }},
+          data,
           lineTension: 0,
           backgroundColor: 'transparent',
           borderColor: '#007bff',
@@ -57,7 +69,7 @@
       options: {
         title: {
           display: true,
-          text: 'Overall Progress (All Groups)'
+          text: title
         },
         scales: {
           yAxes: [{
@@ -82,6 +94,27 @@
         }
       }
     });
+  }
+
+  function load_and_render_graphs() {
+    $.get('/respondent@' + pk + '/get_progress_json', function(graphData) {
+      var parent = document.getElementById("graph-container");
+
+      var overall = graphData['overall'];
+      render_graph(parent, 'Overall Progress', overall['labels'], overall['scores'])
+
+      var groups = graphData['groups'];
+
+      for (var i = 0; i < groups.length; i++) {
+        var group = groups[i];
+        render_graph(parent, group['title'], group['labels'], group['scores']);
+      }
+
+    })
+  }
+
+  $(function () {
+    load_and_render_graphs();
   });
 </script>
 {% endblock %}
