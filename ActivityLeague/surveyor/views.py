@@ -1,11 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import TaskForm, QuestionFormset
 from .models import *
+from respondent.models import Respondent, Response, GroupRespondent
+
+import datetime
+from django.http import JsonResponse
 
 
 def dashboard(request, pk):
     user = get_object_or_404(Surveyor, pk=pk)
-    return render(request, 'surveyor_dashboard.html', {'user' : user})
+    return render(request, 'surveyor_dashboard.html', {'user' : user, 'pk':pk})
     # return render(request, 'surveyor_dashboard.html')
 
 def leaderboard(request, pk):
@@ -63,3 +67,45 @@ def new_task(request, pk):
 
     return render(request, 'surveyor_new_task.html', {'user' : user, 'groups' : groups, 'taskform': form, 'formset': formset})
     # return render(request, 'surveyor_new_task.html')
+
+def get_surveyor_progress_labels(pk, **kwargs):
+
+    if kwargs.get('group') is not None:
+        pass
+
+    surveyor = Surveyor.objects.get(pk=pk)
+    groups = GroupSurveyor.objects.filter(surveyor=surveyor).values_list(flat=True)
+    tasks = Task.objects.filter(group__in=groups)
+    questions = Question.objects.filter(task__in=tasks)
+    repsonses = Response.objects.filter(question__in=questions)
+
+    # TODO: This method is incomplete
+
+def get_num_respondents_in_group(group):
+    return GroupRespondent.objects.filter(group=group).count()
+
+def get_tasks_json(request, pk): # TODO: Remember to uncomment the tasks and comment out the temporary solution
+    surveyor = Surveyor.objects.get(pk=pk)
+    group_ids = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group', flat=True)
+    groups = Group.objects.filter(pk__in=group_ids)
+    today = datetime.datetime.now()
+    # tasks = Task.objects.filter(group__in=groups).filter(due_date__gt=today.date()).filter(due_time__gt=today.time()).order_by('due_date', 'due_time')
+    tasks = Task.objects.filter(group__in=groups).order_by('due_date', 'due_time')
+
+    data = []
+    for task in tasks:
+        group = task.group # Might just return primary key rather than actual object
+        questions = Question.objects.filter(task=task)
+        num_responses = Response.objects.filter(question__in=questions).count()
+        num_group_respondents = get_num_respondents_in_group(group)
+        # Need to be able to tell complete responses - this is just a hack for now
+        entry = {'title': task.title, 
+                 'group_name': group.name, 
+                 'num_respondents': num_group_respondents, 
+                 'num_responses': num_responses // (questions.count() * num_group_respondents),
+                 'due_date': task.due_date}
+        data.append(entry)
+    
+    return JsonResponse(data={
+        'rows': data
+    })
