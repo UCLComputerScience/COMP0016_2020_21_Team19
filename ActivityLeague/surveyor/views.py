@@ -2,8 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import TaskForm, QuestionFormset
 from .models import *
 from respondent.models import Respondent, Response, GroupRespondent
+from respondent.views import calculate_score
 
 import datetime
+import operator
 from django.http import JsonResponse
 
 
@@ -14,7 +16,7 @@ def dashboard(request, pk):
 
 def leaderboard(request, pk):
     user = get_object_or_404(Surveyor, pk=pk)
-    return render(request, 'surveyor_leaderboard.html', {'user' : user})
+    return render(request, 'surveyor_leaderboard.html', {'user' : user, 'pk': pk})
     # return render(request, 'surveyor_leaderboard.html')
 
 def task_overview(request, pk):
@@ -109,3 +111,27 @@ def get_tasks_json(request, pk): # TODO: Remember to uncomment the tasks and com
     return JsonResponse(data={
         'rows': data
     })
+
+def get_leaderboard_json(request, pk):
+    # Leaderboard is overall: ranked on highest average reported score
+    surveyor = Surveyor.objects.get(pk=pk)
+    group_ids = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group', flat=True)
+    groups = Group.objects.filter(pk__in=group_ids)
+    respondent_ids = GroupRespondent.objects.filter(group__in=groups).values_list('respondent', flat=True)
+    respondents = Respondent.objects.filter(pk__in=respondent_ids)
+    
+    score_list = []
+    for respondent in respondents:
+        # Get their responses and calculate their score
+        responses = Response.objects.filter(respondent=respondent).values_list('value', flat=True)
+        score = calculate_score(responses)
+        entry = {'name': respondent.firstname + " " + respondent.surname, 'score': score}
+        score_list.append(entry)
+        
+    score_list.sort(key=operator.itemgetter('score'))
+
+    return JsonResponse(data={
+        'rows': score_list
+    })
+
+    
