@@ -66,16 +66,7 @@ def new_task(request, pk):
     return render(request, 'surveyor_new_task.html', {'user' : user, 'groups' : groups, 'taskform': form, 'formset': formset})
     # return render(request, 'surveyor_new_task.html')
 
-def new_group(request):
-    # user = get_object_or_404(Surveyor, pk=pk)
-
-    # form = GroupForm()
-    # context = {'form': form}
-    # html_form = render_to_string('partial_new_group.html',
-    #     context,
-    #     request=request,
-    # )
-    # return JsonResponse({'html_form': html_form})
+def new_group(request, pk):
     data = dict()
 
     if request.method == 'POST':
@@ -88,7 +79,7 @@ def new_group(request):
     else:
         form = GroupForm()
 
-    context = {'form': form}
+    context = {'form': form, 'pk' : pk}
     data['html_form'] = render_to_string('partial_new_group.html',
         context,
         request=request

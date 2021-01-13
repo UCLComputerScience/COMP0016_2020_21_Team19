@@ -90,15 +90,12 @@
         </tr>
       </tbody>
     </table>
-    <button type="button" class="btn btn-primary" onclick="document.location = '{% url 'new_task' user.pk %}';">Create
-      New Task...</button>
-
-    <p>
-      <button type="button" class="btn btn-primary js-new-group">
-        <span class="glyphicon glyphicon-plus"></span>
-        New Group..
-      </button>
-    </p>
+    <button type="button" class="btn btn-primary" onclick="document.location = '{% url 'new_task' user.pk %}';">New Task...</button>
+    
+    <button type="button" class="btn btn-primary js-new-group">
+      <span class="glyphicon glyphicon-plus"></span>
+      New Group...
+    </button>
 
     <div class="modal fade" id="modal-new-group">
       <div class="modal-dialog">
@@ -188,39 +185,40 @@
 
 <!-- Script for modal popup -->
 <script>
-$(function () {
-  $(".js-new-group").click(function () {
-    $.ajax({
-      url: '/surveyor@1/new_group/', // TODO: fix hardcoded user pk
-      type: 'get',
-      dataType: 'json',
-      beforeSend: function () {
-        $("#modal-new-group").modal('show');
-      },
-      success: function (data) {
-        $("#modal-new-group .modal-content").html(data.html_form);
-      }
+  var pk = {{ user.pk }};
+  $(function () {
+    $(".js-new-group").click(function () {
+      $.ajax({
+        url: '/surveyor@' + pk + '/new_group/',
+        type: 'get',
+        dataType: 'json',
+        beforeSend: function () {
+          $("#modal-new-group").modal('show');
+        },
+        success: function (data) {
+          $("#modal-new-group .modal-content").html(data.html_form);
+        }
+      });
     });
-  });
 
-  $("#modal-new-group").on("submit", ".js-new-group-form", function () {
-    var form = $(this);
-    $.ajax({
-      url: form.attr("action"),
-      data: form.serialize(),
-      type: form.attr("method"),
-      dataType: 'json',
-      success: function (data) {
-        if (data.form_is_valid) {
-          alert("Group created!");  // <- This is just a placeholder for now for testing
+    $("#modal-new-group").on("submit", ".js-new-group-form", function () {
+      var form = $(this);
+      $.ajax({
+        url: form.attr("action"),
+        data: form.serialize(),
+        type: form.attr("method"),
+        dataType: 'json',
+        success: function (data) {
+          if (data.form_is_valid) {
+            alert("Group created!");  // <- This is just a placeholder for now for testing
+          }
+          else {
+            $("#modal-book .modal-content").html(data.html_form);
+          }
         }
-        else {
-          $("#modal-book .modal-content").html(data.html_form);
-        }
-      }
+      });
+      return false;
     });
-    return false;
   });
-});
 </script>
 {% endblock %}

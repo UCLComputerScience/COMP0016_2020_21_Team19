@@ -66,9 +66,10 @@ class GroupForm(forms.ModelForm):
             'name': 'Group Name'
         }
         widgets={
-            'title': forms.TextInput(attrs={
+            'name': forms.TextInput(
+            attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter group name here'
+                'placeholder': 'Enter Group Name here'
                 }
             )
         }
