@@ -95,8 +95,10 @@ body {
  */
 
 .graphContainer {
-  background-color: #f8f9fa;
+  margin: 100px;
+  border-radius: 25px;
 }
+
 
 /*
  * Utilities

@@ -19,7 +19,7 @@ def leaderboard(request, pk):
     return render(request, 'surveyor_leaderboard.html', {'user' : user, 'pk': pk})
     # return render(request, 'surveyor_leaderboard.html')
 
-def task_overview(request, pk):
+def task_overview(request, pk, pk_task):
     user = get_object_or_404(Surveyor, pk=pk)
     return render(request, 'task_overview.html', {'user' : user})
     # return render(request, 'task_overview.html')
@@ -133,5 +133,3 @@ def get_leaderboard_json(request, pk):
     return JsonResponse(data={
         'rows': score_list
     })
-
-    
