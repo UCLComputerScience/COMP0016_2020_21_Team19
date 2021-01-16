@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+<li class="nav-item">
+  <a class="nav-link active" href="#">
+    <span data-feather="home"></span>
+    Dashboard <span class="sr-only">(current)</span>
+  </a>
+</li>
+<li class="nav-item" >
+  <a class="nav-link" href="{% url 'respondent_leaderboard' user.pk %}">
+    <span data-feather="bar-chart-2"></span>
+    Leaderboard
+  </a>
+</li>
+<li class="nav-item" >
+    <a class="nav-link" href="{% url 'respondent_progress' user.pk %}">
+      <span data-feather="bar-chart-2"></span>
+      Progress
+    </a>
+</li>
+{% endblock %} 
+        
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2">Progress</h1>
+</div>
+
+<div>
+  <div class="col" id="graph-container">
+  </div>
+  <!-- <div style="margin: 100px; border-radius: 25px;" class="row bg-light">
+    
+  </div> -->
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Graphs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+  var pk = {{ pk }};
+
+  function render_graph(parent, title, labels, data) {
+    var wrapper = document.createElement('div');
+    wrapper.classList.add('row');
+    wrapper.classList.add('bg-light');
+
+    var element = document.createElement('canvas');
+    element.width = 900;
+    element.height = 380;
+
+    wrapper.appendChild(element);
+    parent.appendChild(wrapper);
+
+    new Chart(element, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          data,
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: '#007bff',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff'
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: title
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Score'
+            },
+            ticks: {
+              min: 0,
+              max: 5
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Time'
+            }
+          }]
+        },
+        legend: {
+          display: false,
+        }
+      }
+    });
+  }
+
+  function load_and_render_graphs() {
+    $.get('/respondent@' + pk + '/get_progress_json', function(graphData) {
+      var parent = document.getElementById("graph-container");
+
+      var overall = graphData['overall'];
+      render_graph(parent, 'Overall Progress', overall['labels'], overall['scores'])
+
+      var groups = graphData['groups'];
+
+      for (var i = 0; i < groups.length; i++) {
+        var group = groups[i];
+        render_graph(parent, group['title'], group['labels'], group['scores']);
+      }
+
+    })
+  }
+
+  $(function () {
+    load_and_render_graphs();
+  });
+</script>
+{% endblock %}
+

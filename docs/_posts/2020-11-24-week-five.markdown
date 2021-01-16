@@ -1,0 +1,36 @@
+---
+layout: post
+title:  "Week Five: Beginning Frontend Implementation"
+date:   2020-11-24
+categories: docker, continuous-deployment, github
+name: Team 19
+---
+
+## Changes to the Project
+
+This week, during our update meeting with our client we agreed on making some changes to the overall objective of this project. Our client was keen to use our solution to collect patient-reported outcomes in physiotherapy in addition to classroom-based usage. In light of these changes, our client requested that we make our the UI of the solution more professional to reflect this.
+
+Accordingly, we redesigned our UI, keeping largely the same page structures, including the vertical navigation bar on the left-hand side of the page and page components. Our principal change was a change in colour usage, including the general colour scheme (opting for gray over blue) and involving fewer game-related graphics such as the badges that we had included on our leaderboard page (images of the result are below).
+
+The changes to the project proposed to our client were merely additional usages/applications of our existing functionality. Thus, there is no change to any existing proposed functionality to be implemented.
+
+## Beginning Implementation
+
+In light of the changes described above, we began implementing the frontend for the Interviewee using static HTML, CSS and Bootstrap. Our implementation, as it stands, looks like:
+
+![Interviewee Dashboard](/COMP0016_2020_21_Team19/assets/interviewee_dashboard.png)
+*Interviewee Dashboard*
+
+
+![Interviewee Leaderboard](/COMP0016_2020_21_Team19/assets/interviewee_leaderboard.png)
+*Interviewee Leaderboard*
+
+
+![Response](/COMP0016_2020_21_Team19/assets/response.png)
+*Response*
+
+## Next Steps
+
+In the following week, we expect to mirror the progress that we have made this week implementing the frontend for the Interviewee by implementing the frontend for the Interviewer. 
+
+Moreover, given the newly-defined scope of the project, our client has pointed out that our existing naming convention (Interviewee, Interviewer) would be inappropriate for its applications. Hence, an additional objective in the coming weeks is to replace this naming convention with something more apt.
