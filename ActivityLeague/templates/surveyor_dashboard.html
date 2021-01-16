@@ -7,95 +7,107 @@
     Dashboard <span class="sr-only">(current)</span>
   </a>
 </li>
-<li class="nav-item" >
+<li class="nav-item">
   <a class="nav-link" href="{% url 'surveyor_leaderboard' user.pk %}">
     <span data-feather="bar-chart-2"></span>
     Leaderboard
   </a>
 </li>
-{% endblock %} 
-        
+{% endblock %}
+
 {% block content %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
   <h1 class="h2">Dashboard</h1>
 </div>
 <div class="overflow-auto">
-<div class="table-responsive">
-  <table class="table table-striped table-hover">
-    <thead>
-      <tr>
-        <th >Set Task</th>
-        <th>Class</th>
-        <th>Students</th>
-        <th>Responses</th>
-        <th>Due Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Chapter 1 Review</td>
-        <td>English 1</td>
-        <td>28</td>
-        <td>10</td>
-        <td>10/11/2020</td>
-      </tr>
-      <tr>
-        <td>Chapter 2 Review</td>
-        <td>English 1</td>
-        <td>28</td>
-        <td>7</td>
-        <td>14/11/2020</td>
-      </tr>
-      <tr onclick="document.location = '{% url 'task_overview' user.pk %}';">
-        <td>Read about a country of your choice</td>
-        <td>Geography 2</td>
-        <td>23</td>
-        <td>17</td>
-        <td>05/11/2020</td>
-      </tr>
-      <tr>
-        <td>Russia homework</td>
-        <td>Geography 2</td>
-        <td>23</td>
-        <td>14</td>
-        <td>05/11/2020</td>
-      </tr>
-      <tr>
-        <td>China homework</td>
-        <td>Geography 2</td>
-        <td>23</td>
-        <td>12</td>
-        <td>05/11/2020</td>
-      </tr>
-      <tr>
-        <td>Fractions worksheet</td>
-        <td>Maths 1</td>
-        <td>26</td>
-        <td>15</td>
-        <td>02/12/2020</td>
-      </tr>
-      <tr>
-        <td>20 Push Ups</td>
-        <td>P.E.</td>
-        <td>24</td>
-        <td>11</td>
-        <td>04/12/2020</td>
-      </tr>
-      <tr>
-        <td>Spanish worksheet</td>
-        <td>Spanish 4</td>
-        <td>19</td>
-        <td>5</td>
-        <td>30/11/2020</td>
-      </tr>
-    </tbody>
-  </table>
-  <button type="button" class="btn btn-primary" onclick="document.location = '{% url 'new_task' user.pk %}';">Create New...</button>
-</div>
-<!-- Whitespace -->
-<div>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Set Task</th>
+          <th>Class</th>
+          <th>Students</th>
+          <th>Responses</th>
+          <th>Due Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Chapter 1 Review</td>
+          <td>English 1</td>
+          <td>28</td>
+          <td>10</td>
+          <td>10/11/2020</td>
+        </tr>
+        <tr>
+          <td>Chapter 2 Review</td>
+          <td>English 1</td>
+          <td>28</td>
+          <td>7</td>
+          <td>14/11/2020</td>
+        </tr>
+        <tr onclick="document.location = '{% url 'task_overview' user.pk %}';">
+          <td>Read about a country of your choice</td>
+          <td>Geography 2</td>
+          <td>23</td>
+          <td>17</td>
+          <td>05/11/2020</td>
+        </tr>
+        <tr>
+          <td>Russia homework</td>
+          <td>Geography 2</td>
+          <td>23</td>
+          <td>14</td>
+          <td>05/11/2020</td>
+        </tr>
+        <tr>
+          <td>China homework</td>
+          <td>Geography 2</td>
+          <td>23</td>
+          <td>12</td>
+          <td>05/11/2020</td>
+        </tr>
+        <tr>
+          <td>Fractions worksheet</td>
+          <td>Maths 1</td>
+          <td>26</td>
+          <td>15</td>
+          <td>02/12/2020</td>
+        </tr>
+        <tr>
+          <td>20 Push Ups</td>
+          <td>P.E.</td>
+          <td>24</td>
+          <td>11</td>
+          <td>04/12/2020</td>
+        </tr>
+        <tr>
+          <td>Spanish worksheet</td>
+          <td>Spanish 4</td>
+          <td>19</td>
+          <td>5</td>
+          <td>30/11/2020</td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" class="btn btn-primary" onclick="document.location = '{% url 'new_task' user.pk %}';">New Task...</button>
+    
+    <button type="button" class="btn btn-primary js-new-group">
+      <span class="glyphicon glyphicon-plus"></span>
+      New Group...
+    </button>
 
-</div>
+    <div class="modal fade" id="modal-new-group">
+      <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+      </div>
+
+  </div>
+  <!-- Whitespace -->
+  <div>
+
+  </div>
 </div>
 <div>
   <div style="margin: 100px; border-radius: 25px;" class="row bg-light">
@@ -103,11 +115,8 @@
       <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
     </div>
     <div style="margin: 50px;" class="col">
-      <table class="table table-striped"
-data-toggle="table"
-data-url="data1.json"
-data-pagination="true"
-data-search="true">
+      <table class="table table-striped" data-toggle="table" data-url="data1.json" data-pagination="true"
+        data-search="true">
         <thead>
           <tr>
             <th>Student</th>
@@ -173,5 +182,43 @@ data-search="true">
     }
   });
 </script>
-{% endblock %}
 
+<!-- Script for modal popup -->
+<script>
+  var pk = {{ user.pk }};
+  $(function () {
+    $(".js-new-group").click(function () {
+      $.ajax({
+        url: '/surveyor@' + pk + '/new_group/',
+        type: 'get',
+        dataType: 'json',
+        beforeSend: function () {
+          $("#modal-new-group").modal('show');
+        },
+        success: function (data) {
+          $("#modal-new-group .modal-content").html(data.html_form);
+        }
+      });
+    });
+
+    $("#modal-new-group").on("submit", ".js-new-group-form", function () {
+      var form = $(this);
+      $.ajax({
+        url: form.attr("action"),
+        data: form.serialize(),
+        type: form.attr("method"),
+        dataType: 'json',
+        success: function (data) {
+          if (data.form_is_valid) {
+            alert("Group created!");  // <- This is just a placeholder for now for testing
+          }
+          else {
+            $("#modal-book .modal-content").html(data.html_form);
+          }
+        }
+      });
+      return false;
+    });
+  });
+</script>
+{% endblock %}
