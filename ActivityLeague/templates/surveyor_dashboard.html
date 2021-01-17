@@ -7,14 +7,14 @@
     Dashboard <span class="sr-only">(current)</span>
   </a>
 </li>
-<li class="nav-item" >
+<li class="nav-item">
   <a class="nav-link" href="{% url 'surveyor_leaderboard' user.pk %}">
     <span data-feather="bar-chart-2"></span>
     Leaderboard
   </a>
 </li>
-{% endblock %} 
-        
+{% endblock %}
+
 {% block content %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
   <h1 class="h2">Dashboard</h1>
@@ -34,12 +34,26 @@
     <tbody id=table-body>
     </tbody>
   </table>
-  <button type="button" class="btn btn-primary" onclick="document.location = '{% url 'new_task' user.pk %}';">Create New...</button>
+  <button type="button" class="btn btn-primary" onclick="document.location = '{% url 'new_task' user.pk %}';">New Task...</button>
+    
+  <button type="button" class="btn btn-primary js-new-group">
+    <span class="glyphicon glyphicon-plus"></span>
+    New Group...
+  </button>
 </div>
 <!-- Whitespace -->
 <div>
+    <div class="modal fade" id="modal-new-group">
+      <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+      </div>
 
-</div>
+  </div>
+  <!-- Whitespace -->
+  <div>
+
+  </div>
 </div>
 <div>
   <div style="margin: 100px; border-radius: 25px;" class="row bg-light">
@@ -47,11 +61,8 @@
       <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
     </div>
     <div style="margin: 50px;" class="col">
-      <table class="table table-striped"
-data-toggle="table"
-data-url="data1.json"
-data-pagination="true"
-data-search="true">
+      <table class="table table-striped" data-toggle="table" data-url="data1.json" data-pagination="true"
+        data-search="true">
         <thead>
           <tr>
             <th>Student</th>
@@ -159,6 +170,41 @@ data-search="true">
     render_table();
   });
 
+<!-- Script for modal popup -->
+  var pk = {{ user.pk }};
+  $(function () {
+    $(".js-new-group").click(function () {
+      $.ajax({
+        url: '/surveyor@' + pk + '/new_group/',
+        type: 'get',
+        dataType: 'json',
+        beforeSend: function () {
+          $("#modal-new-group").modal('show');
+        },
+        success: function (data) {
+          $("#modal-new-group .modal-content").html(data.html_form);
+        }
+      });
+    });
 
+    $("#modal-new-group").on("submit", ".js-new-group-form", function () {
+      var form = $(this);
+      $.ajax({
+        url: form.attr("action"),
+        data: form.serialize(),
+        type: form.attr("method"),
+        dataType: 'json',
+        success: function (data) {
+          if (data.form_is_valid) {
+            alert("Group created!");  // <- This is just a placeholder for now for testing
+          }
+          else {
+            $("#modal-book .modal-content").html(data.html_form);
+          }
+        }
+      });
+      return false;
+    });
+  });
 </script>
 {% endblock %}

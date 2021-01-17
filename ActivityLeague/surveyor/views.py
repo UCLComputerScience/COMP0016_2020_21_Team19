@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import TaskForm, QuestionFormset
+from django.template.loader import render_to_string
+from django.http import JsonResponse
+from .forms import GroupForm, TaskForm, QuestionFormset
 from .models import *
 from respondent.models import Respondent, Response, GroupRespondent
 from respondent.views import calculate_score
@@ -133,3 +135,23 @@ def get_leaderboard_json(request, pk):
     return JsonResponse(data={
         'rows': score_list
     })
+
+def new_group(request, pk):
+    data = dict()
+
+    if request.method == 'POST':
+        form = GroupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+        else:
+            data['form_is_valid'] = False
+    else:
+        form = GroupForm()
+
+    context = {'form': form, 'pk' : pk}
+    data['html_form'] = render_to_string('partial_new_group.html',
+        context,
+        request=request
+    )
+    return JsonResponse(data)

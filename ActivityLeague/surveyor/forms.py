@@ -57,3 +57,19 @@ QuestionFormset = modelformset_factory(
         'response_type': forms.Select(choices=RESPONSE_TYPES, attrs={'class' : 'custom-select d-block w-100'})
     }
 )
+
+class GroupForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = ('name',)
+        labels = {
+            'name': 'Group Name'
+        }
+        widgets={
+            'name': forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter Group Name here'
+                }
+            )
+        }
