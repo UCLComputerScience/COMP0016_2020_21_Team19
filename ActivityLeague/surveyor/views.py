@@ -10,6 +10,17 @@ import datetime
 import operator
 from django.http import JsonResponse
 
+def get_graphs_json(request, pk):
+    groups = get_groups(pk)
+    graphs = []
+    for group in groups:
+        labels = get_graph_labels(pk, group=group)
+        scores = get_graph_data(pk, labels, group=group)
+        graphs.append({'title': group.name, 'labels': labels, 'scores': scores})
+    
+    return JsonResponse(data={
+        'graphs': graphs
+    })
 
 def dashboard(request, pk):
     user = get_object_or_404(Surveyor, pk=pk)
@@ -70,20 +81,75 @@ def new_task(request, pk):
         form = NewTaskForm()
 
     return render(request, 'surveyor_new_task.html', {'user' : user, 'groups' : groups, 'taskform': form, 'formset': formset})
-    # return render(request, 'surveyor_new_task.html')
 
-def get_surveyor_progress_labels(pk, **kwargs):
-
-    if kwargs.get('group') is not None:
-        pass
-
+def get_groups(pk):
     surveyor = Surveyor.objects.get(pk=pk)
-    groups = GroupSurveyor.objects.filter(surveyor=surveyor).values_list(flat=True)
-    tasks = Task.objects.filter(group__in=groups)
-    questions = Question.objects.filter(task__in=tasks)
-    repsonses = Response.objects.filter(question__in=questions)
+    group_ids = GroupSurveyor.objects.filter(surveyor=surveyor)
+    return Group.objects.filter(pk__in=group_ids)
 
-    # TODO: This method is incomplete
+def get_responses(pk, **kwargs):
+    surveyor = Surveyor.objects.get(pk=pk)
+    if kwargs.get('group') is not None:
+        group = kwargs.get('group')
+        tasks = Task.objects.filter(group=group)
+    else:
+        groups = GroupSurveyor.objects.filter(surveyor=surveyor).values_list(flat=True)
+        tasks = Task.objects.filter(group__in=groups)
+    questions = Question.objects.filter(task__in=tasks)
+    return Response.objects.filter(question__in=questions).order_by('date', 'time')
+
+def get_graph_data(pk, labels, **kwargs):
+    responses = get_responses(pk, **kwargs)
+
+    dates = [datetime.datetime.strptime(label, '%Y-%m-%d').date() for label in labels]
+
+    if len(dates) == 0:
+        return None
+    elif len(dates) == 1:
+        return responses[0].value
+
+    scores = []
+    previous_date = datetime.date.min
+    previous_score = 0
+    for date in dates:
+        queryset = []
+        for response in responses:
+            if response.date > date:
+                break
+            if response.date > previous_date:
+                queryset.append(response.value)
+        scores.append(calculate_score(queryset) if queryset else previous_score)
+        previous_date = date
+        previous_score = scores[-1]
+    
+    assert(len(dates) == len(scores))
+    return scores
+
+def get_graph_labels(pk, **kwargs):
+    responses = get_responses(pk, **kwargs)
+    num_intervals = min(len(responses), 10)
+    dates = list(responses.values_list('date', flat=True))
+    
+    if len(responses) == 0:
+        return None
+    elif len(dates) == 1:
+        return dates
+    
+    latest = dates[-1]
+    earliest = dates[0]
+    time_range = latest - earliest
+
+    interval = time_range / num_intervals
+
+    labels = [str(earliest + (interval * i)) for i in range(num_intervals + 1)]
+    
+    return labels
+
+def calculate_score(values):
+    """
+    :param responses: List of numbers from which you want to calculate a score.
+    """
+    return sum(values) / len(values)
 
 def get_num_respondents_in_group(group):
     return GroupRespondent.objects.filter(group=group).count()

@@ -35,6 +35,7 @@ urlpatterns = [
     # surveyor
     url(r'^surveyor@(?P<pk>\d+)/?$', surveyor.dashboard, name='surveyor_dashboard'),
     url(r'^surveyor@(?P<pk>\d+)/task@(?P<pk_task>\d+)/?$', surveyor.task_overview, name='surveyor_task_overview)'),
+    url(r'^surveyor@(?P<pk>\d+)/get_graphs_json$', surveyor.get_graphs_json, name='get_graphs_json'),
     url(r'^surveyor@(?P<pk>\d+)/get_tasks_json$', surveyor.get_tasks_json, name='get_tasks_json'),
     url(r'^surveyor@(?P<pk>\d+)/get_leaderboard_json$', surveyor.get_leaderboard_json, name='get_leaderboard_json'),
     url(r'^surveyor@(?P<pk>\d+)/new_group/?$', surveyor.new_group, name='new_group'),

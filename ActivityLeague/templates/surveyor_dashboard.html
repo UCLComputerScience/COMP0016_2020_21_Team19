@@ -57,8 +57,7 @@
 </div>
 <div>
   <div style="margin: 100px; border-radius: 25px;" class="row bg-light">
-    <div class="col">
-      <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
+    <div class="col" id="graph-container">
     </div>
     <div style="margin: 50px;" class="col">
       <table class="table table-striped" data-toggle="table" data-url="data1.json" data-pagination="true"
@@ -104,32 +103,79 @@
 <script>
   var pk = {{ pk }};
 
-  var ctx = document.getElementById("myChart");
-  var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-      datasets: [{
-        data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
-        lineTension: 0,
-        backgroundColor: 'transparent',
-        borderColor: '#007bff',
-        borderWidth: 4,
-        pointBackgroundColor: '#007bff'
-      }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: false
-          }
+  function render_graph(parent, title, labels, data) {
+    var wrapper = document.createElement('div');
+    wrapper.classList.add('row');
+    wrapper.classList.add('bg-light');
+    // THIS IS TEMPORARY STYLE INJECTION
+    wrapper.style.margin = "20px";
+    wrapper.style.borderRadius = "20px";
+
+    var element = document.createElement('canvas');
+    element.width = 900;
+    element.height = 380;
+
+    wrapper.appendChild(element);
+    parent.appendChild(wrapper);
+
+    new Chart(element, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          data,
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: '#007bff',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff'
         }]
       },
-      legend: {
-        display: false,
+      options: {
+        title: {
+          display: true,
+          text: title
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Score'
+            },
+            ticks: {
+              min: 0,
+              max: 5
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Time'
+            }
+          }]
+        },
+        legend: {
+          display: false,
+        }
       }
-    }
+    });
+  }
+
+  function load_and_render_graphs() {
+    $.get('/surveyor@' + pk + '/get_graphs_json', function(graphData) {
+      var parent = document.getElementById("graph-container");
+
+      var graphs = graphData['graphs'];
+
+      for (var i = 0; i < graphs.length; i++) {
+        var graph = graphs[i];
+        render_graph(parent, graph['title'], graph['labels'], graph['scores']);
+      }
+    })
+  }
+
+  $(function () {
+    load_and_render_graphs();
   });
 
   function render_table() {
