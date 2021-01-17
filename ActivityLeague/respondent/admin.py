@@ -1,6 +1,15 @@
 from django.contrib import admin
 from .models import Respondent, Response, GroupRespondent
 
-admin.site.register(GroupRespondent)
-admin.site.register(Respondent)
-admin.site.register(Response)
+class GroupRespondentAdmin(admin.ModelAdmin):
+    readonly_fields = ('id',)
+
+class RespondentAdmin(admin.ModelAdmin):
+    readonly_fields = ('id',)
+
+class ResponseAdmin(admin.ModelAdmin):
+    readonly_fields = ('id',)
+
+admin.site.register(GroupRespondent, GroupRespondentAdmin)
+admin.site.register(Respondent, RespondentAdmin)
+admin.site.register(Response, ResponseAdmin)
