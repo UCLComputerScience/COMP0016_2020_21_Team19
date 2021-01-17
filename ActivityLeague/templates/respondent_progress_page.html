@@ -2,9 +2,9 @@
 
 {% block sidebar %}
 <li class="nav-item">
-  <a class="nav-link active" href="#">
+  <a class="nav-link" href="{% url 'respondent_dashboard' user.pk %}">
     <span data-feather="home"></span>
-    Dashboard <span class="sr-only">(current)</span>
+    Dashboard 
   </a>
 </li>
 <li class="nav-item" >
@@ -14,9 +14,9 @@
   </a>
 </li>
 <li class="nav-item" >
-    <a class="nav-link" href="{% url 'respondent_progress' user.pk %}">
+    <a class="nav-link active" href="#">
       <span data-feather="bar-chart-2"></span>
-      Progress
+      Progress <span class="sr-only">(current)</span>
     </a>
 </li>
 {% endblock %} 
@@ -45,6 +45,9 @@
     var wrapper = document.createElement('div');
     wrapper.classList.add('row');
     wrapper.classList.add('bg-light');
+    // THIS IS TEMPORARY STYLE INJECTION
+    wrapper.style.margin = "20px";
+    wrapper.style.borderRadius = "20px";
 
     var element = document.createElement('canvas');
     element.width = 900;
@@ -58,10 +61,26 @@
       data: {
         labels,
         datasets: [{
-          data,
+          data: [1, 1, 2.5, 2, 2.5, 2.5, 3, 3.5, 3.5, 4, 5],
           lineTension: 0,
           backgroundColor: 'transparent',
           borderColor: '#007bff',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff'
+        },
+        {
+          data: [1, 1.5, 2, 1.5, 2, 3, 2.5, 3, 3, 3.5, 3.5],
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: 'green',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff'
+        },
+        {
+          data: [0, 2, 1.5, 2, 3, 3.5, 3.5, 4, 3.5, 4, 4.5],
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: 'red',
           borderWidth: 4,
           pointBackgroundColor: '#007bff'
         }]
@@ -109,7 +128,6 @@
         var group = groups[i];
         render_graph(parent, group['title'], group['labels'], group['scores']);
       }
-
     })
   }
 

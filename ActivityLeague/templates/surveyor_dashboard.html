@@ -20,83 +20,29 @@
   <h1 class="h2">Dashboard</h1>
 </div>
 <div class="overflow-auto">
-  <div class="table-responsive">
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Set Task</th>
-          <th>Class</th>
-          <th>Students</th>
-          <th>Responses</th>
-          <th>Due Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Chapter 1 Review</td>
-          <td>English 1</td>
-          <td>28</td>
-          <td>10</td>
-          <td>10/11/2020</td>
-        </tr>
-        <tr>
-          <td>Chapter 2 Review</td>
-          <td>English 1</td>
-          <td>28</td>
-          <td>7</td>
-          <td>14/11/2020</td>
-        </tr>
-        <tr onclick="document.location = '{% url 'task_overview' user.pk %}';">
-          <td>Read about a country of your choice</td>
-          <td>Geography 2</td>
-          <td>23</td>
-          <td>17</td>
-          <td>05/11/2020</td>
-        </tr>
-        <tr>
-          <td>Russia homework</td>
-          <td>Geography 2</td>
-          <td>23</td>
-          <td>14</td>
-          <td>05/11/2020</td>
-        </tr>
-        <tr>
-          <td>China homework</td>
-          <td>Geography 2</td>
-          <td>23</td>
-          <td>12</td>
-          <td>05/11/2020</td>
-        </tr>
-        <tr>
-          <td>Fractions worksheet</td>
-          <td>Maths 1</td>
-          <td>26</td>
-          <td>15</td>
-          <td>02/12/2020</td>
-        </tr>
-        <tr>
-          <td>20 Push Ups</td>
-          <td>P.E.</td>
-          <td>24</td>
-          <td>11</td>
-          <td>04/12/2020</td>
-        </tr>
-        <tr>
-          <td>Spanish worksheet</td>
-          <td>Spanish 4</td>
-          <td>19</td>
-          <td>5</td>
-          <td>30/11/2020</td>
-        </tr>
-      </tbody>
-    </table>
-    <button type="button" class="btn btn-primary" onclick="document.location = '{% url 'new_task' user.pk %}';">New Task...</button>
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Set Task</th>
+        <th>Group</th>
+        <th>Students</th>
+        <th>Responses</th>
+        <th>Due Date</th>
+      </tr>
+    </thead>
+    <tbody id=table-body>
+    </tbody>
+  </table>
+  <button type="button" class="btn btn-primary" onclick="document.location = '{% url 'new_task' user.pk %}';">New Task...</button>
     
-    <button type="button" class="btn btn-primary js-new-group">
-      <span class="glyphicon glyphicon-plus"></span>
-      New Group...
-    </button>
-
+  <button type="button" class="btn btn-primary js-new-group">
+    <span class="glyphicon glyphicon-plus"></span>
+    New Group...
+  </button>
+</div>
+<!-- Whitespace -->
+<div>
     <div class="modal fade" id="modal-new-group">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -123,27 +69,29 @@
             <th>Ranking</th>
             <th>Score</th>
           </tr>
+        </thead>
+        <tbody>
           <tr>
-            <td>Joseph Connor 👑</td>
+            <td>Oliver Turner</td>
             <td>1</td>
             <td>10</td>
           </tr>
           <tr>
-            <td>Dean Mohammedally</td>
+            <td>Sophie Lane</td>
             <td>2</td>
             <td>9</td>
           </tr>
           <tr>
-            <td>Boris Johnson</td>
+            <td>Ellie Davis</td>
             <td>3</td>
             <td>6</td>
           </tr>
           <tr>
-            <td>Diane Abbott</td>
+            <td>Elijah Jackson</td>
             <td>4</td>
             <td>3</td>
           </tr>
-        </thead>
+        </tbody>
       </table>
     </div>
   </div>
@@ -154,6 +102,8 @@
 <!-- Graphs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 <script>
+  var pk = {{ pk }};
+
   var ctx = document.getElementById("myChart");
   var myChart = new Chart(ctx, {
     type: 'line',
@@ -181,10 +131,46 @@
       }
     }
   });
-</script>
+
+  function render_table() {
+    $.get('/surveyor@' + pk + '/get_tasks_json', function (tableData) {
+      var parent = document.getElementById('table-body');
+      var rows = tableData['rows'];
+      for (var i=0; i < rows.length; i++) {
+        var row = rows[i];
+        add_row(parent, row['title'], row['group_name'], row['num_respondents'], row['num_responses'], row['due_date']);
+      }
+    })
+  }
+
+  function add_row(parent, task_title, group_name, num_respondents, num_responses, due_date) {
+    var row_wrapper = document.createElement('tr');
+
+    var title_wrapper = document.createElement('td');
+    title_wrapper.textContent = task_title;
+    var group_wrapper = document.createElement('td');
+    group_wrapper.textContent = group_name;
+    var num_respondents_wrapper = document.createElement('td');
+    num_respondents_wrapper.textContent = num_respondents;
+    var num_responses_wrapper = document.createElement('td');
+    num_responses_wrapper.textContent = num_responses;
+    var due_date_wrapper = document.createElement('td');
+    due_date_wrapper.textContent = due_date;
+
+    var new_elements = [];
+    new_elements.push(title_wrapper, group_wrapper, num_respondents_wrapper, num_responses_wrapper, due_date_wrapper);
+
+    for (var i = 0; i < new_elements.length; i++) {
+      row_wrapper.appendChild(new_elements[i]);
+    }
+    parent.appendChild(row_wrapper);
+  }
+
+  $(function () { 
+    render_table();
+  });
 
 <!-- Script for modal popup -->
-<script>
   var pk = {{ user.pk }};
   $(function () {
     $(".js-new-group").click(function () {

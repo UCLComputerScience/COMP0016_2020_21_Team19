@@ -27,12 +27,16 @@ urlpatterns = [
     # respondent
     url(r'^respondent@(?P<pk>\d+)/?$', respondent.dashboard, name='respondent_dashboard'),
     url(r'^respondent@(?P<pk>\d+)/leaderboard/?$', respondent.leaderboard, name='respondent_leaderboard'),
+    url(r'^respondent@(?P<pk>\d+)/get_respondent_leaderboard_json$', respondent.get_respondent_leaderboard_json, name='get_respondent_leaderboard_json'),
     url(r'^respondent@(?P<pk>\d+)/response/?$', respondent.response, name='response'),
     url(r'^respondent@(?P<pk>\d+)/progress/?$', respondent.progress, name='respondent_progress'),
     url(r'^respondent@(?P<pk>\d+)/get_progress_json$', respondent.get_progress_json, name='get_progress_json'),
 
     # surveyor
     url(r'^surveyor@(?P<pk>\d+)/?$', surveyor.dashboard, name='surveyor_dashboard'),
+    url(r'^surveyor@(?P<pk>\d+)/task@(?P<pk_task>\d+)/?$', surveyor.task_overview, name='surveyor_task_overview)'),
+    url(r'^surveyor@(?P<pk>\d+)/get_tasks_json$', surveyor.get_tasks_json, name='get_tasks_json'),
+    url(r'^surveyor@(?P<pk>\d+)/get_leaderboard_json$', surveyor.get_leaderboard_json, name='get_leaderboard_json'),
     url(r'^surveyor@(?P<pk>\d+)/new_group/?$', surveyor.new_group, name='new_group'),
     url(r'^surveyor@(?P<pk>\d+)/leaderboard/?$', surveyor.leaderboard, name='surveyor_leaderboard'),
     url(r'^surveyor@(?P<pk>\d+)/new_task/?$', surveyor.new_task, name='new_task'),

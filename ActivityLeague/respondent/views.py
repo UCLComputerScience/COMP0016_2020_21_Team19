@@ -1,4 +1,5 @@
 import datetime
+import operator
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from .models import *
@@ -13,7 +14,7 @@ def dashboard(request, pk):
 def leaderboard(request, pk):
     user = get_object_or_404(Respondent, pk=pk)
     respondents = Respondent.objects.all()
-    return render(request, 'respondent_leaderboard.html', {'user' : user, 'respondents' : respondents})
+    return render(request, 'respondent_leaderboard.html', {'user' : user, 'respondents' : respondents, 'pk': pk})
     # return render(request, 'respondent_leaderboard.html')
 
 def progress(request, pk):
@@ -146,6 +147,34 @@ def calculate_score(values):
     :param responses: List of numbers from which you want to calculate a score.
     """
     return sum(values) / len(values)
+
+def get_respondent_leaderboard_json(request, pk): # Add Group
+    rows = get_leaderboard(pk)
+    return JsonResponse(data={
+        'rows': rows
+    })
+    
+def get_leaderboard(pk, **kwargs):
+    respondent = Respondent.objects.get(pk=pk)
+
+    if kwargs.get('group') is not None:
+        group = kwargs.get('group')
+        respondent_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
+    else:
+        respondent_ids = GroupRespondent.objects.all().values_list('respondent', flat=True)
+    
+    respondents = Respondent.objects.filter(pk__in=respondent_ids)
+    
+    rows = []
+    for respondent in respondents:
+        responses = Response.objects.filter(respondent=respondent).values_list('value', flat=True)
+        score = calculate_score(responses)
+        entry = {'name': respondent.firstname + " " + respondent.surname, 'score': score}
+        rows.append(entry)
+    
+    rows.sort(key=operator.itemgetter('score'))
+
+    return rows
 
 def get_groups(pk):
     respondent = Respondent.objects.get(pk=pk)
