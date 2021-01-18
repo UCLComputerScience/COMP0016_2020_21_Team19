@@ -18,138 +18,76 @@
 
 
 {% block content %}
-<h2>Complete fractions worksheet: Feedback</h2>
-<!-- Link back to task links -->
-<li onclick="document.location = '../respondent';">Back to Task List</li>
-<table class="table">
-  <tbody>
-      <tr>
-          <div class="Question">
-              <td class="align-middle">
-                  First Question
-                  <small class="text-muted d-block">URL</small>
-                <slidecontainer>
-                    <input type="range" min="1" max="10" value="5" class="custom-range">
-                </slidecontainer>
-            </td>
-          </div>
-      </tr>
-      <tr>
-          <div class="Question">
-              <td class="align-middle">
-                  Second question
-                  <small class="text-muted d-block">URL</small>
-                <slidecontainer>
-                    <input type="range" min="1" max="10" value="5" class="custom-range">
-                </slidecontainer>
-            </td>
-          </div>
-      </tr>
-      <tr>
-        <div class="Question">
-            <td class="align-middle">
-                Third question
-                <small class="text-muted d-block">URL</small>
-              <slidecontainer>
-                  <input type="range" min="1" max="10" value="5" class="custom-range">
-              </slidecontainer>
-          </td>
-        </div>
-    </tr>
-    <tr>
-      <div class="Question">
-          <td class="align-middle">
-              Fourth question
-              <small class="text-muted d-block">URL</small>
-            <slidecontainer>
-                <input type="range" min="1" max="10" value="5" class="custom-range">
-            </slidecontainer>
-        </td>
-      </div>
-  </tr>
-  </tbody>
-</table>          
-<!-- Individual words area -->
-<div class="row">
-  <div class="col" id="positive-questions">
-    <h3>Enter 5 words describing things making your task easier.</h3>
-    <div class="form-group">
-      <label for="goodResponse1"></label>
-      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="goodResponse1"></label>
-      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="goodResponse1"></label>
-      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="goodResponse1"></label>
-      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="goodResponse1"></label>
-      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
-    </div>
-  </div>
-  <div class="col" id="negative-questions">
-    <h3>Enter 5 words describing things making your task harder.</h3>
-    <div class="form-group">
-      <label for="goodResponse1"></label>
-      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="goodResponse1"></label>
-      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="goodResponse1"></label>
-      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="goodResponse1"></label>
-      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
-    </div>
-    <div class="form-group">
-      <label for="goodResponse1"></label>
-      <textarea class="form-control" id="goodRepsonse1" rows="1"></textarea>
-    </div>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1 class="h2">Task Title</h1>
+  <div>
+    <button class="btn btn-primary" href="{% url 'respondent_dashboard' user.pk %}" for="question1">Cancel</button>
   </div>
 </div>
 
-
-<div class="container-fluid page-container">
-  How did this task affect your understanding of the topic?
+<form>
   <div class="row">
-
-    <div class="col-sm-1">
-      <div class="middle-container">
-        <div class="middle-top">
-          <center><button class="btn btn-default" type="button">I know more than I did before</button></center>
-        </div>
-      </div>
+    <div class="col-md-6 mb-2">
+      <label for="q1">Text response</label>
+      <input type="text" class="form-control" id="q1" placeholder="Response" value="" required="">
     </div>
+  </div>
 
-    <div class="col-sm-8">
-      <div class="middle-container">
-        <div class="middle-top">
-          <center><button class="btn btn-default" type="button">I know the same as I did before</button></center>
-        </div>
-      </div>
-    </div>
+  <hr class="mb-4">
 
-    <div class="col-sm-1">
-      <div class="middle-container">
-        <div class="middle-top">
-          <center><button class="btn btn-default" type="button">I know more than I did before</button></center>
-        </div>
-      </div>
+  <div class="row">
+    <div class="col-md-6 mb-2">
+      <label for="q2">Likert Response</label>
     </div>
+    <ul class='likert'>
+      <li>
+        <input type="radio" name="likert" value="strong_agree">
+        <label>Strongly disagree</label>
+      </li>
+      <li>
+        <input type="radio" name="likert" value="strong_agree">
+        <label>Disagree</label>
+      </li>
+      <li>
+        <input type="radio" name="likert" value="strong_agree">
+        <label>Neutral</label>
+      </li>
+      <li>
+        <input type="radio" name="likert" value="disagree">
+        <label>Agree</label>
+      </li>
+      <li>
+        <input type="radio" name="likert" value="strong_agree">
+        <label>Strongly agree</label>
+      </li>
+    </ul>
+  </div>
+
+  <hr class="mb-4">
+
+  <div class="row">
+    <div class="col-md-6 mb-2">
+      <label for="q2">"Traffic Light" Response</label>
+    </div>
+  </div>
+
+  <div class="btn-group" data-toggle="buttons">
+    <label class="btn btn-danger">
+      <input type="radio" name="options" id="option1"> Option 1
+    </label>
+    <label class="btn btn-warning">
+      <input type="radio" name="options" id="option2"> Option 2
+    </label>
+    <label class="btn btn-success">
+      <input type="radio" name="options" id="option3"> Option 3
+    </label>
+  </div>
 
   </div>
-</div>
+
+</form>
+
 {% endblock %}
 
 {% block scripts %}
