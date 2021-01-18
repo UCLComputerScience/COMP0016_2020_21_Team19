@@ -165,10 +165,30 @@ def calculate_score(values):
     """
     return sum(values) / len(values)
 
-def get_respondent_leaderboard_json(request, pk): # Add Group
-    rows = get_leaderboard(pk)
+def get_respondent_leaderboard_json(request, pk):
+    group_param = request.GET.get('group', None)
+    if group_param is not None:
+        group = Group.objects.get(pk=group_param)
+        return JsonResponse(data={
+            'rows': get_leaderboard(pk, group=group)
+        })
+    else:
+        return JsonResponse(data={
+            'rows': get_leaderboard(pk)
+        })
+
+def get_respondent_leaderboard_groups_json(request, pk):
+    groups = get_groups(pk)
+    data = []
+    for group in groups:
+        entry = {
+            'name': group.name,
+            'group_key': str(group.id)
+        }
+        data.append(entry)
+    
     return JsonResponse(data={
-        'rows': rows
+        'buttons': data
     })
     
 def get_leaderboard(pk, **kwargs):
@@ -178,7 +198,8 @@ def get_leaderboard(pk, **kwargs):
         group = kwargs.get('group')
         respondent_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
     else:
-        respondent_ids = GroupRespondent.objects.all().values_list('respondent', flat=True)
+        current_groups = GroupRespondent.objects.filter(respondent=respondent).values_list('group', flat=True)
+        respondent_ids = GroupRespondent.objects.filter(group__in=current_groups).values_list('respondent', flat=True)
     
     respondents = Respondent.objects.filter(pk__in=respondent_ids)
     
@@ -189,7 +210,7 @@ def get_leaderboard(pk, **kwargs):
         entry = {'name': respondent.firstname + " " + respondent.surname, 'score': score}
         rows.append(entry)
     
-    rows.sort(key=operator.itemgetter('score'))
+    rows.sort(key=operator.itemgetter('score'), reverse=True)
 
     return rows
 

@@ -192,8 +192,29 @@ def get_tasks_json(request, pk): # TODO: Remember to uncomment the tasks and com
     })
 
 def get_leaderboard_json(request, pk):
+    group_param = request.GET.get('group', None)
+    if group_param is not None:
+        group = Group.objects.get(pk=group_param)
+        return JsonResponse(data={
+            'rows': get_leaderboard(pk, group=group)
+        })
+    else:
+        return JsonResponse(data={
+            'rows': get_leaderboard(pk)
+        })
+
+def get_leaderboard_groups_json(request, pk):
+    groups = get_groups(pk)
+    data = []
+    for group in groups:
+        entry = {
+            'name': group.name,
+            'group_key': str(group.id)
+        }
+        data.append(entry)
+    
     return JsonResponse(data={
-        'rows': get_leaderboard(pk)
+        'buttons': data
     })
 
 def get_leaderboard(pk, **kwargs):
@@ -213,7 +234,7 @@ def get_leaderboard(pk, **kwargs):
         entry = {'name': respondent.firstname + " " + respondent.surname, 'score': score}
         score_list.append(entry)
         
-    score_list.sort(key=operator.itemgetter('score'))
+    score_list.sort(key=operator.itemgetter('score'), reverse=True)
 
     return score_list
 
