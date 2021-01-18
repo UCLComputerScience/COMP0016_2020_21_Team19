@@ -17,7 +17,7 @@
         
 {% block content %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">Task Overview: Read about a country of your choice</h1>
+  <h1 class="h2">Task Overview: Perform 20 Push-Ups</h1>
 </div>
 
 <!-- Info Cards -->
@@ -50,7 +50,7 @@
 
 <!-- Word Lists -->
 <div class="row border mr-5 ml-5 p-3 mb-5 bg-light text-dark">
-  <div class="col">respondent Word List
+  <div class="col">Frequent Positively and Negatively Associated Words
   </div>
   <div class="col">
     <table class="table">
@@ -101,7 +101,9 @@
         </div>
       </div>
     </div>
-    <div class="col">Pie Chart Here</div>
+    <div class="col" width="500px" height="500px">
+      <canvas id="pie-chart-1"></canvas>
+    </div>
   </div>
   <div class="row border-bottom mr-2 ml-2">
     <div class="col">Finding information on a country was easy.</div>
@@ -112,7 +114,7 @@
           </div>
       </div>
   </div>
-    <div class="col">Pie Chart Here</div>
+    <canvas class="col" id="pie-chart-2"></canvas>
   </div>
   <div class="row mr-2 ml-2">
     <div class="col">I know what the capital city of a country is.</div>
@@ -123,10 +125,40 @@
           </div>
       </div>
     </div>
-    <div class="col">Pie Chart Here</div>
+    <canvas class="col" id="pie-chart-3"></canvas>
   </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+  <script>
+
+    var config = {
+      type: 'pie',
+      data: {
+        datasets: [{
+          data: [1, 2, 2, 3, 1],
+          backgroundColor: [
+            'red', 'blue', 'pink', 'orange', 'green'
+          ],
+          label: 'Population'
+        }],
+        labels: ["1", "2", "3", "4", "5"]
+      },
+      options: {
+        responsive: false
+      }
+    };
+
+    window.onload = function() {
+      var chart_1 = document.getElementById('pie-chart-1').getContext('2d');
+      var chart_2 = document.getElementById('pie-chart-1').getContext('2d');
+      var chart_3 = document.getElementById('pie-chart-1').getContext('2d');
+      window.myPie = new Chart(chart_1, config);
+      window.myPie = new Chart(chart_2, config);
+      window.myPie = new Chart(chart_3, config);
+    };
+
+  </script>
 {% endblock %}

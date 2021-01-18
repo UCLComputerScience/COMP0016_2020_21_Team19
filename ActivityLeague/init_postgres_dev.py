@@ -2,6 +2,7 @@ import os
 import datetime
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ActivityLeague.settings')
 
+from django.contrib.auth import get_user_model
 from django.core import management
 from ActivityLeague.settings import DATABASES
 
@@ -18,7 +19,9 @@ def run_migrations():
     management.call_command("migrate")
     os.environ.setdefault('DJANGO_SUPERUSER_PASSWORD', 'activityleague')
 
-    management.call_command("createsuperuser", "--noinput", "--email=email@example.com", "--username=admin")
+    User = get_user_model()
+    if not User.objects.filter(username="admin").exists():
+        management.call_command("createsuperuser", "--noinput", "--email=email@example.com", "--username=admin")
 
 def insert_dummy_data():
     from surveyor.models import Surveyor, Group, GroupSurveyor, Task, Question

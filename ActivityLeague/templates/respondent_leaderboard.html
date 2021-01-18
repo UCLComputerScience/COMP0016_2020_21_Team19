@@ -32,31 +32,51 @@
         <th>Score</th>
     </tr>
     </thead>
-    <tbody>
-        {% for respondent in respondents %}
-        <tr>
-        <td>{{ forloop.counter }}</button></td>
-        <td class="align-middle">{{iv}}</td>
-        <td class="align-middle">100<td>
-        </tr>
-        {% endfor %}
-
-
-        {% comment %} <tr>
-        <td>2</button></td>
-        <td class="align-middle">Dean Mohamedally</td>
-        <td class="align-middle">89<td>
-        </tr> {% endcomment %}
-        
-        {% comment %} <tr>
-        <td>3</button></td>
-        <td class="align-middle">Graham Roberts</td>
-        <td class="align-middle">88<td>
-        </tr> {% endcomment %}
+    <tbody id='table-body'>
     </tbody>
 </table>
 </div>
 {% endblock %}
 
 {% block scripts %}
+<script>
+  var pk = {{ pk }};
+
+  function add_row (parent, rank, name, score) {
+    var row_wrapper = document.createElement('tr');
+
+    var name_wrapper = document.createElement('td');
+    var score_wrapper = document.createElement('td');
+    var rank_wrapper = document.createElement('td');
+
+    rank_wrapper.textContent = rank;
+    name_wrapper.textContent = name;
+    score_wrapper.textContent = score;
+
+    var new_elements = [];
+    new_elements.push(rank_wrapper, name_wrapper, score_wrapper);
+    
+    for (var i = 0; i < new_elements.length; i++) {
+      row_wrapper.appendChild(new_elements[i]);
+    }
+    parent.appendChild(row_wrapper);
+  }
+
+  function render_leaderboard () {
+    $.get('/respondent@' + pk + '/get_respondent_leaderboard_json', function (leaderboardData) {
+      var parent = document.getElementById('table-body');
+
+      var rows = leaderboardData['rows'];
+      for (var i=0; i < rows.length; i++) {
+        var row = rows[i];
+        add_row(parent, i + 1, row['name'], row['score']);
+      }
+    });
+  }
+
+  $(function () {
+    render_leaderboard();
+  });
+  
+</script>
 {% endblock %}
