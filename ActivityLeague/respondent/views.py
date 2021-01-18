@@ -51,10 +51,11 @@ def get_progress_json(request, pk):
         'groups': group_graphs
     })
     
-def response(request, pk):
+def response(request, pk, id):
     user = get_object_or_404(Respondent, pk=pk)
-    return render(request, 'response.html', {'user' : user})
-    # return render(request, 'response.html')
+    task = Task.objects.get(id=id)
+    questions = Question.objects.filter(task=task)
+    return render(request, 'response.html', {'user' : user, 'task' : task, 'questions' : questions})
 
 def login(request):
     return render(request, 'login.html')
