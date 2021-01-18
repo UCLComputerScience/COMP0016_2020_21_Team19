@@ -10,16 +10,20 @@ import datetime
 import operator
 from django.http import JsonResponse
 
-def get_graphs_json(request, pk):
-    groups = get_groups(pk)
+def get_graphs_and_leaderboards_json(request, pk):
+    groups = get_groups(pk).order_by('name')
     graphs = []
+    leaderboards = []
     for group in groups:
         labels = get_graph_labels(pk, group=group)
         scores = get_graph_data(pk, labels, group=group)
         graphs.append({'title': group.name, 'labels': labels, 'scores': scores})
     
+        leaderboards.append(get_leaderboard(pk, group=group))
+    
     return JsonResponse(data={
-        'graphs': graphs
+        'graphs': graphs,
+        'leaderboards': leaderboards
     })
 
 def dashboard(request, pk):
@@ -101,6 +105,9 @@ def get_responses(pk, **kwargs):
 def get_graph_data(pk, labels, **kwargs):
     responses = get_responses(pk, **kwargs)
 
+    if not responses:
+        return []
+
     dates = [datetime.datetime.strptime(label, '%Y-%m-%d').date() for label in labels]
 
     if len(dates) == 0:
@@ -127,6 +134,10 @@ def get_graph_data(pk, labels, **kwargs):
 
 def get_graph_labels(pk, **kwargs):
     responses = get_responses(pk, **kwargs)
+
+    if not responses:
+        return []
+
     num_intervals = min(len(responses), 10)
     dates = list(responses.values_list('date', flat=True))
     
@@ -158,7 +169,7 @@ def get_tasks_json(request, pk): # TODO: Remember to uncomment the tasks and com
     surveyor = Surveyor.objects.get(pk=pk)
     group_ids = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group', flat=True)
     groups = Group.objects.filter(pk__in=group_ids)
-    today = datetime.datetime.now()
+    # today = datetime.datetime.now()
     # tasks = Task.objects.filter(group__in=groups).filter(due_date__gt=today.date()).filter(due_time__gt=today.time()).order_by('due_date', 'due_time')
     tasks = Task.objects.filter(group__in=groups).order_by('due_date', 'due_time')
 
@@ -172,7 +183,7 @@ def get_tasks_json(request, pk): # TODO: Remember to uncomment the tasks and com
         entry = {'title': task.title, 
                  'group_name': group.name, 
                  'num_respondents': num_group_respondents, 
-                 'num_responses': num_responses // (questions.count() * num_group_respondents),
+                 'num_responses': num_responses // questions.count(),
                  'due_date': task.due_date}
         data.append(entry)
     
@@ -181,11 +192,17 @@ def get_tasks_json(request, pk): # TODO: Remember to uncomment the tasks and com
     })
 
 def get_leaderboard_json(request, pk):
-    # Leaderboard is overall: ranked on highest average reported score
-    surveyor = Surveyor.objects.get(pk=pk)
-    group_ids = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group', flat=True)
-    groups = Group.objects.filter(pk__in=group_ids)
-    respondent_ids = GroupRespondent.objects.filter(group__in=groups).values_list('respondent', flat=True)
+    return JsonResponse(data={
+        'rows': get_leaderboard(pk)
+    })
+
+def get_leaderboard(pk, **kwargs):
+    if kwargs.get('group') is not None:
+        group = kwargs.get('group')
+        respondent_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
+    else:
+        groups = get_groups(pk)
+        respondent_ids = GroupRespondent.objects.filter(group__in=groups).values_list('respondent', flat=True)
     respondents = Respondent.objects.filter(pk__in=respondent_ids)
     
     score_list = []
@@ -198,9 +215,7 @@ def get_leaderboard_json(request, pk):
         
     score_list.sort(key=operator.itemgetter('score'))
 
-    return JsonResponse(data={
-        'rows': score_list
-    })
+    return score_list
 
 def new_group(request, pk):
     data = dict()

@@ -85,6 +85,9 @@ def get_progress_values(pk, labels,  **kwargs):
     """
     responses = get_responses(pk, **kwargs)
 
+    if not responses:
+        return []
+
     dates = [datetime.datetime.strptime(label, '%Y-%m-%d').date() for label in labels]
 
     if len(dates) == 0:
@@ -123,6 +126,10 @@ def get_progress_labels(pk, **kwargs):
         list: 
     """
     responses = get_responses(pk, **kwargs)
+
+    if not responses:
+        return []
+
     num_intervals = min(len(responses), 10)
     dates = list(responses.values_list('date', flat=True))
     
