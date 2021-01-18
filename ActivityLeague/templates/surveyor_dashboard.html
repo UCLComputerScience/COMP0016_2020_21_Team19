@@ -231,7 +231,8 @@
         dataType: 'json',
         success: function (data) {
           if (data.form_is_valid) {
-            alert("Group created!");  // <- This is just a placeholder for now for testing
+            $("#modal-book").modal("hide");
+            alert("Group created!");
           }
           else {
             $("#modal-book .modal-content").html(data.html_form);
