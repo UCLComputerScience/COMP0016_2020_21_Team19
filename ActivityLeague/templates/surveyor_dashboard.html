@@ -66,12 +66,18 @@
   var pk = {{ pk }};
 
   function render_graph_and_leaderboard(parent, graph_title, graph_labels, graph_data, leaderboard) {
-    var wrapper = document.createElement('div');
-    wrapper.classList.add('row');
-    wrapper.classList.add('bg-light');
+    var rowWrapper = document.createElement('div');
+    rowWrapper.classList.add('row');
+    rowWrapper.classList.add('bg-light');
     // THIS IS TEMPORARY STYLE INJECTION
-    wrapper.style.margin = "20px";
-    wrapper.style.borderRadius = "20px";
+    rowWrapper.style.margin = "20px";
+    rowWrapper.style.borderRadius = "20px";
+
+    var graphWrapper = document.createElement('div');
+    graphWrapper.classList.add('col');
+
+    var tableWrapper = document.createElement('div');
+    tableWrapper.classList.add('col');
 
     var graph = document.createElement('canvas');
 
@@ -105,9 +111,12 @@
 
     table.appendChild(tableBody);
 
-    wrapper.appendChild(graph);
-    wrapper.appendChild(table);
-    parent.appendChild(wrapper);
+    graphWrapper.appendChild(graph);
+    tableWrapper.appendChild(table);
+
+    rowWrapper.appendChild(graphWrapper);
+    rowWrapper.appendChild(tableWrapper);
+    parent.appendChild(rowWrapper);
 
     new Chart(graph, {
       type: 'line',
@@ -158,7 +167,6 @@
 
       var graphs = graphAndLeaderboardData['graphs'];
       var leaderboards = graphAndLeaderboardData['leaderboards'];
-      console.log(leaderboards);
 
       for (var i = 0; i < graphs.length; i++) {
         var graph = graphs[i];
