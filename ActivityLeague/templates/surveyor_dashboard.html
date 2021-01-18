@@ -55,46 +55,7 @@
 
   </div>
 </div>
-<div>
-  <div style="margin: 100px; border-radius: 25px;" class="row bg-light">
-    <div class="col">
-      <canvas class="my-4" id="myChart" width="900" height="380"></canvas>
-    </div>
-    <div style="margin: 50px;" class="col">
-      <table class="table table-striped" data-toggle="table" data-url="data1.json" data-pagination="true"
-        data-search="true">
-        <thead>
-          <tr>
-            <th>Student</th>
-            <th>Ranking</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Oliver Turner</td>
-            <td>1</td>
-            <td>10</td>
-          </tr>
-          <tr>
-            <td>Sophie Lane</td>
-            <td>2</td>
-            <td>9</td>
-          </tr>
-          <tr>
-            <td>Ellie Davis</td>
-            <td>3</td>
-            <td>6</td>
-          </tr>
-          <tr>
-            <td>Elijah Jackson</td>
-            <td>4</td>
-            <td>3</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div class="mt-5" id="graph-container">
 </div>
 {% endblock %}
 
@@ -104,32 +65,119 @@
 <script>
   var pk = {{ pk }};
 
-  var ctx = document.getElementById("myChart");
-  var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-      datasets: [{
-        data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
-        lineTension: 0,
-        backgroundColor: 'transparent',
-        borderColor: '#007bff',
-        borderWidth: 4,
-        pointBackgroundColor: '#007bff'
-      }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: false
-          }
+  function render_graph_and_leaderboard(parent, graph_title, graph_labels, graph_data, leaderboard) {
+    var rowWrapper = document.createElement('div');
+    rowWrapper.classList.add('row');
+    rowWrapper.classList.add('bg-light');
+    // THIS IS TEMPORARY STYLE INJECTION
+    rowWrapper.style.margin = "20px";
+    rowWrapper.style.borderRadius = "20px";
+
+    var graphWrapper = document.createElement('div');
+    graphWrapper.classList.add('col');
+
+    var tableWrapper = document.createElement('div');
+    tableWrapper.classList.add('col');
+
+    var graph = document.createElement('canvas');
+
+    var table = document.createElement('table');
+    table.classList.add('col');
+    table.classList.add('table');
+    table.classList.add('table-striped');
+
+    var tableHeading = document.createElement('thead');
+
+    var rankingHeading = document.createElement('th');
+    rankingHeading.textContent = "Ranking";
+    tableHeading.appendChild(rankingHeading);
+
+    var nameHeading = document.createElement('th');
+    nameHeading.textContent = "Name";
+    tableHeading.appendChild(nameHeading);
+
+    var scoreHeading = document.createElement('th');
+    scoreHeading.textContent = "Score";
+    tableHeading.appendChild(scoreHeading);
+
+    table.appendChild(tableHeading);
+
+    var tableBody = document.createElement('tbody');
+
+    for (var i = 0; i < leaderboard.length; i++) {
+      var row = leaderboard[i]
+      add_row(tableBody, [i + 1, row['name'], row['score']])
+    }
+
+    table.appendChild(tableBody);
+
+    graphWrapper.appendChild(graph);
+    tableWrapper.appendChild(table);
+
+    rowWrapper.appendChild(graphWrapper);
+    rowWrapper.appendChild(tableWrapper);
+    parent.appendChild(rowWrapper);
+
+    new Chart(graph, {
+      type: 'line',
+      data: {
+        labels: graph_labels,
+        datasets: [{
+          data: graph_data,
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: '#007bff',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff'
         }]
       },
-      legend: {
-        display: false,
+      options: {
+        title: {
+          display: true,
+          text: graph_title
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Score'
+            },
+            ticks: {
+              min: 0,
+              max: 5
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Time'
+            }
+          }]
+        },
+        legend: {
+          display: false,
+        }
       }
-    }
+    });
+  }
+
+  function load_and_render_graphs_and_leaderboards() {
+    $.get('/surveyor@' + pk + '/get_graphs_and_leaderboards_json', function(graphAndLeaderboardData) {
+      var parent = document.getElementById("graph-container");
+
+      var graphs = graphAndLeaderboardData['graphs'];
+      var leaderboards = graphAndLeaderboardData['leaderboards'];
+
+      for (var i = 0; i < graphs.length; i++) {
+        var graph = graphs[i];
+        var leaderboard = leaderboards[i];
+        render_graph_and_leaderboard(parent, graph['title'], graph['labels'], graph['scores'], leaderboard);
+      }
+    })
+  }
+
+  $(function () {
+    load_and_render_graphs_and_leaderboards();
   });
 
   function render_table() {
@@ -138,30 +186,17 @@
       var rows = tableData['rows'];
       for (var i=0; i < rows.length; i++) {
         var row = rows[i];
-        add_row(parent, row['title'], row['group_name'], row['num_respondents'], row['num_responses'], row['due_date']);
+        add_row(parent, [row['title'], row['group_name'], row['num_respondents'], row['num_responses'], row['due_date']]);
       }
     })
   }
 
-  function add_row(parent, task_title, group_name, num_respondents, num_responses, due_date) {
+  function add_row(parent, row_elements) {
     var row_wrapper = document.createElement('tr');
-
-    var title_wrapper = document.createElement('td');
-    title_wrapper.textContent = task_title;
-    var group_wrapper = document.createElement('td');
-    group_wrapper.textContent = group_name;
-    var num_respondents_wrapper = document.createElement('td');
-    num_respondents_wrapper.textContent = num_respondents;
-    var num_responses_wrapper = document.createElement('td');
-    num_responses_wrapper.textContent = num_responses;
-    var due_date_wrapper = document.createElement('td');
-    due_date_wrapper.textContent = due_date;
-
-    var new_elements = [];
-    new_elements.push(title_wrapper, group_wrapper, num_respondents_wrapper, num_responses_wrapper, due_date_wrapper);
-
-    for (var i = 0; i < new_elements.length; i++) {
-      row_wrapper.appendChild(new_elements[i]);
+    for (var i = 0; i < row_elements.length; i++) {
+      var cell = document.createElement('td');
+      cell.textContent = row_elements[i]
+      row_wrapper.appendChild(cell);
     }
     parent.appendChild(row_wrapper);
   }

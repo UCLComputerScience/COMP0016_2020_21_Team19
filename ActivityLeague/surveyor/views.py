@@ -10,6 +10,21 @@ import datetime
 import operator
 from django.http import JsonResponse
 
+def get_graphs_and_leaderboards_json(request, pk):
+    groups = get_groups(pk).order_by('name')
+    graphs = []
+    leaderboards = []
+    for group in groups:
+        labels = get_graph_labels(pk, group=group)
+        scores = get_graph_data(pk, labels, group=group)
+        graphs.append({'title': group.name, 'labels': labels, 'scores': scores})
+    
+        leaderboards.append(get_leaderboard(pk, group=group))
+    
+    return JsonResponse(data={
+        'graphs': graphs,
+        'leaderboards': leaderboards
+    })
 
 def dashboard(request, pk):
     user = get_object_or_404(Surveyor, pk=pk)
@@ -70,20 +85,82 @@ def new_task(request, pk):
         form = NewTaskForm()
 
     return render(request, 'surveyor_new_task.html', {'user' : user, 'groups' : groups, 'taskform': form, 'formset': formset})
-    # return render(request, 'surveyor_new_task.html')
 
-def get_surveyor_progress_labels(pk, **kwargs):
-
-    if kwargs.get('group') is not None:
-        pass
-
+def get_groups(pk):
     surveyor = Surveyor.objects.get(pk=pk)
-    groups = GroupSurveyor.objects.filter(surveyor=surveyor).values_list(flat=True)
-    tasks = Task.objects.filter(group__in=groups)
-    questions = Question.objects.filter(task__in=tasks)
-    repsonses = Response.objects.filter(question__in=questions)
+    group_ids = GroupSurveyor.objects.filter(surveyor=surveyor)
+    return Group.objects.filter(pk__in=group_ids)
 
-    # TODO: This method is incomplete
+def get_responses(pk, **kwargs):
+    surveyor = Surveyor.objects.get(pk=pk)
+    if kwargs.get('group') is not None:
+        group = kwargs.get('group')
+        tasks = Task.objects.filter(group=group)
+    else:
+        groups = GroupSurveyor.objects.filter(surveyor=surveyor).values_list(flat=True)
+        tasks = Task.objects.filter(group__in=groups)
+    questions = Question.objects.filter(task__in=tasks)
+    return Response.objects.filter(question__in=questions).order_by('date', 'time')
+
+def get_graph_data(pk, labels, **kwargs):
+    responses = get_responses(pk, **kwargs)
+
+    if not responses:
+        return []
+
+    dates = [datetime.datetime.strptime(label, '%Y-%m-%d').date() for label in labels]
+
+    if len(dates) == 0:
+        return None
+    elif len(dates) == 1:
+        return responses[0].value
+
+    scores = []
+    previous_date = datetime.date.min
+    previous_score = 0
+    for date in dates:
+        queryset = []
+        for response in responses:
+            if response.date > date:
+                break
+            if response.date > previous_date:
+                queryset.append(response.value)
+        scores.append(calculate_score(queryset) if queryset else previous_score)
+        previous_date = date
+        previous_score = scores[-1]
+    
+    assert(len(dates) == len(scores))
+    return scores
+
+def get_graph_labels(pk, **kwargs):
+    responses = get_responses(pk, **kwargs)
+
+    if not responses:
+        return []
+
+    num_intervals = min(len(responses), 10)
+    dates = list(responses.values_list('date', flat=True))
+    
+    if len(responses) == 0:
+        return None
+    elif len(dates) == 1:
+        return dates
+    
+    latest = dates[-1]
+    earliest = dates[0]
+    time_range = latest - earliest
+
+    interval = time_range / num_intervals
+
+    labels = [str(earliest + (interval * i)) for i in range(num_intervals + 1)]
+    
+    return labels
+
+def calculate_score(values):
+    """
+    :param responses: List of numbers from which you want to calculate a score.
+    """
+    return sum(values) / len(values)
 
 def get_num_respondents_in_group(group):
     return GroupRespondent.objects.filter(group=group).count()
@@ -92,7 +169,7 @@ def get_tasks_json(request, pk): # TODO: Remember to uncomment the tasks and com
     surveyor = Surveyor.objects.get(pk=pk)
     group_ids = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group', flat=True)
     groups = Group.objects.filter(pk__in=group_ids)
-    today = datetime.datetime.now()
+    # today = datetime.datetime.now()
     # tasks = Task.objects.filter(group__in=groups).filter(due_date__gt=today.date()).filter(due_time__gt=today.time()).order_by('due_date', 'due_time')
     tasks = Task.objects.filter(group__in=groups).order_by('due_date', 'due_time')
 
@@ -106,7 +183,7 @@ def get_tasks_json(request, pk): # TODO: Remember to uncomment the tasks and com
         entry = {'title': task.title, 
                  'group_name': group.name, 
                  'num_respondents': num_group_respondents, 
-                 'num_responses': num_responses // (questions.count() * num_group_respondents),
+                 'num_responses': num_responses // questions.count(),
                  'due_date': task.due_date}
         data.append(entry)
     
@@ -115,11 +192,17 @@ def get_tasks_json(request, pk): # TODO: Remember to uncomment the tasks and com
     })
 
 def get_leaderboard_json(request, pk):
-    # Leaderboard is overall: ranked on highest average reported score
-    surveyor = Surveyor.objects.get(pk=pk)
-    group_ids = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group', flat=True)
-    groups = Group.objects.filter(pk__in=group_ids)
-    respondent_ids = GroupRespondent.objects.filter(group__in=groups).values_list('respondent', flat=True)
+    return JsonResponse(data={
+        'rows': get_leaderboard(pk)
+    })
+
+def get_leaderboard(pk, **kwargs):
+    if kwargs.get('group') is not None:
+        group = kwargs.get('group')
+        respondent_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
+    else:
+        groups = get_groups(pk)
+        respondent_ids = GroupRespondent.objects.filter(group__in=groups).values_list('respondent', flat=True)
     respondents = Respondent.objects.filter(pk__in=respondent_ids)
     
     score_list = []
@@ -132,9 +215,7 @@ def get_leaderboard_json(request, pk):
         
     score_list.sort(key=operator.itemgetter('score'))
 
-    return JsonResponse(data={
-        'rows': score_list
-    })
+    return score_list
 
 def new_group(request, pk):
     data = dict()
