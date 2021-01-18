@@ -1,0 +1,25 @@
+---
+layout: post
+title:  "Week Nine: Recharging"
+date:   2020-12-22
+categories: scp
+name: Team 19
+---
+
+During the first week of Christmas break, we decideed it was a good opportunity to take a short break from the project. One that would allow us to recharge and come back with fresh focus.
+
+## UCL Project Report Website
+
+After learning that we were expected to be hosting a project report website, we quickly set up a static site using [Jekyll](https://jekyllrb.com/) and deployed it on to the UCL servers (without any content).
+
+The [`ucl`](ucl) directory contains the source which we will use to generate the static site being deployed on UCL servers.
+
+Since the UCL servers cannot build the Jekyll site, we need to manually build the site and then copy the generated site into the `/cs/student/www/2020/group19/` directory on the UCL server.
+To streamline this process, we came up with the following workflow:
+
+- Run `jekyll build` in the [`ucl`] directory
+
+- Copy the contents in the [`_site`] directory over to `/cs/student/www/2020/group19/` using `scp`.
+    ```
+    $ scp -r path/to/COMP0016_2020_21_Team19/ucl/_site/. UCLCSUSERNAME@csrw2.cs.ucl.ac.uk:/cs/student/www/2020/group19/
+    ```
