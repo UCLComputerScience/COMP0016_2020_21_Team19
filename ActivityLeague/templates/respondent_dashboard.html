@@ -34,65 +34,19 @@
     </tr>
     </thead>
     <tbody>
-        <tr>
-        <td class="align-middle">Read about a country of your choice</td>
-        <td class="align-middle">Geography</td>
-        <td class="align-middle">
-            Dec 2, 2020
-            <small class="text-muted d-block">6:30 PM</small>
-        </td>
-        <td class="align-middle" style="color:red">10 hours 40 minutes</td>
-        </tr>
+        {% for task in tasks %}
 
         <tr>
-        <td class="align-middle">Read page 11 of a book</td>
-        <td class="align-middle">Literacy</td>
+        <td class="align-middle">{{ task.title }}</td>
+        <td class="align-middle">{{ task.group }}</td>
         <td class="align-middle">
-            Dec 4, 2020
-            <small class="text-muted d-block">6:30 PM</small>
+            {{ task.due_date }}
+            <small class="text-muted d-block">{{ task.due_time }}</small>
         </td>
-        <td class="align-middle" style="color:orange">2 days 10 hours 40 minutes</td>
+        <td class="align-middle" style="color:{{ task.color }}">{{ task.due_dt|timeuntil:now }}</td>
         </tr>
 
-        <tr onclick="document.location = '{% url 'response' user.pk %}';">
-        <td class="align-middle">Complete fractions worksheet</td>
-        <td class="align-middle">Numeracy</td>
-        <td class="align-middle">
-            Dec 6, 2020
-            <small class="text-muted d-block">6:30 PM</small>
-        </td>
-        <td class="align-middle" style="color:darkgreen">4 days 10 hours 40 minutes</td>
-        </tr>
-        
-        <tr>
-        <td class="align-middle">Learn rules of rounders</td>
-        <td class="align-middle">PE</td>
-        <td class="align-middle">
-            Dec 8, 2020
-            <small class="text-muted d-block">12:30 PM</small>
-        </td>
-        <td class="align-middle" style="color:darkgreen">6 days 4 hours 40 minutes</td>
-        </tr>
-
-        <tr>
-        <td class="align-middle">Watch video about the Animal Kingdom</td>
-        <td class="align-middle">Science</td>
-        <td class="align-middle">
-            Dec 8, 2020
-            <small class="text-muted d-block">6:30 PM</small>
-        </td>
-        <td class="align-middle" style="color:darkgreen">6 days 10 hours 40 minutes</td>
-        </tr>
-
-        <tr>
-        <td class="align-middle">Complete drawing</td>
-        <td class="align-middle">Art</td>
-        <td class="align-middle">
-            Dec 10, 2020
-            <small class="text-muted d-block">3:00 PM</small>
-        </td>
-        <td class="align-middle" style="color:darkgreen">8 days 7 hours 10 minutes</td>
-        </tr>
+        {% endfor %}
     </tbody>
 </table>
 </div>
