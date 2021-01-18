@@ -29,17 +29,14 @@ def get_graphs_and_leaderboards_json(request, pk):
 def dashboard(request, pk):
     user = get_object_or_404(Surveyor, pk=pk)
     return render(request, 'surveyor_dashboard.html', {'user' : user, 'pk':pk})
-    # return render(request, 'surveyor_dashboard.html')
 
 def leaderboard(request, pk):
     user = get_object_or_404(Surveyor, pk=pk)
     return render(request, 'surveyor_leaderboard.html', {'user' : user, 'pk': pk})
-    # return render(request, 'surveyor_leaderboard.html')
 
 def task_overview(request, pk, pk_task):
     user = get_object_or_404(Surveyor, pk=pk)
     return render(request, 'task_overview.html', {'user' : user})
-    # return render(request, 'task_overview.html')
 
 def new_task(request, pk):
     user = get_object_or_404(Surveyor, pk=pk)
@@ -180,7 +177,8 @@ def get_tasks_json(request, pk): # TODO: Remember to uncomment the tasks and com
         num_responses = Response.objects.filter(question__in=questions).count()
         num_group_respondents = get_num_respondents_in_group(group)
         # Need to be able to tell complete responses - this is just a hack for now
-        entry = {'title': task.title, 
+        entry = {'pk': task.pk,
+                 'title': task.title, 
                  'group_name': group.name, 
                  'num_respondents': num_group_respondents, 
                  'num_responses': num_responses // questions.count(),

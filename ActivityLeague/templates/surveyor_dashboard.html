@@ -106,7 +106,7 @@
 
     for (var i = 0; i < leaderboard.length; i++) {
       var row = leaderboard[i]
-      add_row(tableBody, [i + 1, row['name'], row['score']])
+      add_leaderboard_row(tableBody, [i + 1, row['name'], row['score']])
     }
 
     table.appendChild(tableBody);
@@ -186,17 +186,28 @@
       var rows = tableData['rows'];
       for (var i=0; i < rows.length; i++) {
         var row = rows[i];
-        add_row(parent, [row['title'], row['group_name'], row['num_respondents'], row['num_responses'], row['due_date']]);
+        add_task_row(parent, row['pk'], [row['title'], row['group_name'], row['num_respondents'], row['num_responses'], row['due_date']]);
       }
     })
   }
 
-  function add_row(parent, row_elements) {
+  function add_leaderboard_row(parent, row_elements) {
     var row_wrapper = document.createElement('tr');
     for (var i = 0; i < row_elements.length; i++) {
       var cell = document.createElement('td');
       cell.textContent = row_elements[i]
       row_wrapper.appendChild(cell);
+    }
+    parent.appendChild(row_wrapper);
+  }
+
+  function add_task_row(parent, task_pk, row_elements) {
+    var row_wrapper = document.createElement('tr');
+    for (var i = 0; i < row_elements.length; i++) {
+      var cell = document.createElement('td');
+      cell.textContent = row_elements[i]
+      row_wrapper.appendChild(cell);
+      row_wrapper.onclick = function(){document.location = "{% url 'task_overview' pk 000 %}".replace(000, task_pk.toString());}
     }
     parent.appendChild(row_wrapper);
   }
