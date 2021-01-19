@@ -27,7 +27,7 @@ Reading through numerous tutorials gave us much-needed guidance about how the re
 Looking to resolve this issue, we soon realised that (somewhat) like other languages, HTML had a functionality similar to inheritance in Object-Oriented Programming (OOP) which allowed you to define base classes in html, which other HTML templates could then extend, and choose to "override" some regions within, like so:
 
 **base.html**
-```html
+```
 {% load static %}<!doctype html>
 <html lang="en">
   <head>
