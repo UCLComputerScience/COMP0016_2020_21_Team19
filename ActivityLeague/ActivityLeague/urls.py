@@ -35,15 +35,15 @@ urlpatterns = [
 
     # surveyor
     url(r'^surveyor@(?P<pk>\d+)/?$', surveyor.dashboard, name='surveyor_dashboard'),
-    url(r'^surveyor@(?P<pk>\d+)/task@(?P<pk_task>\d+)/?$', surveyor.task_overview, name='surveyor_task_overview)'),
+    url(r'^surveyor@(?P<pk>\d+)/task@(?P<pk_task>\d+)/?$', surveyor.task_overview, name='task_overview'),
+    url(r'^surveyor@(?P<pk>\d+)/task@(?P<pk_task>\d+)/get_questions_json?$', surveyor.get_questions_json, name='get_questions_json'),
     url(r'^surveyor@(?P<pk>\d+)/get_graphs_and_leaderboards_json$', surveyor.get_graphs_and_leaderboards_json, name='get_graphs_and_leaderboards_json'),
     url(r'^surveyor@(?P<pk>\d+)/get_tasks_json$', surveyor.get_tasks_json, name='get_tasks_json'),
     url(r'^surveyor@(?P<pk>\d+)/get_leaderboard_json$', surveyor.get_leaderboard_json, name='get_leaderboard_json'),
     url(r'^surveyor@(?P<pk>\d+)/get_leaderboard_groups_json$', surveyor.get_leaderboard_groups_json, name='get_leaderboard_groups_json'),
     url(r'^surveyor@(?P<pk>\d+)/new_group/?$', surveyor.new_group, name='new_group'),
     url(r'^surveyor@(?P<pk>\d+)/leaderboard/?$', surveyor.leaderboard, name='surveyor_leaderboard'),
-    url(r'^surveyor@(?P<pk>\d+)/new_task/?$', surveyor.new_task, name='new_task'),
-    url(r'^surveyor@(?P<pk>\d+)/task_overview/?$', surveyor.task_overview, name='task_overview')
+    url(r'^surveyor@(?P<pk>\d+)/new_task/?$', surveyor.new_task, name='new_task')
     
     # path('respondent/leaderboard/', respondent.leaderboard, name='leaderboard'),
 
