@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^respondent@(?P<pk>\d+)/leaderboard/?$', respondent.leaderboard, name='respondent_leaderboard'),
     url(r'^respondent@(?P<pk>\d+)/get_respondent_leaderboard_json$', respondent.get_respondent_leaderboard_json, name='get_respondent_leaderboard_json'),
     url(r'^respondent@(?P<pk>\d+)/get_respondent_leaderboard_groups_json$', respondent.get_respondent_leaderboard_groups_json, name='get_respondent_leaderboard_groups_json'),
-    url(r'^respondent@(?P<pk>\d+)/response/?$', respondent.response, name='response'),
+    url(r'^respondent@(?P<pk>\d+)/response(?P<id>\d+)/?$', respondent.response, name='response'),
     url(r'^respondent@(?P<pk>\d+)/progress/?$', respondent.progress, name='respondent_progress'),
     url(r'^respondent@(?P<pk>\d+)/get_progress_json$', respondent.get_progress_json, name='get_progress_json'),
 

@@ -20,71 +20,94 @@
 {% block content %}
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">Task Title</h1>
+  <h1 class="h2">{{ task.title }}</h1>
   <div>
-    <button class="btn btn-primary" href="{% url 'respondent_dashboard' user.pk %}" for="question1">Cancel</button>
+    <button class="btn btn-primary" href="{% url 'respondent_dashboard' user.pk %}">Cancel</button>
   </div>
 </div>
 
 <form>
-  <div class="row">
-    <div class="col-md-6 mb-2">
-      <label for="q1">Text response</label>
-      <input type="text" class="form-control" id="q1" placeholder="Response" value="" required="">
-    </div>
-  </div>
+
+  {% for question in questions %}
+
+  {% if question.response_type == 3 %}
+
+      <div class="row">
+        <div class="col-md-6 mb-2">
+          <label for="response{{ question.id }}">{{ question.description }}
+              {% if question.link %}
+                  <br><a class="text-primary" href="https://{{ question.link }}"><i>{{ question.link }}</i></a>
+              {% endif %}
+          </label>
+          <input type="text" class="form-control" id="q1" placeholder="Response" value="" required="">
+        </div>
+      </div>
+
+  {% elif question.response_type == 2 %}
+
+      <div class="row">
+        <div class="col-md-6 mb-2">
+          <label for="response{{ question.id }}">{{ question.description }}
+              {% if question.link %}
+                  <br><a class="text-primary" href="https://{{ question.link }}"><i>{{ question.link }}</i></a>
+              {% endif %}
+          </label>
+        </div>
+        <ul class='likert'>
+          <li>
+            <input type="radio" name="likert" value="strong_disagree">
+            <label>Strongly disagree</label>
+          </li>
+          <li>
+            <input type="radio" name="likert" value="disagree">
+            <label>Disagree</label>
+          </li>
+          <li>
+            <input type="radio" name="likert" value="neutral">
+            <label>Neutral</label>
+          </li>
+          <li>
+            <input type="radio" name="likert" value="agree">
+            <label>Agree</label>
+          </li>
+          <li>
+            <input type="radio" name="likert" value="strong_agree">
+            <label>Strongly agree</label>
+          </li>
+        </ul>
+      </div>
+
+  {% else %}
+
+      <div class="row">
+        <div class="col-md-6 mb-2">
+          <label for="response{{ question.id }}">{{ question.description }}
+              {% if question.link %}
+                  <br><a class="text-primary" href="https://{{ question.link }}"><i>{{ question.link }}</i></a>
+              {% endif %}
+          </label>
+        </div>
+      </div>
+
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-danger">
+          <input type="radio" name="tl_response{{ question.id }}" id="option1"> Red
+        </label>
+        <label class="btn btn-warning">
+          <input type="radio" name="tl_response{{ question.id }}" id="option2"> Yellow
+        </label>
+        <label class="btn btn-success">
+          <input type="radio" name="tl_response{{ question.id }}" id="option3"> Green
+        </label>
+      </div>
+
+  {% endif %}
 
   <hr class="mb-4">
 
-  <div class="row">
-    <div class="col-md-6 mb-2">
-      <label for="q2">Likert Response</label>
-    </div>
-    <ul class='likert'>
-      <li>
-        <input type="radio" name="likert" value="strong_agree">
-        <label>Strongly disagree</label>
-      </li>
-      <li>
-        <input type="radio" name="likert" value="strong_agree">
-        <label>Disagree</label>
-      </li>
-      <li>
-        <input type="radio" name="likert" value="strong_agree">
-        <label>Neutral</label>
-      </li>
-      <li>
-        <input type="radio" name="likert" value="disagree">
-        <label>Agree</label>
-      </li>
-      <li>
-        <input type="radio" name="likert" value="strong_agree">
-        <label>Strongly agree</label>
-      </li>
-    </ul>
-  </div>
+  {% endfor %}
 
-  <hr class="mb-4">
-
-  <div class="row">
-    <div class="col-md-6 mb-2">
-      <label for="q2">"Traffic Light" Response</label>
-    </div>
-  </div>
-
-  <div class="btn-group" data-toggle="buttons">
-    <label class="btn btn-danger">
-      <input type="radio" name="options" id="option1"> Option 1
-    </label>
-    <label class="btn btn-warning">
-      <input type="radio" name="options" id="option2"> Option 2
-    </label>
-    <label class="btn btn-success">
-      <input type="radio" name="options" id="option3"> Option 3
-    </label>
-  </div>
-
-  </div>
+  <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
 
 </form>
 
