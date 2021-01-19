@@ -36,7 +36,18 @@ def leaderboard(request, pk):
 
 def task_overview(request, pk, pk_task):
     user = get_object_or_404(Surveyor, pk=pk)
-    return render(request, 'task_overview.html', {'user' : user})
+    task = get_object_or_404(Task, pk=pk_task)
+    questions = Question.objects.filter(task=task)
+    num_responses = Response.objects.filter(question__in=questions).count()
+    data = {
+        'user': user,
+        'task_pk': pk_task,
+        'task_title': task.title,
+        'task_total_students': get_num_respondents_in_group(task.group),
+        'task_students_completed': num_responses // questions.count(),
+        'task_due_date': task.due_date.strftime("%d/%m/%Y")
+    }
+    return render(request, 'task_overview.html', data)
 
 def new_task(request, pk):
     user = get_object_or_404(Surveyor, pk=pk)
@@ -70,7 +81,6 @@ def new_task(request, pk):
             task.due_date = form.cleaned_data['due_date']
             task.due_time = form.cleaned_data['due_time']
             task.group = Group.objects.get(name=form.cleaned_data['group'])
-            print(task.title)
             # task.save()
             # task = Task.objects.create(
             #     title=form.cleaned_data.get('message'),
@@ -177,18 +187,36 @@ def get_tasks_json(request, pk): # TODO: Remember to uncomment the tasks and com
         num_responses = Response.objects.filter(question__in=questions).count()
         num_group_respondents = get_num_respondents_in_group(group)
         # Need to be able to tell complete responses - this is just a hack for now
-        entry = {'pk': task.pk,
-                 'title': task.title, 
-                 'group_name': group.name, 
-                 'num_respondents': num_group_respondents, 
-                 'num_responses': num_responses // questions.count(),
-                 'due_date': task.due_date}
-        data.append(entry)
+        data.append({'pk': task.pk,
+                     'title': task.title, 
+                     'group_name': group.name, 
+                     'num_respondents': num_group_respondents, 
+                     'num_responses': num_responses // questions.count(),
+                     'due_date': task.due_date.strftime("%d/%m/%Y")})
     
     return JsonResponse(data={
         'rows': data
     })
 
+def get_questions_json(request, pk, pk_task):
+    task = Task.objects.get(pk=pk_task)
+    questions = Question.objects.filter(task=task)
+    
+    data = []
+    for question in questions:
+        link_clicks = 0
+        responses = Response.objects.filter(question=question)
+        pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
+        data.append({
+            'description': question.description,
+            'link_clicks': link_clicks,
+            'pie_chart_labels': ['1', '2', '3', '4', '5'],
+            'pie_chart_data': pie_chart_data})
+        
+    return JsonResponse(data={
+        'rows': data
+    })
+        
 def get_leaderboard_json(request, pk):
     return JsonResponse(data={
         'rows': get_leaderboard(pk)

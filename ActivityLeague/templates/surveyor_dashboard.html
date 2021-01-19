@@ -67,8 +67,7 @@
 
   function render_graph_and_leaderboard(parent, graph_title, graph_labels, graph_data, leaderboard) {
     var rowWrapper = document.createElement('div');
-    rowWrapper.classList.add('row');
-    rowWrapper.classList.add('bg-light');
+    rowWrapper.classList.add('row', 'bg-light');
     // THIS IS TEMPORARY STYLE INJECTION
     rowWrapper.style.margin = "20px";
     rowWrapper.style.borderRadius = "20px";
@@ -82,9 +81,7 @@
     var graph = document.createElement('canvas');
 
     var table = document.createElement('table');
-    table.classList.add('col');
-    table.classList.add('table');
-    table.classList.add('table-striped');
+    table.classList.add('col', 'table', 'table-striped');
 
     var tableHeading = document.createElement('thead');
 
