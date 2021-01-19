@@ -45,9 +45,9 @@ def insert_dummy_data():
     jane_doe_groupsurveyor = GroupSurveyor.objects.create(surveyor=jane_doe, group=shoulder_1)
     christine_black_groupsurveyor = GroupSurveyor.objects.create(surveyor=christine_black, group=hip_1)
 
-    press_up_tasks = [Task.objects.create(title="Perform 20 Press-Ups", group=shoulder_1, due_date=datetime.datetime(2020, 1, i), due_time=datetime.time(10 + i, 0)) for i in range(1,4)]
+    press_up_tasks = [Task.objects.create(title="Perform 20 Press-Ups", group=shoulder_1, due_date=datetime.datetime(2021, 7, i), due_time=datetime.time(10 + i, 0)) for i in range(1,4)]
 
-    sit_ups = Task.objects.create(title="Perform 20 Sit-Ups", group=hip_1)
+    sit_ups = Task.objects.create(title="Perform 20 Sit-Ups", group=hip_1, due_date=datetime.datetime(2021, 7, 1), due_time=datetime.time(10, 0))
 
     questions = []
     for task in press_up_tasks:
