@@ -15,7 +15,7 @@ def dashboard(request, pk):
     now = datetime.datetime.now()
     for task in tasks:
         # creating a combined DateTime object to allow for "Time Remaining" to be shown
-        task.due_dt = datetime.datetime.combine(task.due_date, task.due_time if task.due_time is not None else time.min)
+        task.due_dt = datetime.datetime.combine(task.due_date, task.due_time)
         until = task.due_dt - now
         # working out time left to determine color of "Time Remaining"
         task.color = "red" if until < datetime.timedelta(days=1) else "orange" if until < datetime.timedelta(days=2) else "darkgreen"
