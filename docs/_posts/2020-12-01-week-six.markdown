@@ -1,0 +1,34 @@
+---
+layout: post
+title:  "Week Six: Continuing Frontend Implementation"
+date:   2020-12-01
+categories: frontend
+name: Team 19
+---
+
+Continuing on from last week, this week we worked on developing the frontend for the Interviewer. As with the Interviewee frontend which we
+developed last week, all of the pages were hardcoded without integration with the backend. This has allowed us to focus primarily on creating
+an accurate frontend to match our Figma prototypes without having to ensure that the backend is properly integrated at the same time.
+
+### Interviewer Interface
+
+![Interviewer Dashboard](/COMP0016_2020_21_Team19/assets/interviewer_dashboard.png)
+*Interviewer Dashboard*
+
+
+![Interviewer Leaderboard](/COMP0016_2020_21_Team19/assets/interviewer_leaderboard.png)
+*Interviewer Leaderboard*
+
+
+![Task Overview](/COMP0016_2020_21_Team19/assets/task_overview.png)
+*Task Overview*
+
+
+![New Task](/COMP0016_2020_21_Team19/assets/new_task.png)
+*New Task*
+
+## Next Steps
+
+Next week we plan to complete our work on the frontend. As we move forward, we also plan to start integrating our frontend with the Django
+backend. This will involve designing a database schema, and using this to create a MySQL database to store the data associated with our
+application.
