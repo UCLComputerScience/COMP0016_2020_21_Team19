@@ -27,8 +27,10 @@ Reading through numerous tutorials gave us much-needed guidance about how the re
 Looking to resolve this issue, we soon realised that (somewhat) like other languages, HTML had a functionality similar to inheritance in Object-Oriented Programming (OOP) which allowed you to define base classes in html, which other HTML templates could then extend, and choose to "override" some regions within, like so:
 
 **base.html**
+
+{% raw %}
 ```html
-\{% load static %\}<!doctype html>
+{% load static %}<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -66,16 +68,16 @@ Looking to resolve this issue, we soon realised that (somewhat) like other langu
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
-                \{% block sidebar %\}
-                \{% endblock %\}
+                {% block sidebar %}
+                {% endblock %}
             </ul>
           </div>
         </nav>
 
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            \{% block content %\}
-            \{% endblock %\}
+            {% block content %}
+            {% endblock %}
         </main>
       </div>
     </div>
@@ -93,11 +95,12 @@ Looking to resolve this issue, we soon realised that (somewhat) like other langu
       feather.replace()
     </script>
 
-    \{% block scripts %\}
-    \{% endblock %\}
+    {% block scripts %}
+    {% endblock %}
   </body>
 </html>
 ``` 
+{% endraw %}
 
 In addition to forms, we realised that this was something that we could and definitely should implement for the rest of our html templates, given they shared the taskbar on the left, the same page structure and at least a few of the same scripts. Hence, we implemented this as an experiment ahead of our base forms implementation, which ended up being a success.
 
