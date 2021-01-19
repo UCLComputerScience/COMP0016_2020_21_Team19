@@ -51,7 +51,7 @@ def task_overview(request, pk, pk_task):
 
 def new_task(request, pk):
     user = get_object_or_404(Surveyor, pk=pk)
-    group_surveyors = GroupSurveyor.objects.filter(surveyor_id=pk)
+    group_surveyors = GroupSurveyor.objects.filter(surveyor=user)
     groups = []
 
     for gr in group_surveyors:
