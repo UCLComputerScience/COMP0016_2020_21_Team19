@@ -40,13 +40,14 @@ class TaskForm(forms.ModelForm):
 QuestionFormset = modelformset_factory(
     Question,
     fields=('link', 'description', 'response_type'),
-    extra=1,
+    min_num=0,
+    validate_min=True,
     widgets={
         'description': forms.TextInput(
             attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter Question here'
-            }
+            },
         ),
         'link': forms.TextInput(
             attrs={

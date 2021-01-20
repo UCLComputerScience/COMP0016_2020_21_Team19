@@ -63,31 +63,20 @@ def new_task(request, pk):
     elif request.method == 'POST':
         form = TaskForm(request.POST)
         formset = QuestionFormset(request.POST)
-        # if form.is_valid() and formset.is_valid():
-        print("Valid form" if form.is_valid() else "Invalid form")
-        print(form.errors)
-        if True:
+        if form.is_valid() and formset.is_valid():
             task = form.save(commit=False)
             task.save()
 
             for question_form in formset:
                 question = question_form.save(commit=False)
                 question.task = task
-                
-                # TODO: Add the other question fields
-                question.save() # BUG
+                question.save()
 
             task.title = form.cleaned_data['title']
             task.due_date = form.cleaned_data['due_date']
             task.due_time = form.cleaned_data['due_time']
             task.group = Group.objects.get(name=form.cleaned_data['group'])
-            # task.save()
-            # task = Task.objects.create(
-            #     title=form.cleaned_data.get('message'),
-            #     topic=topic,
-            #     created_by=user
-            # )
-            return redirect('surveyor_dashboard', pk=user.pk)  # TODO: redirect to the created topic page
+            return redirect('surveyor_dashboard', pk=user.pk)
     else:
         form = NewTaskForm()
 
