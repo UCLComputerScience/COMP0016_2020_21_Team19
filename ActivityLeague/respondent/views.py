@@ -1,7 +1,7 @@
 import datetime
 import operator
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from surveyor.models import *
 
@@ -57,7 +57,6 @@ def response(request, pk, id):
     questions = Question.objects.filter(task=task)
     if request.method == 'POST':
         dict = request.POST.items()
-        question_ids = questions.values_list('id')
         current_date_time = datetime.datetime.now()
         for qid, data in dict:
             try:
@@ -84,7 +83,7 @@ def response(request, pk, id):
                 Response.objects.create(question=q, respondent=user, value=tl_dict[data], date_time=current_date_time)
             else: # text
                 Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time)
-        return dashboard(request, pk)
+        return redirect('/respondent@' + pk)
     else:
         return render(request, 'response.html', {'user' : user, 'task' : task, 'questions' : questions})
 

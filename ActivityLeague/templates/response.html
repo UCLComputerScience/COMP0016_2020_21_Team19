@@ -126,11 +126,19 @@
 
   {% endfor %}
 
-  <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+  <button class="btn btn-primary btn-lg btn-block" type="submit" onclick="formsubmit()">Submit</button>
 
 </form>
 
 {% endblock %}
 
 {% block scripts %}
+
+<script type="text/javascript">
+function formsubmit() {
+    alert("Response submitted successfully!");
+    return false
+}
+</script>
+
 {% endblock %}
