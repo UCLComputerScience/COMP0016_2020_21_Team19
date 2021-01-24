@@ -34,19 +34,21 @@
 
   {% for question in questions %}
 
+  {# Text Response #}
   {% if question.response_type == 3 %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
+              <input type="text" class="form-control" name="{{ question.id }}" placeholder="Response" value="" required="">
               {% if question.link %}
                   <br><a class="text-primary" href="https://{{ question.link }}"><i>{{ question.link }}</i></a>
               {% endif %}
           </label>
-          <input type="text" class="form-control" id="q1" placeholder="Response" value="" required="">
         </div>
       </div>
 
+  {# Likert Resposnse #}
   {% elif question.response_type == 1 %}
 
       <div class="row">
@@ -59,28 +61,39 @@
         </div>
         <ul class='likert'>
           <li>
-            <input type="radio" name="likert" value="strong_disagree">
-            <label>Strongly disagree</label>
+              <label>
+                  <input type="radio" name="{{ question.id }}" value="strong_disagree">
+                  Strongly disagree
+              </label>
           </li>
           <li>
-            <input type="radio" name="likert" value="disagree">
-            <label>Disagree</label>
+              <label>
+                  <input type="radio" name="{{ question.id }}" value="disagree">
+                  Disagree
+              </label>
           </li>
           <li>
-            <input type="radio" name="likert" value="neutral">
-            <label>Neutral</label>
+              <label>
+                  <input type="radio" name="{{ question.id }}" value="neutral">
+                  Neutral
+              </label>
           </li>
           <li>
-            <input type="radio" name="likert" value="agree">
-            <label>Agree</label>
+              <label>
+                  <input type="radio" name="{{ question.id }}" value="agree">
+                  Agree
+              </label>
           </li>
           <li>
-            <input type="radio" name="likert" value="strong_agree">
-            <label>Strongly agree</label>
+              <label>
+                  <input type="radio" name="{{ question.id }}" value="strong_agree">
+                  Strongly agree
+              </label>
           </li>
         </ul>
       </div>
 
+  {# Traffic Light Resposnse #}
   {% else %}
 
       <div class="row">
@@ -95,13 +108,13 @@
 
       <div class="btn-group" data-toggle="buttons">
         <label class="btn btn-danger">
-          <input type="radio" name="tl_response{{ question.id }}" id="option1"> Red
+          <input type="radio" name="{{ question.id }}" id="option1"> Red
         </label>
         <label class="btn btn-warning">
-          <input type="radio" name="tl_response{{ question.id }}" id="option2"> Yellow
+          <input type="radio" name="{{ question.id }}" id="option2"> Yellow
         </label>
         <label class="btn btn-success">
-          <input type="radio" name="tl_response{{ question.id }}" id="option3"> Green
+          <input type="radio" name="{{ question.id }}" id="option3"> Green
         </label>
       </div>
 
