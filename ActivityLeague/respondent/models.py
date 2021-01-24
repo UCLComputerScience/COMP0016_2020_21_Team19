@@ -23,6 +23,7 @@ class GroupRespondent(models.Model):
 class Response(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     respondent = models.ForeignKey(Respondent, on_delete=models.SET_NULL, null=True)
+    link_clicked = models.BooleanField(default=False)
     value = models.SmallIntegerField()
     date = models.DateField(null=True)
     time = models.TimeField(null=True)
