@@ -55,7 +55,38 @@ def response(request, pk, id):
     user = get_object_or_404(Respondent, pk=pk)
     task = Task.objects.get(id=id)
     questions = Question.objects.filter(task=task)
-    return render(request, 'response.html', {'user' : user, 'task' : task, 'questions' : questions})
+    if request.method == 'POST':
+        dict = request.POST.items()
+        question_ids = questions.values_list('id')
+        current_date_time = datetime.datetime.now()
+        for qid, data in dict:
+            try:
+                qid = int(qid)
+                # ignore csrf token in POST dict
+            except ValueError:
+                continue
+            q = Question.objects.get(id=qid)
+            if q.response_type == 1: # likert
+                likert_dict = {
+                    'strong_disagree' : 1,
+                    'disagree' : 2,
+                    'neutral' : 3,
+                    'agree' : 4,
+                    'strong_agree' : 5
+                }
+                Response.objects.create(question=q, respondent=user, value=likert_dict[data], date_time=current_date_time)
+            elif q.response_type == 2: # traffic light
+                tl_dict = {
+                    'red' : 1,
+                    'yellow' : 2,
+                    'green' : 3
+                }
+                Response.objects.create(question=q, respondent=user, value=tl_dict[data], date_time=current_date_time)
+            else: # text
+                Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time)
+        return dashboard(request, pk)
+    else:
+        return render(request, 'response.html', {'user' : user, 'task' : task, 'questions' : questions})
 
 def login(request):
     return render(request, 'login.html')

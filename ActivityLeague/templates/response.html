@@ -30,7 +30,9 @@
   <a class="btn btn-primary" href="{% url 'respondent_dashboard' user.pk %}">Cancel</a>
 </div>
 
-<form>
+<form method="post">
+
+  {% csrf_token %}
 
   {% for question in questions %}
 
@@ -40,7 +42,7 @@
       <div class="row">
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
-              <input type="text" class="form-control" name="{{ question.id }}" placeholder="Response" value="" required="">
+              <input type="text" class="form-control" name="{{ question.id }}" placeholder="Response" value="" required>
               {% if question.link %}
                   <br><a class="text-primary" href="https://{{ question.link }}"><i>{{ question.link }}</i></a>
               {% endif %}
@@ -62,7 +64,7 @@
         <ul class='likert'>
           <li>
               <label>
-                  <input type="radio" name="{{ question.id }}" value="strong_disagree">
+                  <input type="radio" name="{{ question.id }}" value="strong_disagree" required>
                   Strongly disagree
               </label>
           </li>
@@ -106,15 +108,15 @@
         </div>
       </div>
 
-      <div class="btn-group" data-toggle="buttons">
+      <div class="btn-group" data-toggle="buttons" required>
         <label class="btn btn-danger">
-          <input type="radio" name="{{ question.id }}" id="option1"> Red
+          <input type="radio" name="{{ question.id }}" value="red" required> Red
         </label>
         <label class="btn btn-warning">
-          <input type="radio" name="{{ question.id }}" id="option2"> Yellow
+          <input type="radio" name="{{ question.id }}" value="yellow"> Yellow
         </label>
         <label class="btn btn-success">
-          <input type="radio" name="{{ question.id }}" id="option3"> Green
+          <input type="radio" name="{{ question.id }}" value="green"> Green
         </label>
       </div>
 
