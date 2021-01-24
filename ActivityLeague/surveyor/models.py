@@ -29,8 +29,8 @@ class GroupSurveyor(models.Model):
 class Task(models.Model):
     title = models.CharField(max_length=50)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    due_date = models.DateField(null=True)
-    due_time = models.TimeField(null=True)
+    due_date = models.DateField()
+    due_time = models.TimeField()
     
     def __str__(self):
         return self.title
@@ -38,6 +38,6 @@ class Task(models.Model):
 
 class Question(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    link = models.CharField(max_length=100)
+    link = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=100)
     response_type = models.SmallIntegerField()
