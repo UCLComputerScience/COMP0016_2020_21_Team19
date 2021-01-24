@@ -27,3 +27,5 @@ class Response(models.Model):
     text = models.CharField(max_length=30, blank=True)
     date = models.DateField()
     time = models.TimeField()
+    link_clicked = models.BooleanField(default=False)
+    
