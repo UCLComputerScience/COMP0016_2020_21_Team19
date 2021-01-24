@@ -55,16 +55,19 @@ def response(request, pk, id):
     user = get_object_or_404(Respondent, pk=pk)
     task = Task.objects.get(id=id)
     questions = Question.objects.filter(task=task)
+
+    # form submitted
     if request.method == 'POST':
         dict = request.POST.items()
+        # get a list of Question IDs for which the user clicked the link
+        clicked = [x for x in request.POST.get('clicked').split(',')]
         current_date_time = datetime.datetime.now()
         for qid, data in dict:
-            try:
-                qid = int(qid)
-                # ignore csrf token in POST dict
-            except ValueError:
+            # don't need to process the csrf token or the array of clicked Question IDs
+            if qid == 'csrfmiddlewaretoken' or qid == 'clicked':
                 continue
             q = Question.objects.get(id=qid)
+            link_clicked = qid in clicked
             if q.response_type == 1: # likert
                 likert_dict = {
                     'strong_disagree' : 1,
@@ -73,16 +76,16 @@ def response(request, pk, id):
                     'agree' : 4,
                     'strong_agree' : 5
                 }
-                Response.objects.create(question=q, respondent=user, value=likert_dict[data], date_time=current_date_time)
+                Response.objects.create(question=q, respondent=user, value=likert_dict[data], date_time=current_date_time, link_clicked=link_clicked)
             elif q.response_type == 2: # traffic light
                 tl_dict = {
                     'red' : 1,
                     'yellow' : 2,
                     'green' : 3
                 }
-                Response.objects.create(question=q, respondent=user, value=tl_dict[data], date_time=current_date_time)
+                Response.objects.create(question=q, respondent=user, value=tl_dict[data], date_time=current_date_time, link_clicked=link_clicked)
             else: # text
-                Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time)
+                Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time, link_clicked=link_clicked)
         return redirect('/respondent@' + pk)
     else:
         return render(request, 'response.html', {'user' : user, 'task' : task, 'questions' : questions})

@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-
 {% block sidebar %}
 <li class="nav-item">
   <a class="nav-link active" href="{% url 'respondent_dashboard' user.pk %}">
@@ -30,9 +29,11 @@
   <a class="btn btn-primary" href="{% url 'respondent_dashboard' user.pk %}">Cancel</a>
 </div>
 
-<form method="post">
+<form id="response_form" name="response_form" method="post">
 
   {% csrf_token %}
+
+  <input type="hidden" name="clicked" id="clicked" value="">
 
   {% for question in questions %}
 
@@ -42,10 +43,10 @@
       <div class="row">
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
-              <input type="text" class="form-control" name="{{ question.id }}" placeholder="Response" value="" required>
               {% if question.link %}
-                  <br><a class="text-primary" href="https://{{ question.link }}"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="https://{{ question.link }}" onclick="addLinkClick({{ question.id }})"><i>{{ question.link }}</i></a>
               {% endif %}
+              <input type="text" class="form-control" name="{{ question.id }}" placeholder="Response" value="" required>
           </label>
         </div>
       </div>
@@ -57,7 +58,7 @@
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="https://{{ question.link }}"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="https://{{ question.link }}" onclick="addLinkClick({{ question.id }})"><i>{{ question.link }}</i></a>
               {% endif %}
           </label>
         </div>
@@ -102,7 +103,7 @@
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="https://{{ question.link }}"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="https://{{ question.link }}" onclick="addLinkClick({{ question.id }})"><i>{{ question.link }}</i></a>
               {% endif %}
           </label>
         </div>
@@ -136,8 +137,19 @@
 
 <script type="text/javascript">
 function formsubmit() {
+    setClicked();
     alert("Response submitted successfully!");
-    return false
+    return false;
+}
+
+var links = [];
+
+function addLinkClick(qid) {
+    links.push(qid);
+}
+
+function setClicked() {
+    document.response_form.clicked.value = links;
 }
 </script>
 
