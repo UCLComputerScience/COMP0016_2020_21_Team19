@@ -24,14 +24,18 @@ class TaskForm(forms.ModelForm):
                 }
             ),
             'group': forms.Select(choices=GROUP_CHOICES, attrs={'class' : 'custom-select d-block w-100'}),
-            'due_date': forms.TextInput(attrs={
+            'due_date': forms.DateInput(
+                format='%d-%m-%Y',
+                attrs={
                 'class': 'form-control',
-                'placeholder': 'MM/DD/YYYY'
+                'type': 'date'
                 }
             ),
-            'due_time': forms.TextInput(attrs={
+            'due_time': forms.TimeInput(
+                format='%H:%M',
+                attrs={
                 'class': 'form-control',
-                'placeholder': 'HH:MM'
+                'type': 'time'
                 }
             )
         }
@@ -40,13 +44,14 @@ class TaskForm(forms.ModelForm):
 QuestionFormset = modelformset_factory(
     Question,
     fields=('link', 'description', 'response_type'),
-    extra=1,
+    min_num=0,
+    validate_min=True,
     widgets={
         'description': forms.TextInput(
             attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter Question here'
-            }
+            },
         ),
         'link': forms.TextInput(
             attrs={

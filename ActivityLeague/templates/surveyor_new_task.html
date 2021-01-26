@@ -18,9 +18,11 @@
 {% block content %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
     <h1 class="h2">Create New Task</h1>
-    <a class="btn btn-primary" href="{% url 'surveyor_dashboard' user.pk %}" for="question1">Cancel</a>
+    <div>
+        <a class="btn btn-primary" href="{% url 'surveyor_dashboard' user.pk %}">Cancel</a>
+    </div>
 </div>
-<form method="post" novalidate>
+<form method="post">
     {% csrf_token %}
     <div class="row">
         <div class="col-md-7 mb-2">
