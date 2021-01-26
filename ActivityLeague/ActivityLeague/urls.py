@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 from django.conf.urls import url
 
 from respondent import views as respondent
@@ -23,6 +23,8 @@ from surveyor import views as surveyor
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', respondent.login, name='login'),
+    path('register/', respondent.register, name='register'),
+    path('accounts/', include('allauth.urls')),
     
     # respondent
     url(r'^respondent@(?P<pk>\d+)/?$', respondent.dashboard, name='respondent_dashboard'),

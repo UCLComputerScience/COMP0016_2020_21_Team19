@@ -1,5 +1,6 @@
 import datetime
 import operator
+from django.contrib.auth.forms import UserCreationForm
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
@@ -110,6 +111,10 @@ def response(request, pk, id):
 
 def login(request):
     return render(request, 'login.html')
+
+def register(request):
+    form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
 
 def get_responses(pk, **kwargs):
     respondent = Respondent.objects.get(pk=pk)
