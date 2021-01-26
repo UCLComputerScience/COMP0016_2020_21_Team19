@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-
 {% block sidebar %}
 <li class="nav-item">
   <a class="nav-link active" href="{% url 'respondent_dashboard' user.pk %}">
@@ -30,78 +29,95 @@
   <a class="btn btn-primary" href="{% url 'respondent_dashboard' user.pk %}">Cancel</a>
 </div>
 
-<form>
+<form id="response_form" name="response_form" method="post">
+
+  {% csrf_token %}
+
+  <input type="hidden" name="clicked" id="clicked" value="">
 
   {% for question in questions %}
 
+  {# Text Response #}
   {% if question.response_type == 3 %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="https://{{ question.link }}"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="https://{{ question.link }}" onclick="addLinkClick({{ question.id }})"><i>{{ question.link }}</i></a>
               {% endif %}
+              <input type="text" class="form-control" name="{{ question.id }}" placeholder="Response" value="" required>
           </label>
-          <input type="text" class="form-control" id="q1" placeholder="Response" value="" required="">
         </div>
       </div>
 
+  {# Likert Resposnse #}
   {% elif question.response_type == 1 %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="https://{{ question.link }}"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="https://{{ question.link }}" onclick="addLinkClick({{ question.id }})"><i>{{ question.link }}</i></a>
               {% endif %}
           </label>
         </div>
         <ul class='likert'>
           <li>
-            <input type="radio" name="likert" value="strong_disagree">
-            <label>Strongly disagree</label>
+              <label>
+                  <input type="radio" name="{{ question.id }}" value="strong_disagree" required>
+                  Strongly disagree
+              </label>
           </li>
           <li>
-            <input type="radio" name="likert" value="disagree">
-            <label>Disagree</label>
+              <label>
+                  <input type="radio" name="{{ question.id }}" value="disagree">
+                  Disagree
+              </label>
           </li>
           <li>
-            <input type="radio" name="likert" value="neutral">
-            <label>Neutral</label>
+              <label>
+                  <input type="radio" name="{{ question.id }}" value="neutral">
+                  Neutral
+              </label>
           </li>
           <li>
-            <input type="radio" name="likert" value="agree">
-            <label>Agree</label>
+              <label>
+                  <input type="radio" name="{{ question.id }}" value="agree">
+                  Agree
+              </label>
           </li>
           <li>
-            <input type="radio" name="likert" value="strong_agree">
-            <label>Strongly agree</label>
+              <label>
+                  <input type="radio" name="{{ question.id }}" value="strong_agree">
+                  Strongly agree
+              </label>
           </li>
         </ul>
       </div>
 
+  {# Traffic Light Resposnse #}
   {% else %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="https://{{ question.link }}"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="https://{{ question.link }}" onclick="addLinkClick({{ question.id }})"><i>{{ question.link }}</i></a>
               {% endif %}
           </label>
         </div>
       </div>
 
-      <div class="btn-group" data-toggle="buttons">
+      <div class="btn-group" data-toggle="buttons" required>
         <label class="btn btn-danger">
-          <input type="radio" name="tl_response{{ question.id }}" id="option1"> Red
+          <input type="radio" name="{{ question.id }}" value="red" required> Red
         </label>
         <label class="btn btn-warning">
-          <input type="radio" name="tl_response{{ question.id }}" id="option2"> Yellow
+          <input type="radio" name="{{ question.id }}" value="yellow"> Yellow
         </label>
         <label class="btn btn-success">
-          <input type="radio" name="tl_response{{ question.id }}" id="option3"> Green
+          <input type="radio" name="{{ question.id }}" value="green"> Green
         </label>
       </div>
 
@@ -111,11 +127,30 @@
 
   {% endfor %}
 
-  <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+  <button class="btn btn-primary btn-lg btn-block" type="submit" onclick="formsubmit()">Submit</button>
 
 </form>
 
 {% endblock %}
 
 {% block scripts %}
+
+<script type="text/javascript">
+function formsubmit() {
+    setClicked();
+    alert("Response submitted successfully!");
+    return false;
+}
+
+var links = [];
+
+function addLinkClick(qid) {
+    links.push(qid);
+}
+
+function setClicked() {
+    document.response_form.clicked.value = links;
+}
+</script>
+
 {% endblock %}

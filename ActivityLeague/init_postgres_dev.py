@@ -1,5 +1,6 @@
 import os
 import datetime
+import pytz
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ActivityLeague.settings')
 
 from django.contrib.auth import get_user_model
@@ -56,7 +57,7 @@ def insert_dummy_data():
 
     for respondent in [john_doe, jack_white]:
         for i, question in enumerate(questions):
-            Response.objects.create(question=question, respondent=respondent, value=(i // 3) + 1,  date=datetime.datetime(2020, 1, (i // 3) + 1), time=datetime.time(10 + (i // 3) + 1, 0))
+            Response.objects.create(question=question, respondent=respondent, value=(i // 3) + 1,  date_time=datetime.datetime(2020, 1, (i // 3) + 1, 10 + (i // 3) + 1, 0, tzinfo=pytz.UTC))
     
     questions = []
     for number in [10, 20, 30]:
@@ -64,7 +65,7 @@ def insert_dummy_data():
 
     for respondent in [john_doe, jack_white]:
         for i, question in enumerate(questions):
-            Response.objects.create(question=question, respondent=respondent, value=(i // 3) + 1,  date=datetime.datetime(2020, 1, (i // 3) + 1), time=datetime.time(10 + (i // 3) + 1, 0))
+            Response.objects.create(question=question, respondent=respondent, value=(i // 3) + 1,  date_time=datetime.datetime(2020, 1, (i // 3) + 1, 10 + (i // 3) + 1, 0, tzinfo=pytz.UTC))
 
 def main():
     import django
