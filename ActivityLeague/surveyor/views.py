@@ -259,7 +259,8 @@ def new_group(request, pk):
     if request.method == 'POST':
         form = GroupForm(request.POST)
         if form.is_valid():
-            form.save()
+            group = form.save()
+            GroupSurveyor.objects.create(group=group, surveyor=Surveyor.objects.get(id=pk))
             data['form_is_valid'] = True
         else:
             data['form_is_valid'] = False
