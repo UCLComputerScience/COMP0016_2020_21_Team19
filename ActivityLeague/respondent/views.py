@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from surveyor.models import *
+import random
 
 # Create your views here.
 def dashboard(request, pk):
@@ -38,18 +39,35 @@ def get_progress_json(request, pk):
     groups = get_groups(pk)
     overall_labels = get_progress_labels(pk)
 
-    overall_progress = { 'labels': overall_labels, 'scores': get_progress_values(pk, overall_labels) }
     group_graphs = []
+    overall_data = []
     for group in groups:
         group_labels = get_progress_labels(pk, group=group)
         group_scores = get_progress_values(pk, group_labels, group=group)
         group_title = group.name
-        group_graphs.append({ 'title': group_title, 'labels': group_labels, 'scores': group_scores })
+        group_graphs.append({ 'title': group_title, 'labels': group_labels, 'scores': [get_chartjs_dict(group_scores)] })
+
+        overall_data.append(get_chartjs_dict(group_scores))
 
     return JsonResponse(data={
-        'overall': overall_progress,
+        'overall': overall_data,
+        'overall_labels': overall_labels,
         'groups': group_graphs
     })
+
+def random_hex_colour():
+    random_n = random.randint(0, 16777215)
+    hex_number = format(random_n,'x')
+    hex_number = '#' + hex_number
+    return hex_number
+
+def get_chartjs_dict(scores):
+    return {'data': scores,
+            'lineTension': 0,
+            'backgroundColor': 'transparent',
+            'borderColor': random_hex_colour(),
+            'borderWidth': 4,
+            'pointBackgroundColor': '#007bff'}
     
 def response(request, pk, id):
     user = get_object_or_404(Respondent, pk=pk)

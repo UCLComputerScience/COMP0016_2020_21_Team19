@@ -41,10 +41,11 @@
 <script>
   var pk = {{ pk }};
 
-  function render_graph(parent, title, labels, data) {
+  function render_graph(parent, title, labels, values) {
     var wrapper = document.createElement('div');
     wrapper.classList.add('row');
     wrapper.classList.add('bg-light');
+
     // THIS IS TEMPORARY STYLE INJECTION
     wrapper.style.margin = "20px";
     wrapper.style.borderRadius = "20px";
@@ -60,30 +61,7 @@
       type: 'line',
       data: {
         labels: labels,
-        datasets: [{
-          data: [1, 1, 2.5, 2, 2.5, 2.5, 3, 3.5, 3.5, 4, 5],
-          lineTension: 0,
-          backgroundColor: 'transparent',
-          borderColor: '#007bff',
-          borderWidth: 4,
-          pointBackgroundColor: '#007bff'
-        },
-        {
-          data: [1, 1.5, 2, 1.5, 2, 3, 2.5, 3, 3, 3.5, 3.5],
-          lineTension: 0,
-          backgroundColor: 'transparent',
-          borderColor: 'green',
-          borderWidth: 4,
-          pointBackgroundColor: '#007bff'
-        },
-        {
-          data: [0, 2, 1.5, 2, 3, 3.5, 3.5, 4, 3.5, 4, 4.5],
-          lineTension: 0,
-          backgroundColor: 'transparent',
-          borderColor: 'red',
-          borderWidth: 4,
-          pointBackgroundColor: '#007bff'
-        }]
+        datasets: values
       },
       options: {
         title: {
@@ -120,12 +98,20 @@
       var parent = document.getElementById("graph-container");
 
       var overall = graphData['overall'];
-      render_graph(parent, 'Overall Progress', overall['labels'], overall['scores'])
+      var overall_labels = graphData['overall_labels']
+      render_graph(parent, 'Overall Progress', overall_labels, overall)
+
+      console.log('Overall: ' + overall);
+      console.log('Overall Labels: ' + overall_labels);
+
+      console.log('Overall 0:' + overall[0]);
+      console.log('Overall 1: ' + overall[1]);
 
       var groups = graphData['groups'];
 
       for (var i = 0; i < groups.length; i++) {
         var group = groups[i];
+
         render_graph(parent, group['title'], group['labels'], group['scores']);
       }
     })
