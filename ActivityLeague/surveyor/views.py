@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.http import JsonResponse
-from .forms import GroupForm, TaskForm, QuestionFormset
+from allauth.account.views import SignupView
+from .forms import GroupForm, TaskForm, QuestionFormset, SurveyorSignupForm
 from .models import *
 from respondent.models import Respondent, Response, GroupRespondent
 from respondent.views import calculate_score
@@ -96,7 +97,7 @@ def get_responses(pk, **kwargs):
         groups = GroupSurveyor.objects.filter(surveyor=surveyor).values_list(flat=True)
         tasks = Task.objects.filter(group__in=groups)
     questions = Question.objects.filter(task__in=tasks)
-    return Response.objects.filter(question__in=questions).order_by('date', 'time')
+    return Response.objects.filter(question__in=questions).order_by('date_time')
 
 def get_graph_data(pk, labels, **kwargs):
     responses = get_responses(pk, **kwargs)
@@ -117,9 +118,9 @@ def get_graph_data(pk, labels, **kwargs):
     for date in dates:
         queryset = []
         for response in responses:
-            if response.date > date:
+            if response.date_time.date() > date:
                 break
-            if response.date > previous_date:
+            if response.date_time.date() > previous_date:
                 queryset.append(response.value)
         scores.append(calculate_score(queryset) if queryset else previous_score)
         previous_date = date
@@ -135,7 +136,8 @@ def get_graph_labels(pk, **kwargs):
         return []
 
     num_intervals = min(len(responses), 10)
-    dates = list(responses.values_list('date', flat=True))
+    dates = list(responses.values_list('date_time', flat=True))
+    dates = [date_time.date() for date_time in dates]
     
     if len(responses) == 0:
         return None
@@ -273,3 +275,17 @@ def new_group(request, pk):
         request=request
     )
     return JsonResponse(data)
+
+class SurveyorSignupView(SignupView):
+    template_name = "account/signup_surveyor.html"
+
+    form_class = SurveyorSignupForm
+
+    view_name = 'surveyor_signup'
+
+    def get_context_data(self, **kwargs):
+        ret = super(SurveyorSignupView, self).get_context_data(**kwargs)
+        ret.update(self.kwargs)
+        return ret
+
+surveyor_signup = SurveyorSignupView.as_view()

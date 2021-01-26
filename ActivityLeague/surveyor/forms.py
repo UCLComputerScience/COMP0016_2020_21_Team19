@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import modelformset_factory
+from allauth.account.forms import SignupForm, LoginForm
 
 from .models import *
 
@@ -78,3 +79,37 @@ class GroupForm(forms.ModelForm):
                 }
             )
         }
+
+class SurveyorSignupForm(SignupForm):
+    firstname = forms.CharField(max_length=30, min_length=1)
+    surname = forms.CharField(max_length=30, min_length=1)
+
+    def save(self, request):
+        user = super(SurveyorSignupForm, self).save(request)
+
+        surveyor = Surveyor(
+            user = user,
+            firstname=self.cleaned_data.get('firstname'),
+            surname=self.cleaned_data.get('surname')
+        )
+
+        surveyor.save()
+
+        # Return the django-allauth User instance, 
+        # otherwise we will get an error.
+        return surveyor.user
+
+class NewLoginForm(LoginForm):
+    class Meta:
+        field_order = ['login', 'password']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["login"].label = ""
+        self.fields["password"].label = ""
+        # self.fields["forgot"].class
+    
+    def login(self, *args, **kwargs):
+        return super(NewLoginForm, self).login(*args, **kwargs)
+    

@@ -1,5 +1,6 @@
 from django.db import models
 from surveyor.models import Group, Question
+from django.contrib.auth.models import User
 
 """
 Django auto generates ID primary keys for each model, 
@@ -8,6 +9,7 @@ definition here.
 """
 
 class Respondent(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     firstname = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
 

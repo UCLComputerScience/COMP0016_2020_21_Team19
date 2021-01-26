@@ -5,6 +5,8 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from surveyor.models import *
+from allauth.account.views import SignupView
+from .forms import RespondentSignupForm
 import random
 
 # Create your views here.
@@ -121,17 +123,17 @@ def get_responses(pk, **kwargs):
     if kwargs.get('task') is not None:
         task = kwargs.get('task')
         questions = Question.objects.filter(task=task)
-        return Response.objects.filter(respondent=respondent, question__in=questions).order_by('date', 'time')
+        return Response.objects.filter(respondent=respondent, question__in=questions).order_by('date_time')
     elif kwargs.get('question') is not None:
         question = kwargs.get('question')
-        return Response.objects.filter(respondent=respondent, question=question).order_by('date', 'time')
+        return Response.objects.filter(respondent=respondent, question=question).order_by('date_time')
     elif kwargs.get('group') is not None:
         group = kwargs.get('group')
         tasks = Task.objects.filter(group=group)
         questions = Question.objects.filter(task__in=tasks)
-        return Response.objects.filter(respondent=respondent, question__in=questions).order_by('date', 'time')
+        return Response.objects.filter(respondent=respondent, question__in=questions).order_by('date_time')
     else:
-        return Response.objects.filter(respondent=respondent).order_by('date', 'time')
+        return Response.objects.filter(respondent=respondent).order_by('date_time')
 
 def get_progress_values(pk, labels,  **kwargs):
     """
@@ -168,9 +170,9 @@ def get_progress_values(pk, labels,  **kwargs):
     for date in dates:
         queryset = []
         for response in responses:
-            if response.date > date:
+            if response.date_time.date() > date:
                 break
-            if response.date > previous_date:
+            if response.date_time.date() > previous_date:
                 queryset.append(response.value)
         scores.append(calculate_score(queryset) if queryset else previous_score)
         previous_date = date
@@ -198,7 +200,8 @@ def get_progress_labels(pk, **kwargs):
         return []
 
     num_intervals = min(len(responses), 10)
-    dates = list(responses.values_list('date', flat=True))
+    dates = list(responses.values_list('date_time', flat=True))
+    dates = [date_time.date() for date_time in dates]
     
     if len(responses) == 0:
         return None
@@ -276,3 +279,22 @@ def get_groups(pk):
     group_ids = GroupRespondent.objects.filter(respondent=respondent).values_list('group', flat=True)
     groups = Group.objects.filter(pk__in=group_ids)
     return groups
+
+class RespondentSignupView(SignupView):
+    template_name = 'account/signup_respondent.html'
+
+    form_class = RespondentSignupForm
+
+    view_name = 'respondent_signup'
+
+    # I don't use them, but you could override them
+    # (N.B: the following values are the default)
+    success_url = 'respondent@1/'
+    redirect_field_name = 'next'
+
+    def get_context_data(self, **kwargs):
+        ret = super(RespondentSignupView, self).get_context_data(**kwargs)
+        ret.update(self.kwargs)
+        return ret
+
+respondent_signup = RespondentSignupView.as_view()

@@ -25,6 +25,10 @@ urlpatterns = [
     path('', respondent.login, name='login'),
     path('register/', respondent.register, name='register'),
     path('accounts/', include('allauth.urls')),
+
+    # sign up
+    url(r'^accounts/signup/surveyor/', surveyor.surveyor_signup, name='surveyor_signup'),
+    url(r'^accounts/signup/respondent/', respondent.respondent_signup, name='respondent_signup'),
     
     # respondent
     url(r'^respondent@(?P<pk>\d+)/?$', respondent.dashboard, name='respondent_dashboard'),
