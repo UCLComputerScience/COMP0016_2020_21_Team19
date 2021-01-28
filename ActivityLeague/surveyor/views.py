@@ -283,6 +283,9 @@ class SurveyorSignupView(SignupView):
 
     view_name = 'surveyor_signup'
 
+    success_url = '/surveyor@1/'
+    redirect_field_name = 'next'
+
     def get_context_data(self, **kwargs):
         ret = super(SurveyorSignupView, self).get_context_data(**kwargs)
         ret.update(self.kwargs)

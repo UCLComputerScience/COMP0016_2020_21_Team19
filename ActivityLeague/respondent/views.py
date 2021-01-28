@@ -289,7 +289,7 @@ class RespondentSignupView(SignupView):
 
     # I don't use them, but you could override them
     # (N.B: the following values are the default)
-    success_url = 'respondent@1/'
+    success_url = '/respondent@1/'
     redirect_field_name = 'next'
 
     def get_context_data(self, **kwargs):
