@@ -5,8 +5,17 @@ from allauth.account.forms import SignupForm
 from .models import *
 
 class RespondentSignupForm(SignupForm):
-    firstname = forms.CharField(max_length=30, min_length=1)
-    surname = forms.CharField(max_length=30, min_length=1)
+    firstname = forms.CharField(max_length=30, min_length=1, widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
+    surname = forms.CharField(max_length=30, min_length=1, widget=forms.TextInput(attrs={'placeholder': 'Surname'}))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['email'].label = ""
+        self.fields['firstname'].label = ""
+        self.fields['surname'].label = ""
+        self.fields['password1'].label = ""
+        self.fields['password2'].label = ""
 
     def save(self, request):
         user = super(RespondentSignupForm, self).save(request)
