@@ -5,7 +5,7 @@ from allauth.account.forms import SignupForm
 from .models import *
 
 class RespondentSignupForm(SignupForm):
-    firstname = forms.CharField(max_length=30, min_length=1, widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
+    firstname = forms.CharField(max_length=30, min_length=1, widget=forms.TextInput(attrs={'placeholder': 'Firstname'}))
     surname = forms.CharField(max_length=30, min_length=1, widget=forms.TextInput(attrs={'placeholder': 'Surname'}))
 
     def __init__(self, *args, **kwargs):
