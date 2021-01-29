@@ -6,7 +6,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from surveyor.models import *
 from allauth.account.views import SignupView
-from .forms import RespondentSignupForm
 import random
 
 # Create your views here.
@@ -280,21 +279,21 @@ def get_groups(pk):
     groups = Group.objects.filter(pk__in=group_ids)
     return groups
 
-class RespondentSignupView(SignupView):
-    template_name = 'account/signup_respondent.html'
+# class RespondentSignupView(SignupView):
+#     template_name = 'account/signup_respondent.html'
 
-    form_class = RespondentSignupForm
+#     form_class = RespondentSignupForm
 
-    view_name = 'respondent_signup'
+#     view_name = 'respondent_signup'
 
-    # I don't use them, but you could override them
-    # (N.B: the following values are the default)
-    success_url = '/respondent@1/'
-    redirect_field_name = 'next'
+#     # I don't use them, but you could override them
+#     # (N.B: the following values are the default)
+#     success_url = '/respondent@1/'
+#     redirect_field_name = 'next'
 
-    def get_context_data(self, **kwargs):
-        ret = super(RespondentSignupView, self).get_context_data(**kwargs)
-        ret.update(self.kwargs)
-        return ret
+#     def get_context_data(self, **kwargs):
+#         ret = super(RespondentSignupView, self).get_context_data(**kwargs)
+#         ret.update(self.kwargs)
+#         return ret
 
-respondent_signup = RespondentSignupView.as_view()
+# respondent_signup = RespondentSignupView.as_view()

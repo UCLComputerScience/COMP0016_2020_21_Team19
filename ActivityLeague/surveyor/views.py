@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 from allauth.account.views import SignupView
-from .forms import GroupForm, TaskForm, QuestionFormset, SurveyorSignupForm
+from .forms import GroupForm, TaskForm, QuestionFormset
 from .models import *
 from respondent.models import Respondent, Response, GroupRespondent
 from respondent.views import calculate_score
@@ -276,19 +276,19 @@ def new_group(request, pk):
     )
     return JsonResponse(data)
 
-class SurveyorSignupView(SignupView):
-    template_name = "account/signup_surveyor.html"
+# class SurveyorSignupView(SignupView):
+#     template_name = "account/signup_surveyor.html"
 
-    form_class = SurveyorSignupForm
+#     form_class = SurveyorSignupForm
 
-    view_name = 'surveyor_signup'
+#     view_name = 'surveyor_signup'
 
-    success_url = '/surveyor@1/'
-    redirect_field_name = 'next'
+#     success_url = '/surveyor@1/'
+#     redirect_field_name = 'next'
 
-    def get_context_data(self, **kwargs):
-        ret = super(SurveyorSignupView, self).get_context_data(**kwargs)
-        ret.update(self.kwargs)
-        return ret
+#     def get_context_data(self, **kwargs):
+#         ret = super(SurveyorSignupView, self).get_context_data(**kwargs)
+#         ret.update(self.kwargs)
+#         return ret
 
-surveyor_signup = SurveyorSignupView.as_view()
+# surveyor_signup = SurveyorSignupView.as_view()

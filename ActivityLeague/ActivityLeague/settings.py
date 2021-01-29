@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'crispy_forms',
 
     'surveyor',
-    'respondent'
+    'respondent',
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -170,6 +171,8 @@ STATICFILES_DIRS = [
 
 SITE_ID = 1
 
+ACCOUNT_ADAPTER = 'authentication.adapter.MyAccountAdapter'
+
 # ACCOUNT_SIGNUP_REDIRECT_URL = ''
 
 # LOGIN_REDIRECT_URL = 'foobar'
@@ -177,5 +180,6 @@ SITE_ID = 1
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 ACCOUNT_FORMS = {
-    "login": "surveyor.forms.NewLoginForm",
+    "login": "authentication.forms.AuthenticationLoginForm",
+    "signup": "authentication.forms.AuthenticationSignupForm"
 }
