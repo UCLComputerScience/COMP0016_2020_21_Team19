@@ -22,7 +22,7 @@ from surveyor import views as surveyor
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', respondent.login, name='login'),
+    # path('', respondent.login, name='login'),
     path('register/', respondent.register, name='register'),
     path('accounts/', include('allauth.urls')),
 
@@ -31,30 +31,23 @@ urlpatterns = [
     # url(r'^accounts/signup/respondent/', respondent.respondent_signup, name='respondent_signup'),
     
     # respondent
-    url(r'^respondent@(?P<pk>\d+)/?$', respondent.dashboard, name='respondent_dashboard'),
-    url(r'^respondent@(?P<pk>\d+)/leaderboard/?$', respondent.leaderboard, name='respondent_leaderboard'),
-    url(r'^respondent@(?P<pk>\d+)/get_respondent_leaderboard_json$', respondent.get_respondent_leaderboard_json, name='get_respondent_leaderboard_json'),
-    url(r'^respondent@(?P<pk>\d+)/get_respondent_leaderboard_groups_json$', respondent.get_respondent_leaderboard_groups_json, name='get_respondent_leaderboard_groups_json'),
-    url(r'^respondent@(?P<pk>\d+)/response(?P<id>\d+)/?$', respondent.response, name='response'),
-    url(r'^respondent@(?P<pk>\d+)/progress/?$', respondent.progress, name='respondent_progress'),
-    url(r'^respondent@(?P<pk>\d+)/get_progress_json$', respondent.get_progress_json, name='get_progress_json'),
+    url(r'^respondent/?$', respondent.dashboard, name='respondent_dashboard'),
+    url(r'^respondent/leaderboard/?$', respondent.leaderboard, name='respondent_leaderboard'),
+    url(r'^respondent/get_respondent_leaderboard_json$', respondent.get_respondent_leaderboard_json, name='get_respondent_leaderboard_json'),
+    url(r'^respondent/get_respondent_leaderboard_groups_json$', respondent.get_respondent_leaderboard_groups_json, name='get_respondent_leaderboard_groups_json'),
+    url(r'^respondent/response(?P<id>\d+)/?$', respondent.response, name='response'),
+    url(r'^respondent/progress/?$', respondent.progress, name='respondent_progress'),
+    url(r'^respondent/get_progress_json$', respondent.get_progress_json, name='get_progress_json'),
 
     # surveyor
-    url(r'^surveyor@(?P<pk>\d+)/?$', surveyor.dashboard, name='surveyor_dashboard'),
-    url(r'^surveyor@(?P<pk>\d+)/task@(?P<pk_task>\d+)/?$', surveyor.task_overview, name='task_overview'),
-    url(r'^surveyor@(?P<pk>\d+)/task@(?P<pk_task>\d+)/get_questions_json?$', surveyor.get_questions_json, name='get_questions_json'),
-    url(r'^surveyor@(?P<pk>\d+)/get_graphs_and_leaderboards_json$', surveyor.get_graphs_and_leaderboards_json, name='get_graphs_and_leaderboards_json'),
-    url(r'^surveyor@(?P<pk>\d+)/get_tasks_json$', surveyor.get_tasks_json, name='get_tasks_json'),
-    url(r'^surveyor@(?P<pk>\d+)/get_leaderboard_json$', surveyor.get_leaderboard_json, name='get_leaderboard_json'),
-    url(r'^surveyor@(?P<pk>\d+)/get_leaderboard_groups_json$', surveyor.get_leaderboard_groups_json, name='get_leaderboard_groups_json'),
-    url(r'^surveyor@(?P<pk>\d+)/new_group/?$', surveyor.new_group, name='new_group'),
-    url(r'^surveyor@(?P<pk>\d+)/leaderboard/?$', surveyor.leaderboard, name='surveyor_leaderboard'),
-    url(r'^surveyor@(?P<pk>\d+)/new_task/?$', surveyor.new_task, name='new_task')
-    
-    # path('respondent/leaderboard/', respondent.leaderboard, name='leaderboard'),
-
-    # path('surveyor/', surveyor.dashboard, name="dashboard"),
-    # path('surveyor/leaderboard/', surveyor.leaderboard, name="leaderboard"),
-    # path('surveyor/task_overview/', surveyor.task_overview, name="task_overview"),
-    # path('surveyor/new_task', surveyor.new_task, name="new_task")
+    url(r'^surveyor/?$', surveyor.dashboard, name='surveyor_dashboard'),
+    url(r'^surveyor/task@(?P<pk_task>\d+)/?$', surveyor.task_overview, name='task_overview'),
+    url(r'^surveyor/task@(?P<pk_task>\d+)/get_questions_json?$', surveyor.get_questions_json, name='get_questions_json'),
+    url(r'^surveyor/get_graphs_and_leaderboards_json$', surveyor.get_graphs_and_leaderboards_json, name='get_graphs_and_leaderboards_json'),
+    url(r'^surveyor/get_tasks_json$', surveyor.get_tasks_json, name='get_tasks_json'),
+    url(r'^surveyor/get_leaderboard_json$', surveyor.get_leaderboard_json, name='get_leaderboard_json'),
+    url(r'^surveyor/get_leaderboard_groups_json$', surveyor.get_leaderboard_groups_json, name='get_leaderboard_groups_json'),
+    url(r'^surveyor/new_group/?$', surveyor.new_group, name='new_group'),
+    url(r'^surveyor/leaderboard/?$', surveyor.leaderboard, name='surveyor_leaderboard'),
+    url(r'^surveyor/new_task/?$', surveyor.new_task, name='new_task')
 ]

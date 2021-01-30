@@ -8,7 +8,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="{% url 'surveyor_leaderboard' user.pk %}">
+  <a class="nav-link" href="{% url 'surveyor_leaderboard' %}">
     <span data-feather="bar-chart-2"></span>
     Leaderboard
   </a>
@@ -34,7 +34,7 @@
     <tbody id=table-body>
     </tbody>
   </table>
-  <button type="button" class="btn btn-primary" onclick="document.location = '{% url 'new_task' user.pk %}';">New Task...</button>
+  <button type="button" class="btn btn-primary" onclick="document.location = '{% url 'new_task' %}';">New Task...</button>
     
   <button type="button" class="btn btn-primary js-new-group">
     <span class="glyphicon glyphicon-plus"></span>
@@ -63,8 +63,6 @@
 <!-- Graphs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 <script>
-  var pk = {{ pk }};
-
   function render_graph_and_leaderboard(parent, graph_title, graph_labels, graph_data, leaderboard) {
     var rowWrapper = document.createElement('div');
     rowWrapper.classList.add('row', 'bg-light');
@@ -159,7 +157,7 @@
   }
 
   function load_and_render_graphs_and_leaderboards() {
-    $.get('/surveyor@' + pk + '/get_graphs_and_leaderboards_json', function(graphAndLeaderboardData) {
+    $.get('/surveyor/get_graphs_and_leaderboards_json', function(graphAndLeaderboardData) {
       var parent = document.getElementById("graph-container");
 
       var graphs = graphAndLeaderboardData['graphs'];
@@ -178,7 +176,7 @@
   });
 
   function render_table() {
-    $.get('/surveyor@' + pk + '/get_tasks_json', function (tableData) {
+    $.get('/surveyor/get_tasks_json', function (tableData) {
       var parent = document.getElementById('table-body');
       var rows = tableData['rows'];
       for (var i=0; i < rows.length; i++) {
@@ -204,7 +202,7 @@
       var cell = document.createElement('td');
       cell.textContent = row_elements[i]
       row_wrapper.appendChild(cell);
-      row_wrapper.onclick = function(){document.location = "{% url 'task_overview' pk 000 %}".replace(000, task_pk.toString());}
+      row_wrapper.onclick = function(){document.location = "{% url 'task_overview' 000 %}".replace(000, task_pk.toString());}
     }
     parent.appendChild(row_wrapper);
   }
@@ -214,11 +212,10 @@
   });
 
 <!-- Script for modal popup -->
-  var pk = {{ user.pk }};
   $(function () {
     $(".js-new-group").click(function () {
       $.ajax({
-        url: '/surveyor@' + pk + '/new_group/',
+        url: '/surveyor/new_group/',
         type: 'get',
         dataType: 'json',
         beforeSend: function () {

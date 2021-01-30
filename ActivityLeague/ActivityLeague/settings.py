@@ -175,6 +175,8 @@ ACCOUNT_ADAPTER = 'authentication.adapter.MyAccountAdapter'
 
 # ACCOUNT_SIGNUP_REDIRECT_URL = ''
 
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
+
 # LOGIN_REDIRECT_URL = 'foobar'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

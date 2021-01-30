@@ -2,19 +2,19 @@
 
 {% block sidebar %}
 <li class="nav-item">
-  <a class="nav-link active" href="{% url 'respondent_dashboard' user.pk %}">
+  <a class="nav-link active" href="{% url 'respondent_dashboard' %}">
     <span data-feather="home"></span>
     Dashboard <span class="sr-only">(current)</span>
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="{% url 'respondent_leaderboard' user.pk %}">
+  <a class="nav-link" href="{% url 'respondent_leaderboard' %}">
     <span data-feather="bar-chart-2"></span>
     Leaderboard
   </a>
 </li>
 <li class="nav-item" >
-    <a class="nav-link" href="{% url 'respondent_progress' user.pk %}">
+    <a class="nav-link" href="{% url 'respondent_progress' %}">
       <span data-feather="bar-chart-2"></span>
       Progress
     </a>
@@ -26,7 +26,7 @@
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
   <h1 class="h2">{{ task.title }}</h1>
-  <a class="btn btn-primary" href="{% url 'respondent_dashboard' user.pk %}">Cancel</a>
+  <a class="btn btn-primary" href="{% url 'respondent_dashboard' %}">Cancel</a>
 </div>
 
 <form id="response_form" name="response_form" method="post">

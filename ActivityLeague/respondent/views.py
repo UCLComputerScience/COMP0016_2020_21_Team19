@@ -6,11 +6,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from surveyor.models import *
 from allauth.account.views import SignupView
+from django.contrib.auth.decorators import login_required
+
 import random
 
 # Create your views here.
-def dashboard(request, pk):
-    user = get_object_or_404(Respondent, pk=pk)
+@login_required(login_url='/accounts/login/')
+def dashboard(request):
+    user = get_object_or_404(Respondent, user=request.user)
     # get the groups that this user is a part of
     groups = GroupRespondent.objects.filter(respondent=user).values_list('group')
     # only get the tasks which are assigned to a group the user is a part of
@@ -24,28 +27,31 @@ def dashboard(request, pk):
         task.color = "red" if until < datetime.timedelta(days=1) else "orange" if until < datetime.timedelta(days=2) else "darkgreen"
     return render(request, 'respondent_dashboard.html', {'user' : user, 'tasks' : tasks, 'now' : now})
 
-def leaderboard(request, pk):
-    user = get_object_or_404(Respondent, pk=pk)
+@login_required(login_url='/accounts/login/')
+def leaderboard(request):
+    user = get_object_or_404(Respondent, user=request.user)
     respondents = Respondent.objects.all()
-    return render(request, 'respondent_leaderboard.html', {'user' : user, 'respondents' : respondents, 'pk': pk})
+    return render(request, 'respondent_leaderboard.html', {'user' : user, 'respondents' : respondents})
     # return render(request, 'respondent_leaderboard.html')
 
-def progress(request, pk):
-    user = get_object_or_404(Respondent, pk=pk)
-    labels = get_progress_labels(pk)
-    scores = get_progress_values(pk, labels)
-    groups = get_groups(pk)
-    return render(request, 'respondent_progress_page.html', {'pk': pk, 'user' : user, 'labels': labels, 'scores': scores, 'groups': groups})
+@login_required(login_url='/accounts/login/')
+def progress(request):
+    user = get_object_or_404(Respondent, user=request.user)
+    labels = get_progress_labels(request.user)
+    scores = get_progress_values(request.user, labels)
+    groups = get_groups(request.user)
+    return render(request, 'respondent_progress_page.html', {'user' : user, 'labels': labels, 'scores': scores, 'groups': groups})
 
-def get_progress_json(request, pk):
-    groups = get_groups(pk)
-    overall_labels = get_progress_labels(pk)
+@login_required(login_url='/accounts/login/')
+def get_progress_json(request):
+    groups = get_groups(request.user)
+    overall_labels = get_progress_labels(request.user)
 
     group_graphs = []
     overall_data = []
     for group in groups:
-        group_labels = get_progress_labels(pk, group=group)
-        group_scores = get_progress_values(pk, group_labels, group=group)
+        group_labels = get_progress_labels(request.user, group=group)
+        group_scores = get_progress_values(request.user, group_labels, group=group)
         group_title = group.name
         group_graphs.append({ 'title': group_title, 'labels': group_labels, 'scores': [get_chartjs_dict(group_scores)] })
 
@@ -70,9 +76,10 @@ def get_chartjs_dict(scores):
             'borderColor': random_hex_colour(),
             'borderWidth': 4,
             'pointBackgroundColor': '#007bff'}
-    
-def response(request, pk, id):
-    user = get_object_or_404(Respondent, pk=pk)
+
+@login_required(login_url='/accounts/login/')
+def response(request, id):
+    user = get_object_or_404(Respondent, user=request.user)
     task = Task.objects.get(id=id)
     questions = Question.objects.filter(task=task)
 
@@ -106,7 +113,7 @@ def response(request, pk, id):
                 Response.objects.create(question=q, respondent=user, value=tl_dict[data], date_time=current_date_time, link_clicked=link_clicked)
             else: # text
                 Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time, link_clicked=link_clicked)
-        return redirect('/respondent@' + pk)
+        return redirect('/respondent')
     else:
         return render(request, 'response.html', {'user' : user, 'task' : task, 'questions' : questions})
 
@@ -117,8 +124,8 @@ def register(request):
     form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
 
-def get_responses(pk, **kwargs):
-    respondent = Respondent.objects.get(pk=pk)
+def get_responses(user, **kwargs):
+    respondent = Respondent.objects.get(user=user)
     if kwargs.get('task') is not None:
         task = kwargs.get('task')
         questions = Question.objects.filter(task=task)
@@ -134,7 +141,7 @@ def get_responses(pk, **kwargs):
     else:
         return Response.objects.filter(respondent=respondent).order_by('date_time')
 
-def get_progress_values(pk, labels,  **kwargs):
+def get_progress_values(user, labels,  **kwargs):
     """
     Retrieves the values to be plotted by Chart.js on respondent_progress_page.html.
 
@@ -151,7 +158,7 @@ def get_progress_values(pk, labels,  **kwargs):
         (list:num): List of values of length labels.length corresponding to the
                     values to be plotted.
     """
-    responses = get_responses(pk, **kwargs)
+    responses = get_responses(user, **kwargs)
 
     if not responses:
         return []
@@ -182,7 +189,7 @@ def get_progress_values(pk, labels,  **kwargs):
 
 
 # TODO: Rewrite this method to consider the text values.
-def get_progress_labels(pk, **kwargs):
+def get_progress_labels(user, **kwargs):
     """
     Retrieves labels for chart.js on respondent_progress_page.html based on
     the existing respondent's responses.
@@ -193,7 +200,7 @@ def get_progress_labels(pk, **kwargs):
     Returns:
         list: 
     """
-    responses = get_responses(pk, **kwargs)
+    responses = get_responses(user, **kwargs)
 
     if not responses:
         return []
@@ -220,24 +227,27 @@ def get_progress_labels(pk, **kwargs):
 
 def calculate_score(values):
     """
-    :param responses: List of numbers from which you want to calculate a score.
+    :param values: List of numbers from which you want to calculate a score.
     """
+    values = list(filter(lambda value: value is not None, values))
     return sum(values) / len(values)
 
-def get_respondent_leaderboard_json(request, pk):
+@login_required(login_url='/accounts/login/')
+def get_respondent_leaderboard_json(request):
     group_param = request.GET.get('group', None)
     if group_param is not None:
         group = Group.objects.get(pk=group_param)
         return JsonResponse(data={
-            'rows': get_leaderboard(pk, group=group)
+            'rows': get_leaderboard(request.user, group=group)
         })
     else:
         return JsonResponse(data={
-            'rows': get_leaderboard(pk)
+            'rows': get_leaderboard(request.user)
         })
 
-def get_respondent_leaderboard_groups_json(request, pk):
-    groups = get_groups(pk)
+@login_required(login_url='/accounts/login/')
+def get_respondent_leaderboard_groups_json(request):
+    groups = get_groups(request.user)
     data = []
     for group in groups:
         entry = {
@@ -250,8 +260,8 @@ def get_respondent_leaderboard_groups_json(request, pk):
         'buttons': data
     })
     
-def get_leaderboard(pk, **kwargs):
-    respondent = Respondent.objects.get(pk=pk)
+def get_leaderboard(user, **kwargs):
+    respondent = Respondent.objects.get(user=user)
 
     if kwargs.get('group') is not None:
         group = kwargs.get('group')
@@ -273,27 +283,8 @@ def get_leaderboard(pk, **kwargs):
 
     return rows
 
-def get_groups(pk):
-    respondent = Respondent.objects.get(pk=pk)
+def get_groups(user):
+    respondent = Respondent.objects.get(user=user)
     group_ids = GroupRespondent.objects.filter(respondent=respondent).values_list('group', flat=True)
     groups = Group.objects.filter(pk__in=group_ids)
     return groups
-
-# class RespondentSignupView(SignupView):
-#     template_name = 'account/signup_respondent.html'
-
-#     form_class = RespondentSignupForm
-
-#     view_name = 'respondent_signup'
-
-#     # I don't use them, but you could override them
-#     # (N.B: the following values are the default)
-#     success_url = '/respondent@1/'
-#     redirect_field_name = 'next'
-
-#     def get_context_data(self, **kwargs):
-#         ret = super(RespondentSignupView, self).get_context_data(**kwargs)
-#         ret.update(self.kwargs)
-#         return ret
-
-# respondent_signup = RespondentSignupView.as_view()
