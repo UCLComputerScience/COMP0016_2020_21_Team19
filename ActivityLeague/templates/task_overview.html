@@ -8,7 +8,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="{% url 'surveyor_leaderboard' %}">
+  <a class="nav-link" href="{% url 'leaderboard' %}">
     <span data-feather="bar-chart-2"></span>
     Leaderboard
   </a>
@@ -154,7 +154,7 @@
     }
 
     function render_responses() {
-      $.get('/surveyor/task@' + task_pk + '/get_questions_json', function (tableData) {
+      $.get('/task@' + task_pk + '/get_questions_json', function (tableData) {
         var parent = document.getElementById('responses-container');
         var rows = tableData['rows'];
         for (var i=0; i < rows.length; i++) {

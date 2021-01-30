@@ -2,7 +2,7 @@
 
 {% block sidebar %}
 <li class="nav-item">
-  <a class="nav-link" href="{% url 'surveyor_dashboard' %}">
+  <a class="nav-link" href="{% url 'dashboard' %}">
     <span data-feather="home"></span>
     Dashboard
   </a>
@@ -69,7 +69,7 @@
   }
 
   function render_buttons () {
-    $.get('/surveyor/get_leaderboard_groups_json', function (buttonData) {
+    $.get('/get_leaderboard_groups_json', function (buttonData) {
       var parent = document.getElementById('button-container');
 
       add_button(parent, 'Overall', "0", selected=true);
@@ -108,8 +108,7 @@
   } 
 
   function render_leaderboard (params) {
-    console.log('Params ' + params);
-    var endpoint = '/surveyor/get_leaderboard_json?' + params;
+    var endpoint = '/get_leaderboard_json?' + params;
     $.get(endpoint, function (leaderboardData) {
       var parent = document.getElementById('table-body');
 

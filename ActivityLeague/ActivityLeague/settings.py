@@ -48,7 +48,8 @@ INSTALLED_APPS = [
 
     'surveyor',
     'respondent',
-    'authentication'
+    'authentication',
+    'core'
 ]
 
 MIDDLEWARE = [
@@ -171,13 +172,13 @@ STATICFILES_DIRS = [
 
 SITE_ID = 1
 
-ACCOUNT_ADAPTER = 'authentication.adapter.MyAccountAdapter'
+# ACCOUNT_ADAPTER = 'authentication.adapter.MyAccountAdapter'
 
-# ACCOUNT_SIGNUP_REDIRECT_URL = ''
+ACCOUNT_SIGNUP_REDIRECT_URL = '/dashboard'
 
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
 
-# LOGIN_REDIRECT_URL = 'foobar'
+LOGIN_REDIRECT_URL = '/dashboard'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

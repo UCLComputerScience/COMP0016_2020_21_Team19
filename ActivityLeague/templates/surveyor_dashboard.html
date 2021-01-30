@@ -8,7 +8,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="{% url 'surveyor_leaderboard' %}">
+  <a class="nav-link" href="{% url 'leaderboard' %}">
     <span data-feather="bar-chart-2"></span>
     Leaderboard
   </a>
@@ -157,7 +157,7 @@
   }
 
   function load_and_render_graphs_and_leaderboards() {
-    $.get('/surveyor/get_graphs_and_leaderboards_json', function(graphAndLeaderboardData) {
+    $.get('/get_graphs_and_leaderboards_json', function(graphAndLeaderboardData) {
       var parent = document.getElementById("graph-container");
 
       var graphs = graphAndLeaderboardData['graphs'];
@@ -176,7 +176,7 @@
   });
 
   function render_table() {
-    $.get('/surveyor/get_tasks_json', function (tableData) {
+    $.get('/get_tasks_json', function (tableData) {
       var parent = document.getElementById('table-body');
       var rows = tableData['rows'];
       for (var i=0; i < rows.length; i++) {

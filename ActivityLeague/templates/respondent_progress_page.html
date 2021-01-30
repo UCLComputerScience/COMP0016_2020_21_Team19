@@ -2,13 +2,13 @@
 
 {% block sidebar %}
 <li class="nav-item">
-  <a class="nav-link" href="{% url 'respondent_dashboard' %}">
+  <a class="nav-link" href="{% url 'dashboard' %}">
     <span data-feather="home"></span>
     Dashboard 
   </a>
 </li>
 <li class="nav-item" >
-  <a class="nav-link" href="{% url 'respondent_leaderboard' %}">
+  <a class="nav-link" href="{% url 'leaderboard' %}">
     <span data-feather="bar-chart-2"></span>
     Leaderboard
   </a>
@@ -92,7 +92,7 @@
   }
 
   function load_and_render_graphs() {
-    $.get('/respondent/get_progress_json', function(graphData) {
+    $.get('/get_progress_json', function(graphData) {
       var parent = document.getElementById("graph-container");
 
       var overall = graphData['overall'];

@@ -27,11 +27,12 @@ def dashboard(request):
         task.color = "red" if until < datetime.timedelta(days=1) else "orange" if until < datetime.timedelta(days=2) else "darkgreen"
     return render(request, 'respondent_dashboard.html', {'user' : user, 'tasks' : tasks, 'now' : now})
 
+
 @login_required(login_url='/accounts/login/')
 def leaderboard(request):
     user = get_object_or_404(Respondent, user=request.user)
     respondents = Respondent.objects.all()
-    return render(request, 'respondent_leaderboard.html', {'user' : user, 'respondents' : respondents})
+    return render(request, 'respondent_leaderboard.html', {'user' : user})
     # return render(request, 'respondent_leaderboard.html')
 
 @login_required(login_url='/accounts/login/')

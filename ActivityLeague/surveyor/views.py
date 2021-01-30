@@ -164,6 +164,7 @@ def calculate_score(values):
     """
     :param responses: List of numbers from which you want to calculate a score.
     """
+    values = list(filter(lambda value: value is not None, values))
     return sum(values) / len(values)
 
 def get_num_respondents_in_group(group):
