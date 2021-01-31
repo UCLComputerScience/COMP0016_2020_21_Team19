@@ -30,16 +30,6 @@ def get_graphs_and_leaderboards_json(request):
     })
 
 @login_required(login_url='/accounts/login/')
-def dashboard(request):
-    user = get_object_or_404(Surveyor, user=request.user)
-    return render(request, 'surveyor_dashboard.html', {'user' : user})
-
-@login_required(login_url='/accounts/login/')
-def leaderboard(request):
-    user = get_object_or_404(Surveyor, user=request.user)
-    return render(request, 'surveyor_leaderboard.html', {'user' : user})
-
-@login_required(login_url='/accounts/login/')
 def task_overview(request, pk_task):
     user = get_object_or_404(Surveyor, user=request.user)
     task = get_object_or_404(Task, pk=pk_task)
