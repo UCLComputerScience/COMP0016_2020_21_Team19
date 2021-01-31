@@ -28,11 +28,19 @@ def insert_dummy_data():
     from surveyor.models import Surveyor, Group, GroupSurveyor, Task, Question
     from respondent.models import Respondent, GroupRespondent, Response
 
-    john_doe = Respondent.objects.create(firstname="John", surname="Doe")
-    jack_white = Respondent.objects.create(firstname="Jack", surname="White")
+    User = get_user_model()
 
-    jane_doe = Surveyor.objects.create(firstname="Jane", surname="Doe")
-    christine_black = Surveyor.objects.create(firstname="Christine", surname="Black")
+    john_doe_user = User.objects.create_user(username="john", email="john@doe.com", password="activityleague")
+    jack_white_user = User.objects.create_user(username="jack", email="jack@white.com", password="activityleague")
+
+    jane_doe_user = User.objects.create_user(username="jane", email="jane@doe.com", password="activityleague")
+    christine_black_user = User.objects.create_user(username="christine", email="christine@black.com", password="activityleague")
+
+    john_doe = Respondent.objects.create(user=john_doe_user, firstname="John", surname="Doe")
+    jack_white = Respondent.objects.create(user=jack_white_user, firstname="Jack", surname="White")
+
+    jane_doe = Surveyor.objects.create(user=jane_doe_user, firstname="Jane", surname="Doe")
+    christine_black = Surveyor.objects.create(user=christine_black_user, firstname="Christine", surname="Black")
 
     shoulder_1 = Group.objects.create(name="Shoulder Therapy 1")
     hip_1 = Group.objects.create(name="Hip Therapy 1")

@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import modelformset_factory
+from allauth.account.forms import SignupForm, LoginForm
 
 from .models import *
 

@@ -2,7 +2,7 @@
 
 {% block sidebar %}
 <li class="nav-item">
-  <a class="nav-link" href="{% url 'respondent_dashboard' user.pk %}">
+  <a class="nav-link" href="{% url 'dashboard' %}">
     <span data-feather="home"></span>
     Dashboard
   </a>
@@ -14,7 +14,7 @@
   </a>
 </li>
 <li class="nav-item" >
-  <a class="nav-link" href="{% url 'respondent_progress' user.pk %}">
+  <a class="nav-link" href="{% url 'respondent_progress' %}">
     <span data-feather="bar-chart-2"></span>
     Progress
   </a>
@@ -42,8 +42,6 @@
 
 {% block scripts %}
 <script>
-  var pk = {{ pk }};
-
   function select_button (target_button) {
     // Deactivate all other buttons
     var parent = document.getElementById('button-container');
@@ -77,7 +75,7 @@
   }
 
   function render_buttons () {
-    $.get('/respondent@' + pk + '/get_respondent_leaderboard_groups_json', function (buttonData) {
+    $.get('/get_respondent_leaderboard_groups_json', function (buttonData) {
       var parent = document.getElementById('button-container');
 
       add_button(parent, 'Overall', "0", selected=true);
@@ -116,7 +114,7 @@
   } 
 
   function render_leaderboard (params) {
-    var endpoint = '/respondent@' + pk + '/get_respondent_leaderboard_json?' + params;
+    var endpoint = '/get_respondent_leaderboard_json?' + params;
     $.get(endpoint, function (leaderboardData) {
       var parent = document.getElementById('table-body');
 

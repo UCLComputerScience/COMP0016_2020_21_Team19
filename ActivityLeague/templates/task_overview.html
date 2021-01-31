@@ -8,7 +8,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="{% url 'surveyor_leaderboard' user.pk %}">
+  <a class="nav-link" href="{% url 'leaderboard' %}">
     <span data-feather="bar-chart-2"></span>
     Leaderboard
   </a>
@@ -98,8 +98,7 @@
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
   <script>
-    var pk = {{ user.pk }};
-    var task_pk = {{ task_pk }};
+    var task_pk = '{{ task_pk }}';
 
     function add_question(parent, description) {
       columnWrapper = document.createElement('div');
@@ -155,7 +154,7 @@
     }
 
     function render_responses() {
-      $.get('/surveyor@' + pk + '/task@' + task_pk + '/get_questions_json', function (tableData) {
+      $.get('/task/' + task_pk + '/get_questions_json', function (tableData) {
         var parent = document.getElementById('responses-container');
         var rows = tableData['rows'];
         for (var i=0; i < rows.length; i++) {

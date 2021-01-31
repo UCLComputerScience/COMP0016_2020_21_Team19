@@ -2,13 +2,13 @@
 
 {% block sidebar %}
 <li class="nav-item">
-  <a class="nav-link" href="{% url 'respondent_dashboard' user.pk %}">
+  <a class="nav-link" href="{% url 'dashboard' %}">
     <span data-feather="home"></span>
     Dashboard 
   </a>
 </li>
 <li class="nav-item" >
-  <a class="nav-link" href="{% url 'respondent_leaderboard' user.pk %}">
+  <a class="nav-link" href="{% url 'leaderboard' %}">
     <span data-feather="bar-chart-2"></span>
     Leaderboard
   </a>
@@ -39,8 +39,6 @@
 <!-- Graphs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 <script>
-  var pk = {{ pk }};
-
   function render_graph(parent, title, labels, values) {
     var wrapper = document.createElement('div');
     wrapper.classList.add('row');
@@ -94,7 +92,7 @@
   }
 
   function load_and_render_graphs() {
-    $.get('/respondent@' + pk + '/get_progress_json', function(graphData) {
+    $.get('/get_progress_json', function(graphData) {
       var parent = document.getElementById("graph-container");
 
       var overall = graphData['overall'];

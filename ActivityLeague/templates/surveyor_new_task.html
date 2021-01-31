@@ -2,13 +2,13 @@
 
 {% block sidebar %}
 <li class="nav-item">
-    <a class="nav-link active" href="{% url 'surveyor_dashboard' user.pk %}">
+    <a class="nav-link active" href="{% url 'dashboard' %}">
         <span data-feather="home"></span>
         Dashboard <span class="sr-only">(current)</span>
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{% url 'surveyor_leaderboard' user.pk %}">
+    <a class="nav-link" href="{% url 'leaderboard' %}">
         <span data-feather="bar-chart-2"></span>
         Leaderboard
     </a>
@@ -19,7 +19,7 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
     <h1 class="h2">Create New Task</h1>
     <div>
-        <a class="btn btn-primary" href="{% url 'surveyor_dashboard' user.pk %}">Cancel</a>
+        <a class="btn btn-primary" href="{% url 'dashboard' %}">Cancel</a>
     </div>
 </div>
 <form method="post">

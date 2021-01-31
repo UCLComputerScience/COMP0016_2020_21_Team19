@@ -1,41 +1,47 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+from allauth.account.views import SignupView
 from .forms import GroupForm, TaskForm, QuestionFormset
 from .models import *
 from respondent.models import Respondent, Response, GroupRespondent
 from respondent.views import calculate_score
+from django.contrib.auth.decorators import login_required
 
 import datetime
 import operator
 from django.http import JsonResponse
 
-def get_graphs_and_leaderboards_json(request, pk):
-    groups = get_groups(pk).order_by('name')
+@login_required(login_url='/accounts/login/')
+def get_graphs_and_leaderboards_json(request):
+    groups = get_groups(request.user).order_by('name')
     graphs = []
     leaderboards = []
     for group in groups:
-        labels = get_graph_labels(pk, group=group)
-        scores = get_graph_data(pk, labels, group=group)
+        labels = get_graph_labels(request.user, group=group)
+        scores = get_graph_data(request.user, labels, group=group)
         graphs.append({'title': group.name, 'labels': labels, 'scores': scores})
     
-        leaderboards.append(get_leaderboard(pk, group=group))
+        leaderboards.append(get_leaderboard(request.user, group=group))
     
     return JsonResponse(data={
         'graphs': graphs,
         'leaderboards': leaderboards
     })
 
-def dashboard(request, pk):
-    user = get_object_or_404(Surveyor, pk=pk)
-    return render(request, 'surveyor_dashboard.html', {'user' : user, 'pk':pk})
+@login_required(login_url='/accounts/login/')
+def dashboard(request):
+    user = get_object_or_404(Surveyor, user=request.user)
+    return render(request, 'surveyor_dashboard.html', {'user' : user})
 
-def leaderboard(request, pk):
-    user = get_object_or_404(Surveyor, pk=pk)
-    return render(request, 'surveyor_leaderboard.html', {'user' : user, 'pk': pk})
+@login_required(login_url='/accounts/login/')
+def leaderboard(request):
+    user = get_object_or_404(Surveyor, user=request.user)
+    return render(request, 'surveyor_leaderboard.html', {'user' : user})
 
-def task_overview(request, pk, pk_task):
-    user = get_object_or_404(Surveyor, pk=pk)
+@login_required(login_url='/accounts/login/')
+def task_overview(request, pk_task):
+    user = get_object_or_404(Surveyor, user=request.user)
     task = get_object_or_404(Task, pk=pk_task)
     questions = Question.objects.filter(task=task)
     num_responses = Response.objects.filter(question__in=questions).count()
@@ -49,8 +55,9 @@ def task_overview(request, pk, pk_task):
     }
     return render(request, 'task_overview.html', data)
 
-def new_task(request, pk):
-    user = get_object_or_404(Surveyor, pk=pk)
+@login_required(login_url='/accounts/login/')
+def new_task(request):
+    user = get_object_or_404(Surveyor, user=request.user)
     group_surveyors = GroupSurveyor.objects.filter(surveyor=user)
     groups = []
 
@@ -76,30 +83,31 @@ def new_task(request, pk):
             task.due_date = form.cleaned_data['due_date']
             task.due_time = form.cleaned_data['due_time']
             task.group = Group.objects.get(name=form.cleaned_data['group'])
-            return redirect('surveyor_dashboard', pk=user.pk)
+            return redirect('surveyor_dashboard')
     else:
         form = NewTaskForm()
 
     return render(request, 'surveyor_new_task.html', {'user' : user, 'groups' : groups, 'taskform': form, 'formset': formset})
 
-def get_groups(pk):
-    surveyor = Surveyor.objects.get(pk=pk)
-    group_ids = GroupSurveyor.objects.filter(surveyor=surveyor)
-    return Group.objects.filter(pk__in=group_ids)
+def get_groups(user):
+    surveyor = Surveyor.objects.get(user=user)
+    group_surveyors = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group', flat=True)
+    groups = Group.objects.filter(pk__in=group_surveyors) 
+    return groups
 
-def get_responses(pk, **kwargs):
-    surveyor = Surveyor.objects.get(pk=pk)
+def get_responses(user, **kwargs):
+    surveyor = Surveyor.objects.get(user=user)
     if kwargs.get('group') is not None:
         group = kwargs.get('group')
         tasks = Task.objects.filter(group=group)
     else:
-        groups = GroupSurveyor.objects.filter(surveyor=surveyor).values_list(flat=True)
+        groups = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group',flat=True)
         tasks = Task.objects.filter(group__in=groups)
     questions = Question.objects.filter(task__in=tasks)
-    return Response.objects.filter(question__in=questions).order_by('date', 'time')
+    return Response.objects.filter(question__in=questions).order_by('date_time')
 
-def get_graph_data(pk, labels, **kwargs):
-    responses = get_responses(pk, **kwargs)
+def get_graph_data(user, labels, **kwargs):
+    responses = get_responses(user, **kwargs)
 
     if not responses:
         return []
@@ -117,9 +125,9 @@ def get_graph_data(pk, labels, **kwargs):
     for date in dates:
         queryset = []
         for response in responses:
-            if response.date > date:
+            if response.date_time.date() > date:
                 break
-            if response.date > previous_date:
+            if response.date_time.date() > previous_date:
                 queryset.append(response.value)
         scores.append(calculate_score(queryset) if queryset else previous_score)
         previous_date = date
@@ -128,14 +136,15 @@ def get_graph_data(pk, labels, **kwargs):
     assert(len(dates) == len(scores))
     return scores
 
-def get_graph_labels(pk, **kwargs):
-    responses = get_responses(pk, **kwargs)
+def get_graph_labels(user, **kwargs):
+    responses = get_responses(user, **kwargs)
 
     if not responses:
         return []
 
     num_intervals = min(len(responses), 10)
-    dates = list(responses.values_list('date', flat=True))
+    dates = list(responses.values_list('date_time', flat=True))
+    dates = [date_time.date() for date_time in dates]
     
     if len(responses) == 0:
         return None
@@ -156,13 +165,15 @@ def calculate_score(values):
     """
     :param responses: List of numbers from which you want to calculate a score.
     """
+    values = list(filter(lambda value: value is not None, values))
     return sum(values) / len(values)
 
 def get_num_respondents_in_group(group):
     return GroupRespondent.objects.filter(group=group).count()
 
-def get_tasks_json(request, pk): # TODO: Remember to uncomment the tasks and comment out the temporary solution
-    surveyor = Surveyor.objects.get(pk=pk)
+@login_required(login_url='/accounts/login/')
+def get_tasks_json(request): # TODO: Remember to uncomment the tasks and comment out the temporary solution
+    surveyor = Surveyor.objects.get(user=request.user)
     group_ids = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group', flat=True)
     groups = Group.objects.filter(pk__in=group_ids)
     # today = datetime.datetime.now()
@@ -187,7 +198,8 @@ def get_tasks_json(request, pk): # TODO: Remember to uncomment the tasks and com
         'rows': data
     })
 
-def get_questions_json(request, pk, pk_task):
+@login_required(login_url='/accounts/login/')
+def get_questions_json(request, pk_task):
     task = Task.objects.get(pk=pk_task)
     questions = Question.objects.filter(task=task)
     
@@ -206,20 +218,22 @@ def get_questions_json(request, pk, pk_task):
         'rows': data
     })
         
-def get_leaderboard_json(request, pk):
+@login_required(login_url='/accounts/login/')
+def get_leaderboard_json(request):
     group_param = request.GET.get('group', None)
     if group_param is not None:
         group = Group.objects.get(pk=group_param)
         return JsonResponse(data={
-            'rows': get_leaderboard(pk, group=group)
+            'rows': get_leaderboard(request.user, group=group)
         })
     else:
         return JsonResponse(data={
-            'rows': get_leaderboard(pk)
+            'rows': get_leaderboard(request.user)
         })
 
-def get_leaderboard_groups_json(request, pk):
-    groups = get_groups(pk)
+@login_required(login_url='/accounts/login/')
+def get_leaderboard_groups_json(request):
+    groups = get_groups(request.user)
     data = []
     for group in groups:
         entry = {
@@ -232,12 +246,12 @@ def get_leaderboard_groups_json(request, pk):
         'buttons': data
     })
 
-def get_leaderboard(pk, **kwargs):
+def get_leaderboard(user, **kwargs):
     if kwargs.get('group') is not None:
         group = kwargs.get('group')
         respondent_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
     else:
-        groups = get_groups(pk)
+        groups = get_groups(user)
         respondent_ids = GroupRespondent.objects.filter(group__in=groups).values_list('respondent', flat=True)
     respondents = Respondent.objects.filter(pk__in=respondent_ids)
     
@@ -253,21 +267,22 @@ def get_leaderboard(pk, **kwargs):
 
     return score_list
 
-def new_group(request, pk):
+@login_required(login_url='/accounts/login/')
+def new_group(request):
     data = dict()
 
     if request.method == 'POST':
         form = GroupForm(request.POST)
         if form.is_valid():
             group = form.save()
-            GroupSurveyor.objects.create(group=group, surveyor=Surveyor.objects.get(id=pk))
+            GroupSurveyor.objects.create(group=group, surveyor=Surveyor.objects.get(user=request.user))
             data['form_is_valid'] = True
         else:
             data['form_is_valid'] = False
     else:
         form = GroupForm()
 
-    context = {'form': form, 'pk' : pk}
+    context = {'form': form}
     data['html_form'] = render_to_string('partial_new_group.html',
         context,
         request=request

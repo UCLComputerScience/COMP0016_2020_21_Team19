@@ -39,15 +39,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django_keycloak.apps.KeycloakAppConfig',
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'crispy_forms',
+
     'surveyor',
-    'respondent'
+    'respondent',
+    'authentication',
+    'core'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'django_keycloak.middleware.BaseKeycloakMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -55,9 +63,20 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# AUTHENTICATION_BACKENDS = [
-#     'django_keycloak.auth.backends.KeycloakAuthorizationCodeBackend',
-# ]
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_UNIQUE = True
+ACCOUNT_USERNAME_REQUIRED = False
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # LOGIN_URL = 'keycloak_login'
 
@@ -150,3 +169,20 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+SITE_ID = 1
+
+# ACCOUNT_ADAPTER = 'authentication.adapter.MyAccountAdapter'
+
+ACCOUNT_SIGNUP_REDIRECT_URL = '/dashboard'
+
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
+
+LOGIN_REDIRECT_URL = '/dashboard'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+ACCOUNT_FORMS = {
+    "login": "authentication.forms.AuthenticationLoginForm",
+    "signup": "authentication.forms.AuthenticationSignupForm"
+}
