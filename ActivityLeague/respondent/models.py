@@ -1,6 +1,7 @@
 from django.db import models
 from surveyor.models import Group, Question
 from django.contrib.auth.models import User
+import uuid
 
 """
 Django auto generates ID primary keys for each model, 
@@ -9,6 +10,7 @@ definition here.
 """
 
 class Respondent(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     firstname = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
@@ -18,11 +20,13 @@ class Respondent(models.Model):
 
 
 class GroupRespondent(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     respondent = models.ForeignKey(Respondent, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
 
 class Response(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     respondent = models.ForeignKey(Respondent, on_delete=models.SET_NULL, null=True)
     value = models.SmallIntegerField(null=True)

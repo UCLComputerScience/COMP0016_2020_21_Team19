@@ -91,8 +91,9 @@ def new_task(request):
 
 def get_groups(user):
     surveyor = Surveyor.objects.get(user=user)
-    group_ids = GroupSurveyor.objects.filter(surveyor=surveyor)
-    return Group.objects.filter(pk__in=group_ids)
+    group_surveyors = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group', flat=True)
+    groups = Group.objects.filter(pk__in=group_surveyors) 
+    return groups
 
 def get_responses(user, **kwargs):
     surveyor = Surveyor.objects.get(user=user)
@@ -100,7 +101,7 @@ def get_responses(user, **kwargs):
         group = kwargs.get('group')
         tasks = Task.objects.filter(group=group)
     else:
-        groups = GroupSurveyor.objects.filter(surveyor=surveyor).values_list(flat=True)
+        groups = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group',flat=True)
         tasks = Task.objects.filter(group__in=groups)
     questions = Question.objects.filter(task__in=tasks)
     return Response.objects.filter(question__in=questions).order_by('date_time')

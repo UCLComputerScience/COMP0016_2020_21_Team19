@@ -36,6 +36,7 @@
     <tbody>
         {% for task in tasks %}
 
+  
         <tr onclick="document.location = '{% url 'response' task.id %}';">
         <td class="align-middle">{{ task.title }}</td>
         <td class="align-middle">{{ task.group }}</td>

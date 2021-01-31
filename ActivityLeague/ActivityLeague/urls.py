@@ -20,10 +20,12 @@ from django.conf.urls import url
 from respondent import views as respondent
 from surveyor import views as surveyor
 from core import views as core
+from django.http.response import HttpResponseRedirect
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', respondent.login, name='login'),
+    path('', lambda r: HttpResponseRedirect('/accounts/login')),
     path('register/', respondent.register, name='register'),
     path('accounts/', include('allauth.urls')),
 
@@ -38,13 +40,13 @@ urlpatterns = [
     # respondent
     url(r'^get_respondent_leaderboard_json$', respondent.get_respondent_leaderboard_json, name='get_respondent_leaderboard_json'),
     url(r'^get_respondent_leaderboard_groups_json$', respondent.get_respondent_leaderboard_groups_json, name='get_respondent_leaderboard_groups_json'),
-    url(r'^response(?P<id>\d+)/?$', respondent.response, name='response'),
+    url(r'^response/(?P<id>[0-9a-f-]+)/?$', respondent.response, name='response'),
     url(r'^progress/?$', respondent.progress, name='respondent_progress'),
     url(r'^get_progress_json$', respondent.get_progress_json, name='get_progress_json'),
 
     # surveyor
-    url(r'^task@(?P<pk_task>\d+)/?$', surveyor.task_overview, name='task_overview'),
-    url(r'^task@(?P<pk_task>\d+)/get_questions_json?$', surveyor.get_questions_json, name='get_questions_json'),
+    url(r'^task/(?P<pk_task>[0-9a-f-]+)/?$', surveyor.task_overview, name='task_overview'),
+    url(r'^task/(?P<pk_task>[0-9a-f-]+)/get_questions_json?$', surveyor.get_questions_json, name='get_questions_json'),
     url(r'^get_graphs_and_leaderboards_json$', surveyor.get_graphs_and_leaderboards_json, name='get_graphs_and_leaderboards_json'),
     url(r'^get_tasks_json$', surveyor.get_tasks_json, name='get_tasks_json'),
     url(r'^get_leaderboard_json$', surveyor.get_leaderboard_json, name='get_leaderboard_json'),
