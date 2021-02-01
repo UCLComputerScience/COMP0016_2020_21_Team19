@@ -48,51 +48,10 @@
   </div>
 </div>
 
-<!-- Word Lists -->
-<div class="row border mr-5 ml-5 p-3 mb-5 bg-light text-dark">
-  <div class="col">Frequent Positively and Negatively Associated Words
-  </div>
-  <div class="col">
-    <table class="table">
-      <tbody>
-        <tr>
-            <td style="color:darkgreen">Internet</td>
-        </tr>
-        <tr>
-            <td style="color:darkgreen">Computer</td>
-        </tr>
-        <tr>
-            <td style="color:darkgreen">History</td>
-        </tr>
-        <tr>
-            <td style="color:darkgreen">Mum</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="col">
-    <table class="table">
-      <tbody>
-        <tr>
-            <td style="color:red">Noise</td>
-        </tr>
-        <tr>
-            <td style="color:red">Boring</td>
-        </tr>
-        <tr>
-            <td style="color:red">Computer</td>
-        </tr>
-        <tr>
-            <td style="color:red">Hard</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div> 
-
 <!-- Responses Section -->
 <div class="text-center align-middle border mr-5 ml-5 rounded bg-light" id="responses-container">
 </div>
+
 {% endblock %}
 
 {% block scripts %}
@@ -153,6 +112,15 @@
       parent.appendChild(columnWrapper);
     }
 
+    function add_word_cloud(parent, word_cloud) {
+      columnWrapper = document.createElement('div');
+      columnWrapper.classList.add('col');
+      img = document.createElement('img');
+      img.src = word_cloud;
+      columnWrapper.appendChild(img);
+      parent.appendChild(columnWrapper);
+    }
+
     function render_responses() {
       $.get('/task/' + task_pk + '/get_questions_json', function (tableData) {
         var parent = document.getElementById('responses-container');
@@ -162,8 +130,12 @@
           var rowWrapper = document.createElement('div');
           rowWrapper.classList.add('row', 'border-bottom');
           add_question(rowWrapper, question['description']);
-          add_link_clicks(rowWrapper, question['link_clicks']);
-          add_pie_chart(rowWrapper, question['pie_chart_labels'], question['pie_chart_data']);
+          if (question['type'] === 'text') {
+            add_word_cloud(rowWrapper, question['word_cloud'])
+          } else {
+            add_link_clicks(rowWrapper, question['link_clicks']);
+            add_pie_chart(rowWrapper, question['pie_chart_labels'], question['pie_chart_data']);
+          }
           parent.appendChild(rowWrapper);
         }
       })
