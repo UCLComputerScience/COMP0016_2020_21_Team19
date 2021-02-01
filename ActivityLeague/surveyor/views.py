@@ -30,16 +30,6 @@ def get_graphs_and_leaderboards_json(request):
     })
 
 @login_required(login_url='/accounts/login/')
-def dashboard(request):
-    user = get_object_or_404(Surveyor, user=request.user)
-    return render(request, 'surveyor_dashboard.html', {'user' : user})
-
-@login_required(login_url='/accounts/login/')
-def leaderboard(request):
-    user = get_object_or_404(Surveyor, user=request.user)
-    return render(request, 'surveyor_leaderboard.html', {'user' : user})
-
-@login_required(login_url='/accounts/login/')
 def task_overview(request, pk_task):
     user = get_object_or_404(Surveyor, user=request.user)
     task = get_object_or_404(Task, pk=pk_task)
@@ -58,11 +48,11 @@ def task_overview(request, pk_task):
 @login_required(login_url='/accounts/login/')
 def new_task(request):
     user = get_object_or_404(Surveyor, user=request.user)
-    group_surveyors = GroupSurveyor.objects.filter(surveyor=user)
+    group_surveyors = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
     groups = []
 
     for gr in group_surveyors:
-        groups.append(Group.objects.get(pk=gr.id))
+        groups.append(Group.objects.get(pk=gr))
 
     if request.method == 'GET':
         form = TaskForm(request.GET or None)
@@ -83,7 +73,7 @@ def new_task(request):
             task.due_date = form.cleaned_data['due_date']
             task.due_time = form.cleaned_data['due_time']
             task.group = Group.objects.get(name=form.cleaned_data['group'])
-            return redirect('surveyor_dashboard')
+            return redirect('dashboard')
     else:
         form = NewTaskForm()
 
