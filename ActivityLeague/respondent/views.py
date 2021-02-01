@@ -11,6 +11,28 @@ from django.contrib.auth.decorators import login_required
 import random
 
 @login_required(login_url='/accounts/login/')
+def dashboard(request):
+    user = get_object_or_404(Respondent, user=request.user)
+    # get the groups that this user is a part of
+    groups = GroupRespondent.objects.filter(respondent=user).values_list('group', flat=True)
+    # only get the tasks which are assigned to a group the user is a part of
+    tasks = Task.objects.filter(group__in=groups)
+    tasks = list(filter(lambda task: not task_is_completed(request.user, task), tasks))
+    now = datetime.datetime.now()
+    for task in tasks:
+        # creating a combined DateTime object to allow for "Time Remaining" to be shown
+        task.due_dt = datetime.datetime.combine(task.due_date, task.due_time)
+        until = task.due_dt - now
+        # working out time left to determine color of "Time Remaining"
+        task.color = "red" if until < datetime.timedelta(days=1) else "orange" if until < datetime.timedelta(days=2) else "darkgreen"
+    return render(request, 'respondent_dashboard.html', {'user' : user, 'tasks' : tasks, 'now' : now})
+
+@login_required(login_url='/accounts/login/')
+def leaderboard(request):
+    user = get_object_or_404(Respondent, user=request.user)
+    return render(request, 'respondent_leaderboard.html', {'user' : user})
+
+@login_required(login_url='/accounts/login/')
 def progress(request):
     user = get_object_or_404(Respondent, user=request.user)
     labels = get_progress_labels(request.user)
@@ -89,7 +111,7 @@ def response(request, id):
                 Response.objects.create(question=q, respondent=user, value=tl_dict[data], date_time=current_date_time, link_clicked=link_clicked)
             else: # text
                 Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time, link_clicked=link_clicked)
-        return redirect('/respondent')
+        return redirect('/dashboard')
     else:
         return render(request, 'response.html', {'user' : user, 'task' : task, 'questions' : questions})
 
@@ -264,3 +286,6 @@ def get_groups(user):
     group_ids = GroupRespondent.objects.filter(respondent=respondent).values_list('group', flat=True)
     groups = Group.objects.filter(pk__in=group_ids)
     return groups
+
+def task_is_completed(user, task):
+    return bool(get_responses(user, task=task))

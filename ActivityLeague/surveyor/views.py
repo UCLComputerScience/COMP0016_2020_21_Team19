@@ -13,6 +13,16 @@ import operator
 from django.http import JsonResponse
 
 @login_required(login_url='/accounts/login/')
+def dashboard(request):
+    user = get_object_or_404(Surveyor, user=request.user)
+    return render(request, 'surveyor_dashboard.html', {'user' : user})
+
+@login_required(login_url='/accounts/login/')
+def leaderboard(request):
+    user = get_object_or_404(Surveyor, user=request.user)
+    return render(request, 'surveyor_leaderboard.html', {'user' : user})
+
+@login_required(login_url='/accounts/login/')
 def get_graphs_and_leaderboards_json(request):
     groups = get_groups(request.user).order_by('name')
     graphs = []
