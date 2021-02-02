@@ -13,6 +13,23 @@ import datetime
 import operator
 from django.http import HttpResponse, JsonResponse
 import json
+import matplotlib.pyplot as plt
+import io
+import base64
+import urllib
+from wordcloud import WordCloud
+from PIL import Image
+
+@login_required(login_url='/accounts/login/')
+def dashboard(request):
+    user = get_object_or_404(Surveyor, user=request.user)
+    return render(request, 'surveyor_dashboard.html', {'user' : user})
+
+@login_required(login_url='/accounts/login/')
+def leaderboard(request):
+    user = get_object_or_404(Surveyor, user=request.user)
+    return render(request, 'surveyor_leaderboard.html', {'user' : user})
+
 
 @login_required(login_url='/accounts/login/')
 def get_graphs_and_leaderboards_json(request):
@@ -37,6 +54,7 @@ def task_overview(request, pk_task):
     task = get_object_or_404(Task, pk=pk_task)
     questions = Question.objects.filter(task=task)
     num_responses = Response.objects.filter(question__in=questions).count()
+
     data = {
         'user': user,
         'task_pk': pk_task,
@@ -176,14 +194,14 @@ def get_tasks_json(request): # TODO: Remember to uncomment the tasks and comment
     for task in tasks:
         group = task.group # Might just return primary key rather than actual object
         questions = Question.objects.filter(task=task)
-        num_responses = Response.objects.filter(question__in=questions).count()
+        responses = Response.objects.filter(question__in=questions)
         num_group_respondents = get_num_respondents_in_group(group)
         # Need to be able to tell complete responses - this is just a hack for now
         data.append({'pk': task.pk,
                      'title': task.title, 
                      'group_name': group.name, 
                      'num_respondents': num_group_respondents, 
-                     'num_responses': num_responses // questions.count(),
+                     'num_responses': responses.count() // questions.count(),
                      'due_date': task.due_date.strftime("%d/%m/%Y")})
     
     return JsonResponse(data={
@@ -199,16 +217,52 @@ def get_questions_json(request, pk_task):
     for question in questions:
         link_clicks = 0
         responses = Response.objects.filter(question=question)
-        pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
+        pie_chart_labels = None
+        pie_chart_data = None
+        word_cloud = None
+
+        if question.response_type == 1:
+            response_type = "likert"
+            pie_chart_labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
+            pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
+        elif question.response_type == 2:
+            response_type = "traffic"
+            pie_chart_labels = ['Red', 'Yellow', 'Green']
+            pie_chart_data = [responses.filter(value=i).count() for i in range(1, 4)]
+        elif question.response_type == 3:
+            response_type = "text"
+            word_cloud_dict = {}
+            for response in responses:
+                word = response.text
+                word_cloud_dict[word] = word_cloud_dict.get(word, 0) + 1
+            word_cloud = create_word_cloud(word_cloud_dict)
+        else:
+            response_type = None
+        
         data.append({
+            'type': response_type,
             'description': question.description,
             'link_clicks': link_clicks,
-            'pie_chart_labels': ['1', '2', '3', '4', '5'],
-            'pie_chart_data': pie_chart_data})
+            'pie_chart_labels': pie_chart_labels,
+            'pie_chart_data': pie_chart_data,
+            'word_cloud': word_cloud})
         
     return JsonResponse(data={
         'rows': data
     })
+
+def create_word_cloud(word_cloud_dict):
+    word_cloud = WordCloud(background_color=None, mode="RGBA").generate_from_frequencies(word_cloud_dict)
+    plt.figure()
+    plt.imshow(word_cloud, interpolation='bilinear')
+    plt.axis("off")
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', transparent=True)
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    buf.close()
+    image_64 = 'data:image/png;base64,' + urllib.parse.quote(string)
+    return image_64
         
 @login_required(login_url='/accounts/login/')
 def get_leaderboard_json(request):
