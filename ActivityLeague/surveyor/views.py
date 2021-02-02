@@ -291,11 +291,8 @@ def groups(request):
 
 @login_required(login_url='/accounts/login/')
 def manage_group(request, pk_group):
-    user = get_object_or_404(Surveyor, user=request.user)
-    group = Group.objects.get(pk=pk_group)
-    respondents = get_group_participants(group)
-    data = dict()
-    form = dict()
+
+    # data = dict()
     if request.method == 'POST':
         # form = AddUserForm(request.POST)
         respondent_pk = request.POST.get('respondent')
@@ -313,10 +310,14 @@ def manage_group(request, pk_group):
         #     data['form_is_valid'] = True
         # else:
         #     data['form_is_valid'] = False
-        return render(request, 'surveyor_manage_group.html', {'user': user, 'participants': respondents, 'group': group})
-    else:
-        form = AddUserForm(group_pk=pk_group)
-        return render(request, 'surveyor_manage_group.html', {'user': user, 'participants': respondents, 'group': group, 'form': form})
+        # return render(request, 'surveyor_manage_group.html', {'user': user, 'participants': respondents, 'group': group})
+    # else:
+
+    user = get_object_or_404(Surveyor, user=request.user)
+    group = Group.objects.get(pk=pk_group)
+    respondents = get_group_participants(group)
+    form = AddUserForm(group_pk=pk_group)
+    return render(request, 'surveyor_manage_group.html', {'user': user, 'participants': respondents, 'group': group, 'form': form})
 
     # return render(request, 'surveyor_manage_group.html', {'user': user, 'participants': respondents, 'group': group, 'form': form})
 
