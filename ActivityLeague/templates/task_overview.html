@@ -13,6 +13,12 @@
     Leaderboard
   </a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'groups' %}">
+    <span data-feather="bar-chart-2"></span>
+    Groups <span class="sr-only">(current)</span>
+  </a>
+</li>
 {% endblock %}
         
 {% block content %}
@@ -49,7 +55,18 @@
 </div>
 
 <!-- Responses Section -->
-<div class="text-center align-middle border mr-5 ml-5 rounded bg-light" id="responses-container">
+<div class="text-center align-middle border m-5 rounded bg-light" id="responses-container">
+  <div class="row border-bottom">
+    <div class="col">
+      <h5><b>Question</b></h5>
+    </div>
+    <div class="col border-left border-right">
+      <h5><b>Link Clicks</b></h5>
+    </div>
+    <div class="col">
+      <h5><b>Responses</b></h5>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

@@ -85,7 +85,6 @@ def response(request, id):
     if request.method == 'POST':
         dict = request.POST.items()
         # get a list of Question IDs for which the user clicked the link
-        print("clicked: " + request.POST.get('clicked'))
         clicked = [x for x in request.POST.get('clicked').split(',')]
         print(clicked)
         current_date_time = datetime.datetime.now()
