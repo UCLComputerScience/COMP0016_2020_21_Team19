@@ -59,8 +59,8 @@ def task_overview(request, pk_task):
         'user': user,
         'task_pk': pk_task,
         'task_title': task.title,
-        'task_total_students': get_num_respondents_in_group(task.group),
-        'task_students_completed': num_responses // questions.count(),
+        'task_total_respondents': get_num_respondents_in_group(task.group),
+        'task_respondents_completed': num_responses // questions.count(),
         'task_due_date': task.due_date.strftime("%d/%m/%Y")
     }
     return render(request, 'task_overview.html', data)
