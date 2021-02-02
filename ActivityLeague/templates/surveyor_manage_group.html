@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+<li class="nav-item">
+  <a class="nav-link" href="#">
+    <span data-feather="home"></span>
+    Dashboard <span class="sr-only">(current)</span>
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'leaderboard' %}">
+    <span data-feather="bar-chart-2"></span>
+    Leaderboard
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link active" href="{% url 'groups' %}">
+    <span data-feather="bar-chart-2"></span>
+    Groups <span class="sr-only">(current)</span>
+  </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h2>Participants</h2>
+<div> {# class="container" #}
+  <table class="table table-striped table-hover">
+    <thead class="thead">
+      <tr>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody id="table-body">
+      {% for participant in participants %}
+      <tr>
+        <td class="align-middle">{{ participant }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <button type="button" class="btn btn-primary js-add-user">
+    <span class="glyphicon glyphicon-plus"></span>
+    Add Participant...
+  </button>
+</div>
+
+<div>
+  <div class="modal fade" id="modal-add-user">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        {% include "partial_add_user.html" %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function get_params() {
+    var path = window.location.pathname;
+    var res = path.split("/");
+    return res[2];
+  }
+
+  // Script for modal popup
+  $(function () {
+    $(".js-add-user").click(function () {
+      $("#modal-add-user").modal('show');
+    });
+
+    // $("#modal-add-user").on("submit", ".js-add-user-form", function (e) {
+    //   e.preventDefault();
+    //   var form = $(this);
+    //   $.ajax({
+    //     url: form.attr("action"),
+    //     data: form.serialize(),
+    //     type: form.attr("method"),
+    //     dataType: 'json',
+    //     success: function (data) {
+    //       console.log(data.form_is_valid)
+    //       if (data.form_is_valid) {
+    //         $("#modal-add-user").modal("hide");
+    //         alert("Participant Added!");
+    //       } else {
+    //         $("#modal-add-user .modal-content").html(data.html_form);
+    //       }
+    //     }
+    //   });
+    // });
+  });
+</script>
+{% endblock %}
