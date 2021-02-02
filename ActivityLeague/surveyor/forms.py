@@ -3,6 +3,7 @@ from django.forms import modelformset_factory
 from allauth.account.forms import SignupForm, LoginForm
 
 from .models import *
+from respondent.models import *
 
 GROUP_CHOICES = Group.objects.all()
 
@@ -78,4 +79,39 @@ class GroupForm(forms.ModelForm):
                 'placeholder': 'Enter Group Name here'
                 }
             )
+        }
+
+class AddUserForm(forms.ModelForm):
+    # group_pk = None
+
+    def __init__(self, *args, **kwargs):
+        # print("GROUP PK: " + str(kwargs.get('group_pk')))
+        # print(AddUserForm.group_pk)
+        # if AddUserForm.group_pk is None:
+        self.group_pk = kwargs.pop('group_pk')
+        print('group_pk', self.group_pk)
+        # print(AddUserForm.group_pk)
+        group = Group.objects.get(pk=self.group_pk)
+        group_respondents_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
+        self.USERS = Respondent.objects.exclude(pk__in=group_respondents_ids)
+        # print("USERS: " + str(self.USERS))
+        super(AddUserForm,self).__init__(*args, **kwargs)
+
+        # print("USERS: " + str(self.USERS))
+        self.fields['respondent'] = forms.ModelChoiceField(
+            queryset=self.USERS,
+            widget=forms.Select(
+                attrs={
+                    'id': 'post-respondent',
+                    'class' : 'custom-select d-block w-100'
+                    }
+                )
+            )
+        # self.fields['respondent'].choices = self.USERS
+
+    class Meta:
+        model = GroupRespondent
+        fields = ('respondent',)
+        labels = {
+            'respondent': 'Select User',
         }

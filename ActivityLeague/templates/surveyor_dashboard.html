@@ -13,6 +13,12 @@
     Leaderboard
   </a>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'groups' %}">
+    <span data-feather="bar-chart-2"></span>
+    Groups <span class="sr-only">(current)</span>
+  </a>
+</li>
 {% endblock %}
 
 {% block content %}
@@ -215,7 +221,7 @@
   $(function () {
     $(".js-new-group").click(function () {
       $.ajax({
-        url: '/surveyor/new_group/',
+        url: '/new_group/',
         type: 'get',
         dataType: 'json',
         beforeSend: function () {
