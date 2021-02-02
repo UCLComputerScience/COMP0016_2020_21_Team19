@@ -214,13 +214,18 @@ def get_questions_json(request, pk_task):
     for question in questions:
         link_clicks = 0
         responses = Response.objects.filter(question=question)
-        pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
+        pie_chart_labels = None
+        pie_chart_data = None
         word_cloud = None
 
         if question.response_type == 1:
             response_type = "likert"
+            pie_chart_labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
+            pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
         elif question.response_type == 2:
             response_type = "traffic"
+            pie_chart_labels = ['Red', 'Yellow', 'Green']
+            pie_chart_data = [responses.filter(value=i).count() for i in range(1, 4)]
         elif question.response_type == 3:
             response_type = "text"
             word_cloud_dict = {}
@@ -235,7 +240,7 @@ def get_questions_json(request, pk_task):
             'type': response_type,
             'description': question.description,
             'link_clicks': link_clicks,
-            'pie_chart_labels': ['1', '2', '3', '4', '5'],
+            'pie_chart_labels': pie_chart_labels,
             'pie_chart_data': pie_chart_data,
             'word_cloud': word_cloud})
         
