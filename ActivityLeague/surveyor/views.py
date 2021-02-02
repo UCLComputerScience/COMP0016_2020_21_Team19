@@ -2,15 +2,17 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 from allauth.account.views import SignupView
-from .forms import GroupForm, TaskForm, QuestionFormset
+from .forms import GroupForm, TaskForm, QuestionFormset, AddUserForm
 from .models import *
 from respondent.models import Respondent, Response, GroupRespondent
 from respondent.views import calculate_score
 from django.contrib.auth.decorators import login_required
+from django import forms
 
 import datetime
 import operator
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
+import json
 
 @login_required(login_url='/accounts/login/')
 def get_graphs_and_leaderboards_json(request):
@@ -274,6 +276,75 @@ def new_group(request):
 
     context = {'form': form}
     data['html_form'] = render_to_string('partial_new_group.html',
+        context,
+        request=request
+    )
+    return JsonResponse(data)
+
+@login_required(login_url='/accounts/login/')
+def groups(request):
+    user = get_object_or_404(Surveyor, user=request.user)
+    groups = get_groups(request.user)
+    for group in groups:
+        group.num_participants = get_num_respondents_in_group(group)        
+    return render(request, 'surveyor_groups.html', {'user': user, 'groups': groups})
+
+@login_required(login_url='/accounts/login/')
+def manage_group(request, pk_group):
+    user = get_object_or_404(Surveyor, user=request.user)
+    group = Group.objects.get(pk=pk_group)
+    respondents = get_group_participants(group)
+    data = dict()
+    form = dict()
+    if request.method == 'POST':
+        # form = AddUserForm(request.POST)
+        respondent_pk = request.POST.get('respondent')
+        # print(respondent)
+        # Security risk: CRSF token not checked
+
+        respondent = Respondent.objects.get(pk=respondent_pk)
+        group = Group.objects.get(pk=pk_group)
+        new_object = GroupRespondent.objects.create(group=group, respondent=respondent)
+        
+        # form = AddUserForm(request.POST, group_pk=pk_group)
+        # print(str(form))
+        # if form.is_valid():
+        #     group = form.save()
+        #     data['form_is_valid'] = True
+        # else:
+        #     data['form_is_valid'] = False
+        return render(request, 'surveyor_manage_group.html', {'user': user, 'participants': respondents, 'group': group})
+    else:
+        form = AddUserForm(group_pk=pk_group)
+        return render(request, 'surveyor_manage_group.html', {'user': user, 'participants': respondents, 'group': group, 'form': form})
+
+    # return render(request, 'surveyor_manage_group.html', {'user': user, 'participants': respondents, 'group': group, 'form': form})
+
+def get_group_participants(group):
+    group_respondents = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
+    return Respondent.objects.filter(pk__in=group_respondents)
+
+
+@login_required(login_url='/accounts/login/')
+def add_user(request):
+    data = dict()
+    if request.method == 'POST':
+
+        form = AddUserForm(request.POST)
+        if form.is_valid():
+            # group = form.save()
+            group = Group.objects.get(request.POST.get('group', None))
+            respondent = Respondent.objects.get(pk=form.data['respondent'])
+            GroupRespondent.objects.create(group=group, respondent=respondent)
+            data['form_is_valid'] = True
+        else:
+            data['form_is_valid'] = False
+    else:
+        form = AddUserForm(group_pk=request.GET.get('group', None))
+        form.fields['group'].initial = request.GET.get('group', None)
+
+    context = {'form': form}
+    data['html_form'] = render_to_string('partial_add_user.html',
         context,
         request=request
     )

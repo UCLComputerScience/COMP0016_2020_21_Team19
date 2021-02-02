@@ -52,5 +52,8 @@ urlpatterns = [
     url(r'^get_leaderboard_json$', surveyor.get_leaderboard_json, name='get_leaderboard_json'),
     url(r'^get_leaderboard_groups_json$', surveyor.get_leaderboard_groups_json, name='get_leaderboard_groups_json'),
     url(r'^new_group/?$', surveyor.new_group, name='new_group'),
-    url(r'^new_task/?$', surveyor.new_task, name='new_task')
+    url(r'^groups/?$', surveyor.groups, name='groups'),
+    url(r'^new_task/?$', surveyor.new_task, name='new_task'),
+    url(r'^add_user/?$', surveyor.add_user, name='add_user'),
+    url(r'^manage_group/(?P<pk_group>[0-9a-f-]+)/?$', surveyor.manage_group, name='manage_group'),
 ]
