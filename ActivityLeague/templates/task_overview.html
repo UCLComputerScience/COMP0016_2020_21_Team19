@@ -135,11 +135,13 @@
     function add_word_cloud(parent, word_cloud) {
       columnWrapper = document.createElement('div');
       columnWrapper.classList.add('col');
-      img = document.createElement('img');
-      img.src = word_cloud;
-      img.style.width = "100%";
-      img.style.height = "auto";
-      columnWrapper.appendChild(img);
+      if (word_cloud != null) {
+        img = document.createElement('img');
+        img.src = word_cloud;
+        img.style.width = "100%";
+        img.style.height = "auto";
+        columnWrapper.appendChild(img);
+      }
       parent.appendChild(columnWrapper);
     }
 

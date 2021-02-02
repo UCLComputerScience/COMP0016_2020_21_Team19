@@ -241,7 +241,8 @@ def get_questions_json(request, pk_task):
                 link_clicks += response.link_clicked
                 word = response.text
                 word_cloud_dict[word] = word_cloud_dict.get(word, 0) + 1
-            word_cloud = create_word_cloud(word_cloud_dict)
+            if word_cloud_dict:
+                word_cloud = create_word_cloud(word_cloud_dict)
         else:
             for response in responses:
                 link_clicks += response.link_clicked
@@ -253,7 +254,7 @@ def get_questions_json(request, pk_task):
             'pie_chart_labels': pie_chart_labels,
             'pie_chart_data': pie_chart_data,
             'word_cloud': word_cloud})
-        
+
     return JsonResponse(data={
         'rows': data
     })
