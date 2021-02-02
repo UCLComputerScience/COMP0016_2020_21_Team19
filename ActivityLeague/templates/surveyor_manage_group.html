@@ -28,12 +28,18 @@
     <thead class="thead">
       <tr>
         <th>Name</th>
+        <th></th>
       </tr>
     </thead>
     <tbody id="table-body">
       {% for participant in participants %}
       <tr>
         <td class="align-middle">{{ participant }}</td>
+        <td>
+          <button type="button" class="close delete-participant" data-participant="{{ participant.pk }}" aria-label="Delete">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </td>
       </tr>
       {% endfor %}
     </tbody>
@@ -67,6 +73,18 @@
   $(function () {
     $(".js-add-user").click(function () {
       $("#modal-add-user").modal('show');
+    });
+
+    $(".delete-participant").click(function () {
+      var btn = $(this);
+      var participant = btn.data('participant');
+      var form = $('<form method="post">');
+      form.append('{% csrf_token %}');
+      form.append('<input name="respondent" value="' + participant + '" />');
+      form.append('<input name="request_type" value="delete_participant" />');
+
+      $('body').append(form);
+      form.submit();
     });
 
     // $("#modal-add-user").on("submit", ".js-add-user-form", function (e) {

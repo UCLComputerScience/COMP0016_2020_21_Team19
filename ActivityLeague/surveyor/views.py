@@ -175,6 +175,9 @@ def calculate_score(values):
     """
     :param responses: List of numbers from which you want to calculate a score.
     """
+    
+    if len(values) == 0:
+        return 0
     values = list(filter(lambda value: value is not None, values))
     return sum(values) / len(values)
 
@@ -354,14 +357,20 @@ def manage_group(request, pk_group):
 
     # data = dict()
     if request.method == 'POST':
-        # form = AddUserForm(request.POST)
-        respondent_pk = request.POST.get('respondent')
-        # print(respondent)
-        # Security risk: CRSF token not checked
+        if request.POST.get('request_type') == 'delete_participant':
+            print('We tried to delete something')
+            respondent_pk = request.POST.get('respondent')
+            respondent = Respondent.objects.get(pk=respondent_pk)
+            group = Group.objects.get(pk=pk_group)
+            GroupRespondent.objects.filter(respondent=respondent, group=group).delete()
+        else:            
+            # form = AddUserForm(request.POST)
+            respondent_pk = request.POST.get('respondent')
+            # print(respondent)
 
-        respondent = Respondent.objects.get(pk=respondent_pk)
-        group = Group.objects.get(pk=pk_group)
-        new_object = GroupRespondent.objects.create(group=group, respondent=respondent)
+            respondent = Respondent.objects.get(pk=respondent_pk)
+            group = Group.objects.get(pk=pk_group)
+            new_object = GroupRespondent.objects.create(group=group, respondent=respondent)
         
         # form = AddUserForm(request.POST, group_pk=pk_group)
         # print(str(form))
@@ -370,8 +379,8 @@ def manage_group(request, pk_group):
         #     data['form_is_valid'] = True
         # else:
         #     data['form_is_valid'] = False
-        # return render(request, 'surveyor_manage_group.html', {'user': user, 'participants': respondents, 'group': group})
-    # else:
+        # return render(request, 'surveyor_manage_group.html', {'user': user, 'participants': respondents, 'group': group})        
+
 
     user = get_object_or_404(Surveyor, user=request.user)
     group = Group.objects.get(pk=pk_group)
