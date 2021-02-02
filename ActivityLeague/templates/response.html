@@ -44,7 +44,7 @@
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="https://{{ question.link }}" onclick="addLinkClick({{ question.id }})"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="https://{{ question.link }}" onclick="addLinkClick('{{ question.id }}')"><i>{{ question.link }}</i></a>
               {% endif %}
               <input type="text" class="form-control" name="{{ question.id }}" placeholder="Response" value="" required>
           </label>
@@ -58,7 +58,7 @@
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="https://{{ question.link }}" onclick="addLinkClick({{ question.id }})"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="https://{{ question.link }}" onclick="addLinkClick('{{ question.id }}')"><i>{{ question.link }}</i></a>
               {% endif %}
           </label>
         </div>
@@ -97,13 +97,13 @@
       </div>
 
   {# Traffic Light Resposnse #}
-  {% else %}
+  {% else %} addClickLink(sdhasd-34-5fsdf)
 
       <div class="row">
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="https://{{ question.link }}" onclick="addLinkClick({{ question.id }})"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="https://{{ question.link }}" onclick="addLinkClick('{{ question.id }}')"><i>{{ question.link }}</i></a>
               {% endif %}
           </label>
         </div>
@@ -138,9 +138,13 @@
 <script type="text/javascript">
 function formsubmit() {
     setClicked();
-    alert("Response submitted successfully!");
+    // if($("#response_form").valid()) {
+    //     alert("Response submitted successfully!");
+    // }
+    // alert("Response submitted successfully!");
     return false;
 }
+
 
 var links = [];
 

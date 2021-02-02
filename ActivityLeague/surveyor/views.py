@@ -228,13 +228,19 @@ def get_questions_json(request, pk_task):
             pie_chart_data = [responses.filter(value=i).count() for i in range(1, 4)]
         elif question.response_type == 3:
             response_type = "text"
+        else:
+            response_type = None
+        
+        if response_type == "text":
             word_cloud_dict = {}
             for response in responses:
+                link_clicks += response.link_clicked
                 word = response.text
                 word_cloud_dict[word] = word_cloud_dict.get(word, 0) + 1
             word_cloud = create_word_cloud(word_cloud_dict)
         else:
-            response_type = None
+            for response in responses:
+                link_clicks += response.link_clicked
         
         data.append({
             'type': response_type,
