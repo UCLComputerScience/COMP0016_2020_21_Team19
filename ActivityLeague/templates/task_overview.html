@@ -117,6 +117,8 @@
       columnWrapper.classList.add('col');
       img = document.createElement('img');
       img.src = word_cloud;
+      img.style.width = "100%";
+      img.style.height = "auto";
       columnWrapper.appendChild(img);
       parent.appendChild(columnWrapper);
     }
@@ -130,10 +132,10 @@
           var rowWrapper = document.createElement('div');
           rowWrapper.classList.add('row', 'border-bottom');
           add_question(rowWrapper, question['description']);
+          add_link_clicks(rowWrapper, question['link_clicks']);
           if (question['type'] === 'text') {
             add_word_cloud(rowWrapper, question['word_cloud'])
           } else {
-            add_link_clicks(rowWrapper, question['link_clicks']);
             add_pie_chart(rowWrapper, question['pie_chart_labels'], question['pie_chart_data']);
           }
           parent.appendChild(rowWrapper);
