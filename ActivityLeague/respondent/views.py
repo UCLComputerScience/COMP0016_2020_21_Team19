@@ -3,6 +3,7 @@ import operator
 from django.contrib.auth.forms import UserCreationForm
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
 from .models import *
 from surveyor.models import *
 from allauth.account.views import SignupView
@@ -86,8 +87,7 @@ def response(request, id):
         dict = request.POST.items()
         # get a list of Question IDs for which the user clicked the link
         clicked = [x for x in request.POST.get('clicked').split(',')]
-        print(clicked)
-        current_date_time = datetime.datetime.now()
+        current_date_time = timezone.now()
         for qid, data in dict:
             # don't need to process the csrf token or the array of clicked Question IDs
             if qid == 'csrfmiddlewaretoken' or qid == 'clicked':
@@ -210,8 +210,6 @@ def get_progress_labels(user, **kwargs):
     
     if len(responses) == 0:
         return None
-    elif len(dates) == 1:
-        return dates
     
     latest = dates[-1]
     earliest = dates[0]

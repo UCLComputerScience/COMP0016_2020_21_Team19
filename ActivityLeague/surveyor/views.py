@@ -158,8 +158,6 @@ def get_graph_labels(user, **kwargs):
     
     if len(responses) == 0:
         return None
-    elif len(dates) == 1:
-        return dates
     
     latest = dates[-1]
     earliest = dates[0]
@@ -358,7 +356,6 @@ def manage_group(request, pk_group):
     # data = dict()
     if request.method == 'POST':
         if request.POST.get('request_type') == 'delete_participant':
-            print('We tried to delete something')
             respondent_pk = request.POST.get('respondent')
             respondent = Respondent.objects.get(pk=respondent_pk)
             group = Group.objects.get(pk=pk_group)
