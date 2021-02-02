@@ -175,6 +175,9 @@ def calculate_score(values):
     """
     :param responses: List of numbers from which you want to calculate a score.
     """
+    
+    if len(values) == 0:
+        return 0
     values = list(filter(lambda value: value is not None, values))
     return sum(values) / len(values)
 
