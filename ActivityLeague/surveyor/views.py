@@ -19,6 +19,7 @@ import base64
 import urllib
 from wordcloud import WordCloud
 from PIL import Image
+from urllib.parse import urlparse
 
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
@@ -29,7 +30,6 @@ def dashboard(request):
 def leaderboard(request):
     user = get_object_or_404(Surveyor, user=request.user)
     return render(request, 'surveyor_leaderboard.html', {'user' : user})
-
 
 @login_required(login_url='/accounts/login/')
 def get_graphs_and_leaderboards_json(request):
@@ -65,6 +65,11 @@ def task_overview(request, pk_task):
     }
     return render(request, 'task_overview.html', data)
 
+def sanitize_link(url):
+    parsed = urlparse(url)
+    scheme = "%s://" % parsed.scheme
+    return parsed.geturl().replace(scheme, '', 1)
+
 @login_required(login_url='/accounts/login/')
 def new_task(request):
     user = get_object_or_404(Surveyor, user=request.user)
@@ -85,6 +90,8 @@ def new_task(request):
             task.save()
 
             for question_form in formset:
+                link = question_form.cleaned_data['link']
+                question_form.cleaned_data['link'] = sanitize_link(link)
                 question = question_form.save(commit=False)
                 question.task = task
                 question.save()
