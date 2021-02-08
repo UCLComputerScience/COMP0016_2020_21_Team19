@@ -41,26 +41,9 @@
     </tbody>
   </table>
   <button type="button" class="btn btn-primary" onclick="document.location = '{% url 'new_task' %}';">New Task...</button>
-    
-  <button type="button" class="btn btn-primary js-new-group">
-    <span class="glyphicon glyphicon-plus"></span>
-    New Group...
-  </button>
 </div>
 <!-- Whitespace -->
-<div>
-    <div class="modal fade" id="modal-new-group">
-      <div class="modal-dialog">
-        <div class="modal-content">
-        </div>
-      </div>
 
-  </div>
-  <!-- Whitespace -->
-  <div>
-
-  </div>
-</div>
 <div class="mt-5" id="graph-container">
 </div>
 {% endblock %}
@@ -217,41 +200,5 @@
     render_table();
   });
 
-<!-- Script for modal popup -->
-  $(function () {
-    $(".js-new-group").click(function () {
-      $.ajax({
-        url: '/new_group/',
-        type: 'get',
-        dataType: 'json',
-        beforeSend: function () {
-          $("#modal-new-group").modal('show');
-        },
-        success: function (data) {
-          $("#modal-new-group .modal-content").html(data.html_form);
-        }
-      });
-    });
-
-    $("#modal-new-group").on("submit", ".js-new-group-form", function () {
-      var form = $(this);
-      $.ajax({
-        url: form.attr("action"),
-        data: form.serialize(),
-        type: form.attr("method"),
-        dataType: 'json',
-        success: function (data) {
-          if (data.form_is_valid) {
-            $("#modal-new-group").modal("hide");
-            alert("Group created!");
-          }
-          else {
-            $("#modal-book .modal-content").html(data.html_form);
-          }
-        }
-      });
-      return false;
-    });
-  });
 </script>
 {% endblock %}
