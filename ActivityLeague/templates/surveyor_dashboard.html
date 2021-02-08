@@ -37,30 +37,28 @@
         <th>Due Date</th>
       </tr>
     </thead>
-    <tbody id=table-body>
+    <tbody id="table-body">
     </tbody>
   </table>
-  <button type="button" class="btn btn-primary" onclick="document.location = '{% url 'new_task' %}';">New Task...</button>
-    
-  <button type="button" class="btn btn-primary js-new-group">
-    <span class="glyphicon glyphicon-plus"></span>
-    New Group...
-  </button>
 </div>
+
+<button type="button" class="mt-3 btn btn-primary" onclick="document.location = '{% url 'new_task' %}';">New Task...</button>
+  
+<button type="button" class="mt-3 btn btn-primary js-new-group">
+  <span class="glyphicon glyphicon-plus"></span>
+  New Group...
+</button>
+
 <!-- Whitespace -->
 <div>
-    <div class="modal fade" id="modal-new-group">
-      <div class="modal-dialog">
-        <div class="modal-content">
-        </div>
+  <div class="modal fade" id="modal-new-group">
+    <div class="modal-dialog">
+      <div class="modal-content">
       </div>
-
-  </div>
-  <!-- Whitespace -->
-  <div>
-
+    </div>
   </div>
 </div>
+
 <div class="mt-5" id="graph-container">
 </div>
 {% endblock %}
@@ -68,6 +66,7 @@
 {% block scripts %}
 <!-- Graphs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
 <script>
   function render_graph_and_leaderboard(parent, graph_title, graph_labels, graph_data, leaderboard) {
     var rowWrapper = document.createElement('div');
@@ -75,14 +74,20 @@
     // THIS IS TEMPORARY STYLE INJECTION
     rowWrapper.style.margin = "20px";
     rowWrapper.style.borderRadius = "20px";
+    rowWrapper.style.height = "40vh";
 
-    var graphWrapper = document.createElement('div');
-    graphWrapper.classList.add('col');
+    var graphColumn = document.createElement('div');
+    graphColumn.classList.add('col', 'h-100');
 
-    var tableWrapper = document.createElement('div');
-    tableWrapper.classList.add('col');
+    var tableColumn = document.createElement('div');
+    tableColumn.classList.add('col', 'h-100');
 
     var graph = document.createElement('canvas');
+    graph.position = 'relative';
+    graph.height = "100%";
+
+    var tableWrapper = document.createElement('div');
+    tableWrapper.classList.add('table-responsive', 'h-100');
 
     var table = document.createElement('table');
     table.classList.add('col', 'table', 'table-striped');
@@ -110,13 +115,19 @@
       add_leaderboard_row(tableBody, [i + 1, row['name'], row['score']])
     }
 
+    for (var i = 0; i < 20; i++) {
+      add_leaderboard_row(tableBody, [i + 1, "Test name", 5])
+    }
+
     table.appendChild(tableBody);
 
-    graphWrapper.appendChild(graph);
     tableWrapper.appendChild(table);
 
-    rowWrapper.appendChild(graphWrapper);
-    rowWrapper.appendChild(tableWrapper);
+    graphColumn.appendChild(graph);
+    tableColumn.appendChild(tableWrapper);
+
+    rowWrapper.appendChild(graphColumn);
+    rowWrapper.appendChild(tableColumn);
     parent.appendChild(rowWrapper);
 
     new Chart(graph, {
@@ -157,7 +168,9 @@
         },
         legend: {
           display: false,
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
       }
     });
   }
