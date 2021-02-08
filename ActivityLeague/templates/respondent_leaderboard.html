@@ -26,7 +26,7 @@
 <div class="btn-group pt-3 mb-4" role="group" id="button-container">
 </div>
 <div> {# class="container" #}
-<table class="table table-striped table-hover">
+<table class="table table-striped table-hover" id="leaderboard">
     <thead class="thead">
     <tr>
         <th>Rank</th>
@@ -78,6 +78,14 @@
     $.get('/get_respondent_leaderboard_groups_json', function (buttonData) {
       var parent = document.getElementById('button-container');
 
+      if (Array.isArray(buttonData['buttons']) && buttonData['buttons'].length == 0) {
+        var msg = document.createElement('p');
+        msg.classList.add('lead');
+        msg.textContent = 'There is no leaderboard as you aren\'t in any groups yet!';
+        parent.appendChild(msg);
+        return; 
+      }
+
       add_button(parent, 'Overall', "0", selected=true);
 
       var buttons = buttonData['buttons'];
@@ -118,12 +126,22 @@
     $.get(endpoint, function (leaderboardData) {
       var parent = document.getElementById('table-body');
 
+      if (Array.isArray(leaderboardData['rows']) && leaderboardData['rows'].length == 0) {
+        remove_leaderboard();
+        return; 
+      }
+
       var rows = leaderboardData['rows'];
       for (var i=0; i < rows.length; i++) {
         var row = rows[i];
         add_row(parent, i + 1, row['name'], row['score']);
       }
     });
+  }
+
+  function remove_leaderboard () {
+    var elem = document.getElementById('leaderboard');
+    elem.remove();
   }
 
   /**

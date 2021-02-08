@@ -95,15 +95,23 @@
     $.get('/get_progress_json', function(graphData) {
       var parent = document.getElementById("graph-container");
 
+      if (Array.isArray(graphData['groups']) && graphData['groups'].length == 0) {
+
+        var parent_parent = parent.parentNode;
+        parent.remove();
+
+        // Add description
+        var msg = document.createElement('p');
+        msg.classList.add('lead');
+        msg.textContent = 'There is no progress to show as you have no responses!';
+        parent_parent.appendChild(msg);
+        
+        return;
+      }
+
       var overall = graphData['overall'];
       var overall_labels = graphData['overall_labels']
       render_graph(parent, 'Overall Progress', overall_labels, overall)
-
-      console.log('Overall: ' + overall);
-      console.log('Overall Labels: ' + overall_labels);
-
-      console.log('Overall 0:' + overall[0]);
-      console.log('Overall 1: ' + overall[1]);
 
       var groups = graphData['groups'];
 
