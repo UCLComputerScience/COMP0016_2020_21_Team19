@@ -36,8 +36,8 @@
       <tr>
         <td class="align-middle">{{ participant }}</td>
         <td>
-          <button type="button" class="close delete-participant" data-participant="{{ participant.pk }}" aria-label="Delete">
-            <span aria-hidden="true">&times;</span>
+          <button style="float: right" type="button" class="btn btn-outline-danger delete-participant" data-participant="{{ participant.pk }}" aria-label="Delete">
+            <span aria-hidden="true">Delete</span>
           </button>
         </td>
       </tr>
@@ -76,15 +76,19 @@
     });
 
     $(".delete-participant").click(function () {
-      var btn = $(this);
-      var participant = btn.data('participant');
-      var form = $('<form method="post">');
-      form.append('{% csrf_token %}');
-      form.append('<input name="respondent" value="' + participant + '" />');
-      form.append('<input name="request_type" value="delete_participant" />');
-
-      $('body').append(form);
-      form.submit();
+      if (confirm('Are you sure you want to delete this user?')) {
+        var btn = $(this);
+        var participant = btn.data('participant');
+        var form = $('<form method="post">');
+        form.append('{% csrf_token %}');
+        form.append('<input name="respondent" value="' + participant + '" />');
+        form.append('<input name="request_type" value="delete_participant" />');
+        $('body').append(form);
+        form.submit();
+      }
+      else {
+        return false;
+      }
     });
 
     // $("#modal-add-user").on("submit", ".js-add-user-form", function (e) {
