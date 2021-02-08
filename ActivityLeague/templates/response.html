@@ -44,7 +44,7 @@
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="//{{ question.link }}" target="_blank" rel="noopener noreferrer" onclick="addLinkClick('{{ question.id }}')"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')"><i>{{ question.link }}</i></a>
               {% endif %}
               <input type="text" class="form-control" name="{{ question.id }}" placeholder="Response" value="" required>
           </label>
@@ -58,7 +58,7 @@
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="//{{ question.link }}" target="_blank" rel="noopener noreferrer" onclick="addLinkClick('{{ question.id }}')"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')"><i>{{ question.link }}</i></a>
               {% endif %}
           </label>
         </div>
@@ -103,23 +103,25 @@
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="//{{ question.link }}" target="_blank" rel="noopener noreferrer" onclick="addLinkClick('{{ question.id }}')"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')"><i>{{ question.link }}</i></a>
               {% endif %}
           </label>
         </div>
       </div>
 
-      <div class="btn-group" data-toggle="buttons" required>
-        <label class="btn btn-danger">
+    <div class="text-center">
+      <div class="btn-group btn-group-toggle" data-toggle="buttons" required>
+        <label class="btn btn-outline-danger">
           <input type="radio" name="{{ question.id }}" value="red" required> Red
         </label>
-        <label class="btn btn-warning">
+        <label class="btn btn-outline-warning">
           <input type="radio" name="{{ question.id }}" value="yellow"> Yellow
         </label>
-        <label class="btn btn-success">
+        <label class="btn btn-outline-success">
           <input type="radio" name="{{ question.id }}" value="green"> Green
         </label>
       </div>
+    </div>
 
   {% endif %}
 
@@ -140,7 +142,6 @@ function formsubmit() {
     setClicked();
     return false;
 }
-
 
 var links = [];
 
