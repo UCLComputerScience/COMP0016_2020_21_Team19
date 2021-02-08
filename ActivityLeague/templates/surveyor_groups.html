@@ -38,6 +38,9 @@
         <tr onclick="document.location = '{% url 'manage_group' group.id %}';">
           <td class="align-middle">{{ group.name }}</td>
           <td class="align-middle">{{ group.num_participants }}</td>
+          <td><button style="float: right" type="button" class="btn btn-outline-danger delete-group" data-group="{{ group.pk }}" aria-label="Delete">
+            <span aria-hidden="true">Delete</span>
+          </button></td>
         </tr>
 
         {% endfor %}
@@ -50,4 +53,22 @@
 {% endblock %}
 
 {% block scripts %}
+<script>
+$(".delete-group").click(function () {
+      if (confirm('Are you sure you want to delete this group?')) {
+        var btn = $(this);
+        var group = btn.data('group');
+        var form = $('<form method="post">');
+        form.append('{% csrf_token %}');
+        form.append('<input name="group" value="' + group + '" />');
+        form.append('<input name="request_type" value="delete_group" />');
+        $('body').append(form);
+        form.submit();
+      }
+      else {
+        return false;
+      }
+      event.stopPropagation();
+    });
+</script
 {% endblock %}
