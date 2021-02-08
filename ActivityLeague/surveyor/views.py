@@ -80,10 +80,10 @@ def new_task(request):
         groups.append(Group.objects.get(pk=gr))
 
     if request.method == 'GET':
-        form = TaskForm(request.GET or None)
+        form = TaskForm(request.GET or None, request=request)
         formset = QuestionFormset(queryset=Question.objects.none())
     elif request.method == 'POST':
-        form = TaskForm(request.POST)
+        form = TaskForm(request.POST, request=None)
         formset = QuestionFormset(request.POST)
         if form.is_valid() and formset.is_valid():
             task = form.save(commit=False)
