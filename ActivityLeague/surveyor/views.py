@@ -353,6 +353,11 @@ def new_group(request):
 @login_required(login_url='/accounts/login/')
 def groups(request):
     user = get_object_or_404(Surveyor, user=request.user)
+    if request.method == 'POST':
+        if request.POST.get('request_type') == 'delete_group':
+            group_pk = request.POST.get('group')
+            group = Group.objects.filter(pk=group_pk).delete()
+
     groups = get_groups(request.user)
     for group in groups:
         group.num_participants = get_num_respondents_in_group(group)        
