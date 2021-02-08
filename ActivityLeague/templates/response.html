@@ -109,17 +109,19 @@
         </div>
       </div>
 
-      <div class="btn-group" data-toggle="buttons" required>
-        <label class="btn btn-danger">
+    <div class="text-center">
+      <div class="btn-group btn-group-toggle" data-toggle="buttons" required>
+        <label class="btn btn-outline-danger">
           <input type="radio" name="{{ question.id }}" value="red" required> Red
         </label>
-        <label class="btn btn-warning">
+        <label class="btn btn-outline-warning">
           <input type="radio" name="{{ question.id }}" value="yellow"> Yellow
         </label>
-        <label class="btn btn-success">
+        <label class="btn btn-outline-success">
           <input type="radio" name="{{ question.id }}" value="green"> Green
         </label>
       </div>
+    </div>
 
   {% endif %}
 
