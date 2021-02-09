@@ -1,26 +1,5 @@
 # Activity League
 
-### Working with Django
-
-#### Clone this repo
-
-Paste one of the below lines into terminal (depending on if you use SSH or HTTPS with `git`)
-
-SSH
-```bash
-git clone git@github.com:UCLComputerScience/COMP0016_2020_21_Team19.git; cd COMP0016_2020_21_Team19; python -m venv venv; source venv/bin/activate; pip install -r requirements.txt;   
-```
-HTTPS
-```bash
-git clone https://github.com/UCLComputerScience/COMP0016_2020_21_Team19.git; cd COMP0016_2020_21_Team19; python -m venv venv; source venv/bin/activate; pip install -r requirements.txt;   
-```
-This will:
-- Clone the repository
-- `cd` into to the `COMP0016_2020_21_Team19` directory
-- Create a new virtual environment and install all the requirements
-
----
-
 ### UCL Project Report Website
 
 The [`ucl`](ucl) directory has the Jekyll project which we will use to generate the static site being deployed on UCL servers.
@@ -36,15 +15,13 @@ Since the UCL servers cannot build the Jekyll site, we need to manually build th
 
 ---
 
-### The blog is ready to host content.
+### Blog
 
 To add a blog post:
 
 - Create a new file in [`docs/_posts`](docs/_posts) named according to the following format:
 
-    `YEAR-MONTH-DAY-title.markdown`
-    
-    Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers
+    `YYYY-MM-DD-title.markdown`
 
 - The file must have a header enclosed in `---`
     ```yml
