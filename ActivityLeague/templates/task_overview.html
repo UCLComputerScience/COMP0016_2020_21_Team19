@@ -78,7 +78,10 @@
 
     function add_question(parent, description) {
       columnWrapper = document.createElement('div');
-      columnWrapper.classList.add('col');
+      columnWrapper.classList.add('col-4');
+      columnWrapper.classList.add('d-flex');
+      columnWrapper.classList.add('justify-content-center');
+      columnWrapper.classList.add('text-center');
       columnWrapper.textContent = description;
       parent.appendChild(columnWrapper);
     }
