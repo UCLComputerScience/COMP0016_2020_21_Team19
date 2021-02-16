@@ -123,6 +123,29 @@ def get_responses(user, **kwargs):
     questions = Question.objects.filter(task__in=tasks)
     return Response.objects.filter(question__in=questions).order_by('date_time')
 
+def get_graph_labels(user, **kwargs):
+    responses = get_responses(user, **kwargs)
+
+    if not responses:
+        return []
+
+    num_intervals = min(len(responses), 10)
+    dates = list(responses.values_list('date_time', flat=True))
+    dates = [date_time.date() for date_time in dates]
+    
+    if len(responses) == 0:
+        return None
+    
+    latest = dates[-1]
+    earliest = dates[0]
+    time_range = latest - earliest
+
+    interval = time_range / num_intervals
+
+    labels = [str(earliest + (interval * i)) for i in range(num_intervals + 1)]
+    
+    return labels
+
 def get_graph_data(user, labels, **kwargs):
     responses = get_responses(user, **kwargs)
 
@@ -152,29 +175,6 @@ def get_graph_data(user, labels, **kwargs):
     
     assert(len(dates) == len(scores))
     return scores
-
-def get_graph_labels(user, **kwargs):
-    responses = get_responses(user, **kwargs)
-
-    if not responses:
-        return []
-
-    num_intervals = min(len(responses), 10)
-    dates = list(responses.values_list('date_time', flat=True))
-    dates = [date_time.date() for date_time in dates]
-    
-    if len(responses) == 0:
-        return None
-    
-    latest = dates[-1]
-    earliest = dates[0]
-    time_range = latest - earliest
-
-    interval = time_range / num_intervals
-
-    labels = [str(earliest + (interval * i)) for i in range(num_intervals + 1)]
-    
-    return labels
 
 def calculate_score(values):
     """

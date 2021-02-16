@@ -26,7 +26,6 @@ from django.http.response import HttpResponseRedirect
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda r: HttpResponseRedirect('/accounts/login')),
-    path('register/', respondent.register, name='register'),
     path('accounts/', include('allauth.urls')),
 
     # sign up

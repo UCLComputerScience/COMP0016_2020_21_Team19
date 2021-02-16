@@ -116,13 +116,6 @@ def response(request, id):
     else:
         return render(request, 'response.html', {'user' : user, 'task' : task, 'questions' : questions})
 
-def login(request):
-    return render(request, 'login.html')
-
-def register(request):
-    form = UserCreationForm()
-    return render(request, 'register.html', {'form': form})
-
 def get_responses(user, **kwargs):
     respondent = Respondent.objects.get(user=user)
     if kwargs.get('task') is not None:
@@ -140,7 +133,41 @@ def get_responses(user, **kwargs):
     else:
         return Response.objects.filter(respondent=respondent).order_by('date_time')
 
-def get_progress_values(user, labels,  **kwargs):
+# TODO: Rewrite this method to consider the text values.
+def get_progress_labels(user, **kwargs):
+    """
+    Retrieves labels for chart.js on respondent_progress_page.html based on
+    the existing respondent's responses.
+    
+    Args:
+        pk (int): Primary key of the respondent for which we are rendering a chart.
+
+    Returns:
+        list: 
+    """
+    responses = get_responses(user, **kwargs)
+
+    if not responses:
+        return []
+
+    num_intervals = min(len(responses), 10)
+    dates = list(responses.values_list('date_time', flat=True))
+    dates = [date_time.date() for date_time in dates]
+    
+    # if len(responses) == 0:
+    #     return None
+    
+    latest = dates[-1]
+    earliest = dates[0]
+    time_range = latest - earliest
+
+    interval = time_range / num_intervals
+
+    labels = [str(earliest + (interval * i)) for i in range(num_intervals + 1)]
+    
+    return labels
+
+def get_progress_values(user, labels, **kwargs):
     """
     Retrieves the values to be plotted by Chart.js on respondent_progress_page.html.
 
@@ -166,8 +193,8 @@ def get_progress_values(user, labels,  **kwargs):
 
     if len(dates) == 0:
         return None
-    elif len(dates) == 1:
-        return responses[0].value
+    # elif len(dates) == 1:
+    #     return responses[0].value
 
     scores = []
     previous_date = datetime.date.min
@@ -186,48 +213,12 @@ def get_progress_values(user, labels,  **kwargs):
     assert(len(dates) == len(scores))
     return scores
 
-
-# TODO: Rewrite this method to consider the text values.
-def get_progress_labels(user, **kwargs):
-    """
-    Retrieves labels for chart.js on respondent_progress_page.html based on
-    the existing respondent's responses.
-    
-    Args:
-        pk (int): Primary key of the respondent for which we are rendering a chart.
-
-    Returns:
-        list: 
-    """
-    responses = get_responses(user, **kwargs)
-
-    if not responses:
-        return []
-
-    num_intervals = min(len(responses), 10)
-    dates = list(responses.values_list('date_time', flat=True))
-    dates = [date_time.date() for date_time in dates]
-    
-    if len(responses) == 0:
-        return None
-    
-    latest = dates[-1]
-    earliest = dates[0]
-    time_range = latest - earliest
-
-    interval = time_range / num_intervals
-
-    labels = [str(earliest + (interval * i)) for i in range(num_intervals + 1)]
-    
-    return labels
-
-
 def calculate_score(values):
     """
     :param values: List of numbers from which you want to calculate a score.
     """
     values = list(filter(lambda value: value is not None, values))
-    return sum(values) / len(values)
+    return 0 if not len(values) else sum(values) / len(values)
 
 @login_required(login_url='/accounts/login/')
 def get_respondent_leaderboard_json(request):
