@@ -22,6 +22,7 @@ class RespondentViewTest(TestCase):
         self.question_2 = Question.objects.create(task=self.task, description="This task was medium", response_type=2)
         self.question_3 = Question.objects.create(task=self.task, description="This task was easy", response_type=3)
     
+    # TODO: This test fails sometimes
     def test_random_hex_colour(self):
         """
         Tests that a valid hex colour is returned
