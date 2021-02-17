@@ -145,6 +145,7 @@ class TaskTestCase(TestCase):
         task = Task.objects.get(title="Test Task Title")
         self.assertEqual(str(task), "Test Task Title")
 
+
 class QuestionTestCase(TestCase):
 
     @classmethod
