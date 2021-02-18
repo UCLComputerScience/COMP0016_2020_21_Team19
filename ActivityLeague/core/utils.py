@@ -1,70 +1,58 @@
 import datetime
 import enum
+import operator
 
-from django.shortcuts import get_object_or_404
 from respondent.models import Respondent, Response, GroupRespondent
-from surveyor.models import Surveyor, GroupSurveyor, Group
+from surveyor.models import Surveyor, GroupSurveyor, Group, Task, Question
 
-
-class UserType(enum.Enum):
-    SURVEYOR = 1
-    RESPONDENT = 2
-
-
-def get_groups(user, user_type):
+def get_groups(user):
     """
     Returns the groups which the user is a member/manager of.
 
     Args:
-        user (User): Django Auth User object associated with either a 
-                     Surveyor or Respondent object.
-        user_type (UserType): Instance of UserType used to determine
-                              groups to be returned.
+        user (Surveyor/Respondent): Either a Surveyor or Respondent object
+                                    representing the user currently logged in.
 
     Raises:
         ValueError: Raised if the user type specified is not recognised.
 
     Returns:
-        list:Group : Groups managed by/participated in by the UserType.
+        list:Group : Groups managed by/participated in by the user.
     """
-    if user_type == SURVEYOR:
-        surveyor = Surveyor.objects.get(user=user)
-        group_ids = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group', flat=True)
-    elif user_type == RESPONDENT:
-        respondent = Respondent.objects.get(user=user)
-        group_ids = GroupRespondent.objects.filter(respondent=respondent).values_list('group', flat=True)
+    if isinstance(user, Surveyor):
+        group_ids = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
+    elif isinstance(user, Respondent):
+        group_ids = GroupRespondent.objects.filter(respondent=user).values_list('group', flat=True)
     else:
-        raise ValueError('UserType not recognised!')
+        raise ValueError('User type not recognised!')
     
     groups = Group.objects.filter(pk__in=group_ids)
     return groups
 
-def get_leaderboard(user, user_type, **kwargs):
+def get_leaderboard(user,**kwargs): 
     """
     Retrieves a sorted list containing the names and scores of the members
     of the leaderboard.
 
     Args:
-        user (User): Logged in user.
-        user_type (UserType): Type of User associated with user: Surveyor or Respondent.
-    
+        user (Surveyor/Respondent): Logged in user.
+        
     Kwargs:
         group (UUID): ID of the target group's leaderboard.
 
     Returns:
         list:dict : Sorted descending list containing the full names and scores of of the
-                members of the leaderboard.
+                    members of the leaderboard.
     """
     
-    if kwargs.get('group') is not None:
+    if kwargs.get('group'):
         group = kwargs.get('group')
         respondent_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
     else:
-        if user_type == SURVEYOR:
+        if isinstance(user, Surveyor):
             groups = get_groups(user)
-        elif user_type == RESPONDENT:
-            respondent = Respondent.objects.get(user=user)
-            groups = GroupRespondent.objects.filter(respondent=respondent).values_list('group', flat=True)
+        elif isinstance(user, Respondent):
+            groups = GroupRespondent.objects.filter(respondent=user).values_list('group', flat=True)
         respondent_ids = GroupRespondent.objects.filter(group__in=groups).values_list('respondent', flat=True)
         
     respondents = Respondent.objects.filter(pk__in=respondent_ids)
@@ -163,42 +151,73 @@ def get_graph_data(user, labels, **kwargs):
     return scores
 
 # Surveyor
-def get_responses(user, user_type, **kwargs):
+def get_responses(user, **kwargs):
     """
     Returns the responses associated with either a user, group, task or question.
 
     Args:
-        user (User): Logged in user.
-        user_type (UserType): Type of the user logged in.
+        user (Surveyor/Respondent): Logged in user.
 
     Returns:
         list:Response : Responses associated with a question, task, group or user. 
                         Ordered by the date and time that it is due.
     """
-    surveyor = Surveyor.objects.get(user=user)
-    if kwargs.get('group') is not None:
-        group = kwargs.get('group')
-        tasks = Task.objects.filter(group=group)
-    else:
-        groups = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group',flat=True)
-        tasks = Task.objects.filter(group__in=groups)
-    questions = Question.objects.filter(task__in=tasks)
-    return Response.objects.filter(question__in=questions).order_by('date_time')
 
-# Respondent
-def get_responses(user, **kwargs):
-    respondent = Respondent.objects.get(user=user)
-    if kwargs.get('task') is not None:
-        task = kwargs.get('task')
-        questions = Question.objects.filter(task=task)
-        return Response.objects.filter(respondent=respondent, question__in=questions).order_by('date_time')
-    elif kwargs.get('question') is not None:
-        question = kwargs.get('question')
-        return Response.objects.filter(respondent=respondent, question=question).order_by('date_time')
-    elif kwargs.get('group') is not None:
+    if isinstance(user, Surveyor):
+        responses = Response.objects.all()
+    elif isinstance(user, Respondent):
+        responses = Response.objects.filter(respondent=user)
+
+    if kwargs.get('group'):
         group = kwargs.get('group')
         tasks = Task.objects.filter(group=group)
         questions = Question.objects.filter(task__in=tasks)
-        return Response.objects.filter(respondent=respondent, question__in=questions).order_by('date_time')
+    elif kwargs.get('task'):
+        task = kwargs.get('task')
+        questions = Question.objects.filter(task=task)
+    elif kwargs.get('question'):
+        question = kwargs.get('question')
+        questions = Question.objects.filter(id=question.id) # wrap object in queryset
     else:
-        return Response.objects.filter(respondent=respondent).order_by('date_time')
+        if isinstance(user, Surveyor):
+            groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group',flat=True)
+            tasks = Task.objects.filter(group__in=groups)
+            questions = Question.objects.filter(task__in=tasks)
+        elif isinstance(user, Respondent):
+            return responses.order_by('date_time')
+        
+    return responses.filter(question__in=questions).order_by('date_time')
+
+def calculate_score(values):
+    """
+    Args:
+        values: List of numbers from which you want to calculate a score.
+
+    Returns:
+        int : The average score.
+    """
+    values = list(filter(lambda value: value, values))
+    return 0 if not len(values) else sum(values) / len(values)
+
+
+def get_tasks(user): # TODO: Remember to uncomment the tasks and comment out the temporary solution
+    if isinstance(user, Surveyor):
+        groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
+    elif isinstance(user, Respondent): 
+        groups = GroupRespondent.objects.filter(respondent=user).values_list('group', flat=True)
+    
+    tasks = Task.objects.filter(group__in=groups).order_by('due_date', 'due_time')
+    now = datetime.datetime.now()
+    for task in tasks:
+        if isinstance(user, Surveyor):
+            questions = Question.objects.filter(task=task)
+            responses = Response.objects.filter(question__in=questions)
+            task.num_group_respondents = get_num_respondents_in_group(task.group)
+            task.num_responses = responses.count() // questions.count()
+        task.due_dt = datetime.datetime.combine(task.due_date, task.due_time)
+        until = task.due_dt - now
+        task.color = "red" if until < datetime.timedelta(days=1) else "orange" if until < datetime.timedelta(days=2) else "darkgreen"    
+    return tasks, now
+
+def get_num_respondents_in_group(group):
+    return GroupRespondent.objects.filter(group=group).count()

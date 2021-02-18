@@ -27,11 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda r: HttpResponseRedirect('/accounts/login')),
     path('accounts/', include('allauth.urls')),
-
-    # sign up
-    # url(r'^accounts/signup/surveyor/', surveyor.surveyor_signup, name='surveyor_signup'),
-    # url(r'^accounts/signup/respondent/', respondent.respondent_signup, name='respondent_signup'),
-
+    
     # core
     url(r'^dashboard/?$', core.dashboard, name='dashboard'),
     url(r'^leaderboard/?$', core.leaderboard, name='leaderboard'),

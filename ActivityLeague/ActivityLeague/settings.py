@@ -176,8 +176,6 @@ STATICFILES_DIRS = [
 
 SITE_ID = 1
 
-# ACCOUNT_ADAPTER = 'authentication.adapter.MyAccountAdapter'
-
 ACCOUNT_SIGNUP_REDIRECT_URL = '/dashboard'
 
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'

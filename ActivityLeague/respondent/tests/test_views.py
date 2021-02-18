@@ -56,21 +56,21 @@ class RespondentViewTest(TestCase):
         responses = views.get_responses(self.user, group=self.group)
         self.assertEqual(responses.get(), response)
     
-    def test_get_progress_labels(self):
+    def test_get_graph_labels(self):
         date_time = datetime.datetime(2021, 7, 4, tzinfo=pytz.UTC)
         response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, date_time=date_time)
-        labels = views.get_progress_labels(self.user)
+        labels = views.get_graph_labels(self.user)
         self.assertEqual(labels, [str(date_time.date()), str(date_time.date())])
     
-    def test_get_progress_values(self):
+    def test_get_graph_data(self):
         response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, date_time=datetime.datetime(2021, 7, 4, tzinfo=pytz.UTC))
-        labels = views.get_progress_labels(self.user)
-        values = views.get_progress_values(self.user, labels)
+        labels = views.get_graph_labels(self.user)
+        values = views.get_graph_data(self.user, labels)
         self.assertEqual(values, [1, 1])
     
-    def test_get_progress_values_with_empty_labels(self):
+    def test_get_graph_data_with_empty_labels(self):
         response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, date_time=datetime.datetime(2021, 7, 4, tzinfo=pytz.UTC))
-        values = views.get_progress_values(self.user, [])
+        values = views.get_graph_data(self.user, [])
         self.assertEqual(values, None)
 
     def test_dashboard(self):

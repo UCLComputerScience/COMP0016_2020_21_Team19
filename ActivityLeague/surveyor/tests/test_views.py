@@ -1,7 +1,8 @@
 import datetime
 
 from surveyor.models import Surveyor, Question, Task, Group, GroupSurveyor
-from surveyor.views import dashboard, get_tasks_json, get_questions_json
+from surveyor.views import dashboard
+from core.util import get_tasks
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
