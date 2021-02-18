@@ -1,9 +1,9 @@
 import datetime
-import enum
 import operator
 
 from respondent.models import Respondent, Response, GroupRespondent
 from surveyor.models import Surveyor, GroupSurveyor, Group, Task, Question
+
 
 def get_groups(user):
     """
@@ -25,11 +25,12 @@ def get_groups(user):
         group_ids = GroupRespondent.objects.filter(respondent=user).values_list('group', flat=True)
     else:
         raise ValueError('User type not recognised!')
-    
+
     groups = Group.objects.filter(pk__in=group_ids)
     return groups
 
-def get_leaderboard(user,**kwargs): 
+
+def get_leaderboard(user, **kwargs):
     """
     Retrieves a sorted list containing the names and scores of the members
     of the leaderboard.
@@ -44,7 +45,7 @@ def get_leaderboard(user,**kwargs):
         list:dict : Sorted descending list containing the full names and scores of of the
                     members of the leaderboard.
     """
-    
+
     if kwargs.get('group'):
         group = kwargs.get('group')
         respondent_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
@@ -54,9 +55,9 @@ def get_leaderboard(user,**kwargs):
         elif isinstance(user, Respondent):
             groups = GroupRespondent.objects.filter(respondent=user).values_list('group', flat=True)
         respondent_ids = GroupRespondent.objects.filter(group__in=groups).values_list('respondent', flat=True)
-        
+
     respondents = Respondent.objects.filter(pk__in=respondent_ids)
-    
+
     rows = []
     for respondent in respondents:
         # Get their responses and calculate their score
@@ -64,10 +65,11 @@ def get_leaderboard(user,**kwargs):
         score = calculate_score(responses)
         entry = {'name': respondent.firstname + " " + respondent.surname, 'score': score}
         rows.append(entry)
-        
+
     rows.sort(key=operator.itemgetter('score'), reverse=True)
 
     return rows
+
 
 # Surveyor
 def get_graph_labels(user, **kwargs):
@@ -91,10 +93,10 @@ def get_graph_labels(user, **kwargs):
     num_intervals = min(len(responses), 10)
     dates = list(responses.values_list('date_time', flat=True))
     dates = [date_time.date() for date_time in dates]
-    
+
     if len(responses) == 0:
         return None
-    
+
     latest = dates[-1]
     earliest = dates[0]
     time_range = latest - earliest
@@ -102,15 +104,16 @@ def get_graph_labels(user, **kwargs):
     interval = time_range / num_intervals
 
     labels = [str(earliest + (interval * i)) for i in range(num_intervals + 1)]
-    
+
     return labels
+
 
 def get_graph_data(user, labels, **kwargs):
     """
     Retrieves the values to be plotted by Chart.js on respondent_progress_page.html.
 
     Args:
-        pk (int): Primary key of the respondent whose progress we are to be 
+        pk (int): Primary key of the respondent whose progress we are to be
                   displaying.
         labels (list: string): List of string datetimes that are the labels
                                on the x-axis of the graph that to be displayed.
@@ -146,26 +149,25 @@ def get_graph_data(user, labels, **kwargs):
         scores.append(calculate_score(queryset) if queryset else previous_score)
         previous_date = date
         previous_score = scores[-1]
-    
-    assert(len(dates) == len(scores))
+
+    assert (len(dates) == len(scores))
     return scores
+
 
 # Surveyor
 def get_responses(user, **kwargs):
     """
     Returns the responses associated with either a user, group, task or question.
-
     Args:
         user (Surveyor/Respondent): Logged in user.
-
     Returns:
-        list:Response : Responses associated with a question, task, group or user. 
+        list:Response : Responses associated with a question, task, group or user.
                         Ordered by the date and time that it is due.
     """
 
     if isinstance(user, Surveyor):
         responses = Response.objects.all()
-    elif isinstance(user, Respondent):
+    else:
         responses = Response.objects.filter(respondent=user)
 
     if kwargs.get('group'):
@@ -177,16 +179,17 @@ def get_responses(user, **kwargs):
         questions = Question.objects.filter(task=task)
     elif kwargs.get('question'):
         question = kwargs.get('question')
-        questions = Question.objects.filter(id=question.id) # wrap object in queryset
+        questions = Question.objects.filter(id=question.id)  # wrap object in queryset
     else:
-        if isinstance(user, Surveyor):
-            groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group',flat=True)
+        if isinstance(user, Respondent):
+            return responses.order_by('date_time')
+        else:
+            groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
             tasks = Task.objects.filter(group__in=groups)
             questions = Question.objects.filter(task__in=tasks)
-        elif isinstance(user, Respondent):
-            return responses.order_by('date_time')
-        
+
     return responses.filter(question__in=questions).order_by('date_time')
+
 
 def calculate_score(values):
     """
@@ -200,13 +203,14 @@ def calculate_score(values):
     return 0 if not len(values) else sum(values) / len(values)
 
 
-def get_tasks(user): # TODO: Remember to uncomment the tasks and comment out the temporary solution
+def get_tasks(user):  # TODO: Remember to uncomment the tasks and comment out the temporary solution
     if isinstance(user, Surveyor):
         groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
-    elif isinstance(user, Respondent): 
+    elif isinstance(user, Respondent):
         groups = GroupRespondent.objects.filter(respondent=user).values_list('group', flat=True)
-    
+
     tasks = Task.objects.filter(group__in=groups).order_by('due_date', 'due_time')
+    tasks = list(filter(lambda task: not get_responses(user, task=task), tasks))
     now = datetime.datetime.now()
     for task in tasks:
         if isinstance(user, Surveyor):
@@ -216,8 +220,10 @@ def get_tasks(user): # TODO: Remember to uncomment the tasks and comment out the
             task.num_responses = responses.count() // questions.count()
         task.due_dt = datetime.datetime.combine(task.due_date, task.due_time)
         until = task.due_dt - now
-        task.color = "red" if until < datetime.timedelta(days=1) else "orange" if until < datetime.timedelta(days=2) else "darkgreen"    
+        task.color = "red" if until < datetime.timedelta(days=1) else "orange" if until < datetime.timedelta(
+            days=2) else "darkgreen"
     return tasks, now
+
 
 def get_num_respondents_in_group(group):
     return GroupRespondent.objects.filter(group=group).count()

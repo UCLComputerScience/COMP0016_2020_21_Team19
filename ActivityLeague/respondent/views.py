@@ -10,6 +10,9 @@ from core.utils import *
 
 import random
 
+from .utils import *
+
+
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
     user = get_object_or_404(Respondent, user=request.user)
@@ -41,7 +44,7 @@ def get_progress_json(request):
         group_labels = get_graph_labels(user, group=group)
         group_scores = get_graph_data(user, group_labels, group=group)
         group_title = group.name
-        group_graphs.append({ 'title': group_title, 'labels': group_labels, 'scores': [get_chartjs_dict(group_scores)] })
+        group_graphs.append({'title': group_title, 'labels': group_labels, 'scores': [get_chartjs_dict(group_scores)]})
 
         overall_data.append(get_chartjs_dict(group_scores))
 
