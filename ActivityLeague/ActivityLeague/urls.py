@@ -37,8 +37,6 @@ urlpatterns = [
     url(r'^leaderboard/?$', core.leaderboard, name='leaderboard'),
     
     # respondent
-    url(r'^get_respondent_leaderboard_json$', respondent.get_respondent_leaderboard_json, name='get_respondent_leaderboard_json'),
-    url(r'^get_respondent_leaderboard_groups_json$', respondent.get_respondent_leaderboard_groups_json, name='get_respondent_leaderboard_groups_json'),
     url(r'^response/(?P<id>[0-9a-f-]+)/?$', respondent.response, name='response'),
     url(r'^progress/?$', respondent.progress, name='respondent_progress'),
     url(r'^get_progress_json$', respondent.get_progress_json, name='get_progress_json'),

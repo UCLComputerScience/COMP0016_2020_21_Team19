@@ -8,6 +8,7 @@ from respondent.models import Respondent, Response, GroupRespondent
 from respondent.views import calculate_score
 from django.contrib.auth.decorators import login_required
 from django import forms
+from core.utils import get_groups
 
 import datetime
 import operator
@@ -104,12 +105,6 @@ def new_task(request):
 
     return render(request, 'surveyor_new_task.html', {'user' : user, 'groups' : groups, 'taskform': form, 'formset': formset})
 
-def get_groups(user):
-    surveyor = Surveyor.objects.get(user=user)
-    group_surveyors = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group', flat=True)
-    groups = Group.objects.filter(pk__in=group_surveyors) 
-    return groups
-
 def get_responses(user, **kwargs):
     surveyor = Surveyor.objects.get(user=user)
     if kwargs.get('group') is not None:
@@ -120,59 +115,6 @@ def get_responses(user, **kwargs):
         tasks = Task.objects.filter(group__in=groups)
     questions = Question.objects.filter(task__in=tasks)
     return Response.objects.filter(question__in=questions).order_by('date_time')
-
-def get_graph_labels(user, **kwargs):
-    responses = get_responses(user, **kwargs)
-
-    if not responses:
-        return []
-
-    num_intervals = min(len(responses), 10)
-    dates = list(responses.values_list('date_time', flat=True))
-    dates = [date_time.date() for date_time in dates]
-    
-    if len(responses) == 0:
-        return None
-    
-    latest = dates[-1]
-    earliest = dates[0]
-    time_range = latest - earliest
-
-    interval = time_range / num_intervals
-
-    labels = [str(earliest + (interval * i)) for i in range(num_intervals + 1)]
-    
-    return labels
-
-def get_graph_data(user, labels, **kwargs):
-    responses = get_responses(user, **kwargs)
-
-    if not responses:
-        return []
-
-    dates = [datetime.datetime.strptime(label, '%Y-%m-%d').date() for label in labels]
-
-    if len(dates) == 0:
-        return None
-    elif len(dates) == 1:
-        return responses[0].value
-
-    scores = []
-    previous_date = datetime.date.min
-    previous_score = 0
-    for date in dates:
-        queryset = []
-        for response in responses:
-            if response.date_time.date() > date:
-                break
-            if response.date_time.date() > previous_date:
-                queryset.append(response.value)
-        scores.append(calculate_score(queryset) if queryset else previous_score)
-        previous_date = date
-        previous_score = scores[-1]
-    
-    assert(len(dates) == len(scores))
-    return scores
 
 def calculate_score(values):
     """
@@ -269,27 +211,6 @@ def create_word_cloud(word_cloud_dict):
     buf.close()
     image_64 = 'data:image/png;base64,' + urllib.parse.quote(string)
     return image_64
-       
-def get_leaderboard(user, **kwargs):
-    if kwargs.get('group') is not None:
-        group = kwargs.get('group')
-        respondent_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
-    else:
-        groups = get_groups(user)
-        respondent_ids = GroupRespondent.objects.filter(group__in=groups).values_list('respondent', flat=True)
-    respondents = Respondent.objects.filter(pk__in=respondent_ids)
-    
-    score_list = []
-    for respondent in respondents:
-        # Get their responses and calculate their score
-        responses = Response.objects.filter(respondent=respondent).values_list('value', flat=True)
-        score = calculate_score(responses)
-        entry = {'name': respondent.firstname + " " + respondent.surname, 'score': score}
-        score_list.append(entry)
-        
-    score_list.sort(key=operator.itemgetter('score'), reverse=True)
-
-    return score_list
 
 @login_required(login_url='/accounts/login/')
 def new_group(request):

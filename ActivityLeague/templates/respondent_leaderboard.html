@@ -24,9 +24,13 @@
 {% block content %}
 <h2>Leaderboard</h2>
 <div class="btn-group pt-3 mb-4" role="group" id="button-container">
+  <button class="btn mr-2 rounded" onclick="render({{ overall_leaderboard | safe }}, this)">Overall</button>
+  {% for gr in groups %}
+    <button class="btn mr-2 rounded" onclick="render({{ gr.leaderboard | safe }}, this)">{{ gr }}</button>
+  {% endfor %}
 </div>
 <div> {# class="container" #}
-<table class="table table-striped table-hover" id="leaderboard">
+  <table class="table table-striped table-hover" id="leaderboard">
     <thead class="thead">
     <tr>
         <th>Rank</th>
@@ -36,13 +40,13 @@
     </thead>
     <tbody id='table-body'>
     </tbody>
-</table>
+  </table>
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script>
-  function select_button (target_button) {
+  function select_button(target_button) {
     // Deactivate all other buttons
     var parent = document.getElementById('button-container');
     var buttons = parent.children;
@@ -55,45 +59,15 @@
     target_button.classList.add('btn-primary');
   }
 
-  function add_button (parent, name, group_key, selected=false) {
-    var button_wrapper = document.createElement('button');
-    button_wrapper.classList.add('btn');
-    button_wrapper.classList.add('mr-2');
-    button_wrapper.classList.add('rounded');
-    button_wrapper.textContent = name;
-    button_wrapper.setAttribute("id", group_key);
-    button_wrapper.onclick = function() {
+  function render(leaderboardData, button) {
       clear_leaderboard();
-      select_button(this);
-      var params = get_params();
-      render_leaderboard(params);
-    };
+      select_button(button);
+      render_leaderboard(leaderboardData);
+  };
 
-    if (selected) select_button(button_wrapper);
-    
-    parent.appendChild(button_wrapper);
-  }
-
-  function render_buttons () {
-    $.get('/get_respondent_leaderboard_groups_json', function (buttonData) {
-      var parent = document.getElementById('button-container');
-
-      if (Array.isArray(buttonData['buttons']) && buttonData['buttons'].length == 0) {
-        var msg = document.createElement('p');
-        msg.classList.add('lead');
-        msg.textContent = 'There is no leaderboard as you aren\'t in any groups yet!';
-        parent.appendChild(msg);
-        return; 
-      }
-
-      add_button(parent, 'Overall', "0", selected=true);
-
-      var buttons = buttonData['buttons'];
-      for (var i = 0; i < buttons.length; i++) {
-        var button =  buttons[i];
-        add_button(parent, button['name'], button['group_key']);
-      }
-    })
+  function remove_leaderboard () {
+    var elem = document.getElementById('leaderboard');
+    elem.remove();
   }
 
   function add_row (parent, rank, name, score) {
@@ -119,52 +93,19 @@
   function clear_leaderboard () {
     var parent = document.getElementById('table-body');
     while (parent.firstChild) parent.removeChild(parent.lastChild);
-  } 
-
-  function render_leaderboard (params) {
-    var endpoint = '/get_respondent_leaderboard_json?' + params;
-    $.get(endpoint, function (leaderboardData) {
-      var parent = document.getElementById('table-body');
-
-      if (Array.isArray(leaderboardData['rows']) && leaderboardData['rows'].length == 0) {
-        remove_leaderboard();
-        return; 
-      }
-
-      var rows = leaderboardData['rows'];
-      for (var i=0; i < rows.length; i++) {
-        var row = rows[i];
-        add_row(parent, i + 1, row['name'], row['score']);
-      }
-    });
   }
 
-  function remove_leaderboard () {
-    var elem = document.getElementById('leaderboard');
-    elem.remove();
-  }
+  function render_leaderboard(leaderboard) {
+    var parent = document.getElementById('table-body');
 
-  /**
-   * Gets the id associated with the button which is currently selected - this is
-   * the primary key of the group object which we want to query.
-   */
-  function get_params () {
-    var parent = document.getElementById('button-container');
-
-    var buttons = parent.children;
-    for (var i = 0; i < buttons.length; i++) {
-      var button = buttons[i];
-      if (button.classList.contains('btn-primary')) {
-        if (button.getAttribute("id").localeCompare("0") !== 0) {
-          return 'group=' + button.getAttribute("id");
-        } else return;
-      }
+    for (var i=0; i < leaderboard.length; i++) {
+      var row = leaderboard[i];
+      add_row(parent, i + 1, row['name'], row['score']);
     }
   }
 
   $(function () {
-    render_buttons();
-    render_leaderboard();
+    render_leaderboard({{ overall_leaderboard | safe }});
   });
   
 </script>

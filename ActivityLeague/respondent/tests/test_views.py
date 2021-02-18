@@ -119,24 +119,3 @@ class RespondentViewTest(TestCase):
     def test_calculate_score_values_is_empty(self):
         values = []
         self.assertEqual(views.calculate_score(values), 0)
-        
-    def test_get_respondent_leaderboard_json(self):
-        request = self.factory.get('/get_respondent_leaderboard_json', )
-        request.user = self.user
-        login = self.client.login(username='jacob@email.com', password='top_secret')
-        response = views.get_respondent_leaderboard_json(request)
-        self.assertEqual(response.status_code, 200)
-    
-    def test_get_respondent_leaderboard_json_no_group_param(self):
-        request = self.factory.get('/get_respondent_leaderboard_json', {'group':self.group.pk})
-        request.user = self.user
-        login = self.client.login(username='jacob@email.com', password='top_secret')
-        response = views.get_respondent_leaderboard_json(request)
-        self.assertEqual(response.status_code, 200)
-
-    def test_get_respondent_leaderboard_groups_json(self):
-        request = self.factory.get('/get_respondent_leaderboard_groups_json', )
-        request.user = self.user
-        login = self.client.login(username='jacob@email.com', password='top_secret')
-        response = views.get_respondent_leaderboard_groups_json(request)
-        self.assertEqual(response.status_code, 200)        
