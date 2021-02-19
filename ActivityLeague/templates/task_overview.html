@@ -23,7 +23,7 @@
         
 {% block content %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">Task Overview: {{task_title}}</h1>
+  <h1 class="h2">Task Overview: {{task}}</h1>
 </div>
 
 <!-- Info Cards -->
@@ -32,7 +32,7 @@
     <div class="card text-center border ml-5 mr-5 h-100" style="width: 18rem;">
       <div class="card-header"><b>Total Respondents</b></div>
       <div class="card-body">
-        <p class="card-text text-primary" style="font-size: 300%;"><b>{{task_total_respondents}}</b></p>
+        <p class="card-text text-primary" style="font-size: 200%;"><b>{{task_total_respondents}}</b></p>
       </div>
     </div>
   </div>
@@ -40,7 +40,7 @@
     <div class="card text-center border ml-5 mr-5 h-100" style="width: 18rem;">
       <div class="card-header"><b>Respondents Completed</b></div>
       <div class="card-body">
-        <p class="card-text text-primary" style="font-size: 300%;"><b>{{task_respondents_completed}}</b></p>
+        <p class="card-text text-primary" style="font-size: 200%;"><b>{{task_respondents_completed}}</b></p>
       </div>
     </div>
   </div>
@@ -48,7 +48,7 @@
     <div class="card text-center border ml-5 mr-5 h-100" style="width: 18rem;">
       <div class="card-header"><b>Due Date</b></div>
       <div class="card-body">
-        <p class="card-text text-primary" style="font-size: 300%;"><b>{{task_due_date}}</b></p>
+        <p class="card-text text-primary" style="font-size: 200%;"><b>{{task.due_date}}</b></p>
       </div>
     </div>
   </div>
@@ -62,21 +62,25 @@
 
 <div class="border m-5 rounded bg-light" id="responses-container">
 <div id="accordion" class="accordion">
-  
-    <div id="{{ something }}" class="card">
-      <div class="card-header clickable-header" id="{{ something }}_heading" data-toggle="collapse" data-target="#{{ something }}_collapse" aria-expanded="false" aria-controls="{{ something }}_collapse">
-          <button class="btn btn-link collapsed">qwertyu</button>
+    {% for question in questions %}
+    <div id="{{ question.id }}" class="card">
+      <div class="card-header clickable-header" id="{{ question.id }}_heading" data-toggle="collapse" data-target="#{{ question.id }}_collapse" aria-expanded="false" aria-controls="{{ question.id }}_collapse">
+          <button class="btn btn-link collapsed">{{ question.description }}</button>
       </div>
 
-      <div id="{{ something }}_collapse" class="collapse" aria-labelledby="{{ something }}_heading">
+      <div id="{{ question.id }}_collapse" class="collapse" aria-labelledby="{{ question.id }}_heading">
         <div class="card-body p-5" align="center">
-          
-            <canvas id="{{ something }}_canvas"></canvas>
-          
+          {% if question.type == 'text' %}
+            <canvas id="{{ question.id }}_cloud"></canvas>
+          {% else %}
+            <canvas id="{{ question.id }}_canvas"></canvas>
+          {% endif %}
         </div>
       </div>
     </div>
+    {% endfor %}
 </div>
+{% endblock %}
 
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
@@ -90,32 +94,29 @@ $(function() {
     })
 });
 </script>
-
-{% for something in something%}
-{% if something == 'text'%}
+{% for question in questions %}
+{% if question.type == 'text'%}
 <script>
-  var ctx = document.getElementById("{{something}}");
-
+  var ctx = document.getElementById("{{ question.id }}_cloud");
   img = document.createElement('img');
-  img.src = {{ something }};
+  img.src = "{{ question.word_cloud }}";
   img.style.width = "25%";
   img.style.height = "auto";
   ctx.appendChild(img);
 </script>
-
 {% else %}
 <script>
-  var ctx = document.getElementById("{{something}}").getContext('2d');
+  var ctx = document.getElementById("{{ question.id }}_canvas").getContext('2d');
   new Chart (ctx, {
     type: 'pie',
     data: {
       datasets: [{
-        data: {{something}},
+        data: {{ question.pie_chart_data | safe}},
         backgroundColor: [
           'red', 'blue', 'pink', 'orange', 'green'
         ]
       }],
-      labels: {{ something }},
+      labels: {{ question.pie_chart_labels | safe}},
     },
     options: {
       legend: {

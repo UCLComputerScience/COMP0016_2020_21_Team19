@@ -39,11 +39,10 @@ def task_overview(request, pk_task):
 
     data = {
         'user': user,
-        'task_pk': pk_task,
-        'task_title': task.title,
+        'task': task,
         'task_total_respondents': get_num_respondents_in_group(task.group),
         'task_respondents_completed': num_responses // questions.count(),
-        'task_due_date': task.due_date.strftime("%d/%m/%Y")
+        'questions': get_questions(pk_task),
     }
     return render(request, 'task_overview.html', data)
 
@@ -83,8 +82,7 @@ def new_task(request):
 
     return render(request, 'surveyor_new_task.html', {'user' : user, 'groups' : groups, 'taskform': form, 'formset': formset})
 
-@login_required(login_url='/accounts/login/')
-def get_questions_json(request, pk_task):
+def get_questions(pk_task):
     task = Task.objects.get(pk=pk_task)
     questions = Question.objects.filter(task=task)
     
@@ -98,7 +96,7 @@ def get_questions_json(request, pk_task):
 
         if question.response_type == 1:
             response_type = "likert"
-            fpie_chart_labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
+            pie_chart_labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
             pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
         elif question.response_type == 2:
             response_type = "traffic"
@@ -122,6 +120,7 @@ def get_questions_json(request, pk_task):
                 link_clicks += response.link_clicked
         
         data.append({
+            'id' : question.id,
             'type': response_type,
             'description': question.description,
             'link_clicks': link_clicks,
@@ -129,9 +128,7 @@ def get_questions_json(request, pk_task):
             'pie_chart_data': pie_chart_data,
             'word_cloud': word_cloud})
 
-    return JsonResponse(data={
-        'rows': data
-    })
+    return data
 
 @login_required(login_url='/accounts/login/')
 def new_group(request):
