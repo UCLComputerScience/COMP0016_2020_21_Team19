@@ -29,7 +29,7 @@
 <!-- Info Cards -->
 <div class="card-deck justify-content-center m-5 rounded">
   <div class="col-auto">
-    <div class="card text-center border-primary ml-5 mr-5 h-100" style="width: 18rem;">
+    <div class="card text-center border ml-5 mr-5 h-100" style="width: 18rem;">
       <div class="card-header"><b>Total Respondents</b></div>
       <div class="card-body">
         <p class="card-text text-primary" style="font-size: 300%;"><b>{{task_total_respondents}}</b></p>
@@ -37,7 +37,7 @@
     </div>
   </div>
   <div class="col-auto">
-    <div class="card text-center border-primary ml-5 mr-5 h-100" style="width: 18rem;">
+    <div class="card text-center border ml-5 mr-5 h-100" style="width: 18rem;">
       <div class="card-header"><b>Respondents Completed</b></div>
       <div class="card-body">
         <p class="card-text text-primary" style="font-size: 300%;"><b>{{task_respondents_completed}}</b></p>
@@ -45,7 +45,7 @@
     </div>
   </div>
   <div class="col-auto">
-    <div class="card text-center border-primary ml-5 mr-5 h-100" style="width: 18rem;">
+    <div class="card text-center border ml-5 mr-5 h-100" style="width: 18rem;">
       <div class="card-header"><b>Due Date</b></div>
       <div class="card-body">
         <p class="card-text text-primary" style="font-size: 300%;"><b>{{task_due_date}}</b></p>
@@ -55,122 +55,77 @@
 </div>
 
 <!-- Responses Section -->
-<div class="text-center align-middle border m-5 rounded bg-light" id="responses-container">
-  <div class="row border-bottom">
-    <div class="col">
-      <h5><b>Question</b></h5>
-    </div>
-    <div class="col border-left border-right">
-      <h5><b>Link Clicks</b></h5>
-    </div>
-    <div class="col">
-      <h5><b>Responses</b></h5>
-    </div>
-  </div>
+<div class="m-5 rounded align-right" align="right">
+  <button id="toggleAccordions-show" class="btn btn-secondary" type="button" data-toggle="collapse">Expand all</button>
+  <button id="toggleAccordions-hide" class="btn btn-secondary" type="button" data-toggle="collapse">Collapse all</button>
 </div>
 
-{% endblock %}
+<div class="border m-5 rounded bg-light" id="responses-container">
+<div id="accordion" class="accordion">
+  
+    <div id="{{ something }}" class="card">
+      <div class="card-header clickable-header" id="{{ something }}_heading" data-toggle="collapse" data-target="#{{ something }}_collapse" aria-expanded="false" aria-controls="{{ something }}_collapse">
+          <button class="btn btn-link collapsed">qwertyu</button>
+      </div>
+
+      <div id="{{ something }}_collapse" class="collapse" aria-labelledby="{{ something }}_heading">
+        <div class="card-body p-5" align="center">
+          
+            <canvas id="{{ something }}_canvas"></canvas>
+          
+        </div>
+      </div>
+    </div>
+</div>
 
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-  <script>
-    var task_pk = '{{ task_pk }}';
+<script>
+$(function() {
+    $('#toggleAccordions-show').on('click', function(e) {
+        $('#accordion .collapse').collapse('show');
+    })
+    $('#toggleAccordions-hide').on('click', function(e) {
+        $('#accordion .collapse').collapse('hide');
+    })
+});
+</script>
 
-    function add_question(parent, description) {
-      columnWrapper = document.createElement('div');
-      columnWrapper.classList.add('col-4');
-      columnWrapper.classList.add('d-flex');
-      columnWrapper.classList.add('justify-content-center');
-      columnWrapper.classList.add('text-center');
-      columnWrapper.textContent = description;
-      parent.appendChild(columnWrapper);
-    }
+{% for something in something%}
+{% if something == 'text'%}
+<script>
+  var ctx = document.getElementById("{{something}}");
 
-    function add_link_clicks(parent, link_clicks) {
-      columnWrapper = document.createElement('div');
-      columnWrapper.classList.add('col');
+  img = document.createElement('img');
+  img.src = {{ something }};
+  img.style.width = "25%";
+  img.style.height = "auto";
+  ctx.appendChild(img);
+</script>
 
-      card = document.createElement('div');
-      card.classList.add('card', 'border-primary', 'm-2');
-
-      cardBody = document.createElement('div');
-      cardBody.classList.add('card-body');
-
-      cardTitle = document.createElement('h5');
-      cardTitle.classList.add('card-title');
-      cardTitle.textContent = link_clicks;
-
-      cardBody.appendChild(cardTitle);
-      card.appendChild(cardBody);
-      columnWrapper.appendChild(card);
-      parent.appendChild(columnWrapper);
-    }
-
-    function add_pie_chart(parent, labels, data) {
-      columnWrapper = document.createElement('div');
-      columnWrapper.classList.add('col');
-
-      var pieChart = document.createElement('canvas');
-
-      new Chart (pieChart, {
-        type: 'pie',
-        data: {
-          datasets: [{
-            data: data,
-            backgroundColor: [
-              'red', 'blue', 'pink', 'orange', 'green'
-            ]
-          }],
-          labels: labels
-        },
-        options: {
-          responsive: false,
-          legend: {
-            display: false
-          }
-        }
-      });
-
-      columnWrapper.appendChild(pieChart);
-      parent.appendChild(columnWrapper);
-    }
-
-    function add_word_cloud(parent, word_cloud) {
-      columnWrapper = document.createElement('div');
-      columnWrapper.classList.add('col');
-      if (word_cloud != null) {
-        img = document.createElement('img');
-        img.src = word_cloud;
-        img.style.width = "100%";
-        img.style.height = "auto";
-        columnWrapper.appendChild(img);
+{% else %}
+<script>
+  var ctx = document.getElementById("{{something}}").getContext('2d');
+  new Chart (ctx, {
+    type: 'pie',
+    data: {
+      datasets: [{
+        data: {{something}},
+        backgroundColor: [
+          'red', 'blue', 'pink', 'orange', 'green'
+        ]
+      }],
+      labels: {{ something }},
+    },
+    options: {
+      legend: {
+        display: true,
+        position: 'bottom',
+        align: 'center'
       }
-      parent.appendChild(columnWrapper);
     }
-
-    function render_responses() {
-      $.get('/task/' + task_pk + '/get_questions_json', function (tableData) {
-        var parent = document.getElementById('responses-container');
-        var rows = tableData['rows'];
-        for (var i=0; i < rows.length; i++) {
-          var question = rows[i];
-          var rowWrapper = document.createElement('div');
-          rowWrapper.classList.add('row', 'border-bottom');
-          add_question(rowWrapper, question['description']);
-          add_link_clicks(rowWrapper, question['link_clicks']);
-          if (question['type'] === 'text') {
-            add_word_cloud(rowWrapper, question['word_cloud'])
-          } else {
-            add_pie_chart(rowWrapper, question['pie_chart_labels'], question['pie_chart_data']);
-          }
-          parent.appendChild(rowWrapper);
-        }
-      })
-    }
-
-    $(function () { 
-      render_responses();
-    });
-
-  </script>
+  });
+</script>
+{% endif %}
+{% endfor %}
 {% endblock %}
