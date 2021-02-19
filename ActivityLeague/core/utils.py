@@ -203,14 +203,14 @@ def calculate_score(values):
     return 0 if not len(values) else sum(values) / len(values)
 
 
-def get_tasks(user):  # TODO: Remember to uncomment the tasks and comment out the temporary solution
+def get_tasks(user):
     if isinstance(user, Surveyor):
         groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
     elif isinstance(user, Respondent):
         groups = GroupRespondent.objects.filter(respondent=user).values_list('group', flat=True)
-
     tasks = Task.objects.filter(group__in=groups).order_by('due_date', 'due_time')
-    tasks = list(filter(lambda task: not get_responses(user, task=task), tasks))
+    if isinstance(user, Respondent):
+        tasks = list(filter(lambda task: not get_responses(user, task=task), tasks))
     now = datetime.datetime.now()
     for task in tasks:
         if isinstance(user, Surveyor):
@@ -220,8 +220,7 @@ def get_tasks(user):  # TODO: Remember to uncomment the tasks and comment out th
             task.num_responses = responses.count() // questions.count()
         task.due_dt = datetime.datetime.combine(task.due_date, task.due_time)
         until = task.due_dt - now
-        task.color = "red" if until < datetime.timedelta(days=1) else "orange" if until < datetime.timedelta(
-            days=2) else "darkgreen"
+        task.color = "red" if until < datetime.timedelta(days=1) else "orange" if until < datetime.timedelta(days=2) else "darkgreen"
     return tasks, now
 
 

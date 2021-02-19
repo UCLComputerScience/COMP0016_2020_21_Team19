@@ -24,7 +24,7 @@
 {% block content %}
 <h2>Leaderboard</h2>
 <div class="btn-group pt-3 mb-4" role="group" id="button-container">
-  <button class="btn mr-2 rounded" onclick="render({{ overall_leaderboard | safe }}, this)">Overall</button>
+  <button class="btn btn-primary mr-2 rounded" onclick="render({{ overall_leaderboard | safe }}, this)">Overall</button>
   {% for gr in groups %}
     <button class="btn mr-2 rounded" onclick="render({{ gr.leaderboard | safe }}, this)">{{ gr }}</button>
   {% endfor %}

@@ -1,4 +1,4 @@
-from respondent.models import GroupRespondent
+from respondent.models import GroupRespondent, Respondent
 from core.utils import get_groups, get_graph_labels, get_graph_data, get_leaderboard
 
 from urllib.parse import urlparse

@@ -19,6 +19,7 @@ def dashboard(request):
     user = get_object_or_404(Surveyor, user=request.user)
     tasks, now = get_tasks(user)
     group_data = get_graphs_and_leaderboards(user)
+    print(tasks)
     return render(request, 'surveyor_dashboard.html', {'user' : user, 'tasks': tasks, 'now':now, 'group_data': group_data})
 
 @login_required(login_url='/accounts/login/')

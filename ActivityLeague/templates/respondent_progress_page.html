@@ -28,104 +28,61 @@
 
 <div>
   <div class="col" id="graph-container">
+    {% if groups %}
+      {% for gr in groups %}
+      <div class="row bg-light" style="margin:20px;borderRadius:20px">
+        <canvas id="{{ gr.id }}" width="900" height="380">
+        </canvas>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p class="lead">There is no progress to show as you have no responses!</p>
+    {% endif %}
   </div>
-  <!-- <div style="margin: 100px; border-radius: 25px;" class="row bg-light">
-    
-  </div> -->
 </div>
 {% endblock %}
 
 {% block scripts %}
 <!-- Graphs -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+{% for gr in groups %}
 <script>
-  function render_graph(parent, title, labels, values) {
-    var wrapper = document.createElement('div');
-    wrapper.classList.add('row');
-    wrapper.classList.add('bg-light');
-
-    // THIS IS TEMPORARY STYLE INJECTION
-    wrapper.style.margin = "20px";
-    wrapper.style.borderRadius = "20px";
-
-    var element = document.createElement('canvas');
-    element.width = 900;
-    element.height = 380;
-
-    wrapper.appendChild(element);
-    parent.appendChild(wrapper);
-
-    new Chart(element, {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: values
+  var ctx = document.getElementById("{{ gr.id }}").getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: {{ gr.labels | safe }},
+      datasets: {{ gr.scores | safe }}
+    },
+    options: {
+      title: {
+        display: true,
+        text: '{{ gr.title }}'
       },
-      options: {
-        title: {
-          display: true,
-          text: title
-        },
-        scales: {
-          yAxes: [{
-            scaleLabel: {
-              display: true,
-              labelString: 'Score'
-            },
-            ticks: {
-              min: 0,
-              max: 5
-            }
-          }],
-          xAxes: [{
-            scaleLabel: {
-              display: true,
-              labelString: 'Time'
-            }
-          }]
-        },
-        legend: {
-          display: false,
-        }
+      scales: {
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Score'
+          },
+          ticks: {
+            min: 0,
+            max: 5
+          }
+        }],
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Time'
+          }
+        }]
+      },
+      legend: {
+        display: false,
       }
-    });
-  }
-
-  function load_and_render_graphs() {
-    $.get('/get_progress_json', function(graphData) {
-      var parent = document.getElementById("graph-container");
-
-      if (Array.isArray(graphData['groups']) && graphData['groups'].length == 0) {
-
-        var parent_parent = parent.parentNode;
-        parent.remove();
-
-        // Add description
-        var msg = document.createElement('p');
-        msg.classList.add('lead');
-        msg.textContent = 'There is no progress to show as you have no responses!';
-        parent_parent.appendChild(msg);
-        
-        return;
-      }
-
-      var overall = graphData['overall'];
-      var overall_labels = graphData['overall_labels']
-      render_graph(parent, 'Overall Progress', overall_labels, overall)
-
-      var groups = graphData['groups'];
-
-      for (var i = 0; i < groups.length; i++) {
-        var group = groups[i];
-
-        render_graph(parent, group['title'], group['labels'], group['scores']);
-      }
-    })
-  }
-
-  $(function () {
-    load_and_render_graphs();
+    }
   });
 </script>
+{% endfor %}
 {% endblock %}
 

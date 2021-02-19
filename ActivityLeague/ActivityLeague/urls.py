@@ -35,7 +35,6 @@ urlpatterns = [
     # respondent
     url(r'^response/(?P<id>[0-9a-f-]+)/?$', respondent.response, name='response'),
     url(r'^progress/?$', respondent.progress, name='respondent_progress'),
-    url(r'^get_progress_json$', respondent.get_progress_json, name='get_progress_json'),
 
     # surveyor
     url(r'^task/(?P<pk_task>[0-9a-f-]+)/?$', surveyor.task_overview, name='task_overview'),

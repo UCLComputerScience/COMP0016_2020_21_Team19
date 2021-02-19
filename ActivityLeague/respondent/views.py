@@ -22,37 +22,16 @@ def dashboard(request):
 @login_required(login_url='/accounts/login/')
 def leaderboard(request):
     user = get_object_or_404(Respondent, user=request.user)
-    return render(request, 'respondent_leaderboard.html', {'user' : user})
+    groups = get_groups(user)
+    for group in groups:
+        group.leaderboard = get_leaderboard(user, group=group)
+    return render(request, 'respondent_leaderboard.html', {'user' : user, 'groups': groups, 'overall_leaderboard': get_leaderboard(user)})
 
 @login_required(login_url='/accounts/login/')
 def progress(request):
     user = get_object_or_404(Respondent, user=request.user)
-    labels = get_graph_labels(user)
-    scores = get_graph_data(user, labels)
-    groups = get_groups(user)
-    return render(request, 'respondent_progress_page.html', {'user' : user, 'labels': labels, 'scores': scores, 'groups': groups})
-
-@login_required(login_url='/accounts/login/')
-def get_progress_json(request):
-    user = get_object_or_404(Respondent, user=request.user)
-    groups = get_groups(user)
-    overall_labels = get_graph_labels(user)
-
-    group_graphs = []
-    overall_data = []
-    for group in groups:
-        group_labels = get_graph_labels(user, group=group)
-        group_scores = get_graph_data(user, group_labels, group=group)
-        group_title = group.name
-        group_graphs.append({'title': group_title, 'labels': group_labels, 'scores': [get_chartjs_dict(group_scores)]})
-
-        overall_data.append(get_chartjs_dict(group_scores))
-
-    return JsonResponse(data={
-        'overall': overall_data,
-        'overall_labels': overall_labels,
-        'groups': group_graphs
-    })
+    group_graphs = get_progress_graphs(user)
+    return render(request, 'respondent_progress_page.html', {'user' : user, 'groups': group_graphs})
 
 @login_required(login_url='/accounts/login/')
 def response(request, id):
