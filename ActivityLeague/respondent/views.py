@@ -17,7 +17,7 @@ from .utils import *
 def dashboard(request):
     user = get_object_or_404(Respondent, user=request.user)
     tasks, now = get_tasks(user)
-    return render(request, 'respondent_dashboard.html', {'user' : user, 'tasks' : tasks, 'now' : now})
+    return render(request, 'respondent/dashboard.html', {'user' : user, 'tasks' : tasks, 'now' : now})
 
 @login_required(login_url='/accounts/login/')
 def leaderboard(request):
@@ -25,13 +25,13 @@ def leaderboard(request):
     groups = get_groups(user)
     for group in groups:
         group.leaderboard = get_leaderboard(user, group=group)
-    return render(request, 'respondent_leaderboard.html', {'user' : user, 'groups': groups, 'overall_leaderboard': get_leaderboard(user)})
+    return render(request, 'respondent/leaderboard.html', {'user' : user, 'groups': groups, 'overall_leaderboard': get_leaderboard(user)})
 
 @login_required(login_url='/accounts/login/')
 def progress(request):
     user = get_object_or_404(Respondent, user=request.user)
     group_graphs = get_progress_graphs(user)
-    return render(request, 'respondent_progress_page.html', {'user' : user, 'groups': group_graphs})
+    return render(request, 'respondent/progress_page.html', {'user' : user, 'groups': group_graphs})
 
 @login_required(login_url='/accounts/login/')
 def response(request, id):
@@ -69,4 +69,4 @@ def response(request, id):
                 Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time, link_clicked=link_clicked)
         return redirect('/dashboard')
     else:
-        return render(request, 'response.html', {'user' : user, 'task' : task, 'questions' : questions})
+        return render(request, 'respondent/response.html', {'user' : user, 'task' : task, 'questions' : questions})

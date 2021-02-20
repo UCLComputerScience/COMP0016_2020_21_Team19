@@ -19,8 +19,7 @@ def dashboard(request):
     user = get_object_or_404(Surveyor, user=request.user)
     tasks, now = get_tasks(user)
     group_data = get_graphs_and_leaderboards(user)
-    print(tasks)
-    return render(request, 'surveyor_dashboard.html', {'user' : user, 'tasks': tasks, 'now':now, 'group_data': group_data})
+    return render(request, 'surveyor/dashboard.html', {'user' : user, 'tasks': tasks, 'now':now, 'group_data': group_data})
 
 @login_required(login_url='/accounts/login/')
 def leaderboard(request):
@@ -28,7 +27,7 @@ def leaderboard(request):
     groups = get_groups(user)
     for group in groups:
         group.leaderboard = get_leaderboard(user, group=group)
-    return render(request, 'surveyor_leaderboard.html', {'user' : user, 'groups': groups, 'overall_leaderboard': get_leaderboard(user)})
+    return render(request, 'surveyor/leaderboard.html', {'user' : user, 'groups': groups, 'overall_leaderboard': get_leaderboard(user)})
 
 @login_required(login_url='/accounts/login/')
 def task_overview(request, pk_task):
@@ -44,7 +43,7 @@ def task_overview(request, pk_task):
         'task_respondents_completed': num_responses // questions.count(),
         'questions': get_questions(pk_task),
     }
-    return render(request, 'task_overview.html', data)
+    return render(request, 'surveyor/task_overview.html', data)
 
 @login_required(login_url='/accounts/login/')
 def new_task(request):
@@ -80,7 +79,7 @@ def new_task(request):
     else:
         form = NewTaskForm()
 
-    return render(request, 'surveyor_new_task.html', {'user' : user, 'groups' : groups, 'taskform': form, 'formset': formset})
+    return render(request, 'surveyor/new_task.html', {'user' : user, 'groups' : groups, 'taskform': form, 'formset': formset})
 
 def get_questions(pk_task):
     task = Task.objects.get(pk=pk_task)
@@ -147,7 +146,7 @@ def new_group(request):
         form = GroupForm()
 
     context = {'form': form}
-    data['html_form'] = render_to_string('partial_new_group.html',
+    data['html_form'] = render_to_string('surveyor/partials/new_group.html',
         context,
         request=request
     )
@@ -164,7 +163,7 @@ def groups(request):
     groups = get_groups(user)
     for group in groups:
         group.num_participants = get_num_respondents_in_group(group)        
-    return render(request, 'surveyor_groups.html', {'user': user, 'groups': groups})
+    return render(request, 'surveyor/groups.html', {'user': user, 'groups': groups})
 
 @login_required(login_url='/accounts/login/')
 def manage_group(request, pk_group):
@@ -185,7 +184,7 @@ def manage_group(request, pk_group):
     group = Group.objects.get(pk=pk_group)
     respondents = get_group_participants(group)
     form = AddUserForm(group_pk=pk_group)
-    return render(request, 'surveyor_manage_group.html', {'user': user, 'participants': respondents, 'group': group, 'form': form})
+    return render(request, 'surveyor/manage_group.html', {'user': user, 'participants': respondents, 'group': group, 'form': form})
 
 @login_required(login_url='/accounts/login/')
 def add_user(request):
@@ -205,7 +204,7 @@ def add_user(request):
         form.fields['group'].initial = request.GET.get('group', None)
 
     context = {'form': form}
-    data['html_form'] = render_to_string('partial_add_user.html',
+    data['html_form'] = render_to_string('surveyor/partials/add_user.html',
         context,
         request=request
     )
