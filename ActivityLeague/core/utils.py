@@ -94,9 +94,6 @@ def get_graph_labels(user, **kwargs):
     dates = list(responses.values_list('date_time', flat=True))
     dates = [date_time.date() for date_time in dates]
 
-    if len(responses) == 0:
-        return None
-
     latest = dates[-1]
     earliest = dates[0]
     time_range = latest - earliest

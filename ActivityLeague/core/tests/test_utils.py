@@ -16,26 +16,14 @@ class CoreUtilTestInvalidUser(TestCase):
     def test_get_groups(self):
         with self.assertRaises(ValueError):
             get_groups(self.user)
-    
-    def test_get_leaderboard(self):
-        with self.assertRaises(ValueError):
-            get_leaderboard(self.user)
 
     def test_get_graph_labels(self):
         with self.assertRaises(ValueError):
             get_graph_labels(self.user)
 
-    def test_get_graph_data(self):
-        with self.assertRaises(ValueError):
-            get_graph_data(self.user)
-
     def test_get_responses(self):
         with self.assertRaises(ValueError):
             get_responses(self.user)
-
-    def test_get_tasks(self):
-        with self.assertRaises(ValueError):
-            get_tasks(self.user)
 
 class CoreUtilRespondent(TestCase):
     def setUp(self):
@@ -75,6 +63,13 @@ class CoreUtilRespondent(TestCase):
         response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, date_time=date_time)
         labels = get_graph_labels(self.respondent)
         self.assertEqual(labels, [str(date_time.date()), str(date_time.date())])
+
+    def test_get_graph_labels_no_responses(self):
+        user = User.objects.create_user(
+            username='newuser', email='new@user.com', password='top_secret')
+        respondent = Respondent.objects.create(user=user, firstname='New', surname='Testuser')
+        labels = get_graph_labels(respondent)
+        self.assertFalse(labels)
 
     def test_get_graph_data(self):
         response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, date_time=datetime.datetime(2021, 7, 4, tzinfo=pytz.UTC))
@@ -134,29 +129,29 @@ class CoreUtilSurveyor(TestCase):
         responses = get_responses(self.surveyor, group=self.group)
         self.assertEqual(responses.get(), response)
 
-    # def test_get_graph_labels(self):
-    #     date_time = datetime.datetime(2021, 7, 4, tzinfo=pytz.UTC)
-    #     response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, date_time=date_time)
-    #     labels = get_graph_labels(self.respondent)
-    #     self.assertEqual(labels, [str(date_time.date()), str(date_time.date())])
+    def test_get_graph_labels(self):
+        date_time = datetime.datetime(2021, 7, 4, tzinfo=pytz.UTC)
+        response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, date_time=date_time)
+        labels = get_graph_labels(self.surveyor)
+        self.assertEqual(labels, [str(date_time.date()), str(date_time.date())])
 
-    # def test_get_graph_data(self):
-    #     response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, date_time=datetime.datetime(2021, 7, 4, tzinfo=pytz.UTC))
-    #     labels = get_graph_labels(self.respondent)
-    #     values = get_graph_data(self.respondent, labels)
-    #     self.assertEqual(values, [1, 1])
+    def test_get_graph_data(self):
+        response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, date_time=datetime.datetime(2021, 7, 4, tzinfo=pytz.UTC))
+        labels = get_graph_labels(self.surveyor)
+        values = get_graph_data(self.respondent, labels)
+        self.assertEqual(values, [1, 1])
 
-    # def test_get_graph_data_with_empty_labels(self):
-    #     response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, date_time=datetime.datetime(2021, 7, 4, tzinfo=pytz.UTC))
-    #     values = get_graph_data(self.respondent, [])
-    #     self.assertEqual(values, None)
+    def test_get_graph_data_with_empty_labels(self):
+        response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, date_time=datetime.datetime(2021, 7, 4, tzinfo=pytz.UTC))
+        values = get_graph_data(self.surveyor, [])
+        self.assertEqual(values, None)
 
     def test_calculate_score_values(self):
-        values = [1,2,3,4,5,6,7,8,9,10]
+        values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         self.assertEqual(calculate_score(values), 5.5)
 
     def test_calculate_score_values_contains_none(self):
-        values = [1,2,3,4,None,5,6,7,8,9]
+        values = [1, 2, 3, 4, None, 5, 6, 7, 8, 9]
         self.assertEqual(calculate_score(values), 5)
 
     def test_calculate_score_values_is_empty(self):

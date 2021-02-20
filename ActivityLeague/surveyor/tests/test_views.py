@@ -1,5 +1,7 @@
 import datetime
+import pytz
 
+from respondent.models import Respondent, Response
 from surveyor.models import Surveyor, Question, Task, Group, GroupSurveyor
 from surveyor import views
 from core.utils import get_tasks
@@ -16,9 +18,9 @@ class TaskOverViewTestCase(TestCase):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(username='jane', email='jane@email.com', password='activityleague')
         self.surveyor = Surveyor.objects.create(user=self.user, firstname='Jane', surname='White')
-        group = Group.objects.create(name="Lung Rehabilitation")
-        GroupSurveyor.objects.create(surveyor=self.surveyor, group=group)
-        self.task = Task.objects.create(title="Perform 20 Press-Ups", group=group, due_date=datetime.datetime(2021, 7, 3), due_time=datetime.time(10, 0))
+        self.group = Group.objects.create(name="Lung Rehabilitation")
+        self.group_surveyor = GroupSurveyor.objects.create(surveyor=self.surveyor, group=self.group)
+        self.task = Task.objects.create(title="Perform 20 Press-Ups", group=self.group, due_date=datetime.datetime(2021, 7, 3, tzinfo=pytz.UTC), due_time=datetime.time(10, 0))
 
         self.question = Question.objects.create(task=self.task, description="This task was difficult", response_type=1)
 
@@ -36,9 +38,9 @@ class DashboardTestCase(TestCase):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(username='jane', email='jane@email.com', password='activityleague')
         self.surveyor = Surveyor.objects.create(user=self.user, firstname='Jane', surname='White')
-        group = Group.objects.create(name="Lung Rehabilitation")
-        GroupSurveyor.objects.create(surveyor=self.surveyor, group=group)
-        self.task = Task.objects.create(title="Perform 20 Press-Ups", group=group, due_date=datetime.datetime(2021, 7, 3), due_time=datetime.time(10, 0))
+        self.group = Group.objects.create(name="Lung Rehabilitation")
+        self.group_surveyor = GroupSurveyor.objects.create(surveyor=self.surveyor, group=self.group)
+        self.task = Task.objects.create(title="Perform 20 Press-Ups", group=self.group, due_date=datetime.datetime(2021, 7, 3, tzinfo=pytz.UTC), due_time=datetime.time(10, 0))
 
         self.question = Question.objects.create(task=self.task, description="This task was difficult", response_type=1)
 
@@ -57,9 +59,9 @@ class LeaderboardTestCase(TestCase):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(username='jane', email='jane@email.com', password='activityleague')
         self.surveyor = Surveyor.objects.create(user=self.user, firstname='Jane', surname='White')
-        group = Group.objects.create(name="Lung Rehabilitation")
-        GroupSurveyor.objects.create(surveyor=self.surveyor, group=group)
-        self.task = Task.objects.create(title="Perform 20 Press-Ups", group=group, due_date=datetime.datetime(2021, 7, 3), due_time=datetime.time(10, 0))
+        self.group = Group.objects.create(name="Lung Rehabilitation")
+        self.group_surveyor = GroupSurveyor.objects.create(surveyor=self.surveyor, group=self.group)
+        self.task = Task.objects.create(title="Perform 20 Press-Ups", group=self.group, due_date=datetime.datetime(2021, 7, 3, tzinfo=pytz.UTC), due_time=datetime.time(10, 0))
 
         self.question = Question.objects.create(task=self.task, description="This task was difficult", response_type=1)
     
@@ -88,17 +90,58 @@ class NewTaskTestCase(TestCase):
 
 
 class GetQuestionsTestCase(TestCase):
-    
+   
     @classmethod
     def setUp(self):
         self.factory = RequestFactory()
-        self.user = User.objects.create_user(username='jane', email='jane@email.com', password='activityleague')
-        self.surveyor = Surveyor.objects.create(user=self.user, firstname='Jane', surname='White')
-        group = Group.objects.create(name="Lung Rehabilitation")
-        GroupSurveyor.objects.create(surveyor=self.surveyor, group=group)
-        self.task = Task.objects.create(title="Perform 20 Press-Ups", group=group, due_date=datetime.datetime(2021, 7, 3), due_time=datetime.time(10, 0))
+        self.surveyor_user = User.objects.create_user(username='jane', email='jane@email.com', password='activityleague')
+        self.surveyor = Surveyor.objects.create(user=self.surveyor_user, firstname='Jane', surname='White')
+        self.respondent_user = User.objects.create_user(username='Emma', email='emma@email.com', password='activityleague')
+        self.respondent = Respondent.objects.create(user=self.respondent_user, firstname='Emma', surname='Green')
+        self.group = Group.objects.create(name="Lung Rehabilitation")
+        self.group_surveyor = GroupSurveyor.objects.create(surveyor=self.surveyor, group=self.group) 
+        self.task = Task.objects.create(title="Perform 20 Press-Ups", group=self.group, due_date=datetime.datetime(2021, 7, 3, tzinfo=pytz.UTC), due_time=datetime.time(10, 0))
+        self.question_1 = Question.objects.create(task=self.task, description="Walk for 2 miles", response_type=1)
+        self.question_2 = Question.objects.create(task=self.task, description="Socialise with 2 people today", response_type=2)
+        self.question_3 = Question.objects.create(task=self.task, description="Spend less than 1h per day on your phone", response_type=3)
 
-        self.question = Question.objects.create(task=self.task, description="This task was difficult", response_type=1)
+        self.response_1 = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, text=None, date_time=datetime.datetime.now(), link_clicked=True)
+        self.response_2 = Response.objects.create(question=self.question_2, respondent=self.respondent, value=1, text=None, date_time=datetime.datetime.now(), link_clicked=True)
+        self.response_3 = Response.objects.create(question=self.question_3, respondent=self.respondent, value=None, text='Hard', date_time=datetime.datetime.now(), link_clicked=True)
+
+
+    def test_data_formatted_appropriately(self):
+        data = views.get_questions(self.task.id)
+        self.assertTrue(data)
+        entry = data[0]
+        self.assertEqual(entry.keys(), {'id', 'link', 'type', 'description', 'link_clicks', 'pie_chart_labels', 'pie_chart_data', 'word_cloud'})
+    
+    def test_chart_likert_labels_correct(self):
+        data = views.get_questions(self.task.id)
+        likert_entry = data[0]
+        self.assertEqual(likert_entry['pie_chart_labels'], ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'])
+
+    def test_chart_traffic_labels_correct(self):
+        data = views.get_questions(self.task.id)
+        traffic_entry = data[1]
+        self.assertEqual(traffic_entry['pie_chart_labels'], ['Red', 'Yellow', 'Green'])
+    
+    def test_chart_data_correct(self):
+        pass
+    
+    def test_text_responses_correct(self):
+        pass
+    
+    def test_link_clicks_correct(self):
+        data = views.get_questions(self.task.id)
+        clicks = []
+        for i in range(0, 3):
+            clicks.append(1 if data[i]['link_clicks'] is True else 0)
+        self.assertEqual(clicks, [1, 1, 1])
+
+    def test_question_descriptions_correct(self):
+        pass
+
 
 
 class NewGroupTestCase(TestCase):
@@ -127,9 +170,9 @@ class GroupsTestCase(TestCase):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(username='jane', email='jane@email.com', password='activityleague')
         self.surveyor = Surveyor.objects.create(user=self.user, firstname='Jane', surname='White')
-        group = Group.objects.create(name="Lung Rehabilitation")
-        GroupSurveyor.objects.create(surveyor=self.surveyor, group=group)
-        self.task = Task.objects.create(title="Perform 20 Press-Ups", group=group, due_date=datetime.datetime(2021, 7, 3), due_time=datetime.time(10, 0))
+        self.group = Group.objects.create(name="Lung Rehabilitation")
+        self.group_surveyor = GroupSurveyor.objects.create(surveyor=self.surveyor, group=self.group)
+        self.task = Task.objects.create(title="Perform 20 Press-Ups", group=self.group, due_date=datetime.datetime(2021, 7, 3, tzinfo=pytz.UTC), due_time=datetime.time(10, 0))
 
         self.question = Question.objects.create(task=self.task, description="This task was difficult", response_type=1)
     
@@ -148,12 +191,14 @@ class ManageGroupTestCase(TestCase):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(username='jane', email='jane@email.com', password='activityleague')
         self.surveyor = Surveyor.objects.create(user=self.user, firstname='Jane', surname='White')
+        self.group = Group.objects.create(name="Lung Rehabilitation")
+        self.group_surveyor = GroupSurveyor.objects.create(surveyor=self.surveyor, group=self.group)
     
     def test_manage_groups_renders(self):
         request = self.factory.get('/manage_group/')
         request.user = self.user
         login = self.client.login(username='jane', password='activityleague')
-        response = views.manage_group(request)
+        response = views.manage_group(request, self.group.id)
         self.assertEqual(response.status_code, 200)
 
 

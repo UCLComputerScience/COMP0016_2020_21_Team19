@@ -34,5 +34,25 @@ class RespondentUtilTest(TestCase):
         self.assertEqual(chart_dict.keys(), {'data', 'lineTension', 'backgroundColor', 'borderColor', 'borderWidth', 'pointBackgroundColor'})
     
     def test_get_progress_graphs(self):
+        """
+        Tests that valid dictionaries containing the graph information are returned
+        """
         graphs = utils.get_progress_graphs(self.respondent)
-        assertEqual(graphs[0].keys(), {'id', 'title', 'labels', 'scores'})
+        self.assertTrue(len(graphs) == 2)
+        overall_graph = graphs[0]
+        group_graph = graphs[1]
+        self.assertEqual(overall_graph.keys(), {'id', 'title', 'labels', 'scores'})
+
+        self.assertEqual(overall_graph['id'], 'overall')
+        self.assertEqual(overall_graph['title'], 'Overall')
+        self.assertEqual(overall_graph['labels'], [])
+        self.assertTrue(overall_graph['scores'])
+        self.assertEqual(overall_graph['scores'][0].keys(), {'data', 'lineTension', 'backgroundColor', 'borderColor', 'borderWidth', 'pointBackgroundColor'})
+        self.assertEqual(overall_graph['scores'][0]['data'], [])
+
+        self.assertEqual(group_graph['id'], self.group.id)
+        self.assertEqual(group_graph['title'], self.group.name)
+        self.assertEqual(group_graph['labels'], [])
+        self.assertTrue(group_graph['scores'])
+        self.assertEqual(group_graph['scores'][0].keys(), {'data', 'lineTension', 'backgroundColor', 'borderColor', 'borderWidth', 'pointBackgroundColor'})
+        self.assertEqual(group_graph['scores'][0]['data'], [])
