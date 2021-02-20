@@ -105,9 +105,9 @@ class GetQuestionsTestCase(TestCase):
         self.question_2 = Question.objects.create(task=self.task, description="Socialise with 2 people today", response_type=2)
         self.question_3 = Question.objects.create(task=self.task, description="Spend less than 1h per day on your phone", response_type=3)
 
-        self.response_1 = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, text=None, date_time=datetime.datetime.now(), link_clicked=True)
-        self.response_2 = Response.objects.create(question=self.question_2, respondent=self.respondent, value=1, text=None, date_time=datetime.datetime.now(), link_clicked=True)
-        self.response_3 = Response.objects.create(question=self.question_3, respondent=self.respondent, value=None, text='Hard', date_time=datetime.datetime.now(), link_clicked=True)
+        self.response_1 = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, text=None, date_time=datetime.datetime.now(tz=pytz.UTC), link_clicked=True)
+        self.response_2 = Response.objects.create(question=self.question_2, respondent=self.respondent, value=1, text=None, date_time=datetime.datetime.now(tz=pytz.UTC), link_clicked=True)
+        self.response_3 = Response.objects.create(question=self.question_3, respondent=self.respondent, value=None, text='Hard', date_time=datetime.datetime.now(tz=pytz.UTC), link_clicked=True)
 
 
     def test_data_formatted_appropriately(self):
@@ -136,7 +136,7 @@ class GetQuestionsTestCase(TestCase):
         data = views.get_questions(self.task.id)
         clicks = []
         for i in range(0, 3):
-            clicks.append(1 if data[i]['link_clicks'] is True else 0)
+            clicks.append(1 if data[i]['link_clicks'] else 0)
         self.assertEqual(clicks, [1, 1, 1])
 
     def test_question_descriptions_correct(self):
