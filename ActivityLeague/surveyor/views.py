@@ -121,6 +121,7 @@ def get_questions(pk_task):
         
         data.append({
             'id' : question.id,
+            'link': question.link,
             'type': response_type,
             'description': question.description,
             'link_clicks': link_clicks,
