@@ -133,7 +133,7 @@ def get_questions(pk_task):
 @login_required(login_url='/accounts/login/')
 def new_group(request):
     data = dict()
-
+    
     if request.method == 'POST':
         form = GroupForm(request.POST)
         if form.is_valid():
@@ -178,34 +178,8 @@ def manage_group(request, pk_group):
             respondent = Respondent.objects.get(pk=respondent_pk)
             group = Group.objects.get(pk=pk_group)
             new_object = GroupRespondent.objects.create(group=group, respondent=respondent)
-
-
     user = get_object_or_404(Surveyor, user=request.user)
     group = Group.objects.get(pk=pk_group)
     respondents = get_group_participants(group)
     form = AddUserForm(group_pk=pk_group)
     return render(request, 'surveyor/manage_group.html', {'user': user, 'participants': respondents, 'group': group, 'form': form})
-
-@login_required(login_url='/accounts/login/')
-def add_user(request):
-    data = dict()
-    if request.method == 'POST':
-
-        form = AddUserForm(request.POST)
-        if form.is_valid():
-            group = Group.objects.get(request.POST.get('group', None))
-            respondent = Respondent.objects.get(pk=form.data['respondent'])
-            GroupRespondent.objects.create(group=group, respondent=respondent)
-            data['form_is_valid'] = True
-        else:
-            data['form_is_valid'] = False
-    else:
-        form = AddUserForm(group_pk=request.GET.get('group', None))
-        form.fields['group'].initial = request.GET.get('group', None)
-
-    context = {'form': form}
-    data['html_form'] = render_to_string('surveyor/partials/add_user.html',
-        context,
-        request=request
-    )
-    return JsonResponse(data)

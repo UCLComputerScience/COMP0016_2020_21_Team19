@@ -48,7 +48,7 @@ class RespondentViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_response_post(self):
-        request = self.factory.post('/response', {self.question_1.pk:'agree', self.question_2.pk:'red', self.question_3.pk:'textresponse', 'clicked':''})
+        request = self.factory.post('/response', {self.question_1.pk: 'agree', self.question_2.pk: 'red', self.question_3.pk: 'textresponse', 'clicked': ''})
         request.user = self.user
         login = self.client.login(username='jacob@email.com', password='top_secret')
         response = views.response(request, self.task.pk)
