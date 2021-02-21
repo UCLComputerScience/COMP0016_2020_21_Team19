@@ -24,7 +24,8 @@ class RespondentUtilTest(TestCase):
         """
         Tests that a valid hex colour is returned
         """
-        self.assertTrue(re.match(r"^#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$", utils.random_hex_colour()))
+        hex_colour = utils.random_hex_colour()
+        self.assertTrue(re.match(r"^#([a-fA-F0-9]{6})$", hex_colour))
 
     def test_get_chartjs_dict(self):
         """

@@ -2,10 +2,7 @@ from core.utils import get_groups, get_graph_labels, get_graph_data, get_respons
 import random
 
 def random_hex_colour():
-    random_n = random.randint(0, 16777215)
-    hex_number = format(random_n, 'x')
-    hex_number = '#' + hex_number
-    return hex_number
+    return "#{:06x}".format(random.randint(0, 0xFFFFFF))
 
 
 def get_chartjs_dict(scores):
