@@ -26,34 +26,20 @@ from django.http.response import HttpResponseRedirect
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda r: HttpResponseRedirect('/accounts/login')),
-    path('register/', respondent.register, name='register'),
     path('accounts/', include('allauth.urls')),
-
-    # sign up
-    # url(r'^accounts/signup/surveyor/', surveyor.surveyor_signup, name='surveyor_signup'),
-    # url(r'^accounts/signup/respondent/', respondent.respondent_signup, name='respondent_signup'),
-
+    
     # core
     url(r'^dashboard/?$', core.dashboard, name='dashboard'),
     url(r'^leaderboard/?$', core.leaderboard, name='leaderboard'),
     
     # respondent
-    url(r'^get_respondent_leaderboard_json$', respondent.get_respondent_leaderboard_json, name='get_respondent_leaderboard_json'),
-    url(r'^get_respondent_leaderboard_groups_json$', respondent.get_respondent_leaderboard_groups_json, name='get_respondent_leaderboard_groups_json'),
     url(r'^response/(?P<id>[0-9a-f-]+)/?$', respondent.response, name='response'),
     url(r'^progress/?$', respondent.progress, name='respondent_progress'),
-    url(r'^get_progress_json$', respondent.get_progress_json, name='get_progress_json'),
 
     # surveyor
     url(r'^task/(?P<pk_task>[0-9a-f-]+)/?$', surveyor.task_overview, name='task_overview'),
-    url(r'^task/(?P<pk_task>[0-9a-f-]+)/get_questions_json?$', surveyor.get_questions_json, name='get_questions_json'),
-    url(r'^get_graphs_and_leaderboards_json$', surveyor.get_graphs_and_leaderboards_json, name='get_graphs_and_leaderboards_json'),
-    url(r'^get_tasks_json$', surveyor.get_tasks_json, name='get_tasks_json'),
-    url(r'^get_leaderboard_json$', surveyor.get_leaderboard_json, name='get_leaderboard_json'),
-    url(r'^get_leaderboard_groups_json$', surveyor.get_leaderboard_groups_json, name='get_leaderboard_groups_json'),
     url(r'^new_group/?$', surveyor.new_group, name='new_group'),
     url(r'^groups/?$', surveyor.groups, name='groups'),
     url(r'^new_task/?$', surveyor.new_task, name='new_task'),
-    url(r'^add_user/?$', surveyor.add_user, name='add_user'),
     url(r'^manage_group/(?P<pk_group>[0-9a-f-]+)/?$', surveyor.manage_group, name='manage_group'),
 ]

@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'dashboard' %}">
+    <span data-feather="home"></span>
+    Dashboard
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link active" href="{% url 'leaderboard' %}">
+    <span data-feather="bar-chart-2"></span>
+    Leaderboard <span class="sr-only">(current)</span>
+  </a>
+</li>
+<li class="nav-item" >
+  <a class="nav-link" href="{% url 'respondent_progress' %}">
+    <span data-feather="bar-chart-2"></span>
+    Progress
+  </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h2>Leaderboard</h2>
+<div class="btn-group pt-3 mb-4" role="group" id="button-container">
+  <button class="btn btn-primary mr-2 rounded" onclick="render({{ overall_leaderboard | safe }}, this)">Overall</button>
+  {% for gr in groups %}
+    <button class="btn mr-2 rounded" onclick="render({{ gr.leaderboard | safe }}, this)">{{ gr }}</button>
+  {% endfor %}
+</div>
+<div> {# class="container" #}
+  <table class="table table-striped table-hover" id="leaderboard">
+    <thead class="thead">
+    <tr>
+        <th>Rank</th>
+        <th>Name</th>
+        <th><span style="border-bottom: 1px dotted black;" data-toggle="tooltip" data-placement="right" title="This is a simple average of all your quantifiable responses. Responses to Likert Scales are given a value 1-5, and Traffic Lights a value between 1-3.">Score</span></th>
+    </tr>
+    </thead>
+    <tbody id='table-body'>
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function select_button(target_button) {
+    // Deactivate all other buttons
+    var parent = document.getElementById('button-container');
+    var buttons = parent.children;
+    for (var i = 0; i < buttons.length; i++) {
+      var button = buttons[i];
+      if (button.classList.contains('btn-primary')) button.classList.remove('btn-primary');
+    }
+
+    // Activate new button
+    target_button.classList.add('btn-primary');
+  }
+
+  function render(leaderboardData, button) {
+      clear_leaderboard();
+      select_button(button);
+      render_leaderboard(leaderboardData);
+  };
+
+  function remove_leaderboard () {
+    var elem = document.getElementById('leaderboard');
+    elem.remove();
+  }
+
+  function add_row (parent, rank, name, score) {
+    var row_wrapper = document.createElement('tr');
+
+    var name_wrapper = document.createElement('td');
+    var score_wrapper = document.createElement('td');
+    var rank_wrapper = document.createElement('td');
+
+    rank_wrapper.textContent = rank;
+    name_wrapper.textContent = name;
+    score_wrapper.textContent = score;
+
+    var new_elements = [];
+    new_elements.push(rank_wrapper, name_wrapper, score_wrapper);
+    
+    for (var i = 0; i < new_elements.length; i++) {
+      row_wrapper.appendChild(new_elements[i]);
+    }
+    parent.appendChild(row_wrapper);
+  }
+
+  function clear_leaderboard () {
+    var parent = document.getElementById('table-body');
+    while (parent.firstChild) parent.removeChild(parent.lastChild);
+  }
+
+  function render_leaderboard(leaderboard) {
+    var parent = document.getElementById('table-body');
+
+    for (var i=0; i < leaderboard.length; i++) {
+      var row = leaderboard[i];
+      add_row(parent, i + 1, row['name'], row['score']);
+    }
+  }
+
+  $(function () {
+    render_leaderboard({{ overall_leaderboard | safe }});
+  });
+  
+</script>
+{% endblock %}

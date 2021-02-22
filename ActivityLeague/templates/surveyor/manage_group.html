@@ -54,7 +54,7 @@
   <div class="modal fade" id="modal-add-user">
     <div class="modal-dialog">
       <div class="modal-content">
-        {% include "partial_add_user.html" %}
+        {% include "surveyor/partials/add_user.html" %}
       </div>
     </div>
   </div>
@@ -89,27 +89,7 @@
       else {
         return false;
       }
-    });
-
-    // $("#modal-add-user").on("submit", ".js-add-user-form", function (e) {
-    //   e.preventDefault();
-    //   var form = $(this);
-    //   $.ajax({
-    //     url: form.attr("action"),
-    //     data: form.serialize(),
-    //     type: form.attr("method"),
-    //     dataType: 'json',
-    //     success: function (data) {
-    //       console.log(data.form_is_valid)
-    //       if (data.form_is_valid) {
-    //         $("#modal-add-user").modal("hide");
-    //         alert("Participant Added!");
-    //       } else {
-    //         $("#modal-add-user .modal-content").html(data.html_form);
-    //       }
-    //     }
-    //   });
-    // });
+    });    
   });
 </script>
 {% endblock %}
