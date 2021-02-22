@@ -62,7 +62,7 @@
               {% endif %}
           </label>
         </div>
-        <ul class='likert'>
+        <ul class='radio-set'>
           <li>
               <label>
                   <input type="radio" name="{{ question.id }}" value="strong_disagree" required>
@@ -97,7 +97,7 @@
       </div>
 
   {# Traffic Light Resposnse #}
-  {% else %}
+  {% elif question.response_type == 2 %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
@@ -122,7 +122,54 @@
         </label>
       </div>
     </div>
+  
+  {# Numerical Radio Button Response #}
+  {% elif question.response_type == 4 %}
 
+    <div class="row">
+      <div class="col-md-6 mb-2">
+        <label for="response{{ question.id }}">{{ question.description }}
+            {% if question.link %}
+                <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')"><i>{{ question.link }}</i></a>
+            {% endif %}
+        </label>
+      </div>
+      <ul class='radio-set'>
+        <li>
+            <label>
+                <input type="radio" name="{{ question.id }}" value="1" required>
+                1
+            </label>
+        </li>
+        <li>
+            <label>
+                <input type="radio" name="{{ question.id }}" value="2">
+                2
+            </label>
+        </li>
+        <li>
+            <label>
+                <input type="radio" name="{{ question.id }}" value="3">
+                3
+            </label>
+        </li>
+        <li>
+            <label>
+                <input type="radio" name="{{ question.id }}" value="4">
+                4
+            </label>
+        </li>
+        <li>
+            <label>
+                <input type="radio" name="{{ question.id }}" value="5">
+                5
+            </label>
+        </li>
+      </ul>
+    </div>
+
+  {% else %}
+    <p class="lead">Invalid response type detected!</p>
   {% endif %}
 
   <hr class="mb-4">

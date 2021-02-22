@@ -111,7 +111,7 @@ html,body {padding:0;margin:0;}
 .wrap {
   font:12px Arial, san-serif;
 }
-h1.likert-header {
+h1.radio-set-header {
   padding-left:4.25%;
   margin:20px 0 0;
 }
@@ -122,7 +122,7 @@ form .statement {
   padding: 30px 0 0 4.25%;
   margin-bottom:10px;
 }
-form .likert {
+form .radio-set {
   list-style:none;
   width:100%;
   margin:0;
@@ -130,8 +130,8 @@ form .likert {
   display:block;
   border-bottom:2px solid #efefef;
 }
-form .likert:last-of-type {border-bottom:0;}
-form .likert:before {
+form .radio-set:last-of-type {border-bottom:0;}
+form .radio-set:before {
   content: '';
   position:relative;
   top:11px;
@@ -141,13 +141,13 @@ form .likert:before {
   height:4px;
   width:78%;
 }
-form .likert li {
+form .radio-set li {
   display:inline-block;
   width:19%;
   text-align:center;
   vertical-align: top;
 }
-form .likert li input[type=radio] {
+form .radio-set li input[type=radio] {
   display:block;
   position:relative;
   top:0;
@@ -155,7 +155,7 @@ form .likert li input[type=radio] {
   margin-left:-6px;
   
 }
-form .likert li label {width:100%;}
+form .radio-set li label {width:100%;}
 form .buttons {
   margin:30px 0;
   padding:0 4.25%;

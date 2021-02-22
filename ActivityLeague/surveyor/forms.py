@@ -6,7 +6,7 @@ from .models import *
 from respondent.models import *
 
 
-RESPONSE_TYPES = [(1, 'Likert Scale'), (2, 'Traffic Light'),(3, 'Text Field')]
+RESPONSE_TYPES = [(1, 'Likert Scale'), (2, 'Traffic Light'),(3, 'Text Field'), (4, '1-5 Scale')]
 
 class TaskForm(forms.ModelForm):
 

@@ -103,6 +103,10 @@ def get_questions(pk_task):
             pie_chart_data = [responses.filter(value=i).count() for i in range(1, 4)]
         elif question.response_type == 3:
             response_type = "text"
+        elif question.response_type == 4:
+            response_type = "numerical-radio"
+            pie_chart_labels = ['1', '2', '3', '4', '5']
+            pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
         else:
             response_type = None
         

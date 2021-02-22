@@ -65,7 +65,9 @@ def response(request, id):
                     'green' : 3
                 }
                 Response.objects.create(question=q, respondent=user, value=tl_dict[data], date_time=current_date_time, link_clicked=link_clicked)
-            else: # text
+            elif q.response_type == 4: # Numerical Radio Buttons
+                Response.objects.create(question=q, respondent=user, value=int(data), date_time=current_date_time, link_clicked=link_clicked)
+            else: # Text
                 Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time, link_clicked=link_clicked)
         return redirect('/dashboard')
     else:
