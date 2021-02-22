@@ -73,10 +73,12 @@
 
       <div id="{{ question.id }}_collapse" class="collapse" aria-labelledby="{{ question.id }}_heading">
         <div class="card-body p-5" align="center">
-          {% if question.type == 'text' %}
-            <div id="{{ question.id }}_cloud"></div>
-          {% else %}
-            <canvas id="{{ question.id }}_canvas"></canvas>
+          {% if task_respondents_completed %}
+            {% if question.type == 'text' %}
+              <div id="{{ question.id }}_cloud"></div>
+            {% else %}
+              <canvas id="{{ question.id }}_canvas"></canvas>
+            {% endif %}
           {% endif %}
         </div>
       </div>

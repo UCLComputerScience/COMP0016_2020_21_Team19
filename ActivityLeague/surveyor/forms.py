@@ -44,17 +44,19 @@ class TaskForm(forms.ModelForm):
             ),
             # 'group': forms.Select(choices=GROUP_CHOICES, attrs={'class' : 'custom-select d-block w-100'}),
             'due_date': forms.DateInput(
-                format='%d-%m-%Y',
+                format='%m-%d-%Y',
                 attrs={
                 'class': 'form-control',
-                'type': 'date'
+                'type': 'date',
+                'placeholder': 'MM/DD/YYYY'
                 }
             ),
             'due_time': forms.TimeInput(
                 format='%H:%M',
                 attrs={
                 'class': 'form-control',
-                'type': 'time'
+                'type': 'time',
+                'placeholder': 'HH:MM'
                 }
             )
         }
