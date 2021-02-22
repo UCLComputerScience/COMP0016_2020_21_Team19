@@ -10,17 +10,22 @@
 <li class="nav-item">
   <a class="nav-link active" href="{% url 'leaderboard' %}">
     <span data-feather="award"></span>
-    Leaderboard <span class="sr-only">(current)</span>
+    Leaderboard
   </a>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="{% url 'groups' %}">
     <span data-feather="bar-chart-2"></span>
-    Groups <span class="sr-only">(current)</span>
+    Groups
   </a>
 </li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'history' %}">
+      <span data-feather="clock"></span>
+      History
+    </a>
+  </li>
 {% endblock %}
-
 {% block content %}
 <h2>Leaderboard</h2>
 <div class="btn-group pt-3 mb-4" role="group" id="button-container">

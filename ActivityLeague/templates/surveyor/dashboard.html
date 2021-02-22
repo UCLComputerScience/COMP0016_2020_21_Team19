@@ -4,7 +4,7 @@
 <li class="nav-item">
   <a class="nav-link active" href="{% url 'dashboard' %}">
     <span data-feather="home"></span>
-    Dashboard <span class="sr-only">(current)</span>
+    Dashboard<span class="sr-only">(current)</span>
   </a>
 </li>
 <li class="nav-item">
@@ -16,9 +16,15 @@
 <li class="nav-item">
   <a class="nav-link" href="{% url 'groups' %}">
     <span data-feather="bar-chart-2"></span>
-    Groups <span class="sr-only">(current)</span>
+    Groups
   </a>
 </li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'history' %}">
+      <span data-feather="clock"></span>
+      History
+    </a>
+  </li>
 {% endblock %}
 
 {% block content %}

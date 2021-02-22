@@ -30,6 +30,12 @@ def leaderboard(request):
     return render(request, 'surveyor/leaderboard.html', {'user' : user, 'groups': groups, 'overall_leaderboard': get_leaderboard(user)})
 
 @login_required(login_url='/accounts/login/')
+def history(request):
+    user = get_object_or_404(Surveyor, user=request.user)
+    tasks, now = get_tasks(user)
+    return render(request, 'surveyor/history.html', {'user': user, 'tasks': tasks})
+
+@login_required(login_url='/accounts/login/')
 def task_overview(request, pk_task):
     user = get_object_or_404(Surveyor, user=request.user)
     task = get_object_or_404(Task, pk=pk_task)
@@ -81,58 +87,6 @@ def new_task(request):
 
     return render(request, 'surveyor/new_task.html', {'user' : user, 'groups' : groups, 'taskform': form, 'formset': formset})
 
-def get_questions(pk_task):
-    task = Task.objects.get(pk=pk_task)
-    questions = Question.objects.filter(task=task)
-    
-    data = []
-    for question in questions:
-        link_clicks = 0
-        responses = Response.objects.filter(question=question)
-        pie_chart_labels = None
-        pie_chart_data = None
-        word_cloud = None
-
-        if question.response_type == 1:
-            response_type = "likert"
-            pie_chart_labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
-            pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
-        elif question.response_type == 2:
-            response_type = "traffic"
-            pie_chart_labels = ['Red', 'Yellow', 'Green']
-            pie_chart_data = [responses.filter(value=i).count() for i in range(1, 4)]
-        elif question.response_type == 3:
-            response_type = "text"
-        elif question.response_type == 4:
-            response_type = "numerical-radio"
-            pie_chart_labels = ['1', '2', '3', '4', '5']
-            pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
-        else:
-            response_type = None
-        
-        if response_type == "text":
-            word_cloud_dict = {}
-            for response in responses:
-                link_clicks += response.link_clicked
-                word = response.text
-                word_cloud_dict[word] = word_cloud_dict.get(word, 0) + 1
-            if word_cloud_dict:
-                word_cloud = create_word_cloud(word_cloud_dict)
-        else:
-            for response in responses:
-                link_clicks += response.link_clicked
-        
-        data.append({
-            'id' : question.id,
-            'link': question.link,
-            'type': response_type,
-            'description': question.description,
-            'link_clicks': link_clicks,
-            'pie_chart_labels': pie_chart_labels,
-            'pie_chart_data': pie_chart_data,
-            'word_cloud': word_cloud})
-
-    return data
 
 @login_required(login_url='/accounts/login/')
 def new_group(request):

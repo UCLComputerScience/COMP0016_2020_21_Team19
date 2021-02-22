@@ -1,4 +1,5 @@
-from respondent.models import GroupRespondent, Respondent
+from respondent.models import GroupRespondent, Respondent, Response
+from surveyor.models import Task, Question, Surveyor
 from core.utils import get_groups, get_graph_labels, get_graph_data, get_leaderboard
 
 from urllib.parse import urlparse
@@ -63,6 +64,10 @@ def get_questions(pk_task):
             pie_chart_data = [responses.filter(value=i).count() for i in range(1, 4)]
         elif question.response_type == 3:
             response_type = "text"
+        elif question.response_type == 4:
+            response_type = "numerical-radio"
+            pie_chart_labels = ['1', '2', '3', '4', '5']
+            pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
         else:
             response_type = None
         
