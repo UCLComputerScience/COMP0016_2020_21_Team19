@@ -89,10 +89,12 @@
         }
       });
     });
-
+    // TODO: need to show Group Created popup
     $("#modal-new-group").on("submit", ".js-new-group-form", function () {
       var form = $(this);
+      var csrftoken = $("[name=csrfmiddlewaretoken]").val();
       $.ajax({
+        headers: { "X-CSRFToken": csrftoken },
         url: form.attr("action"),
         data: form.serialize(),
         type: form.attr("method"),
@@ -128,5 +130,5 @@ $(".delete-group").click(function () {
       }
       event.stopPropagation();
     });
-</script
+</script>
 {% endblock %}
