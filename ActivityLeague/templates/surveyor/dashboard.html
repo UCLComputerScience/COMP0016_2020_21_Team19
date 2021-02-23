@@ -22,9 +22,9 @@
 <li class="nav-item">
     <a class="nav-link" href="{% url 'history' %}">
       <span data-feather="clock"></span>
-      History
+      Task History
     </a>
-  </li>
+</li>
 {% endblock %}
 
 {% block content %}
@@ -57,7 +57,7 @@
             <td class="align-middle">{{ task.num_responses }}</td>
             <td class="align-middle">
                 {{ task.due_date }}
-                <small class="text-muted d-block">{{ task.due_time }}</small>
+                <small class="text-muted d-block">{{ task.due_time|time:"H:i" }}</small>
             </td>
             <td class="align-middle" style="color:{{ task.color }}">{{ task.due_dt|timeuntil:now }}</td>
           </tr>

@@ -22,39 +22,48 @@
 <li class="nav-item">
     <a class="nav-link active" href="{% url 'history' %}">
       <span data-feather="clock"></span>
-      History<span class="sr-only">(current)</span>
+      Task History<span class="sr-only">(current)</span>
     </a>
-  </li>
+</li>
 {% endblock %}
-
 
 {% block content %}
 
 <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
-<script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1>Task History</h1>
+</div>
+<p>
+  This page shows you all of the tasks that you've ever set. 
+  You can sort by any of the columns on the table below by 
+  clicking on the table headers and access any task by clicking 
+  into it or search for a task by entering a property of it 
+  inside the search box.
+</p>
 
 {% if tasks %}
   <div class="table-responsive">
-    <table class="table table-striped table-hover" id="table" data-toggle="table">
+    <table class="table table-striped table-hover" id="table" data-toggle="table" data-search="true">
       <thead>
         <tr>
           <th data-sortable="true" data-field="task_name">Task Name</th>
           <th data-sortable="true" data-field="group">Group</th>
           <th data-sortable="true" data-field="respondents_assigned">Respondents Assigned</th>
           <th data-sortable="true" data-field="responses_received">Responses Received</th>
-          <th data-sortable="true" data-field="due_date">Due Date</th>
+          <th data-sortable="true" data-field="due_date" data-sorter="dateSorter">Due Date</th>
         </tr>
       </thead>
       <tbody>
         {% for task in tasks %}
-          <tr onclick="document.location = '{% url 'task_overview' task.id %}';">
+          <tr id="{{ task.id }}" onclick="document.location = '{% url 'task_overview' task.id %}';">
             <td class="align-middle">{{ task.title }}</td>
             <td class="align-middle">{{ task.group }}</td>
             <td class="align-middle">{{ task.num_group_respondents }}</td>
             <td class="align-middle">{{ task.num_responses }}</td>
             <td class="align-middle">
                 {{ task.due_date }}
-                <small class="text-muted d-block">{{ task.due_time }}</small>
+                <small class="text-muted d-block">{{ task.due_time|time:"H:i" }}</small>
             </td>
           </tr>
         {% endfor %}
@@ -62,13 +71,31 @@
     </table>
   </div>
 {% else %}
-  <p class="lead">None of your tasks have been fully completed yet!</p>
+  <p class="lead">You have not set any tasks yet!</p>
 {% endif %}
 
 {% endblock %}
 
 
 {% block scripts %}
+<script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
 
+<script>
+function dateSorter(a, b) {
+  a = a.replace(/<\/?small[^>]*>/g, '').replace(/\s+/g,' ');
+  b = b.replace(/<\/?small[^>]*>/g, '').replace(/\s+/g,' ');
+  return Date.parse(a) - Date.parse(b);
+}
+</script>
+
+<script>
+$('#table').bootstrapTable({
+  onClickRow: function (row, $element, field) {
+    var a = row['_id'];
+    console.log(a);
+    document.location = "{% url 'task_overview' 1234 %}".replace(/1234/, a.toString());;
+  }
+})
+</script>
 
 {% endblock %}
