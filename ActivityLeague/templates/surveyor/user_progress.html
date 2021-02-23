@@ -42,17 +42,13 @@
 </div>
 {% endif %}
 
-<div class="row bg-light rounded" style="margin:20px;height:40vh">
-  <div class="row">
-    <div class="btn-group pt-3 mb-4" role="group" id="button-container" style="height:10%">
-      {% for graph in graphs %}
-        <button class="btn mr-2 rounded" onclick="render({{ graph }}, this)">{{ graph.title }}</button>
-      {% endfor %}
-    </div>
+  <div class="btn-group pt-3 mb-4" style="margin:20px" role="group" id="button-container">
+    {% for graph in graphs %}
+      <button class="btn mr-2 rounded" onclick="render({{ graph|safe }}, this)">{{ graph.title }}</button>
+    {% endfor %}
   </div>
-  <div class="row">
-    <canvas id="graph-container" position='relative' height="100%"></canvas>
-  </div>
+<div class="row bg-light rounded" style="margin:20px;height:45vh" id="grey-container">
+  <canvas id="graph-container"></canvas>
 </div>
 
 {% if tasks %}
@@ -100,7 +96,6 @@ function dateSorter(a, b) {
 $('#table').bootstrapTable({
   onClickRow: function (row, $element, field) {
     var a = row['_id'];
-    console.log(a);
     document.location = "{% url 'user_response' respondent.id 1234 %}".replace(/1234/, a.toString());
   }
 })
@@ -118,6 +113,12 @@ $('#table').bootstrapTable({
 {% endif %}
 
 <script>
+  
+  $(function () {
+    select_button(document.getElementsByTagName("button")[0]);
+    render_graph({{ graphs.0 | safe }})
+  });
+
   function select_button(target_button) {
     // Deactivate all other buttons
     var parent = document.getElementById('button-container');
@@ -189,10 +190,6 @@ $('#table').bootstrapTable({
       }
     });
   }
-
-  $(function () {
-    //render_graph({{ overall_leaderboard | safe }});
-  });
 
 </script>
 

@@ -7,6 +7,7 @@ from respondent.models import Respondent, GroupRespondent, Response
 from surveyor.models import Surveyor, Group, GroupSurveyor, Question
 
 import pytz
+import re
 
 class CoreUtilTestInvalidUser(TestCase):
     def setUp(self):
