@@ -2,9 +2,9 @@
 
 {% block sidebar %}
 <li class="nav-item">
-  <a class="nav-link active" href="{% url 'dashboard' %}">
+  <a class="nav-link" href="{% url 'dashboard' %}">
     <span data-feather="home"></span>
-    Dashboard <span class="sr-only">(current)</span>
+    Dashboard
   </a>
 </li>
 <li class="nav-item">
@@ -16,8 +16,14 @@
 <li class="nav-item">
   <a class="nav-link" href="{% url 'groups' %}">
     <span data-feather="bar-chart-2"></span>
-    Groups <span class="sr-only">(current)</span>
+    Groups
   </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'history' %}">
+      <span data-feather="clock"></span>
+      Task History
+    </a>
 </li>
 {% endblock %}
         
@@ -73,12 +79,14 @@
 
       <div id="{{ question.id }}_collapse" class="collapse" aria-labelledby="{{ question.id }}_heading">
         <div class="card-body p-5" align="center">
-          {% if task_respondents_completed %}
+          {% if task_respondents_completed > 0 %}
             {% if question.type == 'text' %}
               <div id="{{ question.id }}_cloud"></div>
             {% else %}
               <canvas id="{{ question.id }}_canvas"></canvas>
             {% endif %}
+          {% else %}
+            <p class="lead">No one has answered this question yet!</p>
           {% endif %}
         </div>
       </div>
@@ -99,39 +107,41 @@ $(function() {
     })
 });
 </script>
-{% for question in questions %}
-  {% if question.type == 'text' %}
-  <script>
-    var ctx = document.getElementById("{{ question.id }}_cloud");
-    img = document.createElement('img');
-    img.src = "{{ question.word_cloud }}";
-    img.style.width = "25%";
-    img.style.height = "auto";
-    ctx.appendChild(img);
-  </script>
-  {% else %}
-  <script>
-    var ctx = document.getElementById("{{ question.id }}_canvas").getContext('2d');
-    new Chart (ctx, {
-      type: 'pie',
-      data: {
-        datasets: [{
-          data: {{ question.pie_chart_data | safe}},
-          backgroundColor: [
-            'red', 'blue', 'pink', 'orange', 'green'
-          ]
-        }],
-        labels: {{ question.pie_chart_labels | safe}},
-      },
-      options: {
-        legend: {
-          display: true,
-          position: 'bottom',
-          align: 'center'
+{% if task_respondents_completed > 0 %}
+  {% for question in questions %}
+    {% if question.type == 'text' %}
+    <script>
+      var ctx = document.getElementById("{{ question.id }}_cloud");
+      img = document.createElement('img');
+      img.src = "{{ question.word_cloud }}";
+      img.style.width = "25%";
+      img.style.height = "auto";
+      ctx.appendChild(img);
+    </script>
+    {% else %}
+    <script>
+      var ctx = document.getElementById("{{ question.id }}_canvas").getContext('2d');
+      new Chart (ctx, {
+        type: 'pie',
+        data: {
+          datasets: [{
+            data: {{ question.pie_chart_data | safe}},
+            backgroundColor: [
+              'red', 'blue', 'pink', 'orange', 'green'
+            ]
+          }],
+          labels: {{ question.pie_chart_labels | safe}},
+        },
+        options: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            align: 'center'
+          }
         }
-      }
-    });
-  </script>
-  {% endif %}
-{% endfor %}
+      });
+    </script>
+    {% endif %}
+  {% endfor %}
+{% endif %}
 {% endblock %}

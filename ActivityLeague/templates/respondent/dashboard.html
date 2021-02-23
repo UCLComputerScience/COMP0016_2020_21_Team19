@@ -43,7 +43,7 @@
             <td class="align-middle">{{ task.group }}</td>
             <td class="align-middle">
                 {{ task.due_date }}
-                <small class="text-muted d-block">{{ task.due_time }}</small>
+                <small class="text-muted d-block">{{ task.due_time|time:"H:i" }}</small>
             </td>
             <td class="align-middle" style="color:{{ task.color }}">{{ task.due_dt|timeuntil:now }}</td>
             </tr>
