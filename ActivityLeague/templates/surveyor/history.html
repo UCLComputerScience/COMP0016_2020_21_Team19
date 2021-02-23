@@ -44,7 +44,7 @@
 
 {% if tasks %}
   <div class="table-responsive">
-    <table class="table table-striped table-hover" id="table" data-toggle="table" data-search="true">
+    <table class="table table-striped table-hover" id="table" data-toggle="table" data-search="true" data-search-align="left">
       <thead>
         <tr>
           <th data-sortable="true" data-field="task_name">Task Name</th>
@@ -56,7 +56,7 @@
       </thead>
       <tbody>
         {% for task in tasks %}
-          <tr id="{{ task.id }}" onclick="document.location = '{% url 'task_overview' task.id %}';">
+          <tr id="{{ task.id }}">
             <td class="align-middle">{{ task.title }}</td>
             <td class="align-middle">{{ task.group }}</td>
             <td class="align-middle">{{ task.num_group_respondents }}</td>
@@ -93,7 +93,7 @@ $('#table').bootstrapTable({
   onClickRow: function (row, $element, field) {
     var a = row['_id'];
     console.log(a);
-    document.location = "{% url 'task_overview' 1234 %}".replace(/1234/, a.toString());;
+    document.location = "{% url 'task_overview' 1234 %}".replace(/1234/, a.toString());
   }
 })
 </script>

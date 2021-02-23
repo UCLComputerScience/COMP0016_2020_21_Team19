@@ -1,6 +1,6 @@
 from respondent.models import GroupRespondent, Respondent, Response
 from surveyor.models import Task, Question, Surveyor
-from core.utils import get_groups, get_graph_labels, get_graph_data, get_leaderboard
+from core.utils import *
 
 from urllib.parse import urlparse
 from wordcloud import WordCloud
@@ -25,7 +25,15 @@ def sanitize_link(url):
     scheme = "%s://" % parsed.scheme
     return parsed.geturl().replace(scheme, '', 1)
 
-def create_word_cloud(word_cloud_dict):
+def create_word_cloud(responses):
+    word_cloud_dict = {}
+    for response in responses:
+        word = response.text
+        word_cloud_dict[word] = word_cloud_dict.get(word, 0) + 1
+
+    if not word_cloud_dict:
+        return None
+
     word_cloud = WordCloud(background_color=None, mode="RGBA").generate_from_frequencies(word_cloud_dict)
     plt.figure()
     plt.imshow(word_cloud, interpolation='bilinear')
@@ -41,18 +49,16 @@ def create_word_cloud(word_cloud_dict):
 def get_group_participants(group):
     group_respondents = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
     return Respondent.objects.filter(pk__in=group_respondents)
-
+    
 def get_questions(pk_task):
     task = Task.objects.get(pk=pk_task)
     questions = Question.objects.filter(task=task)
     
     data = []
     for question in questions:
-        link_clicks = 0
         responses = Response.objects.filter(question=question)
         pie_chart_labels = None
         pie_chart_data = None
-        word_cloud = None
 
         if question.response_type == 1:
             response_type = "likert"
@@ -71,17 +77,13 @@ def get_questions(pk_task):
         else:
             response_type = None
         
+        word_cloud = None
         if response_type == "text":
-            word_cloud_dict = {}
-            for response in responses:
-                link_clicks += response.link_clicked
-                word = response.text
-                word_cloud_dict[word] = word_cloud_dict.get(word, 0) + 1
-            if word_cloud_dict:
-                word_cloud = create_word_cloud(word_cloud_dict)
-        else:
-            for response in responses:
-                link_clicks += response.link_clicked
+            word_cloud = create_word_cloud(responses)
+        
+        link_clicks = 0
+        for response in responses:
+            link_clicks += response.link_clicked
         
         data.append({
             'id' : question.id,
@@ -94,3 +96,10 @@ def get_questions(pk_task):
             'word_cloud': word_cloud})
 
     return data
+
+def get_overall_word_cloud(user, respondent):
+    groups = get_groups(user)
+    responses = get_responses(user, respondent=respondent)
+    responses = responses.filter(text__isnull=False) # get only text responses
+    word_cloud = create_word_cloud(responses)
+    return word_cloud

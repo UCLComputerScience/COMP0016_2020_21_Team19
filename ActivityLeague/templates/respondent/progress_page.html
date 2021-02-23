@@ -43,8 +43,6 @@
 {% endblock %}
 
 {% block scripts %}
-<!-- Graphs -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 {% for gr in groups %}
 <script>
   var ctx = document.getElementById("{{ gr.id }}").getContext('2d');

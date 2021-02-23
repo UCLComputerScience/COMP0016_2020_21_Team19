@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'dashboard' %}">
+    <span data-feather="home"></span>
+    Dashboard
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'leaderboard' %}">
+    <span data-feather="award"></span>
+    Leaderboard
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'groups' %}">
+    <span data-feather="bar-chart-2"></span>
+    Groups
+  </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'history' %}">
+      <span data-feather="clock"></span>
+      Task History
+    </a>
+</li>
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1>Respondent: {{ respondent }}</h1>
+</div>
+
+{% if overall_word_cloud %}
+<div align="center">
+  <div id="word-cloud"></div>
+  <p><small>{{respondent}}'s word cloud</small></p>
+</div>
+{% endif %}
+
+<div class="row bg-light rounded" style="margin:20px;height:40vh">
+  <div class="row">
+    <div class="btn-group pt-3 mb-4" role="group" id="button-container" style="height:10%">
+      {% for graph in graphs %}
+        <button class="btn mr-2 rounded" onclick="render({{ graph }}, this)">{{ graph.title }}</button>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="row">
+    <canvas id="graph-container" position='relative' height="100%"></canvas>
+  </div>
+</div>
+
+{% if tasks %}
+  <div class="table-responsive mb-5">
+    <table class="table table-striped table-hover" id="table" data-toggle="table" data-search="true" data-search-align="left">
+      <thead>
+        <tr>
+          <th data-sortable="true" data-field="task_name">Task Name</th>
+          <th data-sortable="true" data-field="group">Group</th>
+          <th data-sortable="true" data-field="due_date" data-sorter="dateSorter">Due Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+          <tr id="{{ task.id }}">
+            <td class="align-middle">{{ task.title }}</td>
+            <td class="align-middle">{{ task.group }}</td>
+            <td class="align-middle">
+                {{ task.due_date }}
+                <small class="text-muted d-block">{{ task.due_time|time:"H:i" }}</small>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <p class="lead">You have not set any tasks yet!</p>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+
+<script>
+function dateSorter(a, b) {
+  a = a.replace(/<\/?small[^>]*>/g, '').replace(/\s+/g,' ');
+  b = b.replace(/<\/?small[^>]*>/g, '').replace(/\s+/g,' ');
+  return Date.parse(a) - Date.parse(b);
+}
+</script>
+
+<script>
+$('#table').bootstrapTable({
+  onClickRow: function (row, $element, field) {
+    var a = row['_id'];
+    console.log(a);
+    document.location = "{% url 'user_response' respondent.id 1234 %}".replace(/1234/, a.toString());
+  }
+})
+</script>
+
+{% if overall_word_cloud %}
+<script>
+  var ctx = document.getElementById("word-cloud");
+  img = document.createElement('img');
+  img.src = "{{ overall_word_cloud }}";
+  img.style.width = "25%";
+  img.style.height = "auto";
+  ctx.appendChild(img);
+</script>
+{% endif %}
+
+<script>
+  function select_button(target_button) {
+    // Deactivate all other buttons
+    var parent = document.getElementById('button-container');
+    var buttons = parent.children;
+    for (var i = 0; i < buttons.length; i++) {
+      var button = buttons[i];
+      if (button.classList.contains('btn-primary')) button.classList.remove('btn-primary');
+    }
+
+    // Activate new button
+    target_button.classList.add('btn-primary');
+  }
+
+  function render(graph, button) {
+      clear_graph();
+      select_button(button);
+      render_graph(graph);
+  };
+
+  function clear_graph () {
+    var parent = document.getElementById("graph-container");
+    while (parent.firstChild) parent.removeChild(parent.lastChild);
+  }
+
+  function render_graph(graph) {
+    var ctx = document.getElementById("graph-container").getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: graph.labels,
+        datasets: graph.scores
+        {% comment %} datasets: [{
+          data: graph.scores,
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: '#007bff',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff'
+        }] {% endcomment %}
+      },
+      options: {
+        title: {
+          display: true,
+          text: graph.title
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Score'
+            },
+            ticks: {
+              min: 0,
+              max: 5
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Time'
+            }
+          }]
+        },
+        legend: {
+          display: false,
+        },
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+  }
+
+  $(function () {
+    //render_graph({{ overall_leaderboard | safe }});
+  });
+
+</script>
+
+
+{% endblock %}
