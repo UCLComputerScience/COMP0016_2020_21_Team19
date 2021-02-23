@@ -10,8 +10,6 @@ from core.utils import *
 
 import random
 
-from .utils import *
-
 
 @login_required(login_url='/accounts/login/')
 def dashboard(request):

@@ -31,8 +31,6 @@ urlpatterns = [
     # core
     url(r'^dashboard/?$', core.dashboard, name='dashboard'),
     url(r'^leaderboard/?$', core.leaderboard, name='leaderboard'),
-    
-    # respondent
     url(r'^response/(?P<id>[0-9a-f-]+)/?$', respondent.response, name='response'),
     url(r'^progress/?$', respondent.progress, name='respondent_progress'),
 
@@ -43,5 +41,7 @@ urlpatterns = [
     url(r'^history/?$', surveyor.history, name='history'),
     url(r'^new_task/?$', surveyor.new_task, name='new_task'),
     url(r'^manage_group/(?P<pk_group>[0-9a-f-]+)/?$', surveyor.manage_group, name='manage_group'),
+    url(r'^user/(?P<pk_user>[0-9a-f-]+)/response/(?P<pk_task>[0-9a-f-]+)/?$', surveyor.user_response, name='user_response'),
+    url(r'^user/(?P<pk_user>[0-9a-f-]+)/?$', surveyor.user_progress, name='user_progress'),
 
 ]

@@ -28,9 +28,6 @@
 {% endblock %}
 
 {% block content %}
-<!-- Graphs -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
   <h1>Dashboard</h1>
 </div>
@@ -75,7 +72,7 @@
 
 <div class="mt-5">
   {% for gr in group_data %}
-    <div class="row bg-light" style="margin:20px;borderRadius:20px;height:40vh">
+    <div class="row bg-light rounded" style="margin:20px;height:40vh">
       <div class="col h-100 w-50">
         <canvas id='{{ gr.id }}' position='relative' height="100%">
         </canvas>

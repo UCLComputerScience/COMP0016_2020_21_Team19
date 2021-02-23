@@ -36,6 +36,34 @@ def history(request):
     return render(request, 'surveyor/history.html', {'user': user, 'tasks': tasks})
 
 @login_required(login_url='/accounts/login/')
+def user_progress(request, pk_user):
+    user = get_object_or_404(Surveyor, user=request.user)
+    respondent = Respondent.objects.get(pk=pk_user)
+    tasks, now = get_tasks(user)
+    groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
+    tasks = tasks.filter(group__in=groups)
+    new_tasks = []
+    for task in tasks:
+        if has_responded_to_task(respondent, task):
+            new_tasks.append(task)
+    word_cloud = get_overall_word_cloud(user, respondent)
+    graphs = [graph for graph in get_progress_graphs(respondent) if graph['id'] in groups]
+    for graph in graphs:
+        del graph['id']
+    return render(request, 'surveyor/user_progress.html', {'user': user, 'respondent': respondent, 'tasks': new_tasks, 'graphs': graphs, 'overall_word_cloud': word_cloud})
+
+@login_required(login_url='/accounts/login/')
+def user_response(request, pk_user, pk_task):
+    user = get_object_or_404(Surveyor, user=request.user)
+    respondent = Respondent.objects.get(pk=pk_user)
+    task = Task.objects.get(pk=pk_task)
+    questions = Question.objects.filter(task=task)
+    responses = Response.objects.filter(question__in=questions, respondent=respondent)
+    for question in questions:
+        question.response = responses.get(question=question)
+    return render(request, 'surveyor/user_response.html', {'respondent': respondent, 'task': task, 'questions': questions, 'responses': responses})
+
+@login_required(login_url='/accounts/login/')
 def task_overview(request, pk_task):
     user = get_object_or_404(Surveyor, user=request.user)
     task = get_object_or_404(Task, pk=pk_task)
