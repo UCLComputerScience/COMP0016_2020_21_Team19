@@ -68,7 +68,7 @@ def response(request, id):
     :param id: The primary key of the ``Task``.
     :type id: uuid.UUID
     :return: If ``request.method == GET`` request, this returns the ``respondent/response.html`` template rendered with the given dictionary.
-    Otherwise, this returns a redirect to the dashboard.
+             Otherwise, this returns a redirect to the dashboard.
     :rtype: django.http.HttpResponse / django.http.HttpResponseRedirect
     """    
     user = get_object_or_404(Respondent, user=request.user)

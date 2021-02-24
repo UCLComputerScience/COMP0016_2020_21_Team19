@@ -122,7 +122,10 @@
             href="https://github.com/UCLComputerScience/COMP0016_2020_21_Team19"><button type="button" class="btn btn-secondary topbarbtn"
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
-        
+        <a class="issues-button"
+            href="https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/issues/new?title=Issue%20on%20page%20%2Frespondent.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
     </div>
 </div>
@@ -614,11 +617,13 @@ Displays the progress graphs for each <code class="docutils literal notranslate"
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>If <code class="docutils literal notranslate"><span class="pre">request.method</span> <span class="pre">==</span> <span class="pre">GET</span></code> request, this returns the <code class="docutils literal notranslate"><span class="pre">respondent/response.html</span></code> template rendered with the given dictionary.</p>
+<dd class="field-even"><p>If <code class="docutils literal notranslate"><span class="pre">request.method</span> <span class="pre">==</span> <span class="pre">GET</span></code> request, this returns the <code class="docutils literal notranslate"><span class="pre">respondent/response.html</span></code> template rendered with the given dictionary.
+Otherwise, this returns a redirect to the dashboard.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>django.http.HttpResponse / django.http.HttpResponseRedirect</p>
 </dd>
 </dl>
-<p>Otherwise, this returns a redirect to the dashboard.
-:rtype: django.http.HttpResponse / django.http.HttpResponseRedirect</p>
 </dd></dl>
 
 </div>

@@ -53,7 +53,8 @@ html_theme = 'sphinx_book_theme'
 
 html_theme_options = {
     "repository_url": "https://github.com/UCLComputerScience/COMP0016_2020_21_Team19",
-    "use_repository_button": True
+    "use_repository_button": True,
+    "use_issues_button": True
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
