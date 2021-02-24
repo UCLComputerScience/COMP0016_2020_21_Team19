@@ -1,0 +1,1208 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>surveyor package &#8212; ActivityLeague 1.0 documentation</title>
+    
+  <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  
+  <h1 class="site-logo" id="site-title">ActivityLeague 1.0 documentation</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/surveyor.rst.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/UCLComputerScience/COMP0016_2020_21_Team19"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#subpackages">
+   Subpackages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-surveyor.admin">
+   surveyor.admin module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-surveyor.apps">
+   surveyor.apps module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-surveyor.forms">
+   surveyor.forms module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-surveyor.models">
+   surveyor.models module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-surveyor.utils">
+   surveyor.utils module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-surveyor.views">
+   surveyor.views module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-surveyor">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="surveyor-package">
+<h1>surveyor package<a class="headerlink" href="#surveyor-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="surveyor.migrations.html">surveyor.migrations package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="surveyor.migrations.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surveyor.migrations.html#module-surveyor.migrations.0001_initial">surveyor.migrations.0001_initial module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surveyor.migrations.html#module-surveyor.migrations">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="surveyor.tests.html">surveyor.tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="surveyor.tests.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surveyor.tests.html#module-surveyor.tests.test_models">surveyor.tests.test_models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surveyor.tests.html#module-surveyor.tests.test_utils">surveyor.tests.test_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surveyor.tests.html#module-surveyor.tests.test_views">surveyor.tests.test_views module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="surveyor.tests.html#module-surveyor.tests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-surveyor.admin">
+<span id="surveyor-admin-module"></span><h2>surveyor.admin module<a class="headerlink" href="#module-surveyor.admin" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="surveyor.admin.GroupAdmin">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.admin.</span></code><code class="sig-name descname"><span class="pre">GroupAdmin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.admin.GroupAdmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.admin.options.ModelAdmin</span></code></p>
+<dl class="py method">
+<dt id="surveyor.admin.GroupAdmin.media">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">media</span></code><a class="headerlink" href="#surveyor.admin.GroupAdmin.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.admin.GroupAdmin.readonly_fields">
+<code class="sig-name descname"><span class="pre">readonly_fields</span></code><em class="property"> <span class="pre">=</span> <span class="pre">('id',)</span></em><a class="headerlink" href="#surveyor.admin.GroupAdmin.readonly_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.admin.GroupSurveyorAdmin">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.admin.</span></code><code class="sig-name descname"><span class="pre">GroupSurveyorAdmin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.admin.GroupSurveyorAdmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.admin.options.ModelAdmin</span></code></p>
+<dl class="py method">
+<dt id="surveyor.admin.GroupSurveyorAdmin.media">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">media</span></code><a class="headerlink" href="#surveyor.admin.GroupSurveyorAdmin.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.admin.GroupSurveyorAdmin.readonly_fields">
+<code class="sig-name descname"><span class="pre">readonly_fields</span></code><em class="property"> <span class="pre">=</span> <span class="pre">('id',)</span></em><a class="headerlink" href="#surveyor.admin.GroupSurveyorAdmin.readonly_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.admin.QuestionAdmin">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.admin.</span></code><code class="sig-name descname"><span class="pre">QuestionAdmin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.admin.QuestionAdmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.admin.options.ModelAdmin</span></code></p>
+<dl class="py method">
+<dt id="surveyor.admin.QuestionAdmin.media">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">media</span></code><a class="headerlink" href="#surveyor.admin.QuestionAdmin.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.admin.QuestionAdmin.readonly_fields">
+<code class="sig-name descname"><span class="pre">readonly_fields</span></code><em class="property"> <span class="pre">=</span> <span class="pre">('id',)</span></em><a class="headerlink" href="#surveyor.admin.QuestionAdmin.readonly_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.admin.SurveyorAdmin">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.admin.</span></code><code class="sig-name descname"><span class="pre">SurveyorAdmin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.admin.SurveyorAdmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.admin.options.ModelAdmin</span></code></p>
+<dl class="py method">
+<dt id="surveyor.admin.SurveyorAdmin.media">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">media</span></code><a class="headerlink" href="#surveyor.admin.SurveyorAdmin.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.admin.SurveyorAdmin.readonly_fields">
+<code class="sig-name descname"><span class="pre">readonly_fields</span></code><em class="property"> <span class="pre">=</span> <span class="pre">('id',)</span></em><a class="headerlink" href="#surveyor.admin.SurveyorAdmin.readonly_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.admin.TaskAdmin">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.admin.</span></code><code class="sig-name descname"><span class="pre">TaskAdmin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.admin.TaskAdmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.contrib.admin.options.ModelAdmin</span></code></p>
+<dl class="py method">
+<dt id="surveyor.admin.TaskAdmin.media">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">media</span></code><a class="headerlink" href="#surveyor.admin.TaskAdmin.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.admin.TaskAdmin.readonly_fields">
+<code class="sig-name descname"><span class="pre">readonly_fields</span></code><em class="property"> <span class="pre">=</span> <span class="pre">('id',)</span></em><a class="headerlink" href="#surveyor.admin.TaskAdmin.readonly_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-surveyor.apps">
+<span id="surveyor-apps-module"></span><h2>surveyor.apps module<a class="headerlink" href="#module-surveyor.apps" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="surveyor.apps.SurveyorConfig">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.apps.</span></code><code class="sig-name descname"><span class="pre">SurveyorConfig</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.apps.SurveyorConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.apps.config.AppConfig</span></code></p>
+<dl class="py attribute">
+<dt id="surveyor.apps.SurveyorConfig.name">
+<code class="sig-name descname"><span class="pre">name</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'surveyor'</span></em><a class="headerlink" href="#surveyor.apps.SurveyorConfig.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-surveyor.forms">
+<span id="surveyor-forms-module"></span><h2>surveyor.forms module<a class="headerlink" href="#module-surveyor.forms" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="surveyor.forms.AddUserForm">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.forms.</span></code><code class="sig-name descname"><span class="pre">AddUserForm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.forms.AddUserForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.forms.models.ModelForm</span></code></p>
+<dl class="py class">
+<dt id="surveyor.forms.AddUserForm.Meta">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Meta</span></code><a class="headerlink" href="#surveyor.forms.AddUserForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt id="surveyor.forms.AddUserForm.Meta.fields">
+<code class="sig-name descname"><span class="pre">fields</span></code><em class="property"> <span class="pre">=</span> <span class="pre">('respondent',)</span></em><a class="headerlink" href="#surveyor.forms.AddUserForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.forms.AddUserForm.Meta.labels">
+<code class="sig-name descname"><span class="pre">labels</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'respondent':</span> <span class="pre">'Select</span> <span class="pre">User'}</span></em><a class="headerlink" href="#surveyor.forms.AddUserForm.Meta.labels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.forms.AddUserForm.Meta.model">
+<code class="sig-name descname"><span class="pre">model</span></code><a class="headerlink" href="#surveyor.forms.AddUserForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="respondent.html#respondent.models.GroupRespondent" title="respondent.models.GroupRespondent"><code class="xref py py-class docutils literal notranslate"><span class="pre">respondent.models.GroupRespondent</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.forms.AddUserForm.base_fields">
+<code class="sig-name descname"><span class="pre">base_fields</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'respondent':</span> <span class="pre">&lt;django.forms.models.ModelChoiceField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#surveyor.forms.AddUserForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.forms.AddUserForm.declared_fields">
+<code class="sig-name descname"><span class="pre">declared_fields</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{}</span></em><a class="headerlink" href="#surveyor.forms.AddUserForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.forms.AddUserForm.media">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">media</span></code><a class="headerlink" href="#surveyor.forms.AddUserForm.media" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.forms.GroupForm">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.forms.</span></code><code class="sig-name descname"><span class="pre">GroupForm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data=None</span></em>, <em class="sig-param"><span class="pre">files=None</span></em>, <em class="sig-param"><span class="pre">auto_id='id_%s'</span></em>, <em class="sig-param"><span class="pre">prefix=None</span></em>, <em class="sig-param"><span class="pre">initial=None</span></em>, <em class="sig-param"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></em>, <em class="sig-param"><span class="pre">label_suffix=None</span></em>, <em class="sig-param"><span class="pre">empty_permitted=False</span></em>, <em class="sig-param"><span class="pre">instance=None</span></em>, <em class="sig-param"><span class="pre">use_required_attribute=None</span></em>, <em class="sig-param"><span class="pre">renderer=None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.forms.GroupForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.forms.models.ModelForm</span></code></p>
+<dl class="py class">
+<dt id="surveyor.forms.GroupForm.Meta">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Meta</span></code><a class="headerlink" href="#surveyor.forms.GroupForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt id="surveyor.forms.GroupForm.Meta.fields">
+<code class="sig-name descname"><span class="pre">fields</span></code><em class="property"> <span class="pre">=</span> <span class="pre">('name',)</span></em><a class="headerlink" href="#surveyor.forms.GroupForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.forms.GroupForm.Meta.labels">
+<code class="sig-name descname"><span class="pre">labels</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'name':</span> <span class="pre">'Group</span> <span class="pre">Name'}</span></em><a class="headerlink" href="#surveyor.forms.GroupForm.Meta.labels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.forms.GroupForm.Meta.model">
+<code class="sig-name descname"><span class="pre">model</span></code><a class="headerlink" href="#surveyor.forms.GroupForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#surveyor.models.Group" title="surveyor.models.Group"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyor.models.Group</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.forms.GroupForm.Meta.widgets">
+<code class="sig-name descname"><span class="pre">widgets</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'name':</span> <span class="pre">&lt;django.forms.widgets.TextInput</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#surveyor.forms.GroupForm.Meta.widgets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.forms.GroupForm.base_fields">
+<code class="sig-name descname"><span class="pre">base_fields</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'name':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#surveyor.forms.GroupForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.forms.GroupForm.declared_fields">
+<code class="sig-name descname"><span class="pre">declared_fields</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{}</span></em><a class="headerlink" href="#surveyor.forms.GroupForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.forms.GroupForm.media">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">media</span></code><a class="headerlink" href="#surveyor.forms.GroupForm.media" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.forms.TaskForm">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.forms.</span></code><code class="sig-name descname"><span class="pre">TaskForm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.forms.TaskForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.forms.models.ModelForm</span></code></p>
+<dl class="py class">
+<dt id="surveyor.forms.TaskForm.Meta">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">Meta</span></code><a class="headerlink" href="#surveyor.forms.TaskForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt id="surveyor.forms.TaskForm.Meta.fields">
+<code class="sig-name descname"><span class="pre">fields</span></code><em class="property"> <span class="pre">=</span> <span class="pre">('title',</span> <span class="pre">'group',</span> <span class="pre">'due_date',</span> <span class="pre">'due_time')</span></em><a class="headerlink" href="#surveyor.forms.TaskForm.Meta.fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.forms.TaskForm.Meta.labels">
+<code class="sig-name descname"><span class="pre">labels</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'due_date':</span> <span class="pre">'Date',</span> <span class="pre">'due_time':</span> <span class="pre">'Time',</span> <span class="pre">'group':</span> <span class="pre">'Group',</span> <span class="pre">'title':</span> <span class="pre">'Task</span> <span class="pre">Title'}</span></em><a class="headerlink" href="#surveyor.forms.TaskForm.Meta.labels" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.forms.TaskForm.Meta.model">
+<code class="sig-name descname"><span class="pre">model</span></code><a class="headerlink" href="#surveyor.forms.TaskForm.Meta.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#surveyor.models.Task" title="surveyor.models.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">surveyor.models.Task</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.forms.TaskForm.Meta.widgets">
+<code class="sig-name descname"><span class="pre">widgets</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'due_date':</span> <span class="pre">&lt;django.forms.widgets.DateInput</span> <span class="pre">object&gt;,</span> <span class="pre">'due_time':</span> <span class="pre">&lt;django.forms.widgets.TimeInput</span> <span class="pre">object&gt;,</span> <span class="pre">'title':</span> <span class="pre">&lt;django.forms.widgets.TextInput</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#surveyor.forms.TaskForm.Meta.widgets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.forms.TaskForm.base_fields">
+<code class="sig-name descname"><span class="pre">base_fields</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{'due_date':</span> <span class="pre">&lt;django.forms.fields.DateField</span> <span class="pre">object&gt;,</span> <span class="pre">'due_time':</span> <span class="pre">&lt;django.forms.fields.TimeField</span> <span class="pre">object&gt;,</span> <span class="pre">'group':</span> <span class="pre">&lt;django.forms.models.ModelChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'title':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#surveyor.forms.TaskForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.forms.TaskForm.declared_fields">
+<code class="sig-name descname"><span class="pre">declared_fields</span></code><em class="property"> <span class="pre">=</span> <span class="pre">{}</span></em><a class="headerlink" href="#surveyor.forms.TaskForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.forms.TaskForm.media">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">media</span></code><a class="headerlink" href="#surveyor.forms.TaskForm.media" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-surveyor.models">
+<span id="surveyor-models-module"></span><h2>surveyor.models module<a class="headerlink" href="#module-surveyor.models" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="surveyor.models.Group">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.models.</span></code><code class="sig-name descname"><span class="pre">Group</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.models.Group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<dl class="py exception">
+<dt id="surveyor.models.Group.DoesNotExist">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-name descname"><span class="pre">DoesNotExist</span></code><a class="headerlink" href="#surveyor.models.Group.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="surveyor.models.Group.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></code><a class="headerlink" href="#surveyor.models.Group.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Group.grouprespondent_set">
+<code class="sig-name descname"><span class="pre">grouprespondent_set</span></code><a class="headerlink" href="#surveyor.models.Group.grouprespondent_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Group.groupsurveyor_set">
+<code class="sig-name descname"><span class="pre">groupsurveyor_set</span></code><a class="headerlink" href="#surveyor.models.Group.groupsurveyor_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Group.id">
+<code class="sig-name descname"><span class="pre">id</span></code><a class="headerlink" href="#surveyor.models.Group.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Group.name">
+<code class="sig-name descname"><span class="pre">name</span></code><a class="headerlink" href="#surveyor.models.Group.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Group.objects">
+<code class="sig-name descname"><span class="pre">objects</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#surveyor.models.Group.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Group.task_set">
+<code class="sig-name descname"><span class="pre">task_set</span></code><a class="headerlink" href="#surveyor.models.Group.task_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.models.GroupSurveyor">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.models.</span></code><code class="sig-name descname"><span class="pre">GroupSurveyor</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surveyor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.models.GroupSurveyor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<dl class="py exception">
+<dt id="surveyor.models.GroupSurveyor.DoesNotExist">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-name descname"><span class="pre">DoesNotExist</span></code><a class="headerlink" href="#surveyor.models.GroupSurveyor.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="surveyor.models.GroupSurveyor.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></code><a class="headerlink" href="#surveyor.models.GroupSurveyor.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.GroupSurveyor.group">
+<code class="sig-name descname"><span class="pre">group</span></code><a class="headerlink" href="#surveyor.models.GroupSurveyor.group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.GroupSurveyor.group_id">
+<code class="sig-name descname"><span class="pre">group_id</span></code><a class="headerlink" href="#surveyor.models.GroupSurveyor.group_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.GroupSurveyor.id">
+<code class="sig-name descname"><span class="pre">id</span></code><a class="headerlink" href="#surveyor.models.GroupSurveyor.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.GroupSurveyor.objects">
+<code class="sig-name descname"><span class="pre">objects</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#surveyor.models.GroupSurveyor.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.GroupSurveyor.surveyor">
+<code class="sig-name descname"><span class="pre">surveyor</span></code><a class="headerlink" href="#surveyor.models.GroupSurveyor.surveyor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.GroupSurveyor.surveyor_id">
+<code class="sig-name descname"><span class="pre">surveyor_id</span></code><a class="headerlink" href="#surveyor.models.GroupSurveyor.surveyor_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.models.Question">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.models.</span></code><code class="sig-name descname"><span class="pre">Question</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.models.Question" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<dl class="py exception">
+<dt id="surveyor.models.Question.DoesNotExist">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-name descname"><span class="pre">DoesNotExist</span></code><a class="headerlink" href="#surveyor.models.Question.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="surveyor.models.Question.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></code><a class="headerlink" href="#surveyor.models.Question.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Question.description">
+<code class="sig-name descname"><span class="pre">description</span></code><a class="headerlink" href="#surveyor.models.Question.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Question.id">
+<code class="sig-name descname"><span class="pre">id</span></code><a class="headerlink" href="#surveyor.models.Question.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Question.link">
+<code class="sig-name descname"><span class="pre">link</span></code><a class="headerlink" href="#surveyor.models.Question.link" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Question.objects">
+<code class="sig-name descname"><span class="pre">objects</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#surveyor.models.Question.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Question.response_set">
+<code class="sig-name descname"><span class="pre">response_set</span></code><a class="headerlink" href="#surveyor.models.Question.response_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Question.response_type">
+<code class="sig-name descname"><span class="pre">response_type</span></code><a class="headerlink" href="#surveyor.models.Question.response_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Question.task">
+<code class="sig-name descname"><span class="pre">task</span></code><a class="headerlink" href="#surveyor.models.Question.task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Question.task_id">
+<code class="sig-name descname"><span class="pre">task_id</span></code><a class="headerlink" href="#surveyor.models.Question.task_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.models.Surveyor">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.models.</span></code><code class="sig-name descname"><span class="pre">Surveyor</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">firstname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.models.Surveyor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<dl class="py exception">
+<dt id="surveyor.models.Surveyor.DoesNotExist">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-name descname"><span class="pre">DoesNotExist</span></code><a class="headerlink" href="#surveyor.models.Surveyor.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="surveyor.models.Surveyor.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></code><a class="headerlink" href="#surveyor.models.Surveyor.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Surveyor.firstname">
+<code class="sig-name descname"><span class="pre">firstname</span></code><a class="headerlink" href="#surveyor.models.Surveyor.firstname" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Surveyor.groupsurveyor_set">
+<code class="sig-name descname"><span class="pre">groupsurveyor_set</span></code><a class="headerlink" href="#surveyor.models.Surveyor.groupsurveyor_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Surveyor.id">
+<code class="sig-name descname"><span class="pre">id</span></code><a class="headerlink" href="#surveyor.models.Surveyor.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Surveyor.objects">
+<code class="sig-name descname"><span class="pre">objects</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#surveyor.models.Surveyor.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Surveyor.surname">
+<code class="sig-name descname"><span class="pre">surname</span></code><a class="headerlink" href="#surveyor.models.Surveyor.surname" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Surveyor.user">
+<code class="sig-name descname"><span class="pre">user</span></code><a class="headerlink" href="#surveyor.models.Surveyor.user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a one-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Restaurant.place</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardOneToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Surveyor.user_id">
+<code class="sig-name descname"><span class="pre">user_id</span></code><a class="headerlink" href="#surveyor.models.Surveyor.user_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.models.Task">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.models.</span></code><code class="sig-name descname"><span class="pre">Task</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.models.Task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code></p>
+<dl class="py exception">
+<dt id="surveyor.models.Task.DoesNotExist">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-name descname"><span class="pre">DoesNotExist</span></code><a class="headerlink" href="#surveyor.models.Task.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="surveyor.models.Task.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></code><a class="headerlink" href="#surveyor.models.Task.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Task.due_date">
+<code class="sig-name descname"><span class="pre">due_date</span></code><a class="headerlink" href="#surveyor.models.Task.due_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Task.due_time">
+<code class="sig-name descname"><span class="pre">due_time</span></code><a class="headerlink" href="#surveyor.models.Task.due_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.models.Task.get_next_by_due_date">
+<code class="sig-name descname"><span class="pre">get_next_by_due_date</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*</span></em>, <em class="sig-param"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">due_date&gt;</span></em>, <em class="sig-param"><span class="pre">is_next=True</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.models.Task.get_next_by_due_date" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.models.Task.get_previous_by_due_date">
+<code class="sig-name descname"><span class="pre">get_previous_by_due_date</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*</span></em>, <em class="sig-param"><span class="pre">field=&lt;django.db.models.fields.DateField:</span> <span class="pre">due_date&gt;</span></em>, <em class="sig-param"><span class="pre">is_next=False</span></em>, <em class="sig-param"><span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.models.Task.get_previous_by_due_date" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Task.group">
+<code class="sig-name descname"><span class="pre">group</span></code><a class="headerlink" href="#surveyor.models.Task.group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Task.group_id">
+<code class="sig-name descname"><span class="pre">group_id</span></code><a class="headerlink" href="#surveyor.models.Task.group_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Task.id">
+<code class="sig-name descname"><span class="pre">id</span></code><a class="headerlink" href="#surveyor.models.Task.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Task.objects">
+<code class="sig-name descname"><span class="pre">objects</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#surveyor.models.Task.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Task.question_set">
+<code class="sig-name descname"><span class="pre">question_set</span></code><a class="headerlink" href="#surveyor.models.Task.question_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="surveyor.models.Task.title">
+<code class="sig-name descname"><span class="pre">title</span></code><a class="headerlink" href="#surveyor.models.Task.title" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-surveyor.utils">
+<span id="surveyor-utils-module"></span><h2>surveyor.utils module<a class="headerlink" href="#module-surveyor.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="surveyor.utils.create_word_cloud">
+<code class="sig-prename descclassname"><span class="pre">surveyor.utils.</span></code><code class="sig-name descname"><span class="pre">create_word_cloud</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">responses</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.utils.create_word_cloud" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a word cloud from an iterable set of <code class="docutils literal notranslate"><span class="pre">Response</span></code>s.
+<code class="docutils literal notranslate"><span class="pre">Response.text</span></code> is not null for each <code class="docutils literal notranslate"><span class="pre">Response</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>responses</strong> (<em>iterable</em><em>[</em><a class="reference internal" href="respondent.html#respondent.models.Response" title="respondent.models.Response"><em>Response</em></a><em>]</em>) – The <code class="docutils literal notranslate"><span class="pre">Responses</span></code> from which to create the word cloud.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A string representing the path of the bytestream of the word cloud image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyor.utils.get_graphs_and_leaderboards">
+<code class="sig-prename descclassname"><span class="pre">surveyor.utils.</span></code><code class="sig-name descname"><span class="pre">get_graphs_and_leaderboards</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surveyor</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.utils.get_graphs_and_leaderboards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a list of dictionaries containing the <cite>labels</cite>, <cite>scores</cite>, <cite>leaderboards</cite> and 
+<cite>groups</cite> required to render the graphs and leaderboards for every group the <cite>surveyor</cite>
+manages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>surveyor</strong> (<a class="reference internal" href="#surveyor.models.Surveyor" title="surveyor.models.Surveyor"><em>Surveyor</em></a>) – The <code class="docutils literal notranslate"><span class="pre">Surveyor</span></code> object representing the user that is currently logged in.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of dictionaries containing the <cite>id</cite>, <cite>title</cite>, <cite>labels</cite>, <cite>scores</cite> and <cite>leaderboard</cite>
+of every group managed by the currently logged in user.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyor.utils.get_group_participants">
+<code class="sig-prename descclassname"><span class="pre">surveyor.utils.</span></code><code class="sig-name descname"><span class="pre">get_group_participants</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.utils.get_group_participants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <code class="docutils literal notranslate"><span class="pre">django.db.models.QuerySet</span></code> of the <code class="docutils literal notranslate"><span class="pre">Respondent</span></code> objects which represent the participants of <cite>group</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>group</strong> (<a class="reference internal" href="#surveyor.models.Group" title="surveyor.models.Group"><em>Group</em></a>) – The <code class="docutils literal notranslate"><span class="pre">Group</span></code> representing the group whose participants the method shall be querying.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">QuerySet</span></code> of the <code class="docutils literal notranslate"><span class="pre">Respondent</span></code> objects who are part of <cite>group</cite>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>django.db.models.QuerySet</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyor.utils.get_overall_word_cloud">
+<code class="sig-prename descclassname"><span class="pre">surveyor.utils.</span></code><code class="sig-name descname"><span class="pre">get_overall_word_cloud</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surveyor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">respondent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.utils.get_overall_word_cloud" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the combined word cloud for the all of the text responses given by a certain <code class="docutils literal notranslate"><span class="pre">Respondent</span></code> to tasks
+set by a given <code class="docutils literal notranslate"><span class="pre">Surveyor</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>surveyor</strong> (<a class="reference internal" href="#surveyor.models.Surveyor" title="surveyor.models.Surveyor"><em>Surveyor</em></a>) – The <code class="docutils literal notranslate"><span class="pre">Surveyor</span></code> for which to get responses for.</p></li>
+<li><p><strong>respondent</strong> (<a class="reference internal" href="respondent.html#respondent.models.Respondent" title="respondent.models.Respondent"><em>Respondent</em></a>) – The <code class="docutils literal notranslate"><span class="pre">Respondent</span></code> for which to get responses from.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A string representing the path of the bytestream of the word cloud image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyor.utils.get_questions">
+<code class="sig-prename descclassname"><span class="pre">surveyor.utils.</span></code><code class="sig-name descname"><span class="pre">get_questions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pk_task</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.utils.get_questions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="surveyor.utils.sanitize_link">
+<code class="sig-prename descclassname"><span class="pre">surveyor.utils.</span></code><code class="sig-name descname"><span class="pre">sanitize_link</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.utils.sanitize_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the protocol from the given URL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>url</strong> (<em>str</em>) – The URL to be sanitized</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The sanitized URL.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-surveyor.views">
+<span id="surveyor-views-module"></span><h2>surveyor.views module<a class="headerlink" href="#module-surveyor.views" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="surveyor.views.dashboard">
+<code class="sig-prename descclassname"><span class="pre">surveyor.views.</span></code><code class="sig-name descname"><span class="pre">dashboard</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.views.dashboard" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Dashboard page for the <code class="docutils literal notranslate"><span class="pre">Surveyor</span></code>.
+Displays each incomplete <code class="docutils literal notranslate"><span class="pre">Task</span></code> they have set, as well as an overview of the leaderboard and progress of each <code class="docutils literal notranslate"><span class="pre">Group</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – The <code class="docutils literal notranslate"><span class="pre">GET</span></code> request made by the user.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <code class="docutils literal notranslate"><span class="pre">surveyor/dashboard.html</span></code> template rendered using the given dictionary.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyor.views.groups">
+<code class="sig-prename descclassname"><span class="pre">surveyor.views.</span></code><code class="sig-name descname"><span class="pre">groups</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.views.groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays a list of all the <code class="docutils literal notranslate"><span class="pre">Group</span></code>s which the <code class="docutils literal notranslate"><span class="pre">Surveyor</span></code> manages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – The <code class="docutils literal notranslate"><span class="pre">GET</span></code>/<code class="docutils literal notranslate"><span class="pre">POST</span></code> request made by the user.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <code class="docutils literal notranslate"><span class="pre">surveyor/groups.html</span></code> template rendered using the given dictionary.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyor.views.history">
+<code class="sig-prename descclassname"><span class="pre">surveyor.views.</span></code><code class="sig-name descname"><span class="pre">history</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.views.history" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Task History page for the <code class="docutils literal notranslate"><span class="pre">Surveyor</span></code>.
+Displays all of the previous tasks that the <code class="docutils literal notranslate"><span class="pre">Surveyor</span></code> has set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – The <code class="docutils literal notranslate"><span class="pre">GET</span></code> request made by the user.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <code class="docutils literal notranslate"><span class="pre">surveyor/history.html</span></code> template rendered using the given dictionary.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyor.views.leaderboard">
+<code class="sig-prename descclassname"><span class="pre">surveyor.views.</span></code><code class="sig-name descname"><span class="pre">leaderboard</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.views.leaderboard" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Leaderboard page for the <code class="docutils literal notranslate"><span class="pre">Surveyor</span></code>.
+Displays rankings for the <code class="docutils literal notranslate"><span class="pre">Respondent</span></code>s in each <cite>Group</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – The <code class="docutils literal notranslate"><span class="pre">GET</span></code> request made by the user.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <code class="docutils literal notranslate"><span class="pre">surveyor/leaderboard.html</span></code> template rendered using the given dictionary.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyor.views.manage_group">
+<code class="sig-prename descclassname"><span class="pre">surveyor.views.</span></code><code class="sig-name descname"><span class="pre">manage_group</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk_group</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.views.manage_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>The page allowing for the management (addition/deletion) of <code class="docutils literal notranslate"><span class="pre">Respondent</span></code>s in a group.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – The <code class="docutils literal notranslate"><span class="pre">GET</span></code>/<code class="docutils literal notranslate"><span class="pre">POST</span></code> request made by the user.</p></li>
+<li><p><strong>pk_group</strong> (<em>uuid.UUID</em>) – Primary key of the <code class="docutils literal notranslate"><span class="pre">Group</span></code> object stored in the database.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <code class="docutils literal notranslate"><span class="pre">surveyor/manage_group.html</span></code> template rendered using the given dictionary.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyor.views.new_group">
+<code class="sig-prename descclassname"><span class="pre">surveyor.views.</span></code><code class="sig-name descname"><span class="pre">new_group</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.views.new_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modal popup containing a form for the creation of a new <code class="docutils literal notranslate"><span class="pre">Group</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – The <code class="docutils literal notranslate"><span class="pre">GET</span></code>/<code class="docutils literal notranslate"><span class="pre">POST</span></code> request made by the user.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <code class="docutils literal notranslate"><span class="pre">surveyor/partials/new_group.html</span></code> template rendered using the given dictionary.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyor.views.new_task">
+<code class="sig-prename descclassname"><span class="pre">surveyor.views.</span></code><code class="sig-name descname"><span class="pre">new_task</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.views.new_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>The page containing the form for creating a new <code class="docutils literal notranslate"><span class="pre">Task</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – The <code class="docutils literal notranslate"><span class="pre">GET</span></code>/<code class="docutils literal notranslate"><span class="pre">POST</span></code> request made by the user.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <code class="docutils literal notranslate"><span class="pre">surveyor/new_task.html</span></code> template rendered using the given dictionary.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyor.views.task_overview">
+<code class="sig-prename descclassname"><span class="pre">surveyor.views.</span></code><code class="sig-name descname"><span class="pre">task_overview</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk_task</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.views.task_overview" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summary page containing the collective responses of the group which has been assigned a <code class="docutils literal notranslate"><span class="pre">Task</span></code>.
+Categorical responses are visualised using either Bar or Pie charts and textual responses are visualised in word clouds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – <code class="docutils literal notranslate"><span class="pre">GET</span></code> request made by the current <code class="docutils literal notranslate"><span class="pre">Surveyor</span></code>.</p></li>
+<li><p><strong>pk_task</strong> (<em>uuid.UUID</em>) – The <code class="docutils literal notranslate"><span class="pre">UUID</span></code> primary key of the <code class="docutils literal notranslate"><span class="pre">Task</span></code> object being queried for a summary of responses.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <code class="docutils literal notranslate"><span class="pre">surveyor/task_overview.html</span></code> template rendered using the given dictionary.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyor.views.user_progress">
+<code class="sig-prename descclassname"><span class="pre">surveyor.views.</span></code><code class="sig-name descname"><span class="pre">user_progress</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk_user</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.views.user_progress" title="Permalink to this definition">¶</a></dt>
+<dd><p>The user progress page for an individual <code class="docutils literal notranslate"><span class="pre">Respondent</span></code>.
+Displays all of the previous tasks set by the current <code class="docutils literal notranslate"><span class="pre">Surveyor</span></code> which the <code class="docutils literal notranslate"><span class="pre">Respondent</span></code> has responded to, the progress that they’ve shown and their individual responses to these tasks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – <code class="docutils literal notranslate"><span class="pre">GET</span></code> request made by the current user.</p></li>
+<li><p><strong>pk_user</strong> (<em>uuid.UUID</em>) – Primary key of the <code class="docutils literal notranslate"><span class="pre">Surveyor</span></code> accessing the page.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <code class="docutils literal notranslate"><span class="pre">surveyor/user_progress.html</span></code> template rendered using the given dictionary.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="surveyor.views.user_response">
+<code class="sig-prename descclassname"><span class="pre">surveyor.views.</span></code><code class="sig-name descname"><span class="pre">user_response</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk_task</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.views.user_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>The page showing the <code class="docutils literal notranslate"><span class="pre">Response</span></code> of a <code class="docutils literal notranslate"><span class="pre">Respondent</span></code> to a given <code class="docutils literal notranslate"><span class="pre">Task</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>django.http.HttpRequest</em>) – The <code class="docutils literal notranslate"><span class="pre">GET</span></code> request made by the user.</p></li>
+<li><p><strong>pk_user</strong> (<em>uuid.UUID</em>) – The primary key of the <code class="docutils literal notranslate"><span class="pre">Respondent</span></code>.</p></li>
+<li><p><strong>pk_task</strong> (<em>uuid.UUID</em>) – The primary key of the <code class="docutils literal notranslate"><span class="pre">Task</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The <code class="docutils literal notranslate"><span class="pre">surveyor/user_response.html</span></code> template rendered using the given dictionary.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>django.http.HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-surveyor">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-surveyor" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Jamie Weigold, Hamza Nasir, Karan Chawla<br/>
+        
+            &copy; Copyright 2021, Jamie Weigold, Hamza Nasir, Karan Chawla.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

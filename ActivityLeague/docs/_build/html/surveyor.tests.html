@@ -1,0 +1,590 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>surveyor.tests package &#8212; ActivityLeague 1.0 documentation</title>
+    
+  <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  
+  <h1 class="site-logo" id="site-title">ActivityLeague 1.0 documentation</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/surveyor.tests.rst.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/UCLComputerScience/COMP0016_2020_21_Team19"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-surveyor.tests.test_models">
+   surveyor.tests.test_models module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-surveyor.tests.test_utils">
+   surveyor.tests.test_utils module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-surveyor.tests.test_views">
+   surveyor.tests.test_views module
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-surveyor.tests">
+   Module contents
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="surveyor-tests-package">
+<h1>surveyor.tests package<a class="headerlink" href="#surveyor-tests-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-surveyor.tests.test_models">
+<span id="surveyor-tests-test-models-module"></span><h2>surveyor.tests.test_models module<a class="headerlink" href="#module-surveyor.tests.test_models" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="surveyor.tests.test_models.GroupSurveyorTestCase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.tests.test_models.</span></code><code class="sig-name descname"><span class="pre">GroupSurveyorTestCase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.GroupSurveyorTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt id="surveyor.tests.test_models.GroupSurveyorTestCase.setUpTestData">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">setUpTestData</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.GroupSurveyorTestCase.setUpTestData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load initial data for the TestCase.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.GroupSurveyorTestCase.test_group_label">
+<code class="sig-name descname"><span class="pre">test_group_label</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.GroupSurveyorTestCase.test_group_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Surveyor objects should have a field ‘group’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.GroupSurveyorTestCase.test_surveyor_label">
+<code class="sig-name descname"><span class="pre">test_surveyor_label</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.GroupSurveyorTestCase.test_surveyor_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Surveyor objects should have a field ‘surveyor’.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.tests.test_models.GroupTestCase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.tests.test_models.</span></code><code class="sig-name descname"><span class="pre">GroupTestCase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.GroupTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt id="surveyor.tests.test_models.GroupTestCase.setUpTestData">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">setUpTestData</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.GroupTestCase.setUpTestData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load initial data for the TestCase.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.GroupTestCase.test_group_name">
+<code class="sig-name descname"><span class="pre">test_group_name</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.GroupTestCase.test_group_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group names should be returned correctly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.GroupTestCase.test_name_label">
+<code class="sig-name descname"><span class="pre">test_name_label</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.GroupTestCase.test_name_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>There should be a field ‘name’ on Group objects.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.tests.test_models.QuestionTestCase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.tests.test_models.</span></code><code class="sig-name descname"><span class="pre">QuestionTestCase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.QuestionTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt id="surveyor.tests.test_models.QuestionTestCase.setUpTestData">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">setUpTestData</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.QuestionTestCase.setUpTestData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load initial data for the TestCase.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.QuestionTestCase.test_description_label">
+<code class="sig-name descname"><span class="pre">test_description_label</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.QuestionTestCase.test_description_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Question objects should have a field ‘description’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.QuestionTestCase.test_link_label">
+<code class="sig-name descname"><span class="pre">test_link_label</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.QuestionTestCase.test_link_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Question objects should have a field ‘link’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.QuestionTestCase.test_response_type_label">
+<code class="sig-name descname"><span class="pre">test_response_type_label</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.QuestionTestCase.test_response_type_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Question objects should have a field ‘response type’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.QuestionTestCase.test_task_label">
+<code class="sig-name descname"><span class="pre">test_task_label</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.QuestionTestCase.test_task_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Question objects should have a field ‘task’.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.tests.test_models.SurveyorTestCase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.tests.test_models.</span></code><code class="sig-name descname"><span class="pre">SurveyorTestCase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.SurveyorTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt id="surveyor.tests.test_models.SurveyorTestCase.setUpTestData">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">setUpTestData</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.SurveyorTestCase.setUpTestData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load initial data for the TestCase.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.SurveyorTestCase.test_firstname_label">
+<code class="sig-name descname"><span class="pre">test_firstname_label</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.SurveyorTestCase.test_firstname_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests that the firstname field of the object created is “firstname”.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.SurveyorTestCase.test_firstname_max_length_is_30">
+<code class="sig-name descname"><span class="pre">test_firstname_max_length_is_30</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.SurveyorTestCase.test_firstname_max_length_is_30" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.SurveyorTestCase.test_surname_label">
+<code class="sig-name descname"><span class="pre">test_surname_label</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.SurveyorTestCase.test_surname_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests the surname field of Surveyor is “surname”.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.SurveyorTestCase.test_surname_max_length_is_30">
+<code class="sig-name descname"><span class="pre">test_surname_max_length_is_30</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.SurveyorTestCase.test_surname_max_length_is_30" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.SurveyorTestCase.test_surveyor_name_is_correct">
+<code class="sig-name descname"><span class="pre">test_surveyor_name_is_correct</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.SurveyorTestCase.test_surveyor_name_is_correct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests str(surveyor) is surveyor.firstname + ” ” + surveyor.surname</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.tests.test_models.TaskTestCase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.tests.test_models.</span></code><code class="sig-name descname"><span class="pre">TaskTestCase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.TaskTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt id="surveyor.tests.test_models.TaskTestCase.setUpTestData">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">setUpTestData</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.TaskTestCase.setUpTestData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load initial data for the TestCase.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.TaskTestCase.test_due_date_field">
+<code class="sig-name descname"><span class="pre">test_due_date_field</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.TaskTestCase.test_due_date_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Task objects should have a field ‘due date’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.TaskTestCase.test_due_time_field">
+<code class="sig-name descname"><span class="pre">test_due_time_field</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.TaskTestCase.test_due_time_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Task objects should have a field ‘due time’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.TaskTestCase.test_group_field">
+<code class="sig-name descname"><span class="pre">test_group_field</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.TaskTestCase.test_group_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Task objects should have a field ‘group’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.TaskTestCase.test_name_is_correct">
+<code class="sig-name descname"><span class="pre">test_name_is_correct</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.TaskTestCase.test_name_is_correct" title="Permalink to this definition">¶</a></dt>
+<dd><p>str(Task) shoud return Task.title.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_models.TaskTestCase.test_title_field">
+<code class="sig-name descname"><span class="pre">test_title_field</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_models.TaskTestCase.test_title_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Task objects should have a field ‘title’.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-surveyor.tests.test_utils">
+<span id="surveyor-tests-test-utils-module"></span><h2>surveyor.tests.test_utils module<a class="headerlink" href="#module-surveyor.tests.test_utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="surveyor.tests.test_utils.GetQuestionsTestCase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.tests.test_utils.</span></code><code class="sig-name descname"><span class="pre">GetQuestionsTestCase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_utils.GetQuestionsTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt id="surveyor.tests.test_utils.GetQuestionsTestCase.setUp">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">setUp</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_utils.GetQuestionsTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_utils.GetQuestionsTestCase.test_chart_likert_labels_correct">
+<code class="sig-name descname"><span class="pre">test_chart_likert_labels_correct</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_utils.GetQuestionsTestCase.test_chart_likert_labels_correct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Questions with response_type = 1 (likert questions) should have labels: ‘Strongly Disagree’, ‘Disagree’, ‘Neutral’,
+‘Agree’, ‘Strongly Agree’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_utils.GetQuestionsTestCase.test_chart_traffic_labels_correct">
+<code class="sig-name descname"><span class="pre">test_chart_traffic_labels_correct</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_utils.GetQuestionsTestCase.test_chart_traffic_labels_correct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Questions with response_type = 2 (traffic light questions) should have labels: ‘Red’, ‘Yellow’, ‘Green’.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_utils.GetQuestionsTestCase.test_data_formatted_appropriately">
+<code class="sig-name descname"><span class="pre">test_data_formatted_appropriately</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_utils.GetQuestionsTestCase.test_data_formatted_appropriately" title="Permalink to this definition">¶</a></dt>
+<dd><p>Each dictionary in the list data should contain keys: id, link, type, description, link_clicks, pie_chart_labels,
+pie_chart_data, word_cloud.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_utils.GetQuestionsTestCase.test_link_clicks_correct">
+<code class="sig-name descname"><span class="pre">test_link_clicks_correct</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_utils.GetQuestionsTestCase.test_link_clicks_correct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether the number of link clicks returned is the same as the number of link clicks recorded
+per question.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_utils.GetQuestionsTestCase.test_question_descriptions_correct">
+<code class="sig-name descname"><span class="pre">test_question_descriptions_correct</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_utils.GetQuestionsTestCase.test_question_descriptions_correct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests whether the descriptions to each of the questions returned are correct: we do not return
+any descriptions of questions that are not part of the task and do not neglect any descriptions
+that are part of the task.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_utils.GetQuestionsTestCase.test_word_cloud_url_correct">
+<code class="sig-name descname"><span class="pre">test_word_cloud_url_correct</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_utils.GetQuestionsTestCase.test_word_cloud_url_correct" title="Permalink to this definition">¶</a></dt>
+<dd><p>If a question contains a text-based response, we should get a link to a generated word cloud image
+of the form ‘<a class="reference external" href="data:image/png;base64">data:image/png;base64</a>’ + string.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-surveyor.tests.test_views">
+<span id="surveyor-tests-test-views-module"></span><h2>surveyor.tests.test_views module<a class="headerlink" href="#module-surveyor.tests.test_views" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="surveyor.tests.test_views.DashboardTestCase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.tests.test_views.</span></code><code class="sig-name descname"><span class="pre">DashboardTestCase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.DashboardTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt id="surveyor.tests.test_views.DashboardTestCase.setUp">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">setUp</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.DashboardTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_views.DashboardTestCase.test_response_code_200_if_valid_path">
+<code class="sig-name descname"><span class="pre">test_response_code_200_if_valid_path</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.DashboardTestCase.test_response_code_200_if_valid_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.tests.test_views.GroupsTestCase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.tests.test_views.</span></code><code class="sig-name descname"><span class="pre">GroupsTestCase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.GroupsTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt id="surveyor.tests.test_views.GroupsTestCase.setUp">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">setUp</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.GroupsTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_views.GroupsTestCase.test_response_code_200_if_valid_login">
+<code class="sig-name descname"><span class="pre">test_response_code_200_if_valid_login</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.GroupsTestCase.test_response_code_200_if_valid_login" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.tests.test_views.LeaderboardTestCase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.tests.test_views.</span></code><code class="sig-name descname"><span class="pre">LeaderboardTestCase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.LeaderboardTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt id="surveyor.tests.test_views.LeaderboardTestCase.setUp">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">setUp</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.LeaderboardTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_views.LeaderboardTestCase.test_response_code_200_if_valid_path">
+<code class="sig-name descname"><span class="pre">test_response_code_200_if_valid_path</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.LeaderboardTestCase.test_response_code_200_if_valid_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.tests.test_views.ManageGroupTestCase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.tests.test_views.</span></code><code class="sig-name descname"><span class="pre">ManageGroupTestCase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.ManageGroupTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt id="surveyor.tests.test_views.ManageGroupTestCase.setUp">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">setUp</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.ManageGroupTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_views.ManageGroupTestCase.test_manage_group_post">
+<code class="sig-name descname"><span class="pre">test_manage_group_post</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.ManageGroupTestCase.test_manage_group_post" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_views.ManageGroupTestCase.test_response_code_200_if_valid">
+<code class="sig-name descname"><span class="pre">test_response_code_200_if_valid</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.ManageGroupTestCase.test_response_code_200_if_valid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.tests.test_views.NewGroupTestCase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.tests.test_views.</span></code><code class="sig-name descname"><span class="pre">NewGroupTestCase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.NewGroupTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt id="surveyor.tests.test_views.NewGroupTestCase.setUp">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">setUp</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.NewGroupTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_views.NewGroupTestCase.test_new_group_post">
+<code class="sig-name descname"><span class="pre">test_new_group_post</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.NewGroupTestCase.test_new_group_post" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_views.NewGroupTestCase.test_response_code_200_if_valid_path">
+<code class="sig-name descname"><span class="pre">test_response_code_200_if_valid_path</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.NewGroupTestCase.test_response_code_200_if_valid_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.tests.test_views.NewTaskTestCase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.tests.test_views.</span></code><code class="sig-name descname"><span class="pre">NewTaskTestCase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.NewTaskTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt id="surveyor.tests.test_views.NewTaskTestCase.setUp">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">setUp</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.NewTaskTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_views.NewTaskTestCase.test_response_code_200_if_valid_path">
+<code class="sig-name descname"><span class="pre">test_response_code_200_if_valid_path</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.NewTaskTestCase.test_response_code_200_if_valid_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="surveyor.tests.test_views.TaskOverViewTestCase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">surveyor.tests.test_views.</span></code><code class="sig-name descname"><span class="pre">TaskOverViewTestCase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.TaskOverViewTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="py method">
+<dt id="surveyor.tests.test_views.TaskOverViewTestCase.setUp">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">setUp</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.TaskOverViewTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="surveyor.tests.test_views.TaskOverViewTestCase.test_response_code_200_if_valid">
+<code class="sig-name descname"><span class="pre">test_response_code_200_if_valid</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#surveyor.tests.test_views.TaskOverViewTestCase.test_response_code_200_if_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessing /task/ should give status code of 200. Accessing /task/a where a is an invalid
+UUID should not give you a status code of 404, though we know this behaviour is already defined
+given the internal dependency on the django-core get_object_or_404 method which has already
+been extensively tested.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-surveyor.tests">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-surveyor.tests" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Jamie Weigold, Hamza Nasir, Karan Chawla<br/>
+        
+            &copy; Copyright 2021, Jamie Weigold, Hamza Nasir, Karan Chawla.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

@@ -9,17 +9,13 @@ from surveyor.models import Surveyor, GroupSurveyor, Group, Task, Question
 
 def get_groups(user):
     """
-    Returns the groups which the user is a member/manager of.
-
-    Args:
-        user (Surveyor/Respondent): Either a Surveyor or Respondent object
-                                    representing the user currently logged in.
-
-    Raises:
-        ValueError: Raised if the user type specified is not recognised.
-
-    Returns:
-        list:Group : Groups managed by/participated in by the user.
+    Retrieves the ``Group``\s which the user is a manager/member of.
+    
+    :param user: A ``Surveyor``/``Respondent`` representing the user currently logged in.
+    :type user: Surveyor / Respondent
+    :raises ValueError: Raised if the user type specified is not recognised.
+    :return: A ``QuerySet`` of the ``Group``\s which `user` manages or is a member of.
+    :rtype: django.db.models.QuerySet
     """
     if isinstance(user, Surveyor):
         group_ids = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
@@ -37,16 +33,14 @@ def get_leaderboard(user, **kwargs):
     Retrieves a sorted list containing the names and scores of the members
     of the leaderboard.
 
-    Args:
-        user (Surveyor/Respondent): Logged in user.
-        
-    Kwargs:
-        group (UUID): ID of the target group's leaderboard.
-
-    Returns:
-        list:dict : Sorted descending list containing the full names and scores of of the
-                    members of the leaderboard.
-    """
+    :param user:  A ``Surveyor``/``Respondent`` representing the user currently logged in.
+    :type user: Surveyor / Respondent
+    :Keyword Arguments:
+        * *group* (``uuid.UUID``) The ``UUID`` of the ``Group`` for which `user` is accessing the leaderboard.
+    :return: Sorted descending list containing the full names and scores of of the members 
+             of the leaderboard.
+    :rtype: List[dict]
+    """    
 
     if kwargs.get('group'):
         group = kwargs.get('group')
@@ -76,17 +70,13 @@ def get_leaderboard(user, **kwargs):
 # Surveyor
 def get_graph_labels(user, **kwargs):
     """
-    Retrieves labels for chart.js on respondent_progress_page.html based on
-    the existing respondent's responses.
-    
-    Args:
-        pk (int): Primary key of the respondent for which we are rendering a chart.
+    Retrieves the x-axis labels (dates) used for progress graphs.
 
-    Returns:
-        list:str : Sorted list whose length is the smallest of the number of responses
-               in a group or 10. Contains the string representations of the labels
-               to be rendered on charts.
-    """
+    :param user:  A ``Surveyor``/``Respondent`` representing the user currently logged in.
+    :type user: Surveyor / Respondent
+    :return: A sorted list containing the dates to be used as x-axis labels.
+    :rtype: List[str]
+    """    
     responses = get_responses(user, **kwargs)
 
     if not responses:
@@ -107,25 +97,24 @@ def get_graph_labels(user, **kwargs):
     return labels
 
 
-def get_graph_data(user, labels, **kwargs):
+def get_graph_data(respondent, labels, **kwargs):
     """
-    Retrieves the values to be plotted by Chart.js on respondent_progress_page.html.
+    Retrieves the data used for progress graphs.
 
-    Args:
-        pk (int): Primary key of the respondent whose progress we are to be
-                  displaying.
-        labels (list: string): List of string datetimes that are the labels
-                               on the x-axis of the graph that to be displayed.
-    
-    Kwargs: 
-        group (Group). If passed, this method shall return the progress
-                       values for the labels for the group that is passed.
-                       
-    Returns:
-        (list:num): List of values of length labels.length corresponding to the
-                    values to be plotted.
+    :param respondent: The ``Respondent`` whose progress is to be displayed.
+    :type respondent: ``Respondent``
+    :param labels: List of string datetimes that are the labels on the 
+                   x-axis of the graph that to be displayed.
+    :Keyword Arguments:
+        * *group* (``Group``) If passed, this method shall return the 
+                              progress values for the labels for the 
+                              group that is passed.
+    :type labels: List[str]
+    :return: List of values of length len(labels) corresponding to the
+             values to be plotted.
+    :rtype: List[float]
     """
-    responses = get_responses(user, **kwargs)
+    responses = get_responses(respondent, **kwargs)
 
     if not responses:
         return []
@@ -155,6 +144,16 @@ def get_graph_data(user, labels, **kwargs):
 
 # Surveyor
 def get_responses(user, **kwargs):
+    """
+    Retrieves the responses for a user, in accordance with the specified keyword arguments.
+    For example, if ``user`` is of type ``Respondent`` and ``group`` is a keyword argument which specifies a ``Group``,
+    this method returns a ``QuerySet`` of ``Group``\s which the ``Respondent`` is a member of.
+
+    :param user: [description]
+    :type user: [type]
+    :return: [description]
+    :rtype: [type]
+    """    
     """
     Returns the responses associated with either a user, group, task or question.
     Args:
@@ -197,6 +196,15 @@ def get_responses(user, **kwargs):
 
 def calculate_score(values):
     """
+    The function calculating the scores of numerical/quantifiable responses
+    for every ``Respondent``.
+
+    :param values: [description]
+    :type values: [type]
+    :return: [description]
+    :rtype: [type]
+    """    
+    """
     Args:
         values: List of numbers from which you want to calculate a score.
 
@@ -229,14 +237,33 @@ def get_tasks(user):
 
 
 def get_num_respondents_in_group(group):
+    """[summary]
+
+    :param group: [description]
+    :type group: [type]
+    :return: [description]
+    :rtype: [type]
+    """    
     return GroupRespondent.objects.filter(group=group).count()
 
 
 def random_hex_colour():
+    """[summary]
+
+    :return: [description]
+    :rtype: [type]
+    """    
     return "#{:06x}".format(random.randint(0, 0xFFFFFF))
 
 
 def get_chartjs_dict(scores):
+    """[summary]
+
+    :param scores: [description]
+    :type scores: [type]
+    :return: [description]
+    :rtype: [type]
+    """    
     return {'data': scores,
             'lineTension': 0,
             'backgroundColor': 'transparent',
@@ -246,6 +273,15 @@ def get_chartjs_dict(scores):
 
 
 def get_progress_graphs(user):
+    """
+    When user is a ``Surveyor``, get graph data for all of the ``Group``\s managed by the ``Surveyor``.
+    When user is a ``Respondent``, get graph data for all of the ``Group``\s the ``Respondent`` is in.
+
+    :param user: The ``Surveyor`` or ``Respondent`` to get graph data for.
+    :type user: Surveyor / Respondent
+    :return: [description]
+    :rtype: List[dict]
+    """    
     groups = get_groups(user)
     overall_labels = get_graph_labels(user)
 
@@ -265,6 +301,17 @@ def get_progress_graphs(user):
     return group_graphs
 
 def has_responded_to_task(respondent, task):
+    """
+    Returns a boolean value representing if a certain ``Respondent`` has responded
+    to a given ``Task``.
+
+    :param respondent: The ``Respondent`` for which to check ``Response``\s from.
+    :type respondent: Respondent
+    :param task: The ``Task`` for which to check ``Response``\s to.
+    :type task: Task
+    :return: Returns ``True` if the number of ``Response``\s to the given ``Task`` is equal to the number of ``Question``\s, ``False`` otherwise
+    :rtype: bool
+    """    
     questions = Question.objects.filter(task=task)
     responses = Response.objects.filter(respondent=respondent, question__in=questions)
     return len(responses) == len(questions)
