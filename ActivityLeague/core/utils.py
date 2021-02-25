@@ -59,7 +59,7 @@ def get_leaderboard(user, **kwargs):
         # Get their responses and calculate their score
         responses = Response.objects.filter(respondent=respondent).values_list('value', flat=True)
         score = calculate_score(responses)
-        entry = {'name': respondent.firstname + " " + respondent.surname, 'score': score}
+        entry = {'name': respondent.firstname + " " + respondent.surname, 'score': round(score, 2)}
         rows.append(entry)
 
     rows.sort(key=operator.itemgetter('score'), reverse=True)

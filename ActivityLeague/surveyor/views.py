@@ -60,6 +60,34 @@ def history(request):
     return render(request, 'surveyor/history.html', {'user': user, 'tasks': tasks})
 
 @login_required(login_url='/accounts/login/')
+def users(request):
+    """
+    Displays a list of all the ``Respondent``\s which the ``Surveyor`` manages.
+
+    :param request: The ``GET`` request made by the user.
+    :type request: django.http.HttpRequest
+    :return: The ``surveyor/users.html`` template rendered using the given dictionary.
+    :rtype: django.http.HttpResponse
+    """
+    user = get_object_or_404(Surveyor, user=request.user)
+    groups = get_groups(user)
+    colors = ["primary", "secondary", "danger", "warning", "info", "light", "dark"]
+    group_colors = {group.id: random.choice(colors) for group in groups}
+
+    respondents = Respondent.objects.none()
+    for group in groups:
+        respondent_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
+        respondents |= Respondent.objects.filter(id__in=respondent_ids)
+
+    for respondent in respondents:
+        group_ids = GroupRespondent.objects.filter(respondent=respondent).values_list('group', flat=True)
+        respondent.groups = groups.filter(id__in=group_ids)
+        for group in respondent.groups:
+            group.color = group_colors[group.id]
+            
+    return render(request, 'surveyor/users.html', {'user': user, 'respondents': respondents})
+
+@login_required(login_url='/accounts/login/')
 def user_progress(request, pk_user):
     """
     The user progress page for an individual ``Respondent``.
