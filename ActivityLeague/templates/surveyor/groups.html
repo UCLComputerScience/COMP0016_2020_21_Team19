@@ -134,7 +134,7 @@ $(".delete-group").click(function () {
       else {
         return false;
       }
-      event.stopPropagation();
+      if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
     });
 </script>
 {% endblock %}
