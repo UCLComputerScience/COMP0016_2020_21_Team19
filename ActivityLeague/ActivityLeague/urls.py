@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^history/?$', surveyor.history, name='history'),
     url(r'^new_task/?$', surveyor.new_task, name='new_task'),
     url(r'^manage_group/(?P<pk_group>[0-9a-f-]+)/?$', surveyor.manage_group, name='manage_group'),
+    url(r'^users/?$', surveyor.users, name='users'),
     url(r'^user/(?P<pk_user>[0-9a-f-]+)/response/(?P<pk_task>[0-9a-f-]+)/?$', surveyor.user_response, name='user_response'),
     url(r'^user/(?P<pk_user>[0-9a-f-]+)/?$', surveyor.user_progress, name='user_progress'),
 

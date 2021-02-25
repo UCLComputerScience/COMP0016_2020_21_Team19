@@ -20,6 +20,12 @@
   </a>
 </li>
 <li class="nav-item">
+    <a class="nav-link" href="{% url 'users' %}">
+      <span data-feather="user"></span>
+      Manage Users<span class="sr-only">(current)</span>
+    </a>
+</li>
+<li class="nav-item">
     <a class="nav-link" href="{% url 'history' %}">
       <span data-feather="clock"></span>
       Task History
@@ -36,7 +42,7 @@
 <div class="card-deck justify-content-center m-5 rounded">
   <div class="col-auto">
     <div class="card text-center border ml-5 mr-5 h-100" style="width: 18rem;">
-      <div class="card-header"><b>Total Respondents</b></div>
+      <div class="card-header"><b>Users Assigned</b></div>
       <div class="card-body">
         <p class="card-text text-primary" style="font-size: 200%;"><b>{{task_total_respondents}}</b></p>
       </div>
@@ -44,7 +50,7 @@
   </div>
   <div class="col-auto">
     <div class="card text-center border ml-5 mr-5 h-100" style="width: 18rem;">
-      <div class="card-header"><b>Respondents Completed</b></div>
+      <div class="card-header"><b>Users Completed</b></div>
       <div class="card-body">
         <p class="card-text text-primary" style="font-size: 200%;"><b>{{task_respondents_completed}}</b></p>
       </div>
