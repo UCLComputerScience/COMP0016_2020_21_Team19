@@ -11,11 +11,17 @@ from django import forms
 from core.utils import *
 from surveyor.utils import *
 
-import datetime
-import operator
-
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
+    """
+    The Dashboard page for the ``Surveyor``.
+    Displays each incomplete ``Task`` they have set, as well as an overview of the leaderboard and progress of each ``Group``.
+
+    :param request: The ``GET`` request made by the user.
+    :type request: django.http.HttpRequest
+    :return: The ``surveyor/dashboard.html`` template rendered using the given dictionary.
+    :rtype: django.http.HttpResponse
+    """    
     user = get_object_or_404(Surveyor, user=request.user)
     tasks, now = get_tasks(user)
     group_data = get_graphs_and_leaderboards(user)
@@ -23,6 +29,15 @@ def dashboard(request):
 
 @login_required(login_url='/accounts/login/')
 def leaderboard(request):
+    """
+    The Leaderboard page for the ``Surveyor``.
+    Displays rankings for the ``Respondent``\s in each `Group`.
+
+    :param request: The ``GET`` request made by the user.
+    :type request: django.http.HttpRequest
+    :return: The ``surveyor/leaderboard.html`` template rendered using the given dictionary.
+    :rtype: django.http.HttpResponse
+    """    
     user = get_object_or_404(Surveyor, user=request.user)
     groups = get_groups(user)
     for group in groups:
@@ -31,12 +46,32 @@ def leaderboard(request):
 
 @login_required(login_url='/accounts/login/')
 def history(request):
+    """
+    The Task History page for the ``Surveyor``.
+    Displays all of the previous tasks that the ``Surveyor`` has set.
+
+    :param request: The ``GET`` request made by the user.
+    :type request: django.http.HttpRequest
+    :return: The ``surveyor/history.html`` template rendered using the given dictionary.
+    :rtype: django.http.HttpResponse
+    """    
     user = get_object_or_404(Surveyor, user=request.user)
     tasks, now = get_tasks(user)
     return render(request, 'surveyor/history.html', {'user': user, 'tasks': tasks})
 
 @login_required(login_url='/accounts/login/')
 def user_progress(request, pk_user):
+    """
+    The user progress page for an individual ``Respondent``.
+    Displays all of the previous tasks set by the current ``Surveyor`` which the ``Respondent`` has responded to, the progress that they've shown and their individual responses to these tasks.
+
+    :param request: ``GET`` request made by the current user.
+    :type request: django.http.HttpRequest
+    :param pk_user: Primary key of the ``Surveyor`` accessing the page.
+    :type pk_user: uuid.UUID
+    :return: The ``surveyor/user_progress.html`` template rendered using the given dictionary.
+    :rtype: django.http.HttpResponse
+    """    
     user = get_object_or_404(Surveyor, user=request.user)
     respondent = Respondent.objects.get(pk=pk_user)
     tasks, now = get_tasks(user)
@@ -54,6 +89,18 @@ def user_progress(request, pk_user):
 
 @login_required(login_url='/accounts/login/')
 def user_response(request, pk_user, pk_task):
+    """
+    The page showing the ``Response`` of a ``Respondent`` to a given ``Task``.
+
+    :param request: The ``GET`` request made by the user.
+    :type request: django.http.HttpRequest
+    :param pk_user: The primary key of the ``Respondent``.
+    :type pk_user: uuid.UUID
+    :param pk_task: The primary key of the ``Task``.
+    :type pk_task: uuid.UUID
+    :return: The ``surveyor/user_response.html`` template rendered using the given dictionary.
+    :rtype: django.http.HttpResponse
+    """    
     user = get_object_or_404(Surveyor, user=request.user)
     respondent = Respondent.objects.get(pk=pk_user)
     task = Task.objects.get(pk=pk_task)
@@ -65,6 +112,17 @@ def user_response(request, pk_user, pk_task):
 
 @login_required(login_url='/accounts/login/')
 def task_overview(request, pk_task):
+    """
+    Summary page containing the collective responses of the group which has been assigned a ``Task``.
+    Categorical responses are visualised using either Bar or Pie charts and textual responses are visualised in word clouds.
+
+    :param request: ``GET`` request made by the current ``Surveyor``.
+    :type request: django.http.HttpRequest
+    :param pk_task: The ``UUID`` primary key of the ``Task`` object being queried for a summary of responses.
+    :type pk_task: uuid.UUID
+    :return: The ``surveyor/task_overview.html`` template rendered using the given dictionary.
+    :rtype: django.http.HttpResponse
+    """    
     user = get_object_or_404(Surveyor, user=request.user)
     task = get_object_or_404(Task, pk=pk_task)
     questions = Question.objects.filter(task=task)
@@ -81,6 +139,14 @@ def task_overview(request, pk_task):
 
 @login_required(login_url='/accounts/login/')
 def new_task(request):
+    """
+    The page containing the form for creating a new ``Task``.
+
+    :param request: The ``GET``/``POST`` request made by the user.
+    :type request: django.http.HttpRequest
+    :return: The ``surveyor/new_task.html`` template rendered using the given dictionary.
+    :rtype: django.http.HttpResponse
+    """    
     user = get_object_or_404(Surveyor, user=request.user)
     group_surveyors = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
     groups = []
@@ -118,6 +184,14 @@ def new_task(request):
 
 @login_required(login_url='/accounts/login/')
 def new_group(request):
+    """
+    Modal popup containing a form for the creation of a new ``Group``.
+
+    :param request: The ``GET``/``POST`` request made by the user.
+    :type request: django.http.HttpRequest
+    :return: The ``surveyor/partials/new_group.html`` template rendered using the given dictionary.
+    :rtype: django.http.HttpResponse
+    """    
     data = dict()
     
     if request.method == 'POST':
@@ -140,6 +214,14 @@ def new_group(request):
 
 @login_required(login_url='/accounts/login/')
 def groups(request):
+    """
+    Displays a list of all the ``Group``\s which the ``Surveyor`` manages.
+
+    :param request: The ``GET``/``POST`` request made by the user.
+    :type request: django.http.HttpRequest
+    :return: The ``surveyor/groups.html`` template rendered using the given dictionary.
+    :rtype: django.http.HttpResponse
+    """    
     user = get_object_or_404(Surveyor, user=request.user)
     if request.method == 'POST':
         if request.POST.get('request_type') == 'delete_group':
@@ -153,6 +235,16 @@ def groups(request):
 
 @login_required(login_url='/accounts/login/')
 def manage_group(request, pk_group):
+    """
+    The page allowing for the management (addition/deletion) of ``Respondent``\s in a group.
+
+    :param request: The ``GET``/``POST`` request made by the user.
+    :type request: django.http.HttpRequest
+    :param pk_group: Primary key of the ``Group`` object stored in the database.
+    :type pk_group: uuid.UUID
+    :return: The ``surveyor/manage_group.html`` template rendered using the given dictionary.
+    :rtype: django.http.HttpResponse
+    """    
     if request.method == 'POST':
         if request.POST.get('request_type') == 'delete_participant':
             respondent_pk = request.POST.get('respondent')

@@ -10,22 +10,50 @@ import base64
 import urllib
 import matplotlib.pyplot as plt
 
-def get_graphs_and_leaderboards(user):
-    groups = get_groups(user).order_by('name')
+def get_graphs_and_leaderboards(surveyor):
+    """
+    Retrieves a list of dictionaries containing the `labels`, `scores`, `leaderboards` and 
+    `groups` required to render the graphs and leaderboards for every group the `surveyor`
+    manages.
+
+    :param surveyor: The ``Surveyor`` object representing the user that is currently logged in.
+    :type surveyor: Surveyor
+    :return: A list of dictionaries containing the `id`, `title`, `labels`, `scores` and `leaderboard`
+             of every group managed by the currently logged in user.
+    :rtype: List[dict]
+    """    
+    groups = get_groups(surveyor).order_by('name')
     group_data = []
     for group in groups:
-        labels = get_graph_labels(user, group=group)
-        scores = get_graph_data(user, labels, group=group)
-        group_data.append({'id': group.id,'title': group.name, 'labels': labels, 'scores': scores, 'leaderboard': get_leaderboard(user, group=group)})
+        labels = get_graph_labels(surveyor, group=group)
+        scores = get_graph_data(surveyor, labels, group=group)
+        group_data.append({'id': group.id,'title': group.name, 'labels': labels, 'scores': scores, 'leaderboard': get_leaderboard(surveyor, group=group)})
     
     return group_data
 
 def sanitize_link(url):
+    """
+    Removes the protocol from the given URL.
+
+    :param url: The URL to be sanitized
+    :type url: str
+    :return: The sanitized URL.
+    :rtype: str
+    """    
     parsed = urlparse(url)
     scheme = "%s://" % parsed.scheme
     return parsed.geturl().replace(scheme, '', 1)
 
 def create_word_cloud(responses):
+    """
+    Creates a word cloud from an iterable set of ``Response``\s.
+    ``Response.text`` is not null for each ``Response``.
+
+    :param responses: The ``Responses`` from which to create the word cloud.
+    :type responses: iterable[Response]
+    :return: A string representing the path of the bytestream of the word cloud image.
+    :rtype: str
+    """
     word_cloud_dict = {}
     for response in responses:
         word = response.text
@@ -47,9 +75,18 @@ def create_word_cloud(responses):
     return image_64
 
 def get_group_participants(group):
+    """
+    Returns a ``django.db.models.QuerySet`` of the ``Respondent`` objects which represent the participants of `group`.
+
+    :param group: The ``Group`` representing the group whose participants the method shall be querying.
+    :type group: Group
+    :return: A ``QuerySet`` of the ``Respondent`` objects who are part of `group`.
+    :rtype: django.db.models.QuerySet
+    """    
     group_respondents = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
     return Respondent.objects.filter(pk__in=group_respondents)
     
+# TODO: Clean up
 def get_questions(pk_task):
     task = Task.objects.get(pk=pk_task)
     questions = Question.objects.filter(task=task)
@@ -97,9 +134,20 @@ def get_questions(pk_task):
 
     return data
 
-def get_overall_word_cloud(user, respondent):
-    groups = get_groups(user)
-    responses = get_responses(user, respondent=respondent)
+def get_overall_word_cloud(surveyor, respondent):
+    """
+    Gets the combined word cloud for the all of the text responses given by a certain ``Respondent`` to tasks
+    set by a given ``Surveyor``.
+
+    :param surveyor: The ``Surveyor`` for which to get responses for.
+    :type surveyor: Surveyor
+    :param respondent: The ``Respondent`` for which to get responses from.
+    :type respondent: Respondent
+    :return: A string representing the path of the bytestream of the word cloud image.
+    :rtype: str
+    """    
+    groups = get_groups(surveyor)
+    responses = get_responses(surveyor, respondent=respondent)
     responses = responses.filter(text__isnull=False) # get only text responses
     word_cloud = create_word_cloud(responses)
     return word_cloud

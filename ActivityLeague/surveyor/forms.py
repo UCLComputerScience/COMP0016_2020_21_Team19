@@ -42,19 +42,19 @@ class TaskForm(forms.ModelForm):
                 'placeholder': 'Enter Task Title here'
                 }
             ),
-            # 'group': forms.Select(choices=GROUP_CHOICES, attrs={'class' : 'custom-select d-block w-100'}),
             'due_date': forms.DateInput(
-                format='%m-%d-%Y',
+                format='%d-%m-%Y',
                 attrs={
+                # 'id': 'due_date',
                 'class': 'form-control',
                 'type': 'date',
-                'placeholder': 'MM/DD/YYYY'
+                'placeholder': 'MM/DD/YYYY',
                 }
             ),
             'due_time': forms.TimeInput(
                 format='%H:%M',
                 attrs={
-                'class': 'form-control',
+                'class': 'form-control timepicker',
                 'type': 'time',
                 'placeholder': 'HH:MM'
                 }
