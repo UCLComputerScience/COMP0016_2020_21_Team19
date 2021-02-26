@@ -182,6 +182,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 ACCOUNT_FORMS = {
     "login": "authentication.forms.AuthenticationLoginForm",
-    "create_organisation": "core.forms.OrganisationSignupForm",
     # "signup": "authentication.forms.AuthenticationSignupForm"
 }

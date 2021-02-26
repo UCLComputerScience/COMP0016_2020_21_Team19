@@ -20,8 +20,6 @@ class OrganisationSignup(SignupView):
         ret.update(self.kwargs)
         return ret
 
-create_organisation = OrganisationSignup.as_view()
-
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
     if Surveyor.objects.filter(user=request.user):
