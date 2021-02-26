@@ -46,10 +46,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'crispy_forms',
 
+    'core',
     'surveyor',
     'respondent',
-    'authentication',
-    'core'
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -77,10 +77,6 @@ if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-# LOGIN_URL = 'keycloak_login'
-
-# KEYCLOAK_OIDC_PROFILE_MODEL = 'django_keycloak.OpenIdConnectProfile'
 
 ROOT_URLCONF = 'ActivityLeague.urls'
 
@@ -186,5 +182,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 ACCOUNT_FORMS = {
     "login": "authentication.forms.AuthenticationLoginForm",
-    "signup": "authentication.forms.AuthenticationSignupForm"
+    "create_organisation": "core.forms.OrganisationSignupForm",
+    # "signup": "authentication.forms.AuthenticationSignupForm"
 }

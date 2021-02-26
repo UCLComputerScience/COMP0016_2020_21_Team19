@@ -4,16 +4,19 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block head_title %}{% trans "Sign Up" %}{% endblock %}
+{% block head_title %}{% trans "Create Organisation" %}{% endblock %}
 
 {% block content %}
 
-  <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+  <form class="signup" id="signup_form" method="post" action="{% url 'create_organisation' %}">
     {% csrf_token %}
     <img class="mb-4" src="{% static 'assets/a.svg' %}" alt="" width="75" height="75">
-    <h1 class="h3 mb-3 font-weight-normal">{% trans "Sign Up" %}</h1>
-    {% for field in form %}
-      {{ field|as_crispy_field }}
+    <h1 class="h3 mb-3 font-weight-normal">{% trans "Create Organisation" %}</h1>
+    <h6 align="left" class="mt-5">About your organisation</h6>
+    {{ form.organisation_name|as_crispy_field }}
+    <h6 align="left" class="mt-5">About You</h6>
+    {% for field in form.visible_fields|slice:"1:" %}
+        {{ field|as_crispy_field }}
     {% endfor %}
     {% if redirect_field_value %}
     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
@@ -21,10 +24,5 @@
     <button class="primaryAction btn btn-lg btn-primary btn-block" type="submit">{% trans "Sign Up" %}</button>
   </form>
 
-  <small class="text-muted">
-    {% blocktrans %}Already got an account? <a href="{{ login_url }}">Sign In</a>{% endblocktrans %}
-  </small>
-
   <p class="mt-5 mb-3 text-muted">&copy; Activity League</p>
-
 {% endblock %}

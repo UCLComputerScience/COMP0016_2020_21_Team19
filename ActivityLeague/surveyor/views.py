@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
-from allauth.account.views import SignupView
 from .forms import GroupForm, TaskForm, QuestionFormset, AddUserForm
 from .models import *
 from respondent.models import Respondent, Response, GroupRespondent

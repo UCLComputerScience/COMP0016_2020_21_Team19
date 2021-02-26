@@ -16,6 +16,9 @@ urlpatterns = [
     # core
     url(r'^dashboard/?$', core.dashboard, name='dashboard'),
     url(r'^leaderboard/?$', core.leaderboard, name='leaderboard'),
+    url(r'^create_organisation/?$', core.create_organisation, name='create_organisation'),
+
+    # respondent
     url(r'^response/(?P<id>[0-9a-f-]+)/?$', respondent.response, name='response'),
     url(r'^progress/?$', respondent.progress, name='respondent_progress'),
 
