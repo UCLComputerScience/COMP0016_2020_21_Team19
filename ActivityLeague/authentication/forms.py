@@ -20,7 +20,7 @@ class AuthenticationSignupForm(SignupForm):
 
     def save(self, request):
         pass
-        # TODO: Handle signup of surveyor/repsondent based on email link click
+        # TODO: Handle signup of surveyor/respondent based on email link click
 
 class AuthenticationLoginForm(LoginForm):
     class Meta:

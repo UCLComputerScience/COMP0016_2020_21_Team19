@@ -15,6 +15,8 @@ urlpatterns = [
     url(r'^accounts/signup/?$', authentication.AuthenticationSignup.as_view()),
     path('accounts/', include('allauth.urls')),
     
+    url(r'^invitations/', include('invitations.urls', namespace='invitations')),
+    
     # core
     url(r'^dashboard/?$', core.dashboard, name='dashboard'),
     url(r'^leaderboard/?$', core.leaderboard, name='leaderboard'),
