@@ -68,6 +68,8 @@ ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
 
 INVITATIONS_INVITATION_MODEL = 'core.UserInvitation'
 
+INVITATIONS_INVITATION_ONLY = True
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
