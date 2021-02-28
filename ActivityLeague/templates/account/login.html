@@ -61,6 +61,9 @@
   <small class="text-muted">
     {% blocktrans %}Need a new account? <a href="{{ signup_url }}">Register</a>{% endblocktrans %}
   </small>
+  <small class="text-muted">
+    {% blocktrans %}Want to create a new organisation? <a href="{% url 'create_organisation' %}">Create one here</a>{% endblocktrans %}
+  </small>
   {% endif %}
 
   <p class="mt-5 mb-3 text-muted">&copy; Activity League</p>

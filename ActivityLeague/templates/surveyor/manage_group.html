@@ -58,7 +58,12 @@
   </table>
   <button type="button" class="btn btn-primary js-add-user">
     <span class="glyphicon glyphicon-plus"></span>
-    Add Participant...
+    Add Participant
+  </button>
+  
+  <button type="button" class="btn btn-primary js-invite-user">
+    <span class="glyphicon glyphicon-plus"></span>
+    Invite New Participant
   </button>
 </div>
 
@@ -67,6 +72,16 @@
     <div class="modal-dialog">
       <div class="modal-content">
         {% include "surveyor/partials/add_user.html" %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="modal fade" id="modal-invite-user">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        {% include "surveyor/partials/invite_user.html" %}
       </div>
     </div>
   </div>
@@ -85,6 +100,10 @@
   $(function () {
     $(".js-add-user").click(function () {
       $("#modal-add-user").modal('show');
+    });
+
+    $(".js-invite-user").click(function () {
+      $("#modal-invite-user").modal('show');
     });
 
     $(".delete-participant").click(function () {

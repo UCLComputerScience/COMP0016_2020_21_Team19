@@ -4,6 +4,7 @@ from allauth.account.forms import SignupForm, LoginForm
 
 from .models import *
 from respondent.models import *
+from core.models import UserInvitation 
 
 
 RESPONSE_TYPES = [(1, 'Likert Scale'), (2, 'Traffic Light'),(3, 'Text Field'), (4, '1-5 Scale')]
@@ -115,13 +116,30 @@ class AddUserForm(forms.ModelForm):
                 attrs={
                     'id': 'post-respondent',
                     'class' : 'custom-select d-block w-100'
-                    }
-                )
-            )
+                }
+            ),
+            label="Select User:"
+        )
 
     class Meta:
         model = GroupRespondent
         fields = ('respondent',)
-        labels = {
-            'respondent': 'Select User',
-        }
+
+class InviteUserForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(InviteUserForm,self).__init__(*args, **kwargs)
+        self.fields['email'] = forms.EmailField(
+            widget=forms.EmailInput(attrs={
+                'placeholder': "Users's Email",
+                'class' : 'form-control d-block w-100'
+            }),
+            error_messages={
+                'required': "Please enter the user's email address.",
+                'invalid': "Please enter a valid email address."
+            },
+            label="Enter the user's email:"
+        )
+
+    class Meta:
+        model = UserInvitation
+        fields = ('email',)
