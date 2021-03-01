@@ -15,8 +15,8 @@ jobs:
         uses: docker/build-push-action@v1
         with:
           tags: latest
-          path: ActivityLeague
-          dockerfile: ActivityLeague/Dockerfile
+          path: .
+          dockerfile: ./Dockerfile
           repository: uclcomputerscience/comp0016_2020_21_team19/activityleague_web
           registry: docker.pkg.github.com
           username: 1kc2
