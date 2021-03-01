@@ -1,5 +1,7 @@
 # Activity League
 
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+
 ### UCL Project Report Website
 
 The [`ucl`](ucl) directory has the Jekyll project which we will use to generate the static site being deployed on UCL servers.
