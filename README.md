@@ -1,5 +1,8 @@
 # Activity League
 
+![Coverage](./ActivityLeague/coverage.svg)
+<img src="ActivityLeague/coverage.svg">
+
 ### UCL Project Report Website
 
 The [`ucl`](ucl) directory has the Jekyll project which we will use to generate the static site being deployed on UCL servers.
