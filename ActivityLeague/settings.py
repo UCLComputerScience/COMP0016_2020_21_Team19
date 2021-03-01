@@ -64,10 +64,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
+ACCOUNT_ADAPTER = 'core.adapter.UserInvitationsAdapter'
 
 INVITATIONS_INVITATION_MODEL = 'core.UserInvitation'
-
 INVITATIONS_INVITATION_ONLY = True
 
 AUTHENTICATION_BACKENDS = [

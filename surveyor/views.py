@@ -72,7 +72,7 @@ def users(request):
     """
     user = get_object_or_404(Surveyor, user=request.user)
     groups = get_groups(user)
-    colors = ["primary", "secondary", "danger", "warning", "info", "light", "dark"]
+    colors = ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"]
     group_colors = {group.id: random.choice(colors) for group in groups}
 
     respondents = Respondent.objects.none()
