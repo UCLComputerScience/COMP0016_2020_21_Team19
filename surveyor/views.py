@@ -24,6 +24,7 @@ def dashboard(request):
     """    
     user = get_object_or_404(Surveyor, user=request.user)
     tasks, now = get_tasks(user)
+    tasks = [task for task in tasks if not task.completed]
     group_data = get_graphs_and_leaderboards(user)
     return render(request, 'surveyor/dashboard.html', {'user' : user, 'tasks': tasks, 'now':now, 'group_data': group_data})
 
@@ -150,7 +151,19 @@ def task_overview(request, pk_task):
     :type pk_task: uuid.UUID
     :return: The ``surveyor/task_overview.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """    
+    """
+    if request.method == 'POST':
+        if request.POST.get('task_status') == 'complete':
+            task_pk = request.POST.get('task')
+            task = Task.objects.get(pk=task_pk)
+            task.completed = True
+            task.save()
+        if request.POST.get('task_status') == 'incomplete':
+            task_pk = request.POST.get('task')
+            task = Task.objects.get(pk=task_pk)
+            task.completed = False
+            task.save()
+    
     user = get_object_or_404(Surveyor, user=request.user)
     task = get_object_or_404(Task, pk=pk_task)
     questions = Question.objects.filter(task=task)
