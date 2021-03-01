@@ -6,3 +6,4 @@ wordcloud
 coverage
 sphinx
 django-invitations
+coverage-badge

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'crispy_forms',
+
     'invitations',
 
     'core',
@@ -64,6 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ACCOUNT_ADAPTER = 'core.adapter.UserInvitationsAdapter'
 
 INVITATIONS_INVITATION_MODEL = 'core.UserInvitation'
@@ -79,6 +81,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_UNIQUE = True
 ACCOUNT_USERNAME_REQUIRED = False
 
+
 if DEBUG: # not being used
     EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
@@ -89,6 +92,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = 'theactivityleague@gmail.com'
 EMAIL_HOST_PASSWORD = 'N4@5z@7me7h$#^'
+
 
 ROOT_URLCONF = 'ActivityLeague.urls'
 

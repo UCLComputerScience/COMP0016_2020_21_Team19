@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django import forms
 from core.utils import *
 from surveyor.utils import *
+
 from core.models import UserInvitation
 
 @login_required(login_url='/accounts/login/')
@@ -313,7 +314,7 @@ def manage_group(request, pk_group):
             respondent_pk = request.POST.get('respondent')
             respondent = Respondent.objects.get(pk=respondent_pk)
             new_object = GroupRespondent.objects.create(group=group, respondent=respondent)
-
+            
     user = get_object_or_404(Surveyor, user=request.user)
     group = Group.objects.get(pk=pk_group)
     respondents = get_group_participants(group)

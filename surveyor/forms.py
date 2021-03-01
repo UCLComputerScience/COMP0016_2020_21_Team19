@@ -121,9 +121,11 @@ class AddUserForm(forms.ModelForm):
             label="Select User:"
         )
 
+
     class Meta:
         model = GroupRespondent
         fields = ('respondent',)
+
 
 class InviteUserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -143,3 +145,4 @@ class InviteUserForm(forms.ModelForm):
     class Meta:
         model = UserInvitation
         fields = ('email',)
+

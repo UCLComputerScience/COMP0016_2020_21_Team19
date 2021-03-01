@@ -5,13 +5,16 @@ from django.conf.urls import url
 from respondent import views as respondent
 from surveyor import views as surveyor
 from core import views as core
+
 from authentication import views as authentication
+
 from django.http.response import HttpResponseRedirect
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda r: HttpResponseRedirect('/accounts/login')),
+
     url(r'^accounts/signup/?$', authentication.AuthenticationSignup.as_view()),
     path('accounts/', include('allauth.urls')),
     
