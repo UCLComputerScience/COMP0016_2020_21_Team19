@@ -115,7 +115,7 @@ def get_questions(pk_task):
             response_type = None
         
         word_cloud = None
-        if response_type == "text":
+        if response_type == "text": # TODO: separate into positive and negative
             word_cloud = create_word_cloud(responses)
         
         link_clicks = 0

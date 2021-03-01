@@ -103,8 +103,12 @@ def response(request, id):
                 Response.objects.create(question=q, respondent=user, value=tl_dict[data], date_time=current_date_time, link_clicked=link_clicked)
             elif q.response_type == 4: # Numerical Radio Buttons
                 Response.objects.create(question=q, respondent=user, value=int(data), date_time=current_date_time, link_clicked=link_clicked)
-            else: # Text
+            elif q.response_type == 3: # Text
                 Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time, link_clicked=link_clicked)
+            elif q.response_type == 5: # Text (Positive)
+                Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time, link_clicked=link_clicked, text_positive=True)
+            else: # == 6 | Text (Negative)
+                Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time, link_clicked=link_clicked, text_positive=False)
 
             # mark completed if all respondents have completed the task
             group = q.task.group

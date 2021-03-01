@@ -31,5 +31,6 @@ class Response(models.Model):
     respondent = models.ForeignKey(Respondent, on_delete=models.SET_NULL, null=True)
     value = models.SmallIntegerField(null=True)
     text = models.CharField(max_length=30, null=True)
+    text_positive = models.BooleanField(null=True, default=None)
     date_time = models.DateTimeField()
     link_clicked = models.BooleanField(default=False)
