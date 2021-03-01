@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import *
 from surveyor.models import *
-from allauth.account.views import SignupView
+
 from django.contrib.auth.decorators import login_required
 from core.utils import *
 
@@ -105,6 +105,16 @@ def response(request, id):
                 Response.objects.create(question=q, respondent=user, value=int(data), date_time=current_date_time, link_clicked=link_clicked)
             else: # Text
                 Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time, link_clicked=link_clicked)
+
+            # mark completed if all respondents have completed the task
+            group = q.task.group
+            questions = Question.objects.filter(task=q.task)
+            num_responses = Response.objects.filter(question__in=questions).count()
+            if num_responses == get_num_respondents_in_group(group):
+                task = q.task
+                task.completed = True
+                task.save()
+
         return redirect('/dashboard')
     else:
         return render(request, 'respondent/response.html', {'user' : user, 'task' : task, 'questions' : questions})

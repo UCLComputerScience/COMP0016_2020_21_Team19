@@ -58,6 +58,7 @@
           <th data-sortable="true" data-field="users_assigned">Users Assigned</th>
           <th data-sortable="true" data-field="users_completed">Users Completed</th>
           <th data-sortable="true" data-field="due_date" data-sorter="dateSorter">Due Date</th>
+          <th data-sortable="true" data-field="status">Status</th>
         </tr>
       </thead>
       <tbody>
@@ -70,6 +71,15 @@
             <td class="align-middle">
                 {{ task.due_date }}
                 <small class="text-muted d-block">{{ task.due_time|time:"H:i" }}</small>
+            </td>
+            <td class="align-middle">
+              <a class="badge rounded-pill badge-{% if task.completed %}success{% else %}danger{% endif %}">
+                {% if task.completed %}
+                  Completed
+                {% else %}
+                  Incomplete
+                {% endif %}
+              </a>
             </td>
           </tr>
         {% endfor %}

@@ -32,6 +32,7 @@ class Task(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     due_date = models.DateField()
     due_time = models.TimeField()
+    completed = models.BooleanField(default=False)
     
     def __str__(self):
         return self.title

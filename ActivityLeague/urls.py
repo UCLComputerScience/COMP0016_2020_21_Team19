@@ -5,17 +5,27 @@ from django.conf.urls import url
 from respondent import views as respondent
 from surveyor import views as surveyor
 from core import views as core
+
+from authentication import views as authentication
+
 from django.http.response import HttpResponseRedirect
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda r: HttpResponseRedirect('/accounts/login')),
+
+    url(r'^accounts/signup/?$', authentication.AuthenticationSignup.as_view()),
     path('accounts/', include('allauth.urls')),
+    
+    url(r'^invitations/', include('invitations.urls', namespace='invitations')),
     
     # core
     url(r'^dashboard/?$', core.dashboard, name='dashboard'),
     url(r'^leaderboard/?$', core.leaderboard, name='leaderboard'),
+    url(r'^create_organisation/?$', core.OrganisationSignup.as_view(), name='create_organisation'),
+
+    # respondent
     url(r'^response/(?P<id>[0-9a-f-]+)/?$', respondent.response, name='response'),
     url(r'^progress/?$', respondent.progress, name='respondent_progress'),
 

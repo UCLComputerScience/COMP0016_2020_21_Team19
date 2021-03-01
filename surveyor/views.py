@@ -1,8 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
-from allauth.account.views import SignupView
-from .forms import GroupForm, TaskForm, QuestionFormset, AddUserForm
+from .forms import GroupForm, TaskForm, QuestionFormset, AddUserForm, InviteUserForm
 from .models import *
 from respondent.models import Respondent, Response, GroupRespondent
 from respondent.views import calculate_score
@@ -10,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django import forms
 from core.utils import *
 from surveyor.utils import *
+
+from core.models import UserInvitation
 
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
@@ -24,6 +25,7 @@ def dashboard(request):
     """    
     user = get_object_or_404(Surveyor, user=request.user)
     tasks, now = get_tasks(user)
+    tasks = [task for task in tasks if not task.completed]
     group_data = get_graphs_and_leaderboards(user)
     return render(request, 'surveyor/dashboard.html', {'user' : user, 'tasks': tasks, 'now':now, 'group_data': group_data})
 
@@ -71,7 +73,7 @@ def users(request):
     """
     user = get_object_or_404(Surveyor, user=request.user)
     groups = get_groups(user)
-    colors = ["primary", "secondary", "danger", "warning", "info", "light", "dark"]
+    colors = ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"]
     group_colors = {group.id: random.choice(colors) for group in groups}
 
     respondents = Respondent.objects.none()
@@ -150,7 +152,19 @@ def task_overview(request, pk_task):
     :type pk_task: uuid.UUID
     :return: The ``surveyor/task_overview.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """    
+    """
+    if request.method == 'POST':
+        if request.POST.get('task_status') == 'complete':
+            task_pk = request.POST.get('task')
+            task = Task.objects.get(pk=task_pk)
+            task.completed = True
+            task.save()
+        if request.POST.get('task_status') == 'incomplete':
+            task_pk = request.POST.get('task')
+            task = Task.objects.get(pk=task_pk)
+            task.completed = False
+            task.save()
+    
     user = get_object_or_404(Surveyor, user=request.user)
     task = get_object_or_404(Task, pk=pk_task)
     questions = Question.objects.filter(task=task)
@@ -274,18 +288,36 @@ def manage_group(request, pk_group):
     :rtype: django.http.HttpResponse
     """    
     if request.method == 'POST':
-        if request.POST.get('request_type') == 'delete_participant':
+        group = Group.objects.get(pk=pk_group)
+        if request.POST.get('request_type') == 'delete_participant': # Deleting a participant
             respondent_pk = request.POST.get('respondent')
             respondent = Respondent.objects.get(pk=respondent_pk)
-            group = Group.objects.get(pk=pk_group)
             GroupRespondent.objects.filter(respondent=respondent, group=group).delete()
-        else:            
+        elif request.POST.get('request_type') == 'invite': # Inviting a participant
+            email = request.POST.get('email')
+            if User.objects.filter(email=email).exists():
+                user = User.objects.get(email=email)
+                respondent = Respondent.objects.get(user=user)
+                GroupRespondent.objects.create(
+                    group=group, 
+                    respondent=respondent
+                )
+            else:
+                invite = UserInvitation.create(
+                    email,
+                    inviter=request.user,
+                    group=group,
+                    is_respondent=True
+                )
+                invite.send_invitation(request)
+        else: # Adding a participant
             respondent_pk = request.POST.get('respondent')
             respondent = Respondent.objects.get(pk=respondent_pk)
-            group = Group.objects.get(pk=pk_group)
             new_object = GroupRespondent.objects.create(group=group, respondent=respondent)
+            
     user = get_object_or_404(Surveyor, user=request.user)
     group = Group.objects.get(pk=pk_group)
     respondents = get_group_participants(group)
     form = AddUserForm(group_pk=pk_group)
-    return render(request, 'surveyor/manage_group.html', {'user': user, 'participants': respondents, 'group': group, 'form': form})
+    form_inv = InviteUserForm()
+    return render(request, 'surveyor/manage_group.html', {'user': user, 'participants': respondents, 'group': group, 'form': form, 'form_inv': form_inv})

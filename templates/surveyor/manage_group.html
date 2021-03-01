@@ -58,7 +58,12 @@
   </table>
   <button type="button" class="btn btn-primary js-add-user">
     <span class="glyphicon glyphicon-plus"></span>
-    Add Participant...
+    <span data-toggle="tooltip" data-placement="bottom" title="Click this if you want to add a user from another group that you manage to this group.">Add Participant</span>
+  </button>
+  
+  <button type="button" class="btn btn-primary js-invite-user">
+    <span class="glyphicon glyphicon-plus"></span>
+    <span data-toggle="tooltip" data-placement="bottom" title="Click this if you want to add a user who is not registered on the platform or not in a group you manage.">Invite New Participant</span>
   </button>
 </div>
 
@@ -71,6 +76,17 @@
     </div>
   </div>
 </div>
+
+<div>
+  <div class="modal fade" id="modal-invite-user">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        {% include "surveyor/partials/invite_user.html" %}
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block scripts %}
@@ -85,6 +101,10 @@
   $(function () {
     $(".js-add-user").click(function () {
       $("#modal-add-user").modal('show');
+    });
+
+    $(".js-invite-user").click(function () {
+      $("#modal-invite-user").modal('show');
     });
 
     $(".delete-participant").click(function () {

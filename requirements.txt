@@ -5,4 +5,5 @@ django-crispy-forms
 wordcloud
 coverage
 sphinx
+django-invitations
 coverage-badge

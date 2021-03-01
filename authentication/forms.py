@@ -3,48 +3,57 @@ from django.forms import modelformset_factory
 from allauth.account.forms import SignupForm, LoginForm
 
 from surveyor.models import Surveyor
-from respondent.models import Respondent
+
+from respondent.models import Respondent, GroupRespondent
+from core.models import SurveyorOrganisation, UserInvitation
+
 
 class AuthenticationSignupForm(SignupForm):
     firstname = forms.CharField(max_length=30, min_length=1, widget=forms.TextInput(attrs={'placeholder': 'Firstname'}))
     
     surname = forms.CharField(max_length=30, min_length=1, widget=forms.TextInput(attrs={'placeholder': 'Surname'}))
-    
-    USERTYPES=[('respondent','Respondent'),
-               ('surveyor','Surveyor')]
-    
-    user_type = forms.ChoiceField(choices=USERTYPES, widget=forms.RadioSelect)
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
         self.fields['email'].label = ""
         self.fields['firstname'].label = ""
         self.fields['surname'].label = ""
         self.fields['password1'].label = ""
         self.fields['password2'].label = ""
-        self.fields['user_type'].label = ""
 
     def save(self, request):
         user = super(AuthenticationSignupForm, self).save(request)
+        invite = UserInvitation.objects.get(email=self.cleaned_data.get('email'))
 
-        user_type = self.cleaned_data.get('user_type')
+        if invite.is_respondent:
+            group = invite.group
+            respondent = Respondent(
 
-        if user_type == 'surveyor':
+                user=user,
+                firstname=self.cleaned_data.get('firstname'),
+                surname=self.cleaned_data.get('surname')
+            )
+            respondent.save()
+            group_respondent = GroupRespondent(
+                group=group,
+                respondent=respondent
+            )
+            group_respondent.save()
+        else:
+            organisation = invite.organisation
             surveyor = Surveyor(
                 user=user,
                 firstname=self.cleaned_data.get('firstname'),
                 surname=self.cleaned_data.get('surname')
             )
             surveyor.save()
-        else:
-            respondent = Respondent(
-                user=user,
-                firstname=self.cleaned_data.get('firstname'),
-                surname=self.cleaned_data.get('surname')
+            surveyor_organisation = SurveyorOrganisation(
+                surveyor=surveyor,
+                organisation=organisation
             )
-            respondent.save()
-
+            surveyor_organisation.save()
+       
         return user
 
 class AuthenticationLoginForm(LoginForm):

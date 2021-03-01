@@ -35,7 +35,15 @@
         
 {% block content %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-  <h1 class="h2">Task Overview: {{task}}</h1>
+  <h1>Task Overview: {{task}}
+  <a class="badge rounded-pill badge-{% if task.completed %}success{% else %}danger{% endif %}">
+    {% if task.completed %}
+      Completed
+    {% else %}
+      Incomplete
+    {% endif %}
+  </a>
+  </h1> 
 </div>
 
 <!-- Info Cards -->
@@ -73,31 +81,40 @@
 </div>
 
 <div class="border m-5 rounded bg-light" id="responses-container">
-<div id="accordion" class="accordion">
-    {% for question in questions %}
-    <div id="{{ question.id }}" class="card">
-      <div class="card-header clickable-header d-flex justify-content-between align-items-center" id="{{ question.id }}_heading" data-toggle="collapse" data-target="#{{ question.id }}_collapse" aria-expanded="false" aria-controls="{{ question.id }}_collapse">
-          <button class="btn btn-link collapsed">{{ question.description }}</button>
-          {% if question.link %}
-              <a class="text-muted"> Link clicked {{question.link_clicks}} times</a>
-          {% endif %}
-      </div>
-
-      <div id="{{ question.id }}_collapse" class="collapse" aria-labelledby="{{ question.id }}_heading">
-        <div class="card-body p-5" align="center">
-          {% if task_respondents_completed > 0 %}
-            {% if question.type == 'text' %}
-              <div id="{{ question.id }}_cloud"></div>
-            {% else %}
-              <canvas id="{{ question.id }}_canvas"></canvas>
+  <div id="accordion" class="accordion">
+      {% for question in questions %}
+      <div id="{{ question.id }}" class="card">
+        <div class="card-header clickable-header d-flex justify-content-between align-items-center" id="{{ question.id }}_heading" data-toggle="collapse" data-target="#{{ question.id }}_collapse" aria-expanded="false" aria-controls="{{ question.id }}_collapse">
+            <button class="btn btn-link collapsed">{{ question.description }}</button>
+            {% if question.link %}
+                <a class="text-muted"> Link clicked {{question.link_clicks}} times</a>
             {% endif %}
-          {% else %}
-            <p class="lead">No one has answered this question yet!</p>
-          {% endif %}
+        </div>
+
+        <div id="{{ question.id }}_collapse" class="collapse" aria-labelledby="{{ question.id }}_heading">
+          <div class="card-body p-5" align="center">
+            {% if task_respondents_completed > 0 %}
+              {% if question.type == 'text' %}
+                <div id="{{ question.id }}_cloud"></div>
+              {% else %}
+                <canvas id="{{ question.id }}_canvas"></canvas>
+              {% endif %}
+            {% else %}
+              <p class="lead">No one has answered this question yet!</p>
+            {% endif %}
+          </div>
         </div>
       </div>
-    </div>
-    {% endfor %}
+      {% endfor %}
+  </div>
+</div>
+
+<div class="m-5 rounded align-right" align="right">
+  {% if task.completed %}
+    <button class="btn btn-danger" id="incomplete" type="button" data-task="{{task.pk}}">Mark as incomplete</button>
+  {% else %}
+    <button class="btn btn-success" id="complete" type="button" data-task="{{task.pk}}">Mark as complete</button>
+  {% endif %}
 </div>
 {% endblock %}
 
@@ -111,6 +128,31 @@ $(function() {
         $('#accordion .collapse').collapse('hide');
     })
 });
+$("#complete").click(function () {
+      var btn = $(this);
+      var task = btn.data('task');
+      var form = $('<form method="post">');
+      form.append('{% csrf_token %}');
+      form.append('<input name="task" value="' + task + '" />');
+      form.append('<input name="task_status" value="complete" />');
+      $('body').append(form);
+      form.submit();
+      return false;
+      if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
+    });
+
+$("#incomplete").click(function () {
+      var btn = $(this);
+      var task = btn.data('task');
+      var form = $('<form method="post">');
+      form.append('{% csrf_token %}');
+      form.append('<input name="task" value="' + task + '" />');
+      form.append('<input name="task_status" value="incomplete" />');
+      $('body').append(form);
+      form.submit();
+      return false;
+      if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
+    });
 </script>
 {% if task_respondents_completed > 0 %}
   {% for question in questions %}
