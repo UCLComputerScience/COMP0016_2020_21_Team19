@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
-from .forms import GroupForm, TaskForm, QuestionFormset, AddUserForm, InviteUserForm
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from .forms import GroupForm, TaskForm, QuestionFormset, AddUserForm, InviteUserForm, MultipleUserForm
 from .models import *
 from respondent.models import Respondent, Response, GroupRespondent
 from respondent.views import calculate_score
@@ -9,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django import forms
 from core.utils import *
 from surveyor.utils import *
+from tablib import Dataset
+from email.utils import parseaddr
 
 from core.models import UserInvitation
 
@@ -286,7 +290,7 @@ def manage_group(request, pk_group):
     :type pk_group: uuid.UUID
     :return: The ``surveyor/manage_group.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """    
+    """ 
     if request.method == 'POST':
         group = Group.objects.get(pk=pk_group)
         if request.POST.get('request_type') == 'delete_participant': # Deleting a participant
@@ -310,6 +314,26 @@ def manage_group(request, pk_group):
                     is_respondent=True
                 )
                 invite.send_invitation(request)
+        elif request.POST.get('request_type') == 'import': # Add multiple participants
+            dataset = Dataset()
+            new_persons = request.FILES['file']
+            imported_data = dataset.load(new_persons.read(), format='xlsx', headers=False)
+
+            for entry in imported_data:
+                if entry[0]:
+                    try:
+                        validate_email(entry[0])
+                    except ValidationError:
+                        print("INVALID ", entry[0])
+                        continue
+                    invite = UserInvitation.create(
+                        str(entry[0]),
+                        inviter=request.user,
+                        group=group,
+                        is_respondent=True
+                    )
+                    # invite.send_invitation(request)
+        
         else: # Adding a participant
             respondent_pk = request.POST.get('respondent')
             respondent = Respondent.objects.get(pk=respondent_pk)
@@ -320,4 +344,5 @@ def manage_group(request, pk_group):
     respondents = get_group_participants(group)
     form = AddUserForm(group_pk=pk_group)
     form_inv = InviteUserForm()
-    return render(request, 'surveyor/manage_group.html', {'user': user, 'participants': respondents, 'group': group, 'form': form, 'form_inv': form_inv})
+    import_form = MultipleUserForm()
+    return render(request, 'surveyor/manage_group.html', {'user': user, 'participants': respondents, 'group': group, 'form': form, 'form_inv': form_inv, 'import_form': import_form})

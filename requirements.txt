@@ -7,3 +7,4 @@ coverage
 sphinx
 django-invitations
 coverage-badge
+django-import-export

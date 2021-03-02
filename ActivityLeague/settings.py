@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'crispy_forms',
 
     'invitations',
+    'import_export',
 
     'core',
     'surveyor',

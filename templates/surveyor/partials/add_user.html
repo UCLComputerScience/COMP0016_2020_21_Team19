@@ -1,27 +1,21 @@
 <form method="post" id="post-form">
-    {% csrf_token %}
-    <div class="modal-header">
-        <h4 class="modal-title">Add a new participant to this group</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-md-9">
-                <label for="name">{{ form.respondent.label }}</label>
-                {{ form.respondent }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-9">
-                <label for="name">{{ form.email.label }}</label>
-                {{ form.email }}
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" id="add_participant">Add Participant</button>
-    </div>
+  {% csrf_token %}
+  <div class="modal-header">
+    <h5 class="modal-title">Select a participant to add to this group</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>
+      Select a user from a group that you already manage to add to this group.
+    </p>
+    <label for="name">{{ form.respondent.label }}</label>
+    {{ form.respondent }}
+    <label for="name">{{ form.email.label }}</label>
+    {{ form.email }}
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" id="add-participant">Add participant</button>
+  </div>
 </form>
