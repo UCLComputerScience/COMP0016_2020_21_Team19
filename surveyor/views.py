@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from .forms import GroupForm, TaskForm, QuestionFormset, AddUserForm, InviteUserForm, MultipleUserForm
@@ -170,6 +171,7 @@ def task_overview(request, pk_task):
             task = Task.objects.get(pk=task_pk)
             task.completed = False
             task.save()
+        return HttpResponseRedirect(reverse("task_overview", args=(pk_task,)))
     
     user = get_object_or_404(Surveyor, user=request.user)
     task = get_object_or_404(Task, pk=pk_task)
@@ -223,7 +225,7 @@ def new_task(request):
             task.due_date = form.cleaned_data['due_date']
             task.due_time = form.cleaned_data['due_time']
             task.group = Group.objects.get(name=form.cleaned_data['group'])
-            return redirect('dashboard')
+            return HttpResponseRedirect(reverse('dashboard'))
     else:
         form = NewTaskForm()
 
@@ -250,6 +252,8 @@ def new_group(request):
             data['form_is_valid'] = True
         else:
             data['form_is_valid'] = False
+        
+        return HttpResponseRedirect(reverse("new_group"))
     else:
         form = GroupForm()
 
@@ -275,6 +279,7 @@ def groups(request):
         if request.POST.get('request_type') == 'delete_group':
             group_pk = request.POST.get('group')
             group = Group.objects.filter(pk=group_pk).delete()
+        return HttpResponseRedirect(reverse("groups"))
 
     groups = get_groups(user)
     for group in groups:
@@ -340,7 +345,7 @@ def manage_group(request, pk_group):
             respondent_pk = request.POST.get('respondent')
             respondent = Respondent.objects.get(pk=respondent_pk)
             new_object = GroupRespondent.objects.create(group=group, respondent=respondent)
-            
+        return HttpResponseRedirect(reverse("manage_group", args=(pk_group,)))
     user = get_object_or_404(Surveyor, user=request.user)
     group = Group.objects.get(pk=pk_group)
     respondents = get_group_participants(group)

@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
-from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from .models import *
 from surveyor.models import *
@@ -119,6 +120,6 @@ def response(request, id):
                 task.completed = True
                 task.save()
 
-        return redirect('/dashboard')
+        return HttpResponseRedirect(reverse('dashboard'))
     else:
         return render(request, 'respondent/response.html', {'user' : user, 'task' : task, 'questions' : questions})
