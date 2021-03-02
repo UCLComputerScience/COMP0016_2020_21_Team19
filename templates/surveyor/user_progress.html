@@ -40,13 +40,22 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
   <h1>Respondent: {{ respondent }}</h1>
 </div>
+<div class="row" align="center">
+  {% if negative_word_cloud %}
+    <figure class="col" id="negative-word-cloud">
+    <figcaption>{{respondent}}'s word cloud for negative questions</figcaption></figure>
+  {% endif %}
 
-{% if overall_word_cloud %}
-<div align="center">
-  <div id="word-cloud"></div>
-  <p><small>{{respondent}}'s word cloud</small></p>
+  {% if neutral_word_cloud %}
+    <figure class="col" id="neutral-word-cloud">
+    <figcaption>{{respondent}}'s word cloud for neutral questions</figcaption></figure>
+  {% endif %}
+
+  {% if positive_word_cloud %}
+    <figure class="col" id="positive-word-cloud">
+    <figcaption>{{respondent}}'s word cloud for positive questions</figcaption></figure>
+  {% endif %}
 </div>
-{% endif %}
 
   <div class="btn-group pt-3 mb-4" style="margin:20px" role="group" id="button-container">
     {% for graph in graphs %}
@@ -107,14 +116,36 @@ $('#table').bootstrapTable({
 })
 </script>
 
-{% if overall_word_cloud %}
+{% if neutral_word_cloud %}
 <script>
-  var ctx = document.getElementById("word-cloud");
+  var ctx = document.getElementById("neutral-word-cloud");
   img = document.createElement('img');
-  img.src = "{{ overall_word_cloud }}";
-  img.style.width = "25%";
+  img.src = "{{ neutral_word_cloud }}";
+  img.style.width = "75%";
   img.style.height = "auto";
-  ctx.appendChild(img);
+  ctx.prepend(img);
+</script>
+{% endif %}
+
+{% if positive_word_cloud %}
+<script>
+  var ctx = document.getElementById("positive-word-cloud");
+  img = document.createElement('img');
+  img.src = "{{ positive_word_cloud }}";
+  img.style.width = "75%";
+  img.style.height = "auto";
+  ctx.prepend(img);
+</script>
+{% endif %}
+
+{% if negative_word_cloud %}
+<script>
+  var ctx = document.getElementById("negative-word-cloud");
+  img = document.createElement('img');
+  img.src = "{{ negative_word_cloud }}";
+  img.style.width = "75%";
+  img.style.height = "auto";
+  ctx.prepend(img);
 </script>
 {% endif %}
 

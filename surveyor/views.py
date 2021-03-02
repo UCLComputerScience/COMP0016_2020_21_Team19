@@ -111,11 +111,13 @@ def user_progress(request, pk_user):
     for task in tasks:
         if has_responded_to_task(respondent, task):
             new_tasks.append(task)
-    word_cloud = get_overall_word_cloud(user, respondent)
+    neutral_word_cloud = get_overall_word_cloud(user, respondent)
+    positive_word_cloud = get_overall_word_cloud(user, respondent, text_positive=True)
+    negative_word_cloud = get_overall_word_cloud(user, respondent, text_positive=False)
     graphs = [graph for graph in get_progress_graphs(respondent) if graph['id'] in groups]
     for graph in graphs:
         del graph['id']
-    return render(request, 'surveyor/user_progress.html', {'user': user, 'respondent': respondent, 'tasks': new_tasks, 'graphs': graphs, 'overall_word_cloud': word_cloud})
+    return render(request, 'surveyor/user_progress.html', {'user': user, 'respondent': respondent, 'tasks': new_tasks, 'graphs': graphs, 'neutral_word_cloud': neutral_word_cloud, 'positive_word_cloud': positive_word_cloud, 'negative_word_cloud': negative_word_cloud})
 
 @login_required(login_url='/accounts/login/')
 def user_response(request, pk_user, pk_task):

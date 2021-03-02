@@ -111,11 +111,13 @@ def get_questions(pk_task):
             response_type = "numerical-radio"
             pie_chart_labels = ['1', '2', '3', '4', '5']
             pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
-        else:
-            response_type = None
+        elif question.response_type == 5: # Text (Positive)
+            response_type = "text-positive"
+        else: # == 6 Text (Negative)
+            response_type = "text-negative"
         
         word_cloud = None
-        if response_type == "text": # TODO: separate into positive and negative
+        if response_type in ["text", "text-positive", "text-negative"]: # TODO: separate into positive and negative
             word_cloud = create_word_cloud(responses)
         
         link_clicks = 0
@@ -134,7 +136,7 @@ def get_questions(pk_task):
 
     return data
 
-def get_overall_word_cloud(surveyor, respondent):
+def get_overall_word_cloud(surveyor, respondent, text_positive=None):
     """
     Gets the combined word cloud for the all of the text responses given by a certain ``Respondent`` to tasks
     set by a given ``Surveyor``.
@@ -143,11 +145,15 @@ def get_overall_word_cloud(surveyor, respondent):
     :type surveyor: Surveyor
     :param respondent: The ``Respondent`` for which to get responses from.
     :type respondent: Respondent
+    :param text_positive: Set to True if you want to collect strictly positive responses. Set to False
+                          if you want strictly negative reponses and set to None (or leave blank) if you
+                          want to collect responses which are neutral. 
+    :type respondent: bool
     :return: A string representing the path of the bytestream of the word cloud image.
     :rtype: str
-    """    
+    """
     groups = get_groups(surveyor)
     responses = get_responses(surveyor, respondent=respondent)
-    responses = responses.filter(text__isnull=False) # get only text responses
+    responses = responses.filter(text__isnull=False, text_positive=text_positive) # get only text responses
     word_cloud = create_word_cloud(responses)
     return word_cloud

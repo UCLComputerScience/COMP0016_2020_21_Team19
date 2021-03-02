@@ -44,8 +44,8 @@
 
   {% for question in questions %}
 
-  {# Text Response #}
-  {% if question.response_type == 3 %}
+  {# Text Response (any) #}
+  {% if question.response_type == 3 or question.response_type == 5 or question.response_type == 6 %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
