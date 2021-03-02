@@ -35,13 +35,13 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 {% if not groups %}border-bottom{% endif %}">
   <h1>Groups</h1>
 </div>
 <div>
   <table class="table table-striped table-hover">
       {% if not groups %}
-        <p class="lead">You aren't currently managing any groups. Create one through the dashboard now!</p>
+        <p class="lead">You aren't currently managing any groups. Create one now!</p>
       {% else %}
       <thead class="thead">
         <tr>
