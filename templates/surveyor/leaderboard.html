@@ -34,7 +34,9 @@
 {% endblock %}
 
 {% block content %}
-<h2>Leaderboard</h2>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1>Leaderboard</h1>
+</div>
 <div class="btn-group pt-3 mb-4" role="group" id="button-container">
   <button class="btn btn-primary mr-2 rounded" onclick="render({{ overall_leaderboard | safe }}, this)">Overall</button>
   {% for gr in groups %}

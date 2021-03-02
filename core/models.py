@@ -47,6 +47,8 @@ class UserInvitation(AbstractBaseInvitation):
     
     @classmethod
     def create(cls, email, inviter=None, organisation=None, group=None, is_respondent=False, **kwargs):
+        if UserInvitation.objects.filter(email=email).exists():
+            UserInvitation.objects.filter(email=email).delete()
         key = get_random_string(64).lower()
         instance = cls._default_manager.create(
             email=email,
@@ -57,6 +59,7 @@ class UserInvitation(AbstractBaseInvitation):
             is_respondent=is_respondent,
             **kwargs)
         return instance
+
 
     def key_expired(self):
         expiration_date = (

@@ -1,22 +1,17 @@
 <form method="post" id="post-form_inv">
-    {% csrf_token %}
-    <input type='hidden' value='invite' name="request_type">
-    <div class="modal-header">
-        <h4 class="modal-title">Invite a new participant to this group</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-md-9">
-                <label for="name">{{ form_inv.email.label }}</label>
-                {{ form_inv.email }}
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" id="invite_user">Invite Participant</button>
-    </div>
+  {% csrf_token %}
+  <input type="hidden" value="invite" name="request_type" />
+  <div class="modal-header">
+    <h5 class="modal-title">Invite new participant via email</h5>
+  </div>
+  <div class="modal-body">
+    <p>
+      Send an email invite to a user who is not registered on the system or in a group you already manage.
+    </p>
+    <label for="name">{{ form_inv.email.label }}</label>
+    {{ form_inv.email }}
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" id="invite_user">Send Invite</button>
+  </div>
 </form>

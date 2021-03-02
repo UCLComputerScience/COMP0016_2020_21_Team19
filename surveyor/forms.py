@@ -146,3 +146,5 @@ class InviteUserForm(forms.ModelForm):
         model = UserInvitation
         fields = ('email',)
 
+class MultipleUserForm(forms.Form):
+    file = forms.FileField()
