@@ -10,7 +10,7 @@ from core.models import UserInvitation
 RESPONSE_TYPES = [
     (1, 'Likert Scale'),
     (2, 'Traffic Light'),
-    (3, 'Text Field'),
+    (3, 'Text (Neutral)'),
     (4, '1-5 Scale'),
     (5, 'Text (Positive)'),
     (6, 'Text (Negative)')

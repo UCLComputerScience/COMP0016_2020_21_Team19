@@ -105,7 +105,11 @@ def get_questions(pk_task):
             response_type = "traffic"
             pie_chart_labels = ['Red', 'Yellow', 'Green']
             pie_chart_data = [responses.filter(value=i).count() for i in range(1, 4)]
-        elif question.response_type in [3, 5, 6]: # any of the text responses
+        elif question.response_type == 3: # neutral text
+            response_type = "text"
+        elif question.response_type == 5: # positive text
+            response_type = "text"
+        elif question.response_type == 6: # negative text
             response_type = "text"
         elif question.response_type == 4:
             response_type = "numerical-radio"
@@ -113,7 +117,7 @@ def get_questions(pk_task):
             pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
         
         word_cloud = None
-        if response_type == "text":
+        if response_type in ["text", "text-positive", "text-negative"] :
             word_cloud = create_word_cloud(responses)
         
         link_clicks = 0
