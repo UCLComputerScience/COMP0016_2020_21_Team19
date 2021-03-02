@@ -7,7 +7,14 @@ from respondent.models import *
 from core.models import UserInvitation 
 
 
-RESPONSE_TYPES = [(1, 'Likert Scale'), (2, 'Traffic Light'),(3, 'Text Field'), (4, '1-5 Scale')]
+RESPONSE_TYPES = [
+    (1, 'Likert Scale'),
+    (2, 'Traffic Light'),
+    (3, 'Text Field'),
+    (4, '1-5 Scale'),
+    (5, 'Text (Positive)'),
+    (6, 'Text (Negative)')
+    ]
 
 class TaskForm(forms.ModelForm):
 
