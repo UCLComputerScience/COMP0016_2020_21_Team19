@@ -153,5 +153,3 @@ def get_overall_word_cloud(surveyor, respondent, text_positive=None):
     responses = responses.filter(text__isnull=False, text_positive=text_positive) # get only text responses
     word_cloud = create_word_cloud(responses)
     return word_cloud
-    word_cloud = create_word_cloud(responses)
-    return word_cloud
