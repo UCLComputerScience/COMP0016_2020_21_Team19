@@ -1,9 +1,10 @@
-from django.test import TestCase, RequestFactory
-from django.urls import reverse
 from django.contrib.auth.models import AnonymousUser, User
+from django.test import TestCase, RequestFactory
+
 from core.views import dashboard, leaderboard
 from respondent.models import Respondent
 from surveyor.models import Surveyor
+
 
 class CoreViewTest(TestCase):
     def setUp(self):
@@ -17,14 +18,14 @@ class CoreViewTest(TestCase):
         request.user = self.user
         request.user = AnonymousUser()
         response = dashboard(request)
-        self.assertEqual(response.status_code, 302) # 302 = redirected to login
+        self.assertEqual(response.status_code, 302)  # 302 = redirected to login
 
     def test_leaderboard_not_logged_in(self):
         request = self.factory.get('/leaderboard')
         request.user = self.user
         request.user = AnonymousUser()
         response = dashboard(request)
-        self.assertEqual(response.status_code, 302) # 302 = redirected to login
+        self.assertEqual(response.status_code, 302)  # 302 = redirected to login
 
     def test_dashboard_surveyor(self):
         request = self.factory.get('/dashboard')

@@ -1,11 +1,9 @@
 from django import forms
 from django.forms import modelformset_factory
-from allauth.account.forms import SignupForm, LoginForm
 
-from .models import *
+from core.models import UserInvitation
 from respondent.models import *
-from core.models import UserInvitation 
-
+from .models import *
 
 RESPONSE_TYPES = [
     (1, 'Likert Scale'),
@@ -14,7 +12,8 @@ RESPONSE_TYPES = [
     (4, '1-5 Scale'),
     (5, 'Text (Positive)'),
     (6, 'Text (Negative)')
-    ]
+]
+
 
 class TaskForm(forms.ModelForm):
 
@@ -31,10 +30,11 @@ class TaskForm(forms.ModelForm):
                 queryset=self.GROUP_CHOICES,
                 widget=forms.Select(
                     attrs={
-                        'class' : 'custom-select d-block w-100'
-                        }
-                    )
+                        'class': 'custom-select d-block w-100'
+                    }
                 )
+            )
+
     class Meta:
         model = Task
         fields = ('title', 'group', 'due_date', 'due_time')
@@ -42,29 +42,29 @@ class TaskForm(forms.ModelForm):
             'title': 'Task Title',
             'group': 'Group',
             'due_date': 'Date',
-            'due_time': 'Time' 
+            'due_time': 'Time'
         }
-        widgets={
+        widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter Task Title here'
-                }
+            }
             ),
             'due_date': forms.DateInput(
                 format='%d-%m-%Y',
                 attrs={
-                # 'id': 'due_date',
-                'class': 'form-control',
-                'type': 'date',
-                'placeholder': 'MM/DD/YYYY',
+                    # 'id': 'due_date',
+                    'class': 'form-control',
+                    'type': 'date',
+                    'placeholder': 'MM/DD/YYYY',
                 }
             ),
             'due_time': forms.TimeInput(
                 format='%H:%M',
                 attrs={
-                'class': 'form-control timepicker',
-                'type': 'time',
-                'placeholder': 'HH:MM'
+                    'class': 'form-control timepicker',
+                    'type': 'time',
+                    'placeholder': 'HH:MM'
                 }
             )
         }
@@ -88,9 +88,10 @@ QuestionFormset = modelformset_factory(
                 'placeholder': 'URL'
             }
         ),
-        'response_type': forms.Select(choices=RESPONSE_TYPES, attrs={'class' : 'custom-select d-block w-100'})
+        'response_type': forms.Select(choices=RESPONSE_TYPES, attrs={'class': 'custom-select d-block w-100'})
     }
 )
+
 
 class GroupForm(forms.ModelForm):
     class Meta:
@@ -99,14 +100,15 @@ class GroupForm(forms.ModelForm):
         labels = {
             'name': 'Group Name'
         }
-        widgets={
+        widgets = {
             'name': forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter Group Name here'
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Enter Group Name here'
                 }
             )
         }
+
 
 class AddUserForm(forms.ModelForm):
 
@@ -115,19 +117,18 @@ class AddUserForm(forms.ModelForm):
         group = Group.objects.get(pk=self.group_pk)
         group_respondents_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
         self.USERS = Respondent.objects.exclude(pk__in=group_respondents_ids)
-        super(AddUserForm,self).__init__(*args, **kwargs)
+        super(AddUserForm, self).__init__(*args, **kwargs)
 
         self.fields['respondent'] = forms.ModelChoiceField(
             queryset=self.USERS,
             widget=forms.Select(
                 attrs={
                     'id': 'post-respondent',
-                    'class' : 'custom-select d-block w-100'
+                    'class': 'custom-select d-block w-100'
                 }
             ),
             label="Select User:"
         )
-
 
     class Meta:
         model = GroupRespondent
@@ -136,11 +137,11 @@ class AddUserForm(forms.ModelForm):
 
 class InviteUserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(InviteUserForm,self).__init__(*args, **kwargs)
+        super(InviteUserForm, self).__init__(*args, **kwargs)
         self.fields['email'] = forms.EmailField(
             widget=forms.EmailInput(attrs={
                 'placeholder': "Users's Email",
-                'class' : 'form-control d-block w-100'
+                'class': 'form-control d-block w-100'
             }),
             error_messages={
                 'required': "Please enter the user's email address.",
@@ -152,6 +153,7 @@ class InviteUserForm(forms.ModelForm):
     class Meta:
         model = UserInvitation
         fields = ('email',)
+
 
 class MultipleUserForm(forms.Form):
     file = forms.FileField()

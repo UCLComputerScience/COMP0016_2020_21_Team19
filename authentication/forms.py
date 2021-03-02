@@ -1,18 +1,15 @@
-from django import forms
-from django.forms import modelformset_factory
 from allauth.account.forms import SignupForm, LoginForm
+from django import forms
 
-from surveyor.models import Surveyor
-
-from respondent.models import Respondent, GroupRespondent
 from core.models import SurveyorOrganisation, UserInvitation
+from respondent.models import Respondent, GroupRespondent
+from surveyor.models import Surveyor
 
 
 class AuthenticationSignupForm(SignupForm):
     firstname = forms.CharField(max_length=30, min_length=1, widget=forms.TextInput(attrs={'placeholder': 'Firstname'}))
-    
-    surname = forms.CharField(max_length=30, min_length=1, widget=forms.TextInput(attrs={'placeholder': 'Surname'}))
 
+    surname = forms.CharField(max_length=30, min_length=1, widget=forms.TextInput(attrs={'placeholder': 'Surname'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -53,8 +50,9 @@ class AuthenticationSignupForm(SignupForm):
                 organisation=organisation
             )
             surveyor_organisation.save()
-       
+
         return user
+
 
 class AuthenticationLoginForm(LoginForm):
     class Meta:
@@ -66,6 +64,6 @@ class AuthenticationLoginForm(LoginForm):
         self.fields["login"].label = ""
         self.fields["password"].label = ""
         # self.fields["forgot"].class
-    
+
     def login(self, *args, **kwargs):
         return super(AuthenticationLoginForm, self).login(*args, **kwargs)

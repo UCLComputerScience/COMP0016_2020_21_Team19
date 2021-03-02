@@ -1,6 +1,7 @@
-from invitations.app_settings import app_settings
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.account.signals import user_signed_up
+from invitations.app_settings import app_settings
+
 
 # Code credits here to django-allauth
 class UserInvitationsAdapter(DefaultAccountAdapter):
@@ -8,7 +9,7 @@ class UserInvitationsAdapter(DefaultAccountAdapter):
         if hasattr(request, 'session') and request.session.get(
                 'account_verified_email'):
             return True
-        elif app_settings.INVITATION_ONLY and request.META['PATH_INFO'] != "/create_organisation":
+        elif app_settings.INVITATION_ONLY and request.META['PATH_INFO'] != "/create-organisation":
             # Site is ONLY open for invites
             return False
         else:

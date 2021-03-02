@@ -1,8 +1,10 @@
 import datetime
 
-from django.test import TestCase
 from django.contrib.auth.models import User
+from django.test import TestCase
+
 from surveyor.models import Surveyor, Group, GroupSurveyor, Task, Question
+
 
 class SurveyorTestCase(TestCase):
 
@@ -18,7 +20,7 @@ class SurveyorTestCase(TestCase):
         test_user = Surveyor.objects.get(firstname="Mr", surname="Test")
         firstname_label = test_user._meta.get_field('firstname').verbose_name
         self.assertEqual(firstname_label, 'firstname')
-    
+
     def test_surname_label(self):
         """
         Tests the surname field of Surveyor is "surname".
@@ -36,7 +38,7 @@ class SurveyorTestCase(TestCase):
         test_user = Surveyor.objects.get(firstname="Mr", surname="Test")
         max_length = test_user._meta.get_field('surname').max_length
         self.assertEqual(max_length, 30)
-    
+
     def test_surveyor_name_is_correct(self):
         """
         Tests str(surveyor) is surveyor.firstname + " " + surveyor.surname
@@ -44,21 +46,21 @@ class SurveyorTestCase(TestCase):
         test_user = Surveyor.objects.get(firstname="Mr", surname="Test")
         name = "Mr Test"
         self.assertEqual(str(test_user), name)
-    
+
 
 class GroupTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
         Group.objects.create(name="Test Group")
-    
+
     def test_name_label(self):
         """
         There should be a field 'name' on Group objects.
         """
         label = Group.objects.get(name="Test Group")._meta.get_field('name').verbose_name
         self.assertEqual(label, 'name')
-    
+
     def test_group_name(self):
         """
         Group names should be returned correctly.
@@ -75,7 +77,7 @@ class GroupSurveyorTestCase(TestCase):
         user = User.objects.create_user(username="mrtest", email="mrtest@gmail.com", password="activityleague")
         surveyor = Surveyor.objects.create(user=user, firstname="Mr", surname="Test")
         group = Group.objects.create(name="Test Group")
-        GroupSurveyor.objects.create(group=group,surveyor=surveyor)
+        GroupSurveyor.objects.create(group=group, surveyor=surveyor)
 
     def test_surveyor_label(self):
         """
@@ -105,7 +107,7 @@ class TaskTestCase(TestCase):
         due_date = datetime.datetime(2021, 7, 3)
         due_time = datetime.time(10, 0)
         task = Task.objects.create(title=title, group=group, due_date=due_date, due_time=due_time)
-    
+
     def test_title_field(self):
         """
         Task objects should have a field 'title'.
@@ -159,7 +161,7 @@ class QuestionTestCase(TestCase):
         description = "This is a test description"
         response_type = 1
         question = Question.objects.create(task=task, link=link, description=description, response_type=response_type)
-    
+
     def test_task_label(self):
         """
         Question objects should have a field 'task'.

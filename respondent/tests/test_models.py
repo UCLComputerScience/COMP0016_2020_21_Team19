@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from respondent.models import Respondent
+
 
 class RespondentTestCase(TestCase):
     def setUp(self):

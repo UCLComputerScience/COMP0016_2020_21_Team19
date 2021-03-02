@@ -1,13 +1,16 @@
-from django.db import models
-from surveyor.models import Group, Question
-from django.contrib.auth.models import User
 import uuid
+
+from django.contrib.auth.models import User
+from django.db import models
+
+from surveyor.models import Group, Question
 
 """
 Django auto generates ID primary keys for each model, 
 so these fields have been omitted in the model 
 definition here.
 """
+
 
 class Respondent(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

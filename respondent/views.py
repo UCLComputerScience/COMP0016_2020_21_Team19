@@ -1,15 +1,10 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from django.shortcuts import render, get_object_or_404
-from django.utils import timezone
-from .models import *
-from surveyor.models import *
-
 from django.contrib.auth.decorators import login_required
-from core.utils import *
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
+from django.utils import timezone
 
-import random
+from core.utils import *
 
 
 @login_required(login_url='/accounts/login/')
@@ -22,10 +17,11 @@ def dashboard(request):
     :type request: django.http.HttpRequest
     :return: The ``respondent/dashboard.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """    
+    """
     user = get_object_or_404(Respondent, user=request.user)
     tasks, now = get_tasks(user)
-    return render(request, 'respondent/dashboard.html', {'user' : user, 'tasks' : tasks, 'now' : now})
+    return render(request, 'respondent/dashboard.html', {'user': user, 'tasks': tasks, 'now': now})
+
 
 @login_required(login_url='/accounts/login/')
 def leaderboard(request):
@@ -37,12 +33,14 @@ def leaderboard(request):
     :type request: django.http.HttpRequest
     :return: The ``respondent/leaderboard.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """    
+    """
     user = get_object_or_404(Respondent, user=request.user)
     groups = get_groups(user)
     for group in groups:
         group.leaderboard = get_leaderboard(user, group=group)
-    return render(request, 'respondent/leaderboard.html', {'user' : user, 'groups': groups, 'overall_leaderboard': get_leaderboard(user)})
+    return render(request, 'respondent/leaderboard.html',
+                  {'user': user, 'groups': groups, 'overall_leaderboard': get_leaderboard(user)})
+
 
 @login_required(login_url='/accounts/login/')
 def progress(request):
@@ -54,10 +52,11 @@ def progress(request):
     :type request: django.http.HttpRequest
     :return: The ``respondent/progress_page.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """    
+    """
     user = get_object_or_404(Respondent, user=request.user)
     group_graphs = get_progress_graphs(user)
-    return render(request, 'respondent/progress_page.html', {'user' : user, 'groups': group_graphs})
+    return render(request, 'respondent/progress_page.html', {'user': user, 'groups': group_graphs})
+
 
 @login_required(login_url='/accounts/login/')
 def response(request, id):
@@ -71,7 +70,7 @@ def response(request, id):
     :return: If ``request.method == GET`` request, this returns the ``respondent/response.html`` template rendered with the given dictionary.
              Otherwise, this returns a redirect to the dashboard.
     :rtype: django.http.HttpResponse / django.http.HttpResponseRedirect
-    """    
+    """
     user = get_object_or_404(Respondent, user=request.user)
     task = Task.objects.get(id=id)
     questions = Question.objects.filter(task=task)
@@ -86,30 +85,36 @@ def response(request, id):
                 continue
             q = Question.objects.get(id=qid)
             link_clicked = qid in clicked
-            if q.response_type == 1: # likert
+            if q.response_type == 1:  # likert
                 likert_dict = {
-                    'strong_disagree' : 1,
-                    'disagree' : 2,
-                    'neutral' : 3,
-                    'agree' : 4,
-                    'strong_agree' : 5
+                    'strong_disagree': 1,
+                    'disagree': 2,
+                    'neutral': 3,
+                    'agree': 4,
+                    'strong_agree': 5
                 }
-                Response.objects.create(question=q, respondent=user, value=likert_dict[data], date_time=current_date_time, link_clicked=link_clicked)
-            elif q.response_type == 2: # traffic light
+                Response.objects.create(question=q, respondent=user, value=likert_dict[data],
+                                        date_time=current_date_time, link_clicked=link_clicked)
+            elif q.response_type == 2:  # traffic light
                 tl_dict = {
-                    'red' : 1,
-                    'yellow' : 2,
-                    'green' : 3
+                    'red': 1,
+                    'yellow': 2,
+                    'green': 3
                 }
-                Response.objects.create(question=q, respondent=user, value=tl_dict[data], date_time=current_date_time, link_clicked=link_clicked)
-            elif q.response_type == 4: # Numerical Radio Buttons
-                Response.objects.create(question=q, respondent=user, value=int(data), date_time=current_date_time, link_clicked=link_clicked)
-            elif q.response_type == 3: # Text
-                Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time, link_clicked=link_clicked)
-            elif q.response_type == 5: # Text (Positive)
-                Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time, link_clicked=link_clicked, text_positive=True)
-            else: # == 6 | Text (Negative)
-                Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time, link_clicked=link_clicked, text_positive=False)
+                Response.objects.create(question=q, respondent=user, value=tl_dict[data], date_time=current_date_time,
+                                        link_clicked=link_clicked)
+            elif q.response_type == 4:  # Numerical Radio Buttons
+                Response.objects.create(question=q, respondent=user, value=int(data), date_time=current_date_time,
+                                        link_clicked=link_clicked)
+            elif q.response_type == 3:  # Text
+                Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time,
+                                        link_clicked=link_clicked)
+            elif q.response_type == 5:  # Text (Positive)
+                Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time,
+                                        link_clicked=link_clicked, text_positive=True)
+            else:  # == 6 | Text (Negative)
+                Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time,
+                                        link_clicked=link_clicked, text_positive=False)
 
             # mark completed if all respondents have completed the task
             group = q.task.group
@@ -122,4 +127,4 @@ def response(request, id):
 
         return HttpResponseRedirect(reverse('dashboard'))
     else:
-        return render(request, 'respondent/response.html', {'user' : user, 'task' : task, 'questions' : questions})
+        return render(request, 'respondent/response.html', {'user': user, 'task': task, 'questions': questions})

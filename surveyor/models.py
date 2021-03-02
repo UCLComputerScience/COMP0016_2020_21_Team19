@@ -1,8 +1,10 @@
-from django.db import models
-from django.contrib.auth.models import User
 import uuid
 
-class Surveyor(models.Model):    
+from django.contrib.auth.models import User
+from django.db import models
+
+
+class Surveyor(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     firstname = models.CharField(max_length=30)
@@ -33,7 +35,7 @@ class Task(models.Model):
     due_date = models.DateField()
     due_time = models.TimeField()
     completed = models.BooleanField(default=False)
-    
+
     def __str__(self):
         return self.title
 

@@ -1,6 +1,5 @@
 import datetime
 import operator
-import pytz
 import random
 
 from respondent.models import Respondent, Response, GroupRespondent
@@ -40,7 +39,7 @@ def get_leaderboard(user, **kwargs):
     :return: Sorted descending list containing the full names and scores of of the members 
              of the leaderboard.
     :rtype: List[dict]
-    """    
+    """
 
     if kwargs.get('group'):
         group = kwargs.get('group')
@@ -76,7 +75,7 @@ def get_graph_labels(user, **kwargs):
     :type user: Surveyor or Respondent
     :return: A sorted list containing the dates to be used as x-axis labels.
     :rtype: List[str]
-    """    
+    """
     responses = get_responses(user, **kwargs)
 
     if not responses:
@@ -184,6 +183,7 @@ def get_responses(user, **kwargs):
         groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
         tasks = Task.objects.filter(group__in=groups)
         questions = Question.objects.filter(task__in=tasks)
+        return responses.filter(respondent=respondent, question__in=questions).order_by('date_time')
     else:
         if isinstance(user, Respondent):
             return responses.order_by('date_time')
@@ -218,7 +218,7 @@ def get_tasks(user):
     :type user: Surveyor or Respondent
     :return: A ``QuerySet`` of the tasks and the ``datetime`` instance representing the current date and time.
     :rtype: (django.db.models.QuerySet, datetime.datetime)
-    """    
+    """
     if isinstance(user, Surveyor):
         groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
     elif isinstance(user, Respondent):
@@ -235,7 +235,8 @@ def get_tasks(user):
             task.num_responses = responses.count() // questions.count()
         task.due_dt = datetime.datetime.combine(task.due_date, task.due_time)
         until = task.due_dt - now
-        task.color = "red" if until < datetime.timedelta(days=1) else "orange" if until < datetime.timedelta(days=2) else "darkgreen"
+        task.color = "red" if until < datetime.timedelta(days=1) else "orange" if until < datetime.timedelta(
+            days=2) else "darkgreen"
     return tasks, now
 
 
@@ -247,7 +248,7 @@ def get_num_respondents_in_group(group):
     :type group: Group
     :return: The number of ``Respondent``\s in the ``Group``.
     :rtype: int
-    """    
+    """
     return GroupRespondent.objects.filter(group=group).count()
 
 
@@ -257,7 +258,7 @@ def random_hex_colour():
 
     :return: 6-digit hexadecimal code.
     :rtype: str
-    """    
+    """
     return "#{:06x}".format(random.randint(0, 0xFFFFFF))
 
 
@@ -269,7 +270,7 @@ def get_chartjs_dict(values):
     :type values: List[float]
     :return: A dictionary representing a dataset for a Chart.js line chart.
     :rtype: dict
-    """    
+    """
     return {'data': values,
             'lineTension': 0,
             'backgroundColor': 'transparent',
@@ -286,7 +287,7 @@ def get_progress_graphs(respondent):
     :type respondent: Respondent
     :return: A list of dictionaries, where each dictionary contains data for the progress graph for an individual group.
     :rtype: List[dict]
-    """ 
+    """
     groups = get_groups(respondent)
     overall_labels = get_graph_labels(respondent)
 
@@ -296,14 +297,16 @@ def get_progress_graphs(respondent):
         group_labels = get_graph_labels(respondent, group=group)
         group_scores = get_graph_data(respondent, group_labels, group=group)
         group_title = group.name
-        group_graphs.append({'id' : group.id, 'title': group_title, 'labels': group_labels, 'scores': [get_chartjs_dict(group_scores)]})
+        group_graphs.append(
+            {'id': group.id, 'title': group_title, 'labels': group_labels, 'scores': [get_chartjs_dict(group_scores)]})
 
         overall_data.append(get_chartjs_dict(group_scores))
-    
+
     overall = {'id': 'overall', 'title': 'Overall', 'labels': overall_labels, 'scores': overall_data}
     group_graphs.insert(0, overall)
 
     return group_graphs
+
 
 def has_responded_to_task(respondent, task):
     """
@@ -316,7 +319,7 @@ def has_responded_to_task(respondent, task):
     :type task: Task
     :return: Returns ``True`` if the number of ``Response``\s to the given ``Task`` is equal to the number of ``Question``\s, ``False`` otherwise
     :rtype: bool
-    """    
+    """
     questions = Question.objects.filter(task=task)
     responses = Response.objects.filter(respondent=respondent, question__in=questions)
     return len(responses) == len(questions)

@@ -1,6 +1,6 @@
-from django.shortcuts import render
-from .forms import AuthenticationSignupForm
 from allauth.account.views import SignupView
+
+from .forms import AuthenticationSignupForm
 
 
 class AuthenticationSignup(SignupView):

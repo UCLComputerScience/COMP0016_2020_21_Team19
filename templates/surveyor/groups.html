@@ -52,7 +52,7 @@
       <tbody id="table-body">
         {% for group in groups %}
   
-        <tr onclick="document.location = '{% url 'manage_group' group.id %}';">
+        <tr onclick="document.location = '{% url 'manage-group' group.id %}';">
           <td class="align-middle">{{ group.name }}</td>
           <td class="align-middle">{{ group.num_participants }}</td>
           <td><button style="float: right" type="button" class="btn btn-outline-danger delete-group" data-group="{{ group.pk }}" aria-label="Delete">
@@ -92,7 +92,7 @@
   $(function () {
     $(".js-new-group").click(function () {
       $.ajax({
-        url: '/new_group/',
+        url: '/new-group/',
         type: 'get',
         dataType: 'json',
         beforeSend: function () {

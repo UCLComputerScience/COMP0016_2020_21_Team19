@@ -1,21 +1,17 @@
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.urls import reverse
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
-from .forms import GroupForm, TaskForm, QuestionFormset, AddUserForm, InviteUserForm, MultipleUserForm
-from .models import *
-from respondent.models import Respondent, Response, GroupRespondent
-from respondent.views import calculate_score
-from django.contrib.auth.decorators import login_required
-from django import forms
-from core.utils import *
-from surveyor.utils import *
 from tablib import Dataset
-from email.utils import parseaddr
 
 from core.models import UserInvitation
+from surveyor.utils import *
+from .forms import GroupForm, TaskForm, QuestionFormset, AddUserForm, InviteUserForm, MultipleUserForm
+from .models import *
+
 
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
@@ -27,12 +23,14 @@ def dashboard(request):
     :type request: django.http.HttpRequest
     :return: The ``surveyor/dashboard.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """    
+    """
     user = get_object_or_404(Surveyor, user=request.user)
     tasks, now = get_tasks(user)
     tasks = [task for task in tasks if not task.completed]
     group_data = get_graphs_and_leaderboards(user)
-    return render(request, 'surveyor/dashboard.html', {'user' : user, 'tasks': tasks, 'now':now, 'group_data': group_data})
+    return render(request, 'surveyor/dashboard.html',
+                  {'user': user, 'tasks': tasks, 'now': now, 'group_data': group_data})
+
 
 @login_required(login_url='/accounts/login/')
 def leaderboard(request):
@@ -44,12 +42,14 @@ def leaderboard(request):
     :type request: django.http.HttpRequest
     :return: The ``surveyor/leaderboard.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """    
+    """
     user = get_object_or_404(Surveyor, user=request.user)
     groups = get_groups(user)
     for group in groups:
         group.leaderboard = get_leaderboard(user, group=group)
-    return render(request, 'surveyor/leaderboard.html', {'user' : user, 'groups': groups, 'overall_leaderboard': get_leaderboard(user)})
+    return render(request, 'surveyor/leaderboard.html',
+                  {'user': user, 'groups': groups, 'overall_leaderboard': get_leaderboard(user)})
+
 
 @login_required(login_url='/accounts/login/')
 def history(request):
@@ -61,10 +61,11 @@ def history(request):
     :type request: django.http.HttpRequest
     :return: The ``surveyor/history.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """    
+    """
     user = get_object_or_404(Surveyor, user=request.user)
     tasks, now = get_tasks(user)
     return render(request, 'surveyor/history.html', {'user': user, 'tasks': tasks})
+
 
 @login_required(login_url='/accounts/login/')
 def users(request):
@@ -91,8 +92,9 @@ def users(request):
         respondent.groups = groups.filter(id__in=group_ids)
         for group in respondent.groups:
             group.color = group_colors[group.id]
-            
+
     return render(request, 'surveyor/users.html', {'user': user, 'respondents': respondents})
+
 
 @login_required(login_url='/accounts/login/')
 def user_progress(request, pk_user):
@@ -104,9 +106,9 @@ def user_progress(request, pk_user):
     :type request: django.http.HttpRequest
     :param pk_user: Primary key of the ``Surveyor`` accessing the page.
     :type pk_user: uuid.UUID
-    :return: The ``surveyor/user_progress.html`` template rendered using the given dictionary.
+    :return: The ``surveyor/user-progress.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """    
+    """
     user = get_object_or_404(Surveyor, user=request.user)
     respondent = Respondent.objects.get(pk=pk_user)
     tasks, now = get_tasks(user)
@@ -122,7 +124,11 @@ def user_progress(request, pk_user):
     graphs = [graph for graph in get_progress_graphs(respondent) if graph['id'] in groups]
     for graph in graphs:
         del graph['id']
-    return render(request, 'surveyor/user_progress.html', {'user': user, 'respondent': respondent, 'tasks': new_tasks, 'graphs': graphs, 'neutral_word_cloud': neutral_word_cloud, 'positive_word_cloud': positive_word_cloud, 'negative_word_cloud': negative_word_cloud})
+    return render(request, 'surveyor/user-progress.html',
+                  {'user': user, 'respondent': respondent, 'tasks': new_tasks, 'graphs': graphs,
+                   'neutral_word_cloud': neutral_word_cloud, 'positive_word_cloud': positive_word_cloud,
+                   'negative_word_cloud': negative_word_cloud})
+
 
 @login_required(login_url='/accounts/login/')
 def user_response(request, pk_user, pk_task):
@@ -135,9 +141,9 @@ def user_response(request, pk_user, pk_task):
     :type pk_user: uuid.UUID
     :param pk_task: The primary key of the ``Task``.
     :type pk_task: uuid.UUID
-    :return: The ``surveyor/user_response.html`` template rendered using the given dictionary.
+    :return: The ``surveyor/user-response.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """    
+    """
     user = get_object_or_404(Surveyor, user=request.user)
     respondent = Respondent.objects.get(pk=pk_user)
     task = Task.objects.get(pk=pk_task)
@@ -145,7 +151,9 @@ def user_response(request, pk_user, pk_task):
     responses = Response.objects.filter(question__in=questions, respondent=respondent)
     for question in questions:
         question.response = responses.get(question=question)
-    return render(request, 'surveyor/user_response.html', {'respondent': respondent, 'task': task, 'questions': questions, 'responses': responses})
+    return render(request, 'surveyor/user-response.html',
+                  {'respondent': respondent, 'task': task, 'questions': questions, 'responses': responses})
+
 
 @login_required(login_url='/accounts/login/')
 def task_overview(request, pk_task):
@@ -157,7 +165,7 @@ def task_overview(request, pk_task):
     :type request: django.http.HttpRequest
     :param pk_task: The ``UUID`` primary key of the ``Task`` object being queried for a summary of responses.
     :type pk_task: uuid.UUID
-    :return: The ``surveyor/task_overview.html`` template rendered using the given dictionary.
+    :return: The ``surveyor/task-overview.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
     if request.method == 'POST':
@@ -172,7 +180,7 @@ def task_overview(request, pk_task):
             task.completed = False
             task.save()
         return HttpResponseRedirect(reverse("task_overview", args=(pk_task,)))
-    
+
     user = get_object_or_404(Surveyor, user=request.user)
     task = get_object_or_404(Task, pk=pk_task)
     questions = Question.objects.filter(task=task)
@@ -185,7 +193,8 @@ def task_overview(request, pk_task):
         'task_respondents_completed': num_responses // questions.count(),
         'questions': get_questions(pk_task),
     }
-    return render(request, 'surveyor/task_overview.html', data)
+    return render(request, 'surveyor/task-overview.html', data)
+
 
 @login_required(login_url='/accounts/login/')
 def new_task(request):
@@ -194,9 +203,9 @@ def new_task(request):
 
     :param request: The ``GET``/``POST`` request made by the user.
     :type request: django.http.HttpRequest
-    :return: The ``surveyor/new_task.html`` template rendered using the given dictionary.
+    :return: The ``surveyor/new-task.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """    
+    """
     user = get_object_or_404(Surveyor, user=request.user)
     group_surveyors = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
     groups = []
@@ -229,7 +238,8 @@ def new_task(request):
     else:
         form = NewTaskForm()
 
-    return render(request, 'surveyor/new_task.html', {'user' : user, 'groups' : groups, 'taskform': form, 'formset': formset})
+    return render(request, 'surveyor/new-task.html',
+                  {'user': user, 'groups': groups, 'taskform': form, 'formset': formset})
 
 
 @login_required(login_url='/accounts/login/')
@@ -239,11 +249,11 @@ def new_group(request):
 
     :param request: The ``GET``/``POST`` request made by the user.
     :type request: django.http.HttpRequest
-    :return: The ``surveyor/partials/new_group.html`` template rendered using the given dictionary.
+    :return: The ``surveyor/partials/new-group.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """    
+    """
     data = dict()
-    
+
     if request.method == 'POST':
         form = GroupForm(request.POST)
         if form.is_valid():
@@ -252,17 +262,18 @@ def new_group(request):
             data['form_is_valid'] = True
         else:
             data['form_is_valid'] = False
-        
-        return HttpResponseRedirect(reverse("new_group"))
+
+        return HttpResponseRedirect(reverse("new-group"))
     else:
         form = GroupForm()
 
     context = {'form': form}
-    data['html_form'] = render_to_string('surveyor/partials/new_group.html',
-        context,
-        request=request
-    )
+    data['html_form'] = render_to_string('surveyor/partials/new-group.html',
+                                         context,
+                                         request=request
+                                         )
     return JsonResponse(data)
+
 
 @login_required(login_url='/accounts/login/')
 def groups(request):
@@ -273,7 +284,7 @@ def groups(request):
     :type request: django.http.HttpRequest
     :return: The ``surveyor/groups.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """    
+    """
     user = get_object_or_404(Surveyor, user=request.user)
     if request.method == 'POST':
         if request.POST.get('request_type') == 'delete_group':
@@ -283,8 +294,9 @@ def groups(request):
 
     groups = get_groups(user)
     for group in groups:
-        group.num_participants = get_num_respondents_in_group(group)        
+        group.num_participants = get_num_respondents_in_group(group)
     return render(request, 'surveyor/groups.html', {'user': user, 'groups': groups})
+
 
 @login_required(login_url='/accounts/login/')
 def manage_group(request, pk_group):
@@ -295,22 +307,22 @@ def manage_group(request, pk_group):
     :type request: django.http.HttpRequest
     :param pk_group: Primary key of the ``Group`` object stored in the database.
     :type pk_group: uuid.UUID
-    :return: The ``surveyor/manage_group.html`` template rendered using the given dictionary.
+    :return: The ``surveyor/manage-group.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
-    """ 
+    """
     if request.method == 'POST':
         group = Group.objects.get(pk=pk_group)
-        if request.POST.get('request_type') == 'delete_participant': # Deleting a participant
+        if request.POST.get('request_type') == 'delete_participant':  # Deleting a participant
             respondent_pk = request.POST.get('respondent')
             respondent = Respondent.objects.get(pk=respondent_pk)
             GroupRespondent.objects.filter(respondent=respondent, group=group).delete()
-        elif request.POST.get('request_type') == 'invite': # Inviting a participant
+        elif request.POST.get('request_type') == 'invite':  # Inviting a participant
             email = request.POST.get('email')
             if User.objects.filter(email=email).exists():
                 user = User.objects.get(email=email)
                 respondent = Respondent.objects.get(user=user)
                 GroupRespondent.objects.create(
-                    group=group, 
+                    group=group,
                     respondent=respondent
                 )
             else:
@@ -321,7 +333,7 @@ def manage_group(request, pk_group):
                     is_respondent=True
                 )
                 invite.send_invitation(request)
-        elif request.POST.get('request_type') == 'import': # Add multiple participants
+        elif request.POST.get('request_type') == 'import':  # Add multiple participants
             dataset = Dataset()
             new_persons = request.FILES['file']
             imported_data = dataset.load(new_persons.read(), format='xlsx', headers=False)
@@ -331,7 +343,6 @@ def manage_group(request, pk_group):
                     try:
                         validate_email(entry[0])
                     except ValidationError:
-                        print("INVALID ", entry[0])
                         continue
                     invite = UserInvitation.create(
                         str(entry[0]),
@@ -340,16 +351,18 @@ def manage_group(request, pk_group):
                         is_respondent=True
                     )
                     # invite.send_invitation(request)
-        
-        else: # Adding a participant
+
+        else:  # Adding a participant
             respondent_pk = request.POST.get('respondent')
             respondent = Respondent.objects.get(pk=respondent_pk)
             new_object = GroupRespondent.objects.create(group=group, respondent=respondent)
-        return HttpResponseRedirect(reverse("manage_group", args=(pk_group,)))
+        return HttpResponseRedirect(reverse("manage-group", args=(pk_group,)))
     user = get_object_or_404(Surveyor, user=request.user)
     group = Group.objects.get(pk=pk_group)
     respondents = get_group_participants(group)
     form = AddUserForm(group_pk=pk_group)
     form_inv = InviteUserForm()
     import_form = MultipleUserForm()
-    return render(request, 'surveyor/manage_group.html', {'user': user, 'participants': respondents, 'group': group, 'form': form, 'form_inv': form_inv, 'import_form': import_form})
+    return render(request, 'surveyor/manage-group.html',
+                  {'user': user, 'participants': respondents, 'group': group, 'form': form, 'form_inv': form_inv,
+                   'import_form': import_form})

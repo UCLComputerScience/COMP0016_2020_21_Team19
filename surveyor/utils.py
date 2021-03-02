@@ -1,14 +1,14 @@
-from respondent.models import GroupRespondent, Respondent, Response
-from surveyor.models import Task, Question, Surveyor
-from core.utils import *
-
-from urllib.parse import urlparse
-from wordcloud import WordCloud
-from PIL import Image
-import io
 import base64
+import io
 import urllib
+from urllib.parse import urlparse
+
 import matplotlib.pyplot as plt
+from wordcloud import WordCloud
+
+from core.utils import *
+from surveyor.models import Surveyor
+
 
 def get_graphs_and_leaderboards(surveyor):
     """
@@ -21,15 +21,17 @@ def get_graphs_and_leaderboards(surveyor):
     :return: A list of dictionaries containing the `id`, `title`, `labels`, `scores` and `leaderboard`
              of every group managed by the currently logged in user.
     :rtype: List[dict]
-    """    
+    """
     groups = get_groups(surveyor).order_by('name')
     group_data = []
     for group in groups:
         labels = get_graph_labels(surveyor, group=group)
         scores = get_graph_data(surveyor, labels, group=group)
-        group_data.append({'id': group.id,'title': group.name, 'labels': labels, 'scores': scores, 'leaderboard': get_leaderboard(surveyor, group=group)})
-    
+        group_data.append({'id': group.id, 'title': group.name, 'labels': labels, 'scores': scores,
+                           'leaderboard': get_leaderboard(surveyor, group=group)})
+
     return group_data
+
 
 def sanitize_link(url):
     """
@@ -39,10 +41,11 @@ def sanitize_link(url):
     :type url: str
     :return: The sanitized URL.
     :rtype: str
-    """    
+    """
     parsed = urlparse(url)
     scheme = "%s://" % parsed.scheme
     return parsed.geturl().replace(scheme, '', 1)
+
 
 def create_word_cloud(responses):
     """
@@ -74,6 +77,7 @@ def create_word_cloud(responses):
     image_64 = 'data:image/png;base64,' + urllib.parse.quote(string)
     return image_64
 
+
 def get_group_participants(group):
     """
     Returns a ``django.db.models.QuerySet`` of the ``Respondent`` objects which represent the participants of `group`.
@@ -82,15 +86,16 @@ def get_group_participants(group):
     :type group: Group
     :return: A ``QuerySet`` of the ``Respondent`` objects who are part of `group`.
     :rtype: django.db.models.QuerySet
-    """    
+    """
     group_respondents = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
     return Respondent.objects.filter(pk__in=group_respondents)
-    
+
+
 # TODO: Clean up
 def get_questions(pk_task):
     task = Task.objects.get(pk=pk_task)
     questions = Question.objects.filter(task=task)
-    
+
     data = []
     for question in questions:
         responses = Response.objects.filter(question=question)
@@ -105,27 +110,27 @@ def get_questions(pk_task):
             response_type = "traffic"
             pie_chart_labels = ['Red', 'Yellow', 'Green']
             pie_chart_data = [responses.filter(value=i).count() for i in range(1, 4)]
-        elif question.response_type == 3: # neutral text
+        elif question.response_type == 3:  # neutral text
             response_type = "text"
-        elif question.response_type == 5: # positive text
+        elif question.response_type == 5:  # positive text
             response_type = "text"
-        elif question.response_type == 6: # negative text
+        elif question.response_type == 6:  # negative text
             response_type = "text"
         elif question.response_type == 4:
             response_type = "numerical-radio"
             pie_chart_labels = ['1', '2', '3', '4', '5']
             pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
-        
+
         word_cloud = None
-        if response_type in ["text", "text-positive", "text-negative"] :
+        if response_type in ["text", "text-positive", "text-negative"]:
             word_cloud = create_word_cloud(responses)
-        
+
         link_clicks = 0
         for response in responses:
             link_clicks += response.link_clicked
-        
+
         data.append({
-            'id' : question.id,
+            'id': question.id,
             'link': question.link,
             'type': response_type,
             'description': question.description,
@@ -135,6 +140,7 @@ def get_questions(pk_task):
             'word_cloud': word_cloud})
 
     return data
+
 
 def get_overall_word_cloud(surveyor, respondent, text_positive=None):
     """
@@ -154,6 +160,6 @@ def get_overall_word_cloud(surveyor, respondent, text_positive=None):
     """
     groups = get_groups(surveyor)
     responses = get_responses(surveyor, respondent=respondent)
-    responses = responses.filter(text__isnull=False, text_positive=text_positive) # get only text responses
+    responses = responses.filter(text__isnull=False, text_positive=text_positive)  # get only text responses
     word_cloud = create_word_cloud(responses)
     return word_cloud
