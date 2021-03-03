@@ -56,7 +56,16 @@ def get_leaderboard(user, **kwargs):
     rows = []
     for respondent in respondents:
         # Get their responses and calculate their score
-        responses = Response.objects.filter(respondent=respondent).values_list('value', flat=True)
+        if isinstance(user, Surveyor):
+            if  kwargs.get('group'):
+                responses = get_responses(user, respondent=respondent, group=group).values_list('value', flat=True)
+            else:
+                responses = get_responses(user, respondent=respondent).values_list('value', flat=True)
+        else:
+            if kwargs.get('group'):
+                responses = get_responses(respondent, group=group).values_list('value', flat=True)
+            else:
+                responses = get_responses(respondent).values_list('value', flat=True)
         score = calculate_score(responses)
         entry = {'name': respondent.firstname + " " + respondent.surname, 'score': round(score, 2)}
         rows.append(entry)
@@ -77,6 +86,7 @@ def get_graph_labels(user, **kwargs):
     :rtype: List[str]
     """
     responses = get_responses(user, **kwargs)
+    responses = responses.filter(value__isnull=False)
 
     if not responses:
         return []
@@ -98,7 +108,7 @@ def get_graph_labels(user, **kwargs):
 
 def get_graph_data(user, labels, **kwargs):
     """
-    Retrieves the data used for progress graphs.
+    Retrieves the data used for progress graphs on the dashboard and progress page.
 
     :param user: The ``Surveyor`` or ``Respondent`` whose progress is to be displayed.
     :type user: Surveyor or Respondent
@@ -113,7 +123,9 @@ def get_graph_data(user, labels, **kwargs):
              values to be plotted.
     :rtype: List[float]
     """
+
     responses = get_responses(user, **kwargs)
+    responses = responses.filter(value__isnull=False)
 
     if not responses:
         return []
@@ -172,27 +184,37 @@ def get_responses(user, **kwargs):
         group = kwargs.get('group')
         tasks = Task.objects.filter(group=group)
         questions = Question.objects.filter(task__in=tasks)
+        responses = responses.filter(question__in=questions)
     elif kwargs.get('task'):
         task = kwargs.get('task')
         questions = Question.objects.filter(task=task)
+        responses = responses.filter(question__in=questions)
     elif kwargs.get('question'):
         question = kwargs.get('question')
         questions = Question.objects.filter(id=question.id)  # wrap object in queryset
-    elif kwargs.get('respondent'):
+        responses = responses.filter(question__in=questions)
+
+    if kwargs.get('respondent'):
         respondent = kwargs.get('respondent')
         groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
         tasks = Task.objects.filter(group__in=groups)
         questions = Question.objects.filter(task__in=tasks)
         return responses.filter(respondent=respondent, question__in=questions).order_by('date_time')
-    else:
+        
+    if not kwargs:
         if isinstance(user, Respondent):
             return responses.order_by('date_time')
         else:
             groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
             tasks = Task.objects.filter(group__in=groups)
             questions = Question.objects.filter(task__in=tasks)
+            responses = responses.filter(question__in=questions)
+    
+    for response in responses:
+        print("RESPONSE", response.respondent, "VALUE", response.value)
+    print()
 
-    return responses.filter(question__in=questions).order_by('date_time')
+    return responses.order_by('date_time')
 
 
 def calculate_score(values):
@@ -299,7 +321,6 @@ def get_progress_graphs(respondent):
         group_title = group.name
         group_graphs.append(
             {'id': group.id, 'title': group_title, 'labels': group_labels, 'scores': [get_chartjs_dict(group_scores)]})
-
         overall_data.append(get_chartjs_dict(group_scores))
 
     overall = {'id': 'overall', 'title': 'Overall', 'labels': overall_labels, 'scores': overall_data}
