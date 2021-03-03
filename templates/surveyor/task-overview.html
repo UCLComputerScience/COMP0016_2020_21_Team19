@@ -42,7 +42,7 @@
 {% block content %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
   <h1>Task Overview: {{task}}
-  <a class="badge rounded-pill badge-{% if task.completed %}success{% else %}danger{% endif %}">
+  <a class="badge badge-{% if task.completed %}success{% else %}danger{% endif %}">
     {% if task.completed %}
       Completed
     {% else %}
@@ -105,7 +105,7 @@
               {% else %}
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group btn-group-toggle" data-toggle="buttons" required>
-                    <label class="btn btn-outline-primary active" onclick="updateChart('pie', '{{question.id}}_canvas')">
+                    <label class="btn btn-outline-primary focus active" onclick="updateChart('pie', '{{question.id}}_canvas')">
                       <input type="radio" id="pie-chart-button_{{ question.id }}" name="{{ question.id }}"> <i data-feather="pie-chart" style="width: 36px; height 36px"></i>
                     </label>
                     <label class="btn btn-outline-primary" onclick="updateChart('bar', '{{question.id}}_canvas')">
@@ -169,8 +169,8 @@ $("#incomplete").click(function () {
       form.append('<input name="task_status" value="incomplete" />');
       $('body').append(form);
       form.submit();
-      return false;
       if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
+      return false;
     });
 </script>
 
