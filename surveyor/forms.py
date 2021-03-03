@@ -92,7 +92,6 @@ QuestionFormset = modelformset_factory(
     }
 )
 
-
 class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
@@ -108,7 +107,6 @@ class GroupForm(forms.ModelForm):
                 }
             )
         }
-
 
 class AddUserForm(forms.ModelForm):
 
@@ -134,6 +132,25 @@ class AddUserForm(forms.ModelForm):
         model = GroupRespondent
         fields = ('respondent',)
 
+
+class InviteSurveyorForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(InviteSurveyorForm, self).__init__(*args, **kwargs)
+        self.fields['email'] = forms.EmailField(
+            widget=forms.EmailInput(attrs={
+                'placeholder': " Email",
+                'class': 'form-control d-block w-100'
+            }),
+            error_messages={
+                'required': "Please enter the surveyor's email address.",
+                'invalid': "Please enter a valid email address."
+            },
+            label="Enter the surveyor's email:"
+        )
+
+    class Meta:
+        model = UserInvitation
+        fields = ('email',)
 
 class InviteUserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

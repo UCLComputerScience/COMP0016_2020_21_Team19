@@ -1,7 +1,7 @@
 from allauth.account.forms import SignupForm, LoginForm
 from django import forms
 
-from core.models import SurveyorOrganisation, UserInvitation
+from core.models import UserInvitation
 from respondent.models import Respondent, GroupRespondent
 from surveyor.models import Surveyor
 
@@ -26,7 +26,6 @@ class AuthenticationSignupForm(SignupForm):
         if invite.is_respondent:
             group = invite.group
             respondent = Respondent(
-
                 user=user,
                 firstname=self.cleaned_data.get('firstname'),
                 surname=self.cleaned_data.get('surname')
@@ -42,14 +41,10 @@ class AuthenticationSignupForm(SignupForm):
             surveyor = Surveyor(
                 user=user,
                 firstname=self.cleaned_data.get('firstname'),
-                surname=self.cleaned_data.get('surname')
-            )
-            surveyor.save()
-            surveyor_organisation = SurveyorOrganisation(
-                surveyor=surveyor,
+                surname=self.cleaned_data.get('surname'),
                 organisation=organisation
             )
-            surveyor_organisation.save()
+            surveyor.save()
 
         return user
 
@@ -63,7 +58,6 @@ class AuthenticationLoginForm(LoginForm):
 
         self.fields["login"].label = ""
         self.fields["password"].label = ""
-        # self.fields["forgot"].class
 
     def login(self, *args, **kwargs):
         return super(AuthenticationLoginForm, self).login(*args, **kwargs)

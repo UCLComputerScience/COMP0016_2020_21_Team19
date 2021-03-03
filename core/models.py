@@ -6,26 +6,15 @@ from django.db import models
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
+
 from invitations import signals
 from invitations.adapters import get_invitations_adapter
 from invitations.app_settings import app_settings
 from invitations.base_invitation import AbstractBaseInvitation
 
 from respondent.models import GroupRespondent
-from surveyor.models import Surveyor, Group, GroupSurveyor
+from surveyor.models import Surveyor, Group, GroupSurveyor, Organisation
 from django.urls import reverse
-
-
-class Organisation(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=50)
-    admin = models.ForeignKey(Surveyor, on_delete=models.CASCADE)
-
-
-class SurveyorOrganisation(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    organisation = models.ForeignKey(Organisation, on_delete=models.CASCADE)
-    surveyor = models.ForeignKey(Surveyor, on_delete=models.CASCADE)
 
 
 class UserInvitation(AbstractBaseInvitation):
@@ -62,7 +51,7 @@ class UserInvitation(AbstractBaseInvitation):
         surveyor = Surveyor.objects.get(user=self.inviter)
 
         if not self.is_respondent:
-            self.organisation = SurveyorOrganisation.objects.get(surveyor=surveyor).organisation
+            self.organisation = surveyor.organisation
 
         current_site = kwargs.pop('site', Site.objects.get_current())
         invite_url = reverse('invitations:accept-invite', args=[self.key])

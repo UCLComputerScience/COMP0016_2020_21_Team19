@@ -9,7 +9,7 @@ from tablib import Dataset
 
 from core.models import UserInvitation
 from surveyor.utils import *
-from .forms import GroupForm, TaskForm, QuestionFormset, AddUserForm, InviteUserForm, MultipleUserForm
+from .forms import GroupForm, TaskForm, QuestionFormset, AddUserForm, InviteUserForm, MultipleUserForm, InviteSurveyorForm
 from .models import *
 
 
@@ -65,6 +65,67 @@ def history(request):
     user = get_object_or_404(Surveyor, user=request.user)
     tasks, now = get_tasks(user)
     return render(request, 'surveyor/history.html', {'user': user, 'tasks': tasks})
+
+@login_required(login_url='/accounts/login/')
+def organisation(request):
+    """
+    The Organisation page for the ``Surveyor``.
+    Displays the ``Surveyor``s present in the ``Organisation`` and allows invitations
+    for new ``Surveyor``s.
+
+    :param request: The ``GET`` request made by the user.
+    :type request: django.http.HttpRequest
+    :return: The ``surveyor/organisation.html`` template rendered using the given dictionary.
+    :rtype: django.http.HttpResponse
+    """
+    user = get_object_or_404(Surveyor, user=request.user)
+
+    if request.method == 'POST':
+
+        if request.POST.get('request_type') == 'delete_surveyor':  # Deleting a Surveyor
+            surveyor_pk = request.POST.get('surveyor')
+            surveyor = Surveyor.objects.get(pk=surveyor_pk)
+            surveyor.user.delete()
+
+        elif request.POST.get('request_type') == 'invite':  # Inviting a Surveyor
+            email = request.POST.get('email')
+            if not User.objects.filter(email=email).exists():
+                invite = UserInvitation.create(
+                    email,
+                    inviter=request.user,
+                    organisation=user.organisation,
+                    is_respondent=False
+                )
+                invite.send_invitation(request)
+                
+        elif request.POST.get('request_type') == 'import':  # Add multiple Surveyors
+            dataset = Dataset()
+            new_persons = request.FILES['file']
+            imported_data = dataset.load(new_persons.read(), format='xlsx', headers=False)
+
+            for entry in imported_data:
+                if entry[0]:
+                    try:
+                        validate_email(entry[0])
+                    except ValidationError:
+                        continue
+                    invite = UserInvitation.create(
+                        str(entry[0]),
+                        inviter=request.user,
+                        organisation=user.organisation,
+                        is_respondent=False
+                    )
+                    invite.send_invitation(request)
+
+        return HttpResponseRedirect(reverse("organisation"))
+    
+    surveyors = Surveyor.objects.filter(organisation=user.organisation)
+    form_inv = InviteSurveyorForm()
+    import_form = MultipleUserForm()
+    
+    return render(request, 'surveyor/organisation.html',
+                  {'user': user, 'surveyors': surveyors, 'organisation': user.organisation, 'form_inv': form_inv,
+                   'import_form': import_form})
 
 
 @login_required(login_url='/accounts/login/')
@@ -350,7 +411,7 @@ def manage_group(request, pk_group):
                         group=group,
                         is_respondent=True
                     )
-                    # invite.send_invitation(request)
+                    invite.send_invitation(request)
 
         else:  # Adding a participant
             respondent_pk = request.POST.get('respondent')
