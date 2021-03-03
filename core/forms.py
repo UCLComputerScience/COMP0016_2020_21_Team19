@@ -1,7 +1,7 @@
 from allauth.account.forms import SignupForm
 from django import forms
 
-from core.models import Organisation, SurveyorOrganisation
+from surveyor.models import Organisation
 from surveyor.models import Surveyor
 
 
@@ -27,24 +27,24 @@ class OrganisationSignupForm(SignupForm):
 
     def save(self, request):
         user = super(OrganisationSignupForm, self).save(request)
+        
         # Creating the Surveyor
         surveyor = Surveyor(
             user=user,
             firstname=self.cleaned_data.get('firstname'),
-            surname=self.cleaned_data.get('surname')
+            surname=self.cleaned_data.get('surname'),
+            organisation=None
         )
         surveyor.save()
+
         # Creating the Organisation
         organisation = Organisation(
             name=self.cleaned_data.get('organisation_name'),
             admin=surveyor
         )
         organisation.save()
-        # Creating the SurveyorOrganisation
-        surveyor_organisation = SurveyorOrganisation(
-            organisation=organisation,
-            surveyor=surveyor
-        )
-        surveyor_organisation.save()
-
+        
+        # Setting the organisation attr of the surveyor
+        surveyor.organisation = organisation
+        surveyor.save()
         return user

@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^new-group/?$', surveyor.new_group, name='new-group'),
     url(r'^groups/?$', surveyor.groups, name='groups'),
     url(r'^history/?$', surveyor.history, name='history'),
+    url(r'^organisation/?$', surveyor.organisation, name='organisation'),
     url(r'^new-task/?$', surveyor.new_task, name='new-task'),
     url(r'^manage-group/(?P<pk_group>[0-9a-f-]+)/?$', surveyor.manage_group, name='manage-group'),
     url(r'^users/?$', surveyor.users, name='users'),

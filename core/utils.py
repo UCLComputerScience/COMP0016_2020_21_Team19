@@ -209,10 +209,6 @@ def get_responses(user, **kwargs):
             tasks = Task.objects.filter(group__in=groups)
             questions = Question.objects.filter(task__in=tasks)
             responses = responses.filter(question__in=questions)
-    
-    for response in responses:
-        print("RESPONSE", response.respondent, "VALUE", response.value)
-    print()
 
     return responses.order_by('date_time')
 

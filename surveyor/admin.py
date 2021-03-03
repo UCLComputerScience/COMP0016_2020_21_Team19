@@ -1,6 +1,10 @@
 from django.contrib import admin
 
-from .models import Group, GroupSurveyor, Question, Surveyor, Task
+from .models import Group, GroupSurveyor, Question, Surveyor, Task, Organisation
+
+
+class OrganisationAdmin(admin.ModelAdmin):
+    readonly_fields = ('id',)
 
 
 class SurveyorAdmin(admin.ModelAdmin):
@@ -23,6 +27,7 @@ class QuestionAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
 
 
+admin.site.register(Organisation, OrganisationAdmin)
 admin.site.register(Surveyor, SurveyorAdmin)
 admin.site.register(Task, TaskAdmin)
 admin.site.register(Group, GroupAdmin)

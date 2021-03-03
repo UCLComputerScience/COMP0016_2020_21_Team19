@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'dashboard' %}">
+    <span data-feather="home"></span>
+    Dashboard
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'leaderboard' %}">
+    <span data-feather="award"></span>
+    Leaderboard
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'groups' %}">
+    <span data-feather="bar-chart-2"></span>
+    Groups
+  </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'users' %}">
+      <span data-feather="user"></span>
+      Manage Users<span class="sr-only">(current)</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'history' %}">
+      <span data-feather="clock"></span>
+      Task History
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link active" href="{% url 'organisation' %}">
+      <span data-feather="globe"></span>
+    Organisation
+    </a>
+</li>
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h1>{{organisation}}</h1>
+</div>
+<p>
+  This page shows you all of the members in your organisation.
+</p>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover" id="table" data-toggle="table" data-search="true" data-search-align="left">
+        <thead>
+        <tr>
+            <th data-sortable="true" data-field="firstname">First Name</th>
+            <th data-sortable="true" data-field="surname">Surname</th>
+            {% if organisation.admin == user %}
+            <th></th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for surveyor in surveyors %}
+            <tr id="{{ surveyor.id }}">
+                <td class="align-middle">{{ surveyor.firstname }}</td>
+                <td class="align-middle">{{ surveyor.surname }}</td>
+                {% if organisation.admin == user %}
+                <td style="width:1px">
+                    {% if surveyor != user %}
+                    <button style="float: right" type="button" class="btn btn-outline-danger delete-surveyor" data-surveyor="{{ surveyor.pk }}" aria-label="Delete">
+                        <span aria-hidden="true">Delete</span>
+                    </button>
+                    {% endif %}
+                </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="btn-container mt-3">
+    <button type="button" class="btn btn-primary js-add-surveyor">
+        Add Member
+    </button>
+
+    <button type="button" class="btn btn-primary js-add-multiple">
+        Add Multiple Members
+    </button>
+</div>
+
+<div>
+  <div class="modal fade" id="modal-add-surveyor">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        {% include "surveyor/partials/invite-surveyor.html" %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="modal fade" id="modal-add-multiple-surveyors">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        {% include "surveyor/partials/import-surveyor.html" %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+
+<script>
+$(function () {
+    $(".js-add-surveyor").click(function () {
+      $("#modal-add-surveyor").modal('show');
+    });
+
+    $(".js-add-multiple").click(function () {
+      $("#modal-add-multiple-surveyors").modal('show');
+    });
+    {% if organisation.admin == user %}
+    $(".delete-surveyor").click(function () {
+      console.log("PRESSED")
+      if (confirm('Are you sure you want to remove this surveyor?')) {
+        var btn = $(this);
+        var surveyor = btn.data('surveyor');
+        var form = $('<form method="post">');
+        form.append('{% csrf_token %}');
+        form.append('<input name="surveyor" value="' + surveyor + '" />');
+        form.append('<input name="request_type" value="delete_surveyor" />');
+        $('body').append(form);
+        form.submit();
+      }
+      else {
+        return false;
+      }
+    });
+    {% endif %} 
+});
+</script>
+
+{% endblock %}
