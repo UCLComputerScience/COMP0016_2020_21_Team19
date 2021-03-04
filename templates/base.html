@@ -21,7 +21,11 @@
   <script src="https://unpkg.com/bootstrap-darkmode@0.7.0/dist/theme.js"></script>
   <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'dashboard' %}">Activity League</a>
-    <ul class="navbar-nav px-3">
+    <a class="navbar-nav px-3 ml-auto custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+        <label class="custom-control-label" for="darkSwitch"><span class="text-white">Dark Mode</span></label>
+    </a>
+    <ul class="navbar-nav px-3 ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
           {{user}} <span data-feather="users"></span>
@@ -77,7 +81,6 @@
 
   <script>
   const themeConfig = new ThemeConfig();
-  
   themeConfig.initTheme();
   const darkSwitch = writeDarkSwitch(themeConfig);
   </script>
