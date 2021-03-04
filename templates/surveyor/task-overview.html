@@ -90,14 +90,14 @@
   <div id="accordion" class="accordion">
       {% for question in questions %}
       <div id="{{ question.id }}" class="card">
-        <div class="card-header clickable-header d-flex justify-content-between align-items-center" id="{{ question.id }}_heading" data-toggle="collapse" data-target="#{{ question.id }}_collapse" aria-expanded="false" aria-controls="{{ question.id }}_collapse">
+        <div role="button" class="card-header d-flex justify-content-between align-items-center" id="heading{{forloop.counter}}" data-toggle="collapse" data-target="#collapse{{forloop.counter}}" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">
             <button class="btn btn-link collapsed">{{ question.description }}</button>
             {% if question.link %}
                 <a class="text-muted"> Link clicked {{question.link_clicks}} times</a>
             {% endif %}
         </div>
 
-        <div id="{{ question.id }}_collapse" class="collapse" aria-labelledby="{{ question.id }}_heading">
+        <div id="collapse{{forloop.counter}}" class="collapse" aria-labelledby="heading{{forloop.counter}}">
           <div class="card-body p-5" align="center">
             {% if task_respondents_completed > 0 %}
               {% if question.type == 'text' %}
