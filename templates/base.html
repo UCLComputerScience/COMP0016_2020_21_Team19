@@ -19,12 +19,14 @@
 
 <body>
   <script src="https://unpkg.com/bootstrap-darkmode@0.7.0/dist/theme.js"></script>
-  <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'dashboard' %}">Activity League</a>
+  <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="{% url 'dashboard' %}">Activity League</a>
     <a class="navbar-nav px-3 ml-auto custom-control custom-switch">
         <input type="checkbox" class="custom-control-input" id="darkSwitch" />
         <label class="custom-control-label" for="darkSwitch"><span class="text-white">Dark Mode</span></label>
     </a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span></button>
     <ul class="navbar-nav px-3 ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
@@ -42,9 +44,9 @@
 
   <div class="container-fluid">
     <div class="row">
-      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-        <div class="sidebar-sticky">
-          <ul class="nav flex-column">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+        <div class="sidebar-sticky pt-3">
+          <ul class="nav flex-column text-white">
             {% block sidebar %}
             {% endblock %}
           </ul>
