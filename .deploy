@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+source .venv/bin/activate
+cd src
+mkdocs build
+mv -f guide/ ../guide
+cd ..
+read -p "Enter UCL CS Username: " uname
+rsync -av --delete-before -e ssh --exclude=".*" --exclude='src/' ./. $uname@csrw2.cs.ucl.ac.uk:/cs/student/www/2020/group19/
