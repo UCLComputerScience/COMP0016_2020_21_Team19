@@ -50,12 +50,12 @@ def progress(request):
 
     :param request: The ``GET`` request made by the user.
     :type request: django.http.HttpRequest
-    :return: The ``respondent/progress_page.html`` template rendered using the given dictionary.
+    :return: The ``respondent/progress.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
     user = get_object_or_404(Respondent, user=request.user)
     group_graphs = get_progress_graphs(user)
-    return render(request, 'respondent/progress_page.html', {'user': user, 'groups': group_graphs})
+    return render(request, 'respondent/progress.html', {'user': user, 'groups': group_graphs})
 
 
 @login_required(login_url='/accounts/login/')
