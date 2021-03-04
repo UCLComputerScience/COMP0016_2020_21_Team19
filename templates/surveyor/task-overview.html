@@ -241,7 +241,19 @@ function updateChart(type, canvas_id) {
         options: {
           legend: {
             display: false
-          }
+          },
+          scales: {
+            yAxes: [{
+                ticks: {
+                    stepSize: 1
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                  autoSkip: false
+                }
+            }]
+        }
         },
         responsive: true,
         maintainAspectRatio: false
