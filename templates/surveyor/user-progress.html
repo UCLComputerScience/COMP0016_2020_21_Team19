@@ -65,10 +65,10 @@
 
   <div class="btn-group pt-3 mb-4" style="margin:20px" role="group" id="button-container">
     {% for graph in graphs %}
-      <button class="btn mr-2 rounded" onclick="render({{ graph|safe }}, this)">{{ graph.title }}</button>
+      <button class="btn btn-light mr-2 rounded" onclick="render({{ graph|safe }}, this)">{{ graph.title }}</button>
     {% endfor %}
   </div>
-<div class="row bg-light rounded" style="margin:20px;height:45vh" id="grey-container">
+<div class="container-fluid row rounded" style="margin:20px;height:45vh" id="grey-container">
   <canvas id="graph-container"></canvas>
 </div>
 
@@ -168,10 +168,13 @@ $('#table').bootstrapTable({
     var buttons = parent.children;
     for (var i = 0; i < buttons.length; i++) {
       var button = buttons[i];
-      if (button.classList.contains('btn-primary')) button.classList.remove('btn-primary');
+      if (button.classList.contains('btn-primary')) {
+        button.classList.remove('btn-primary');
+        button.classList.add('btn-light');
+      }
     }
-
     // Activate new button
+    target_button.classList.remove('btn-light');
     target_button.classList.add('btn-primary');
   }
 
