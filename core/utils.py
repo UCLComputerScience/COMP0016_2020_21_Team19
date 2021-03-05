@@ -289,12 +289,13 @@ def get_chartjs_dict(values):
     :return: A dictionary representing a dataset for a Chart.js line chart.
     :rtype: dict
     """
+    colour = random_hex_colour()
     return {'data': values,
             'lineTension': 0,
             'backgroundColor': 'transparent',
-            'borderColor': random_hex_colour(),
+            'borderColor': colour,
             'borderWidth': 4,
-            'pointBackgroundColor': '#007bff'}
+            'pointBackgroundColor': colour}
 
 
 def get_progress_graphs(respondent):

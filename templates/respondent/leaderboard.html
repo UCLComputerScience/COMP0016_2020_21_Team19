@@ -25,13 +25,13 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
   <h1>Leaderboard</h1>
 </div>
-<div class="btn-group pt-3 mb-4" role="group" id="button-container">
-  <button class="btn btn-primary mr-2 rounded" onclick="render({{ overall_leaderboard | safe }}, this)">Overall</button>
+<div class="btn-toolbar pt-3 mb-4" role="group" id="button-container">
+  <button class="btn btn-primary mr-2 mb-2 rounded" onclick="render({{ overall_leaderboard | safe }}, this)">Overall</button>
   {% for gr in groups %}
-    <button class="btn mr-2 rounded" onclick="render({{ gr.leaderboard | safe }}, this)">{{ gr }}</button>
+    <button class="btn btn-light mr-2 mb-2 rounded" onclick="render({{ gr.leaderboard | safe }}, this)">{{ gr }}</button>
   {% endfor %}
 </div>
-<div> {# class="container" #}
+<div class="table-responsive">
   <table class="table table-striped table-hover" id="leaderboard">
     <thead class="thead">
     <tr>
@@ -54,10 +54,13 @@
     var buttons = parent.children;
     for (var i = 0; i < buttons.length; i++) {
       var button = buttons[i];
-      if (button.classList.contains('btn-primary')) button.classList.remove('btn-primary');
+      if (button.classList.contains('btn-primary')) {
+        button.classList.remove('btn-primary');
+        button.classList.add('btn-light');
+      }
     }
-
     // Activate new button
+    target_button.classList.remove('btn-light');
     target_button.classList.add('btn-primary');
   }
 

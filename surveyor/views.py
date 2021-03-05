@@ -213,7 +213,7 @@ def user_response(request, pk_user, pk_task):
     for question in questions:
         question.response = responses.get(question=question)
     return render(request, 'surveyor/user-response.html',
-                  {'respondent': respondent, 'task': task, 'questions': questions, 'responses': responses})
+                  {'user': user, 'respondent': respondent, 'task': task, 'questions': questions, 'responses': responses})
 
 
 @login_required(login_url='/accounts/login/')
