@@ -18,13 +18,16 @@
 </head>
 
 <body>
-  <script src="https://unpkg.com/bootstrap-darkmode@0.7.0/dist/theme.js"></script>
   <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="{% url 'dashboard' %}">Activity League</a>
-    <a class="navbar-nav px-3 ml-auto custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" id="darkSwitch" />
-        <label class="custom-control-label" for="darkSwitch"><span class="text-white">Dark Mode</span></label>
-    </a>
+    <script src="https://unpkg.com/bootstrap-darkmode@0.7.0/dist/theme.js"></script>
+    <script type="text/javascript">
+      const themeConfig = new ThemeConfig();
+      themeConfig.initTheme();
+      const darkSwitch = writeDarkSwitch(themeConfig);
+      darkSwitch.parentElement.classList.add('ml-3');
+      darkSwitch.nextElementSibling.style.color = 'rgba(255,255,255,.5)';
+    </script>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span></button>
     <ul class="navbar-nav px-3 ml-auto">
@@ -79,12 +82,6 @@
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   })
-  </script>
-
-  <script>
-  const themeConfig = new ThemeConfig();
-  themeConfig.initTheme();
-  const darkSwitch = writeDarkSwitch(themeConfig);
   </script>
 
   {% block scripts %}
