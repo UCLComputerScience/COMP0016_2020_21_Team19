@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'crispy_forms',
 
     'invitations',
@@ -66,7 +67,7 @@ MIDDLEWARE = [
 ACCOUNT_ADAPTER = 'core.adapter.UserInvitationsAdapter'
 
 INVITATIONS_INVITATION_MODEL = 'core.UserInvitation'
-INVITATIONS_INVITATION_ONLY = True
+# INVITATIONS_INVITATION_ONLY = True
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -154,6 +155,21 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    # 'microsoft': {
+    #     'tenant': 'organizations',
+    # },
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/

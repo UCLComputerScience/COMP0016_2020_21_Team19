@@ -1,6 +1,6 @@
 from allauth.account.views import SignupView
 from django.contrib.auth.decorators import login_required
-
+from django.http import HttpResponse
 import respondent
 import surveyor
 from respondent.models import Respondent
@@ -26,6 +26,8 @@ def dashboard(request):
         return surveyor.views.dashboard(request)
     elif Respondent.objects.filter(user=request.user):
         return respondent.views.dashboard(request)
+    else:
+        return HttpResponse("Hello")
 
 
 @login_required(login_url='/accounts/login/')
