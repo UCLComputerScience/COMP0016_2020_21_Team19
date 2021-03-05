@@ -53,40 +53,42 @@
 </div>
 
 <!-- Info Cards -->
-<div class="card-deck justify-content-center m-5 rounded">
-  <div class="col-auto">
-    <div class="card text-center border ml-5 mr-5 h-100" style="width: 18rem;">
-      <div class="card-header"><b>Users Assigned</b></div>
-      <div class="card-body">
-        <p class="card-text text-primary" style="font-size: 200%;"><b>{{task_total_respondents}}</b></p>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-xl-3 col-md-6">
+      <div class="card text-center mb-4">
+        <div class="card-header"><b>Users Assigned</b></div>
+        <div class="card-body">
+          <p class="card-text text-primary" style="font-size: 200%;"><b>{{task_total_respondents}}</b></p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-auto">
-    <div class="card text-center border ml-5 mr-5 h-100" style="width: 18rem;">
-      <div class="card-header"><b>Users Completed</b></div>
-      <div class="card-body">
-        <p class="card-text text-primary" style="font-size: 200%;"><b>{{task_respondents_completed}}</b></p>
+    <div class="col-xl-3 col-md-6">
+      <div class="card text-center mb-4">
+        <div class="card-header"><b>Users Assigned</b></div>
+        <div class="card-body">
+          <p class="card-text text-primary" style="font-size: 200%;"><b>{{task_respondents_completed}}</b></p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-auto">
-    <div class="card text-center border ml-5 mr-5 h-100" style="width: 18rem;">
-      <div class="card-header"><b>Due Date</b></div>
-      <div class="card-body">
-        <p class="card-text text-primary" style="font-size: 200%;"><b>{{task.due_date}}</b></p>
+    <div class="col-xl-3 col-md-6">
+      <div class="card text-center mb-4">
+        <div class="card-header"><b>Due Date</b></div>
+        <div class="card-body">
+          <p class="card-text text-primary" style="font-size: 200%;"><b>{{task.due_date}}</b></p>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Responses Section -->
-<div class="m-5 rounded align-right" align="right">
-  <button id="toggleAccordions-show" class="btn btn-secondary" type="button" data-toggle="collapse">Expand all</button>
-  <button id="toggleAccordions-hide" class="btn btn-secondary" type="button" data-toggle="collapse">Collapse all</button>
+<div class="m-3 rounded align-right" align="right">
+  <button id="toggleAccordions-show" class="btn btn-secondary ml-3 mb-3" type="button" data-toggle="collapse">Expand all</button>
+  <button id="toggleAccordions-hide" class="btn btn-secondary ml-3 mb-3" type="button" data-toggle="collapse">Collapse all</button>
 </div>
 
-<div class="border m-5 rounded bg-light" id="responses-container">
+<div class="border m-3 rounded bg-light" id="responses-container">
   <div id="accordion" class="accordion">
       {% for question in questions %}
       <div id="{{ question.id }}" class="card">
@@ -98,7 +100,7 @@
         </div>
 
         <div id="collapse{{forloop.counter}}" class="collapse" aria-labelledby="heading{{forloop.counter}}">
-          <div class="card-body p-5" align="center">
+          <div class="card-body" align="center">
             {% if task_respondents_completed > 0 %}
               {% if question.type == 'text' %}
                 <div id="{{ question.id }}_cloud"></div>
@@ -113,7 +115,7 @@
                     </label>
                   </div>
                 </div>
-                <div style="position:relative;width:50vh;height:auto">
+                <div class="chart-container" style="position:relative;width:30vh;height:auto">
                   <canvas id="{{ question.id }}_canvas_pie"></canvas>
                   <canvas id="{{ question.id }}_canvas_bar"></canvas>
                 </div>
@@ -128,7 +130,7 @@
   </div>
 </div>
 
-<div class="m-5 rounded align-right" align="right">
+<div class="m-3 mt-3 rounded align-right" align="right">
   {% if task.completed %}
     <button class="btn btn-danger" id="incomplete" type="button" data-task="{{task.pk}}">Mark as incomplete</button>
   {% else %}
@@ -189,6 +191,9 @@ function updateChart(type, canvas_id) {
     canvas.style.display="block";
   }
 }
+function isMobileDevice(){
+    return ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+}
 </script>
 
 {% if task_respondents_completed > 0 %}
@@ -198,7 +203,7 @@ function updateChart(type, canvas_id) {
       var ctx = document.getElementById("{{ question.id }}_cloud");
       img = document.createElement('img');
       img.src = "{{ question.word_cloud }}";
-      img.style.width = "25%";
+      img.style.width = isMobileDevice() ? "100%" : "25%";
       img.style.height = "auto";
       ctx.appendChild(img);
     </script>
@@ -218,7 +223,7 @@ function updateChart(type, canvas_id) {
         },
         options: {
           legend: {
-            display: true,
+            display: !isMobileDevice(),
             position: 'bottom',
             align: 'center'
           }
@@ -250,6 +255,7 @@ function updateChart(type, canvas_id) {
             }],
             xAxes: [{
                 ticks: {
+                  display: !isMobileDevice(),
                   autoSkip: false
                 }
             }]
@@ -264,4 +270,5 @@ function updateChart(type, canvas_id) {
     {% endif %}
   {% endfor %}
 {% endif %}
+
 {% endblock %}

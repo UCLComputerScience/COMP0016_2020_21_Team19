@@ -147,12 +147,12 @@ form .radio-set:last-of-type {border-bottom:0;}
 form .radio-set:before {
   content: '';
   position:relative;
-  top:11px;
+  top:9px;
   left:9.5%;
   display:block;
   background-color:#efefef;
   height:4px;
-  width:78%;
+  width:76.75%;
 }
 form .radio-set li {
   display:inline-block;
