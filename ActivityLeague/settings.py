@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.microsoft',
+    'allauth.socialaccount.providers.github',
     'crispy_forms',
 
     'invitations',
@@ -157,9 +159,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
-    # 'microsoft': {
-    #     'tenant': 'organizations',
-    # },
+    'microsoft': {
+        'tenant': 'organizations',
+    },
     'google': {
         'SCOPE': [
             'profile',

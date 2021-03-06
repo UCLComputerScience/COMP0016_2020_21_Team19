@@ -28,21 +28,16 @@
     {% blocktrans %}Already got an account? <a href="{{ login_url }}">Sign In</a>{% endblocktrans %}
   </small>
 
-  <p class="mt-5 mb-3 text-muted">&copy; Activity League</p>
-
-{% if socialaccount_providers %}
-  <p>{% blocktrans with site.name as site_name %}Please sign in with one
-    of your existing third party accounts. Sign in below:{% endblocktrans %}</p>
-
-  <div class="socialaccount_ballot">
-
-    <ul class="socialaccount_providers">
-      {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-    </ul>
-  
+  {% if socialaccount_providers %}
+  <div class="socialaccount_ballot mt-2">
+    {% for provider in socialaccount_providers %}
+      <a title="{{ provider.name }}" class="socialaccount_provider sb sb-m-2 sb-{{ provider.id }}" href="{% provider_login_url provider.id process="login" %}">
+        Sign in with {{ provider.id | title }}
+      </a>
+    {% endfor %}
   </div>
+  {% endif %}
 
-{% include "socialaccount/snippets/login_extra.html" %}
-{% endif %}
+  <p class="mt-5 mb-3 text-muted">&copy; Activity League</p>
 
 {% endblock %}
