@@ -69,7 +69,7 @@
                 {% if organisation.admin == user %}
                 <td style="width:1px">
                     {% if surveyor != user %}
-                    <button style="float: right" type="button" class="btn btn-outline-danger delete-surveyor" data-surveyor="{{ surveyor.pk }}" aria-label="Delete">
+                    <button style="float: right" type="button" class="btn btn-outline-danger delete-surveyor" data-surveyor="{{ surveyor.id }}" aria-label="Delete">
                         <span aria-hidden="true">Delete</span>
                     </button>
                     {% endif %}

@@ -132,9 +132,9 @@
 
 <div class="m-3 mt-3 rounded align-right" align="right">
   {% if task.completed %}
-    <button class="btn btn-danger" id="incomplete" type="button" data-task="{{task.pk}}">Mark as incomplete</button>
+    <button class="btn btn-danger" id="incomplete" type="button" data-task="{{task.id}}">Mark as incomplete</button>
   {% else %}
-    <button class="btn btn-success" id="complete" type="button" data-task="{{task.pk}}">Mark as complete</button>
+    <button class="btn btn-success" id="complete" type="button" data-task="{{task.id}}">Mark as complete</button>
   {% endif %}
 </div>
 {% endblock %}
