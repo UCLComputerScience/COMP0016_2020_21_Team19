@@ -21,31 +21,9 @@ class AuthenticationSignupForm(SignupForm):
 
     def save(self, request):
         user = super(AuthenticationSignupForm, self).save(request)
-        invite = UserInvitation.objects.get(email=self.cleaned_data.get('email'))
-
-        if invite.is_respondent:
-            group = invite.group
-            respondent = Respondent(
-                user=user,
-                firstname=self.cleaned_data.get('firstname'),
-                surname=self.cleaned_data.get('surname')
-            )
-            respondent.save()
-            group_respondent = GroupRespondent(
-                group=group,
-                respondent=respondent
-            )
-            group_respondent.save()
-        else:
-            organisation = invite.organisation
-            surveyor = Surveyor(
-                user=user,
-                firstname=self.cleaned_data.get('firstname'),
-                surname=self.cleaned_data.get('surname'),
-                organisation=organisation
-            )
-            surveyor.save()
-
+        user.first_name = self.cleaned_data.get('firstname')
+        user.last_name = self.cleaned_data.get('surname')
+        user.save()
         return user
 
 

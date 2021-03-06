@@ -67,7 +67,7 @@ MIDDLEWARE = [
 ACCOUNT_ADAPTER = 'core.adapter.UserInvitationsAdapter'
 
 INVITATIONS_INVITATION_MODEL = 'core.UserInvitation'
-# INVITATIONS_INVITATION_ONLY = True
+INVITATIONS_INVITATION_ONLY = True
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

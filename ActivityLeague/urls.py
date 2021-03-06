@@ -12,7 +12,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda r: HttpResponseRedirect('/accounts/login')),
 
-    url(r'^accounts/signup/?$', authentication.AuthenticationSignup.as_view()),
+    url(r'^accounts/signup/?$', authentication.AuthenticationSignup.as_view(), name='authentication-signup'),
     path('accounts/', include('allauth.urls')),
 
     url(r'^invitations/', include('invitations.urls', namespace='invitations')),
@@ -20,7 +20,7 @@ urlpatterns = [
     # core
     url(r'^dashboard/?$', core.dashboard, name='dashboard'),
     url(r'^leaderboard/?$', core.leaderboard, name='leaderboard'),
-    url(r'^create-organisation/?$', core.OrganisationSignup.as_view(), name='create-organisation'),
+    url(r'^create-organisation/?$', core.create_organisation, name='create-organisation'),
 
     # respondent
     url(r'^response/(?P<id>[0-9a-f-]+)/?$', respondent.response, name='response'),

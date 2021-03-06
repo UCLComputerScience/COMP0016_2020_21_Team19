@@ -1,23 +1,30 @@
 from allauth.account.views import SignupView
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.urls import reverse
+from django.shortcuts import render, get_object_or_404
+import datetime
+from django.utils import timezone
+
 import respondent
 import surveyor
 from respondent.models import Respondent
-from surveyor.models import Surveyor
+from surveyor.models import Surveyor, Organisation
 from .forms import OrganisationSignupForm
+from .models import UserInvitation
+from authentication.views import AuthenticationSignup
+from invitations.views import accept_invitation, AcceptInvite
 
 
-class OrganisationSignup(SignupView):
-    template_name = 'account/create-organisation.html'
-    form_class = OrganisationSignupForm
-    redirect_field_name = 'dashboard'
-    view_name = 'create-organisation'
-
-    def get_context_data(self, **kwargs):
-        ret = super(OrganisationSignup, self).get_context_data(**kwargs)
-        ret.update(self.kwargs)
-        return ret
+def create_organisation(request):
+    if request.method == 'POST':
+        form = OrganisationSignupForm(request.POST)
+        if form.is_valid():
+            organisation = form.save(commit=False)
+            organisation.save()
+            return HttpResponseRedirect(reverse('authentication-signup') + '?org=' + str(organisation.id))
+    form = OrganisationSignupForm()
+    return render(request, 'account/create-organisation.html', {'form': form})
 
 
 @login_required(login_url='/accounts/login/')
@@ -27,7 +34,7 @@ def dashboard(request):
     elif Respondent.objects.filter(user=request.user):
         return respondent.views.dashboard(request)
     else:
-        return HttpResponse("Hello")
+        raise Http404("You were not invited!")
 
 
 @login_required(login_url='/accounts/login/')

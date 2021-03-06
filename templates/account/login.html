@@ -38,7 +38,11 @@
 
     <button class="primaryAction btn btn-lg btn-primary btn-block" type="submit">{% trans "Sign In" %}</button>
   </form>
-
+  <small class="text-muted">
+    {% blocktrans %}Want to create a new organisation?
+    <br>
+    <a href="/create-organisation">Create one here</a>{% endblocktrans %}
+  </small>
   {% if socialaccount_providers %}
   <p>{% blocktrans with site.name as site_name %}Please sign in with one
     of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
@@ -55,14 +59,6 @@
   </div>
 
   {% include "socialaccount/snippets/login_extra.html" %}
-
-  {% else %}
-
-  <small class="text-muted">
-    {% blocktrans %}Want to create a new organisation?
-    <br>
-    <a href="/create-organisation">Create one here</a>{% endblocktrans %}
-  </small>
   {% endif %}
 
   <p class="mt-5 mb-3 text-muted">&copy; Activity League</p>
