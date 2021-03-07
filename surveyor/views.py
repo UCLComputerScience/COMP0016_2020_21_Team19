@@ -230,16 +230,17 @@ def task_overview(request, task_id):
     :rtype: django.http.HttpResponse
     """
     if request.method == 'POST':
-        if request.POST.get('task_status') == 'complete':
-            task_id = request.POST.get('task')
-            task = Task.objects.get(id=task_id)
+        task_id = request.POST.get('task')
+        task = Task.objects.get(id=task_id)
+        if request.POST.get('request') == 'complete':
             task.completed = True
             task.save()
-        if request.POST.get('task_status') == 'incomplete':
-            task_id = request.POST.get('task')
-            task = Task.objects.get(id=task_id)
+        elif request.POST.get('request') == 'incomplete':
             task.completed = False
             task.save()
+        elif request.POST.get('request') == 'delete':
+            task.delete()
+            return HttpResponseRedirect(reverse("dashboard",))
         return HttpResponseRedirect(reverse("task_overview", args=(task_id,)))
 
     user = get_object_or_404(Surveyor, user=request.user)

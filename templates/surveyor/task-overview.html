@@ -130,12 +130,13 @@
   </div>
 </div>
 
-<div class="m-3 mt-3 rounded align-right" align="right">
+<div class="m-3 mt-3 btn-toolbar rounded align-right" align="right">
   {% if task.completed %}
-    <button class="btn btn-danger" id="incomplete" type="button" data-task="{{task.id}}">Mark as incomplete</button>
+    <button class="btn mb-2 mr-2 btn-danger" id="incomplete" type="button" data-task="{{task.id}}">Mark as incomplete</button>
   {% else %}
-    <button class="btn btn-success" id="complete" type="button" data-task="{{task.id}}">Mark as complete</button>
+    <button class="btn mb-2 mr-2 btn-success" id="complete" type="button" data-task="{{task.id}}">Mark as complete</button>
   {% endif %}
+    <button class="btn mb-2 mr-2 btn-danger" id="delete" type="button" data-task="{{task.id}}">Delete Task</button>
 </div>
 {% endblock %}
 
@@ -155,7 +156,7 @@ $("#complete").click(function () {
       var form = $('<form method="post">');
       form.append('{% csrf_token %}');
       form.append('<input name="task" value="' + task + '" />');
-      form.append('<input name="task_status" value="complete" />');
+      form.append('<input name="request" value="complete" />');
       $('body').append(form);
       form.submit();
       if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
@@ -168,9 +169,25 @@ $("#incomplete").click(function () {
       var form = $('<form method="post">');
       form.append('{% csrf_token %}');
       form.append('<input name="task" value="' + task + '" />');
-      form.append('<input name="task_status" value="incomplete" />');
+      form.append('<input name="request" value="incomplete" />');
       $('body').append(form);
       form.submit();
+      if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
+      return false;
+    });
+
+  $("#delete").click(function () {
+      var btn = $(this);
+      var task = btn.data('task');
+      var form = $('<form method="post">');
+      form.append('{% csrf_token %}');
+      form.append('<input name="task" value="' + task + '" />');
+      form.append('<input name="request" value="delete" />');
+      $('body').append(form);
+      var message = 'Deleting this task will also delete all responsees associated with it. Are you sure you want to delete this task?';
+      if (confirm(message)) {
+        form.submit();
+      }
       if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
       return false;
     });
