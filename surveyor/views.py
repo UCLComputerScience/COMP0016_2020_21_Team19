@@ -9,9 +9,8 @@ from tablib import Dataset
 
 from core.models import UserInvitation
 from surveyor.utils import *
-from .forms import GroupForm, TaskForm, QuestionFormset, AddUserForm, InviteUserForm, MultipleUserForm, InviteSurveyorForm
+from .forms import GroupForm, TaskForm, QuestionFormset, QuestionTemplateFormset, AddUserForm, InviteUserForm, MultipleUserForm, InviteSurveyorForm
 from .models import *
-
 
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
@@ -272,7 +271,6 @@ def new_task(request):
     group_surveyors = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
     groups = []
 
-
     for gr in group_surveyors:
         groups.append(Group.objects.get(id=gr))
 
@@ -282,31 +280,67 @@ def new_task(request):
             template = TaskTemplate.objects.get(id=template_id)
             questions = QuestionTemplate.objects.filter(template=template)
             form  = TaskForm(request.GET or None, request=request)
-            formset = QuestionFormset(queryset=questions)
+            initial = []
+            for question in questions:
+                initial.append({
+                    'description': question.description,
+                    'link': question.link,
+                    'response_type': question.response_type
+                })
+            formset = QuestionFormset(queryset=Question.objects.none(), initial=initial)
         else: # Just render the page
             form = TaskForm(request.GET or None, request=request)
             formset = QuestionFormset(queryset=Question.objects.none())
         templates = TaskTemplate.objects.filter(surveyor=user)
     elif request.method == 'POST':
-        #if saving 
         form = TaskForm(request.POST, request=None)
         formset = QuestionFormset(request.POST)
-        if form.is_valid() and formset.is_valid():
-            task = form.save(commit=False)
-            task.save()
-            questions = formset.save(commit=False)
-            for deleted in formset.deleted_objects:
-                deleted.delete()
-            for question_form in questions:
-                question_form.link = sanitize_link(question_form.link)
-                question_form.task = task
-                question_form.save()
+        if "save" in request.POST: # saving template
+            form.fields['group'].required = False
+            form.fields['due_date'].required = False
+            form.fields['due_time'].required = False
+            print('Valid:', form.is_valid())
 
-            task.title = form.cleaned_data['title']
-            task.due_date = form.cleaned_data['due_date']
-            task.due_time = form.cleaned_data['due_time']
-            task.group = Group.objects.get(name=form.cleaned_data['group'])
-            return HttpResponseRedirect(reverse('dashboard'))
+            if form.is_valid():
+                form.save(commit=False)
+                print('FORMSET', formset)
+                task_template = TaskTemplate.objects.create(name=form.cleaned_data['title'], surveyor=user)
+                questions = formset.save(commit=False)
+                for deleted in formset.deleted_objects:
+                    deleted.delete()
+                for question_form in questions:
+                    QuestionTemplate.objects.create(template=task_template,
+                                                    description=question_form.description,
+                                                    link=sanitize_link(question_form.link),
+                                                    response_type=question_form.response_type
+                                                    )
+            return HttpResponseRedirect(reverse('new-task') + '?template=' + str(task_template.id))
+        else: # submitting task
+            if form.is_valid() and formset.is_valid():
+                task = form.save(commit=False)
+                task.save()
+                questions = formset.save(commit=False)
+                for deleted in formset.deleted_objects:
+                    deleted.delete()
+                for question_form in questions:
+                    question_form.link = sanitize_link(question_form.link)
+                    question_form.task = task
+                    question_form.save()
+
+                task.title = form.cleaned_data['title']
+                task.due_date = form.cleaned_data['due_date']
+                task.due_time = form.cleaned_data['due_time']
+                task.group = Group.objects.get(name=form.cleaned_data['group'])
+                return HttpResponseRedirect(reverse('dashboard'))
+            else:
+                for form in formset:
+                    print("ID", form.id)
+                    print("Desc", form['description'].value())
+                    print("Link", form['link'].value())
+                    print("Type", form['response_type'].value())
+                    print()
+                print(formset.errors)
+
 
     return render(request, 'surveyor/new-task.html',
                   {'user': user, 'groups': groups, 'taskform': form, 'formset': formset, 'templates': templates})

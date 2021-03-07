@@ -58,7 +58,6 @@
     </thead>
     <tbody id="table-body">
       {% for group in groups %}
-
       <tr onclick="document.location = '{% url 'manage-group' group.id %}';">
         <td class="align-middle">{{ group.name }}</td>
         <td class="align-middle">{{ group.num_participants }}</td>
@@ -66,8 +65,7 @@
           <span aria-hidden="true">Delete</span>
         </button></td>
       </tr>
-
-        {% endfor %}
+      {% endfor %}
     </tbody>
     {% endif %}
   </table>

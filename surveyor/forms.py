@@ -93,6 +93,31 @@ QuestionFormset = modelformset_factory(
     }
 )
 
+
+QuestionTemplateFormset = modelformset_factory(
+    QuestionTemplate,
+    fields=('link', 'description', 'response_type'),
+    min_num=0,
+    validate_min=True,
+    can_delete=True,
+    widgets={
+        'description': forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter Question here'
+            },
+        ),
+        'link': forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'URL'
+            }
+        ),
+        'response_type': forms.Select(choices=RESPONSE_TYPES, attrs={'class': 'custom-select d-block w-100'})
+    }
+)
+
+
 class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
@@ -109,21 +134,6 @@ class GroupForm(forms.ModelForm):
             )
         }
 
-# class SaveTemplateForm(forms.ModelForm):
-#     class Meta:
-#         model = Template
-#         fields = ('name',)
-#         labels = {
-#             'name': 'Group Name'
-#         }
-#         widgets = {
-#             'name': forms.TextInput(
-#                 attrs={
-#                     'class': 'form-control',
-#                     'placeholder': 'Enter Group Name here'
-#                 }
-#             )
-#         }
 
 class AddUserForm(forms.ModelForm):
 

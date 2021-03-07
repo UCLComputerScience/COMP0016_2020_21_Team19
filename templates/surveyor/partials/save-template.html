@@ -6,11 +6,13 @@
     </button>
 </div>
 <div class="modal-body">
-    <p>
-        Enter a name for the template.
-    </p>
-    
-</div>
+    <div class="row">
+        <div class="col-md-9">
+            <label for="name">{{ template_form.name.label }}</label>
+            {{ template_form.name }}
+        </div>
+    </div>
+  </div>
 <div class="modal-footer">
     <button type="submit" class="btn btn-primary" id="save_template">Save</button>
 </div>
