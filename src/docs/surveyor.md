@@ -2,13 +2,13 @@
 
 ## Launch the Application
 
-To open the application, navigate to [178.79.143.29:8000](//178.79.143.29:8000) in your browser.
+To open the application, navigate to [178.79.143.29.xip.io:8000](//178.79.143.29.xip.io:8000) in your browser.
 
 ## Signing Up
 
 ### Creating an Organisation
 
-From the Sign In page, click the [Create Organisation](//178.79.143.29:8000/create-organisation)
+From the Sign In page, click the [Create Organisation](//178.79.143.29.xip.io:8000/create-organisation)
 button at the bottom of the page. You'll be redirected to this page:
 
 <figure>
@@ -31,7 +31,7 @@ You will automatically be added as a member to the organisation from which you w
 
 ## Dashboard
 
-After logging in, you will be taken to your [dashboard](//178.79.143.29:8000/dashboard). From here you can view all of the
+After logging in, you will be taken to your [dashboard](//178.79.143.29.xip.io:8000/dashboard). From here you can view all of the
 incomplete tasks that you have set so far.
 
 ![Dashboard](img/dashboard.png)
@@ -100,7 +100,7 @@ You also have the option to mark a task as completed/incomplete by clicking on t
 
 ## Leaderboard
 
-Clicking on the [Leaderboard](//178.79.143.29:8000/leaderboard) tab in the sidebar will take you to the page below, where you can
+Clicking on the [Leaderboard](//178.79.143.29.xip.io:8000/leaderboard) tab in the sidebar will take you to the page below, where you can
 view how the progress of respondents that you manage compare against each other.
 
 ![Leaderboard](img/leaderboard_surveyor.png)
@@ -116,7 +116,7 @@ For example, if Respondents enter a higher-valued response because they find tas
 
 ## Manage your Organisation
 
-To view the members of your organisation, click on the [Organisation](//178.79.143.29:8000/organisation) tab in the sidebar.
+To view the members of your organisation, click on the [Organisation](//178.79.143.29.xip.io:8000/organisation) tab in the sidebar.
 
 You'll be redirected to this page:
 
@@ -173,7 +173,7 @@ If you are the [admin user](#admin-user) of the organisation, you can also **del
 
 ## Managing Groups
 
-To manage your groups, click on the [Groups](//178.79.143.29:8000/groups) tab in the sidebar.
+To manage your groups, click on the [Groups](//178.79.143.29.xip.io:8000/groups) tab in the sidebar.
 
 You'll be redirected to this page:
 
@@ -183,7 +183,7 @@ Clicking on a group's row will redirect you to a page where you can manage that 
 
 ### Creating Groups
 
-To create a group, navigate to the [groups](//178.79.143.29:8000/groups) page and click on the `New Group` button. A pop-up like this will appear:
+To create a group, navigate to the [groups](//178.79.143.29.xip.io:8000/groups) page and click on the `New Group` button. A pop-up like this will appear:
 
 <figure>
   <img src="../img/create_group.png" alt="Create Group" width="400" align="center"/>
@@ -256,7 +256,7 @@ You can remove users from a group by clicking on the `Delete` button on that use
 
 ## Users
 
-To view all the users you manage, click on the [Manage Users](//178.79.143.29:8000/users) tab in the sidebar.
+To view all the users you manage, click on the [Manage Users](//178.79.143.29.xip.io:8000/users) tab in the sidebar.
 
 This will take you to the following page:
 

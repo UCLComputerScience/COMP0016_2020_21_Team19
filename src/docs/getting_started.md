@@ -18,7 +18,7 @@ Activity League is a platform designed to collect and visualise user responses a
 
 Activity League is an invite-only platform, so to sign up as a Surveyor, you either have to be invited by an existing organisation or create a new one for yourself. We're going create an organisation!
 
-Navigate to the Sign In page, click the [Create Organisation](//178.79.143.29:8000/create-organisation)
+Navigate to the Sign In page, click the [Create Organisation](//178.79.143.29.xip.io:8000/create-organisation)
 button at the bottom of the page. You'll be redirected to this page:
 
 <figure>
@@ -32,7 +32,7 @@ You will be assigned as the [admin user](#admin-user) of that organisation and y
 
 ## Create a Group
 
-To create a group, navigate from your dashboard to the [groups](//178.79.143.29:8000/groups) page and click on the `New Group` button. A pop-up like this will appear:
+To create a group, navigate from your dashboard to the [groups](//178.79.143.29.xip.io:8000/groups) page and click on the `New Group` button. A pop-up like this will appear:
 
 <figure>
   <img src="../img/create_group.png" alt="Create Group" width="400" align="center"/>

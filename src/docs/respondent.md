@@ -2,7 +2,7 @@
 
 ## Launch the Application
 
-To open the application, navigate to [178.79.143.29:8000](//178.79.143.29:8000) in your browser.
+To open the application, navigate to [178.79.143.29.xip.io:8000](//178.79.143.29.xip.io:8000) in your browser.
 
 ## Signing Up
 
@@ -52,7 +52,7 @@ Text questions simply show a text field in which you can input your response.
 
 ## Leaderboard
 
-Clicking on the [Leaderboard](//178.79.143.29:8000/leaderboard) tab in the sidebar will take you to the page below, where you can view your ranking among all the different groups of which you are a member.
+Clicking on the [Leaderboard](//178.79.143.29.xip.io:8000/leaderboard) tab in the sidebar will take you to the page below, where you can view your ranking among all the different groups of which you are a member.
 
 ![Leaderboard](img/leaderboard_respondent.png)
 
@@ -60,7 +60,7 @@ By default the `Overall` button will be selected, which shows your ranking acros
 
 ## Progress
 
-The [progress](//178.79.143.29:8000/progress) page allows you to visualise your progress over time within a group and overall since you joined Activity League.
+The [progress](//178.79.143.29.xip.io:8000/progress) page allows you to visualise your progress over time within a group and overall since you joined Activity League.
 
 ![Progress Page](img/progress_page.png)
 

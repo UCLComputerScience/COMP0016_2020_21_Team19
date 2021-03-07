@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 source .venv/bin/activate
+rm -rf guide
 cd src
 mkdocs build
 mv -f guide/ ../guide
