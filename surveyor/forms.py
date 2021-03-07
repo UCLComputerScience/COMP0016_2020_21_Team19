@@ -75,6 +75,7 @@ QuestionFormset = modelformset_factory(
     fields=('link', 'description', 'response_type'),
     min_num=0,
     validate_min=True,
+    can_delete=True,
     widgets={
         'description': forms.TextInput(
             attrs={

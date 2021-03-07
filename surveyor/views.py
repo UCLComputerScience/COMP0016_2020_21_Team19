@@ -288,21 +288,19 @@ def new_task(request):
             formset = QuestionFormset(queryset=Question.objects.none())
         templates = TaskTemplate.objects.filter(surveyor=user)
     elif request.method == 'POST':
+        #if saving 
         form = TaskForm(request.POST, request=None)
         formset = QuestionFormset(request.POST)
         if form.is_valid() and formset.is_valid():
             task = form.save(commit=False)
             task.save()
-            print()
-            for question_form in formset:
-                print('#######')
-                print("QUESTION_FORM", question_form)
-                print('#######')
-                link = question_form.cleaned_data['link']
-                question_form.cleaned_data['link'] = sanitize_link(link)
-                question = question_form.save(commit=False)
-                question.task = task
-                question.save()
+            questions = formset.save(commit=False)
+            for deleted in formset.deleted_objects:
+                deleted.delete()
+            for question_form in questions:
+                question_form.link = sanitize_link(question_form.link)
+                question_form.task = task
+                question_form.save()
 
             task.title = form.cleaned_data['title']
             task.due_date = form.cleaned_data['due_date']

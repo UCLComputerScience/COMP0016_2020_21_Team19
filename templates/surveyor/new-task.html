@@ -40,18 +40,19 @@
 {% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">Create New Task</h1>
-    <div class="btn-toolbar">
-        {% if templates %}
-        <a class="btn btn-primary ml-2 mb-2" id="load">Load from Template</a>
-        {% endif %}
-        <a class="btn btn-primary ml-2 mb-2" id="save">Save as Template</a>
-        <a class="btn btn-danger ml-2 mb-2" href="{% url 'dashboard' %}">Cancel</a>
-    </div>
-</div>
 <form method="post">
     {% csrf_token %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Create New Task</h1>
+        <div class="btn-toolbar">
+            {% if templates %}
+            <a class="btn btn-primary ml-2 mb-2" id="load">Load from Template</a>
+            {% endif %}
+            <a class="btn btn-primary ml-2 mb-2" type="submit" id="save">Save as Template</a>
+            <a class="btn btn-danger ml-2 mb-2" href="{% url 'dashboard' %}">Cancel</a>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-7 mb-2">
             <label for="title">{{ taskform.title.label }}</label>
@@ -86,8 +87,11 @@
         </div>
         {% if forloop.counter != 1 %}
         <div class="col-md-1 mb-3">
+          <div style="display: none;">
+            {{ formset.empty_form.DELETE }}
+          </div>
           <label class="invisible">Delete</label>
-          <button class="form-control btn btn-outline-danger" onclick="deleteRow(this.parentElement.parentElement);">Delete</button>
+          <button type="button" class="btn btn-outline-danger" onclick="deleteRow(this.parentElement.parentElement);">Delete</button>
         </div>
         {% endif %}
       </div>
@@ -116,6 +120,7 @@
 
 <div id="empty_form" style="display:none">
   <div class="row">
+    
     <div class="col-md-6 mb-3">
         <label for="question1">{{ formset.empty_form.description.label }}</label>
         {{ formset.empty_form.description }}
@@ -123,7 +128,7 @@
 
     <div class="col-md-3 mb-3">
         <label for="url">{{ formset.empty_form.link.label }}<span class="text-muted"> (Optional)</span></label>
-        {{formset.empty_form.link}}
+        {{ formset.empty_form.link }}
     </div>
 
     <div class="col-md-2 mb-3">
@@ -132,8 +137,11 @@
     </div>
 
     <div class="col-md-1 mb-3">
+      <div style="display: none;">
+          {{ formset.empty_form.DELETE }}
+      </div>
       <label class="invisible">Delete</label>
-      <button class="form-control btn btn-outline-danger" onclick="deleteRow(this.parentElement.parentElement);">Delete</button>
+      <button type="button" class="form-control btn btn-outline-danger" onclick="deleteRow(this.parentElement.parentElement);">Delete</button>
     </div>
   </div>
 </div>
@@ -187,8 +195,10 @@
     
     function deleteRow(row) {
         var form_idx = $('#id_form-TOTAL_FORMS').val();
+        var inputElem = row.getElementsByTagName('INPUT')[0].id;
+        inputElem = inputElem.replace("description", "DELETE");
+        $("#" + inputElem).prop('checked', true);
         row.remove();
-        $('#id_form-TOTAL_FORMS').val(parseInt(form_idx) - 1);
     }
 
     function browserSupportsDateInput() {
