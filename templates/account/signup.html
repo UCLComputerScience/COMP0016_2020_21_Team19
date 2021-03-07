@@ -1,12 +1,15 @@
 {% extends "account/base.html" %}
 
 {% load i18n %}
+{% load account socialaccount %}
 {% load crispy_forms_tags %}
 {% load static %}
 
 {% block head_title %}{% trans "Sign Up" %}{% endblock %}
 
 {% block content %}
+
+{% get_providers as socialaccount_providers %}
 
   <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
     {% csrf_token %}
@@ -24,6 +27,16 @@
   <small class="text-muted">
     {% blocktrans %}Already got an account? <a href="{{ login_url }}">Sign In</a>{% endblocktrans %}
   </small>
+
+  {% if socialaccount_providers %}
+  <div class="socialaccount_ballot mt-2">
+    {% for provider in socialaccount_providers %}
+      <a title="{{ provider.name }}" class="socialaccount_provider sb sb-m-2 sb-{{ provider.id }}" href="{% provider_login_url provider.id process="login" %}">
+        Sign in with {{ provider.id | title }}
+      </a>
+    {% endfor %}
+  </div>
+  {% endif %}
 
   <p class="mt-5 mb-3 text-muted">&copy; Activity League</p>
 

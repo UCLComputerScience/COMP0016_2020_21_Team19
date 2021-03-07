@@ -56,7 +56,7 @@
       <tr>
         <td class="align-middle" onclick="document.location = '{% url 'user_progress' participant.id %}';">{{ participant }}</td>
         <td>
-          <button style="float: right" type="button" class="btn btn-outline-danger delete-participant" data-participant="{{ participant.pk }}" aria-label="Delete">
+          <button style="float: right" type="button" class="btn btn-outline-danger delete-participant" data-participant="{{ participant.id }}" aria-label="Delete">
             <span aria-hidden="true">Delete</span>
           </button>
         </td>

@@ -38,7 +38,8 @@ class UserInvitation(AbstractBaseInvitation):
             organisation=organisation,
             group=group,
             is_respondent=is_respondent,
-            **kwargs)
+            **kwargs
+            )
         return instance
 
     def key_expired(self):

@@ -22,7 +22,7 @@ class TaskForm(forms.ModelForm):
         if self.request:
             surveyor = Surveyor.objects.get(user=self.request.user)
             group_surveyors = GroupSurveyor.objects.filter(surveyor=surveyor).values_list('group', flat=True)
-            self.GROUP_CHOICES = Group.objects.filter(pk__in=group_surveyors)
+            self.GROUP_CHOICES = Group.objects.filter(id__in=group_surveyors)
         super(TaskForm, self).__init__(*args, **kwargs)
 
         if self.request:
@@ -111,10 +111,10 @@ class GroupForm(forms.ModelForm):
 class AddUserForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
-        self.group_pk = kwargs.pop('group_pk')
-        group = Group.objects.get(pk=self.group_pk)
+        self.group_id = kwargs.pop('group_id')
+        group = Group.objects.get(id=self.group_id)
         group_respondents_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
-        self.USERS = Respondent.objects.exclude(pk__in=group_respondents_ids)
+        self.USERS = Respondent.objects.exclude(id__in=group_respondents_ids)
         super(AddUserForm, self).__init__(*args, **kwargs)
 
         self.fields['respondent'] = forms.ModelChoiceField(

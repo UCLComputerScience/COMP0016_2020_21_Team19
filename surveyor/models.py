@@ -7,7 +7,7 @@ from django.db import models
 class Organisation(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=50)
-    admin = models.OneToOneField('Surveyor', related_name='+', on_delete=models.CASCADE)
+    admin = models.OneToOneField('Surveyor', related_name='+', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name

@@ -49,13 +49,13 @@ class RespondentViewTest(TestCase):
         request = self.factory.get('/response/')
         request.user = self.user
         login = self.client.login(username='jacob@email.com', password='top_secret')
-        response = views.response(request, self.task.pk)
+        response = views.response(request, self.task.id)
         self.assertEqual(response.status_code, 200)
 
     def test_response_post(self):
-        request = self.factory.post('/response', {self.question_1.pk: 'agree', self.question_2.pk: 'red',
-                                                  self.question_3.pk: 'textresponse', 'clicked': ''})
+        request = self.factory.post('/response', {self.question_1.id: 'agree', self.question_2.id: 'red',
+                                                  self.question_3.id: 'textresponse', 'clicked': ''})
         request.user = self.user
         login = self.client.login(username='jacob@email.com', password='top_secret')
-        response = views.response(request, self.task.pk)
+        response = views.response(request, self.task.id)
         self.assertEqual(response.status_code, 302)

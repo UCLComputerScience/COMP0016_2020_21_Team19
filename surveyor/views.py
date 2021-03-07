@@ -83,8 +83,8 @@ def organisation(request):
     if request.method == 'POST':
 
         if request.POST.get('request_type') == 'delete_surveyor':  # Deleting a Surveyor
-            surveyor_pk = request.POST.get('surveyor')
-            surveyor = Surveyor.objects.get(pk=surveyor_pk)
+            surveyor_id = request.POST.get('surveyor')
+            surveyor = Surveyor.objects.get(id=surveyor_id)
             surveyor.user.delete()
 
         elif request.POST.get('request_type') == 'invite':  # Inviting a Surveyor
@@ -158,20 +158,20 @@ def users(request):
 
 
 @login_required(login_url='/accounts/login/')
-def user_progress(request, pk_user):
+def user_progress(request, user_id):
     """
     The user progress page for an individual ``Respondent``.
     Displays all of the previous tasks set by the current ``Surveyor`` which the ``Respondent`` has responded to, the progress that they've shown and their individual responses to these tasks.
 
     :param request: ``GET`` request made by the current user.
     :type request: django.http.HttpRequest
-    :param pk_user: Primary key of the ``Surveyor`` accessing the page.
-    :type pk_user: uuid.UUID
+    :param user_id: Primary key of the ``Surveyor`` accessing the page.
+    :type user_id: uuid.UUID
     :return: The ``surveyor/user-progress.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
     user = get_object_or_404(Surveyor, user=request.user)
-    respondent = Respondent.objects.get(pk=pk_user)
+    respondent = Respondent.objects.get(id=user_id)
     tasks, now = get_tasks(user)
     groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
     tasks = tasks.filter(group__in=groups)
@@ -192,22 +192,22 @@ def user_progress(request, pk_user):
 
 
 @login_required(login_url='/accounts/login/')
-def user_response(request, pk_user, pk_task):
+def user_response(request, user_id, task_id):
     """
     The page showing the ``Response`` of a ``Respondent`` to a given ``Task``.
 
     :param request: The ``GET`` request made by the user.
     :type request: django.http.HttpRequest
-    :param pk_user: The primary key of the ``Respondent``.
-    :type pk_user: uuid.UUID
-    :param pk_task: The primary key of the ``Task``.
-    :type pk_task: uuid.UUID
+    :param user_id: The primary key of the ``Respondent``.
+    :type user_id: uuid.UUID
+    :param task_id: The primary key of the ``Task``.
+    :type task_id: uuid.UUID
     :return: The ``surveyor/user-response.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
     user = get_object_or_404(Surveyor, user=request.user)
-    respondent = Respondent.objects.get(pk=pk_user)
-    task = Task.objects.get(pk=pk_task)
+    respondent = Respondent.objects.get(id=user_id)
+    task = Task.objects.get(id=task_id)
     questions = Question.objects.filter(task=task)
     responses = Response.objects.filter(question__in=questions, respondent=respondent)
     for question in questions:
@@ -217,33 +217,33 @@ def user_response(request, pk_user, pk_task):
 
 
 @login_required(login_url='/accounts/login/')
-def task_overview(request, pk_task):
+def task_overview(request, task_id):
     """
     Summary page containing the collective responses of the group which has been assigned a ``Task``.
     Categorical responses are visualised using either Bar or Pie charts and textual responses are visualised in word clouds.
 
     :param request: ``GET`` request made by the current ``Surveyor``.
     :type request: django.http.HttpRequest
-    :param pk_task: The ``UUID`` primary key of the ``Task`` object being queried for a summary of responses.
-    :type pk_task: uuid.UUID
+    :param task_id: The ``UUID`` primary key of the ``Task`` object being queried for a summary of responses.
+    :type task_id: uuid.UUID
     :return: The ``surveyor/task-overview.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
     if request.method == 'POST':
         if request.POST.get('task_status') == 'complete':
-            task_pk = request.POST.get('task')
-            task = Task.objects.get(pk=task_pk)
+            task_id = request.POST.get('task')
+            task = Task.objects.get(id=task_id)
             task.completed = True
             task.save()
         if request.POST.get('task_status') == 'incomplete':
-            task_pk = request.POST.get('task')
-            task = Task.objects.get(pk=task_pk)
+            task_id = request.POST.get('task')
+            task = Task.objects.get(id=task_id)
             task.completed = False
             task.save()
-        return HttpResponseRedirect(reverse("task_overview", args=(pk_task,)))
+        return HttpResponseRedirect(reverse("task_overview", args=(task_id,)))
 
     user = get_object_or_404(Surveyor, user=request.user)
-    task = get_object_or_404(Task, pk=pk_task)
+    task = get_object_or_404(Task, id=task_id)
     questions = Question.objects.filter(task=task)
     num_responses = Response.objects.filter(question__in=questions).count()
 
@@ -252,7 +252,7 @@ def task_overview(request, pk_task):
         'task': task,
         'task_total_respondents': get_num_respondents_in_group(task.group),
         'task_respondents_completed': num_responses // questions.count(),
-        'questions': get_questions(pk_task),
+        'questions': get_questions(task_id),
     }
     return render(request, 'surveyor/task-overview.html', data)
 
@@ -272,7 +272,7 @@ def new_task(request):
     groups = []
 
     for gr in group_surveyors:
-        groups.append(Group.objects.get(pk=gr))
+        groups.append(Group.objects.get(id=gr))
 
     if request.method == 'GET':
         form = TaskForm(request.GET or None, request=request)
@@ -349,8 +349,8 @@ def groups(request):
     user = get_object_or_404(Surveyor, user=request.user)
     if request.method == 'POST':
         if request.POST.get('request_type') == 'delete_group':
-            group_pk = request.POST.get('group')
-            group = Group.objects.filter(pk=group_pk).delete()
+            group_id = request.POST.get('group')
+            group = Group.objects.filter(id=group_id).delete()
         return HttpResponseRedirect(reverse("groups"))
 
     groups = get_groups(user)
@@ -360,22 +360,22 @@ def groups(request):
 
 
 @login_required(login_url='/accounts/login/')
-def manage_group(request, pk_group):
+def manage_group(request, group_id):
     """
     The page allowing for the management (addition/deletion) of ``Respondent``\s in a group.
 
     :param request: The ``GET``/``POST`` request made by the user.
     :type request: django.http.HttpRequest
-    :param pk_group: Primary key of the ``Group`` object stored in the database.
-    :type pk_group: uuid.UUID
+    :param group_id: Primary key of the ``Group`` object stored in the database.
+    :type group_id: uuid.UUID
     :return: The ``surveyor/manage-group.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
     if request.method == 'POST':
-        group = Group.objects.get(pk=pk_group)
+        group = Group.objects.get(id=group_id)
         if request.POST.get('request_type') == 'delete_participant':  # Deleting a participant
-            respondent_pk = request.POST.get('respondent')
-            respondent = Respondent.objects.get(pk=respondent_pk)
+            respondent_id = request.POST.get('respondent')
+            respondent = Respondent.objects.get(id=respondent_id)
             GroupRespondent.objects.filter(respondent=respondent, group=group).delete()
         elif request.POST.get('request_type') == 'invite':  # Inviting a participant
             email = request.POST.get('email')
@@ -414,14 +414,14 @@ def manage_group(request, pk_group):
                     invite.send_invitation(request)
 
         else:  # Adding a participant
-            respondent_pk = request.POST.get('respondent')
-            respondent = Respondent.objects.get(pk=respondent_pk)
+            respondent_id = request.POST.get('respondent')
+            respondent = Respondent.objects.get(id=respondent_id)
             new_object = GroupRespondent.objects.create(group=group, respondent=respondent)
-        return HttpResponseRedirect(reverse("manage-group", args=(pk_group,)))
+        return HttpResponseRedirect(reverse("manage-group", args=(group_id,)))
     user = get_object_or_404(Surveyor, user=request.user)
-    group = Group.objects.get(pk=pk_group)
+    group = Group.objects.get(id=group_id)
     respondents = get_group_participants(group)
-    form = AddUserForm(group_pk=pk_group)
+    form = AddUserForm(group_id=group_id)
     form_inv = InviteUserForm()
     import_form = MultipleUserForm()
     return render(request, 'surveyor/manage-group.html',

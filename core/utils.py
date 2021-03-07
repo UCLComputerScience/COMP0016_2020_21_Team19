@@ -23,7 +23,7 @@ def get_groups(user):
     else:
         raise ValueError('User type not recognised!')
 
-    groups = Group.objects.filter(pk__in=group_ids)
+    groups = Group.objects.filter(id__in=group_ids)
     return groups
 
 
@@ -51,7 +51,7 @@ def get_leaderboard(user, **kwargs):
             groups = GroupRespondent.objects.filter(respondent=user).values_list('group', flat=True)
         respondent_ids = GroupRespondent.objects.filter(group__in=groups).values_list('respondent', flat=True)
 
-    respondents = Respondent.objects.filter(pk__in=respondent_ids)
+    respondents = Respondent.objects.filter(id__in=respondent_ids)
 
     rows = []
     for respondent in respondents:

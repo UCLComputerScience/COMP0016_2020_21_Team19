@@ -88,12 +88,12 @@ def get_group_participants(group):
     :rtype: django.db.models.QuerySet
     """
     group_respondents = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
-    return Respondent.objects.filter(pk__in=group_respondents)
+    return Respondent.objects.filter(id__in=group_respondents)
 
 
 # TODO: Clean up
-def get_questions(pk_task):
-    task = Task.objects.get(pk=pk_task)
+def get_questions(task_id):
+    task = Task.objects.get(id=task_id)
     questions = Question.objects.filter(task=task)
 
     data = []
