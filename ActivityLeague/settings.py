@@ -161,6 +161,11 @@ SOCIALACCOUNT_PROVIDERS = {
 #         'tenant': 'organizations',
 #     },
     'google': {
+        'APP': {
+            'client_id': '570328810485-7al6v22col30j4lppb8t9birn3q5sdg8.apps.googleusercontent.com',
+            'secret': 'tcrv7rq9Ls45O5gt372_F8Nz',
+            'key': ''
+        },
         'SCOPE': [
             'profile',
             'email',
