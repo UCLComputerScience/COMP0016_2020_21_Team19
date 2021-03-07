@@ -21,8 +21,8 @@ def create_organisation(request):
         form = OrganisationSignupForm(request.POST)
         if form.is_valid():
             organisation = form.save(commit=False)
-            organisation.save()
-            return HttpResponseRedirect(reverse('authentication-signup') + '?org=' + str(organisation.id))
+            request.session['organisation_name'] = organisation.name
+            return HttpResponseRedirect(reverse('authentication-signup'))
     form = OrganisationSignupForm()
     return render(request, 'account/create-organisation.html', {'form': form})
 
