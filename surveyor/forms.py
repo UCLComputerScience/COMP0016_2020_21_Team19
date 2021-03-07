@@ -108,6 +108,22 @@ class GroupForm(forms.ModelForm):
             )
         }
 
+# class SaveTemplateForm(forms.ModelForm):
+#     class Meta:
+#         model = Template
+#         fields = ('name',)
+#         labels = {
+#             'name': 'Group Name'
+#         }
+#         widgets = {
+#             'name': forms.TextInput(
+#                 attrs={
+#                     'class': 'form-control',
+#                     'placeholder': 'Enter Group Name here'
+#                 }
+#             )
+#         }
+
 class AddUserForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):

@@ -272,20 +272,32 @@ def new_task(request):
     group_surveyors = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
     groups = []
 
+
     for gr in group_surveyors:
         groups.append(Group.objects.get(id=gr))
 
     if request.method == 'GET':
-        form = TaskForm(request.GET or None, request=request)
-        formset = QuestionFormset(queryset=Question.objects.none())
+        template_id = request.GET.get('template')
+        if template_id: # Load a specific template
+            template = TaskTemplate.objects.get(id=template_id)
+            questions = QuestionTemplate.objects.filter(template=template)
+            form  = TaskForm(request.GET or None, request=request)
+            formset = QuestionFormset(queryset=questions)
+        else: # Just render the page
+            form = TaskForm(request.GET or None, request=request)
+            formset = QuestionFormset(queryset=Question.objects.none())
+        templates = TaskTemplate.objects.filter(surveyor=user)
     elif request.method == 'POST':
         form = TaskForm(request.POST, request=None)
         formset = QuestionFormset(request.POST)
         if form.is_valid() and formset.is_valid():
             task = form.save(commit=False)
             task.save()
-
+            print()
             for question_form in formset:
+                print('#######')
+                print("QUESTION_FORM", question_form)
+                print('#######')
                 link = question_form.cleaned_data['link']
                 question_form.cleaned_data['link'] = sanitize_link(link)
                 question = question_form.save(commit=False)
@@ -297,11 +309,9 @@ def new_task(request):
             task.due_time = form.cleaned_data['due_time']
             task.group = Group.objects.get(name=form.cleaned_data['group'])
             return HttpResponseRedirect(reverse('dashboard'))
-    else:
-        form = NewTaskForm()
 
     return render(request, 'surveyor/new-task.html',
-                  {'user': user, 'groups': groups, 'taskform': form, 'formset': formset})
+                  {'user': user, 'groups': groups, 'taskform': form, 'formset': formset, 'templates': templates})
 
 
 @login_required(login_url='/accounts/login/')

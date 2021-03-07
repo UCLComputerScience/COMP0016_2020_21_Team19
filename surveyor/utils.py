@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
 from core.utils import *
-from surveyor.models import Surveyor
+from surveyor.models import Surveyor, QuestionTemplate, TaskTemplate
 
 
 def get_graphs_and_leaderboards(surveyor):
@@ -163,3 +163,15 @@ def get_overall_word_cloud(surveyor, respondent, text_positive=None):
     responses = responses.filter(text__isnull=False, text_positive=text_positive)  # get only text responses
     word_cloud = create_word_cloud(responses)
     return word_cloud
+
+# def get_templates_and_questions(self, surveyor):
+#     templates = TaskTemplate.objects.filter(surveyor=user)
+#         questions = 
+#         for template in templates:
+#             questions = QuestionTemplate.objects.filter()
+#     data = []
+#     templates = TaskTemplate.objects.filter(surveyor=surveyor)
+#     for template in templates:
+#         entry = {QuestionTemplate.objects.filter}
+    
+#     return data
