@@ -70,8 +70,10 @@
     {{ formset.management_form }}
     <div id="form_set">
     {% for form in formset %}
-      {{ form.id }}
       <div class="row">
+        {% for hidden in form.hidden_fields %}
+          {{ hidden }}
+        {% endfor %}
         <div class="col-md-6 mb-3">
             <label for="question1">{{ form.description.label }}</label>
             {{ form.description }}
@@ -132,7 +134,7 @@
 
 <div id="empty_form" style="display:none">
   <div class="row">
-    
+    {{ formset.empty_form.id }}
     <div class="col-md-6 mb-3">
         <label for="question1">{{ formset.empty_form.description.label }}</label>
         {{ formset.empty_form.description }}

@@ -5,13 +5,11 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.forms import formset_factory
 
 from tablib import Dataset
 
 from core.models import UserInvitation
 from surveyor.utils import *
-# from .forms import GroupForm, TaskForm, QuestionFormset, QuestionTemplateFormset, AddUserForm, InviteUserForm, MultipleUserForm, InviteSurveyorForm
 from .models import *
 from .forms import *
 
@@ -290,15 +288,32 @@ def new_task(request):
                     'link': question.link,
                     'response_type': question.response_type
                 })
-            Formset = formset_factory(
-                QuestionForm,
-                extra=0,
+            Formset = modelformset_factory(
+                Question,
+                fields=('link', 'description', 'response_type'),
+                extra=len(initial),
                 min_num=0,
                 validate_min=True,
-                can_delete=True
-                )
-            formset = Formset(initial=initial)
-            print('Formset: ', formset)
+                can_delete=True,
+                widgets={
+                    'description': forms.TextInput(
+                        attrs={
+                            'class': 'form-control',
+                            'placeholder': 'Enter Question here'
+                        },
+                    ),
+                    'link': forms.TextInput(
+                        attrs={
+                            'class': 'form-control',
+                            'placeholder': 'URL'
+                        }
+                    ),
+                    'response_type': forms.Select(choices=RESPONSE_TYPES, attrs={'class': 'custom-select d-block w-100'})
+                }
+            )
+            formset = Formset(queryset=Question.objects.none(), initial=initial)
+            
+            # print('Formset: ', formset)
         else: # Just render the page
             form = TaskForm(request.GET or None, request=request)
             formset = QuestionFormset(queryset=Question.objects.none())
@@ -310,15 +325,14 @@ def new_task(request):
             return HttpResponseRedirect(reverse('new-task'))
         form = TaskForm(request.POST, request=None)
         formset = QuestionFormset(request.POST)
+
         if "save" in request.POST: # saving template
             form.fields['group'].required = False
             form.fields['due_date'].required = False
             form.fields['due_time'].required = False
-            print('Valid:', form.is_valid())
 
-            if form.is_valid():
+            if form.is_valid() and formset.is_valid():
                 form.save(commit=False)
-                print('FORMSET', formset)
                 task_template = TaskTemplate.objects.create(name=form.cleaned_data['title'], surveyor=user)
                 questions = formset.save(commit=False)
                 for deleted in formset.deleted_objects:
@@ -335,6 +349,8 @@ def new_task(request):
                 task = form.save(commit=False)
                 task.save()
                 questions = formset.save(commit=False)
+                # for form in formset:
+
                 for deleted in formset.deleted_objects:
                     deleted.delete()
                 for question_form in questions:
@@ -349,11 +365,12 @@ def new_task(request):
                 return HttpResponseRedirect(reverse('dashboard'))
             else:
                 for form in formset:
+                    pass
                     # print("ID", form.id)
-                    print("Desc", form['description'].value())
-                    print("Link", form['link'].value())
-                    print("Type", form['response_type'].value())
-                    print()
+                    # print("Desc", form['description'].value())
+                    # print("Link", form['link'].value())
+                    # print("Type", form['response_type'].value())
+                    # print()
                 print(formset.errors)
 
 
