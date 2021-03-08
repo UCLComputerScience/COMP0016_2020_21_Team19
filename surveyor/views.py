@@ -5,13 +5,13 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
+
 from tablib import Dataset
 
 from core.models import UserInvitation
 from surveyor.utils import *
-from .forms import GroupForm, TaskForm, QuestionFormset, AddUserForm, InviteUserForm, MultipleUserForm, InviteSurveyorForm
 from .models import *
-
+from .forms import *
 
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
@@ -265,7 +265,7 @@ def new_task(request):
 
     :param request: The ``GET``/``POST`` request made by the user.
     :type request: django.http.HttpRequest
-    :return: The ``surveyor/new-task.html`` template rendered using the given dictionary.
+    :return: The ``surveyor/new-task.html`` template rendered using the given dictionary or a HttpResponseRedirect to the dashboard.
     :rtype: django.http.HttpResponse
     """
     user = get_object_or_404(Surveyor, user=request.user)
@@ -276,32 +276,76 @@ def new_task(request):
         groups.append(Group.objects.get(id=gr))
 
     if request.method == 'GET':
-        form = TaskForm(request.GET or None, request=request)
-        formset = QuestionFormset(queryset=Question.objects.none())
+        template_id = request.GET.get('template')
+        if template_id: # Load a specific template
+            template = TaskTemplate.objects.get(id=template_id)
+            questions = QuestionTemplate.objects.filter(template=template)
+            form  = TaskForm(request.GET or None, request=request)
+            initial = []
+            for question in questions:
+                initial.append({
+                    'description': question.description,
+                    'link': question.link,
+                    'response_type': question.response_type
+                })
+            Formset = get_question_formset(len(initial))
+            formset = Formset(queryset=Question.objects.none(), initial=initial)
+            
+            # print('Formset: ', formset)
+        else: # Just render the page
+            form = TaskForm(request.GET or None, request=request)
+            QuestionFormset = get_question_formset()
+            formset = QuestionFormset(queryset=Question.objects.none())
+        templates = TaskTemplate.objects.filter(surveyor=user)
     elif request.method == 'POST':
+        if request.POST.get('request_type') == 'delete_template':
+            template_id = request.POST.get('template')
+            TaskTemplate.objects.filter(id=template_id).delete()
+            return HttpResponseRedirect(reverse('new-task'))
         form = TaskForm(request.POST, request=None)
+        QuestionFormset = get_question_formset()
         formset = QuestionFormset(request.POST)
-        if form.is_valid() and formset.is_valid():
-            task = form.save(commit=False)
-            task.save()
 
-            for question_form in formset:
-                link = question_form.cleaned_data['link']
-                question_form.cleaned_data['link'] = sanitize_link(link)
-                question = question_form.save(commit=False)
-                question.task = task
-                question.save()
+        if "save" in request.POST: # saving template
+            form.fields['group'].required = False
+            form.fields['due_date'].required = False
+            form.fields['due_time'].required = False
 
-            task.title = form.cleaned_data['title']
-            task.due_date = form.cleaned_data['due_date']
-            task.due_time = form.cleaned_data['due_time']
-            task.group = Group.objects.get(name=form.cleaned_data['group'])
-            return HttpResponseRedirect(reverse('dashboard'))
-    else:
-        form = NewTaskForm()
+            if form.is_valid() and formset.is_valid():
+                form.save(commit=False)
+                task_template = TaskTemplate.objects.create(name=form.cleaned_data['title'], surveyor=user)
+                questions = formset.save(commit=False)
+                for deleted in formset.deleted_objects:
+                    deleted.delete()
+                for question_form in questions:
+                    QuestionTemplate.objects.create(template=task_template,
+                                                    description=question_form.description,
+                                                    link=sanitize_link(question_form.link),
+                                                    response_type=question_form.response_type)
+            else:
+                raise Exception("Invalid form to save")
+            return HttpResponseRedirect(reverse('new-task') + '?template=' + str(task_template.id))
+        else: # submitting task
+            if form.is_valid() and formset.is_valid():
+                task = form.save(commit=False)
+                task.save()
+                questions = formset.save(commit=False)
+                for deleted in formset.deleted_objects:
+                    deleted.delete()
+                for question_form in questions:
+                    question_form.link = sanitize_link(question_form.link)
+                    question_form.task = task
+                    question_form.save()
 
+                task.title = form.cleaned_data['title']
+                task.due_date = form.cleaned_data['due_date']
+                task.due_time = form.cleaned_data['due_time']
+                task.group = Group.objects.get(name=form.cleaned_data['group'])
+                return HttpResponseRedirect(reverse('dashboard'))
+            else:
+                raise Exception("Invalid form submission")
     return render(request, 'surveyor/new-task.html',
-                  {'user': user, 'groups': groups, 'taskform': form, 'formset': formset})
+                  {'user': user, 'groups': groups, 'taskform': form, 'formset': formset, 'templates': templates})
 
 
 @login_required(login_url='/accounts/login/')

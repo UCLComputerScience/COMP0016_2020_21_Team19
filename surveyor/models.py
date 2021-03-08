@@ -52,7 +52,24 @@ class Task(models.Model):
 
 class Question(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, null=True, on_delete=models.CASCADE)
+    link = models.CharField(max_length=100, blank=True)
+    description = models.CharField(max_length=100, blank=False)
+    response_type = models.SmallIntegerField()
+
+
+class TaskTemplate(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=50)
+    surveyor = models.ForeignKey(Surveyor, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.name
+
+
+class QuestionTemplate(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    template = models.ForeignKey(TaskTemplate, on_delete=models.CASCADE)
     link = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=100, blank=False)
     response_type = models.SmallIntegerField()

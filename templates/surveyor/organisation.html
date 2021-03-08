@@ -64,14 +64,21 @@
         <tbody>
         {% for surveyor in surveyors %}
             <tr id="{{ surveyor.id }}">
-                <td class="align-middle">{{ surveyor.firstname }}</td>
+                <td class="align-middle">
+                {{ surveyor.firstname }}
+                {% if surveyor == organisation.admin and organisation.admin != user %}
+                <a class="badge badge-success">Admin</a>
+                {% endif %}
+                </td>
                 <td class="align-middle">{{ surveyor.surname }}</td>
                 {% if organisation.admin == user %}
                 <td style="width:1px">
                     {% if surveyor != user %}
                     <button style="float: right" type="button" class="btn btn-outline-danger delete-surveyor" data-surveyor="{{ surveyor.id }}" aria-label="Delete">
-                        <span aria-hidden="true">Delete</span>
+                      <span aria-hidden="true">Delete</span>
                     </button>
+                    {% else %}
+                    <a class="badge badge-success">Admin</a>
                     {% endif %}
                 </td>
                 {% endif %}

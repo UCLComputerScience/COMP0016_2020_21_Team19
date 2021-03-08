@@ -70,11 +70,37 @@ class TaskForm(forms.ModelForm):
         }
 
 
+def get_question_formset(extra=1):
+    return modelformset_factory(
+        Question,
+        fields=('link', 'description', 'response_type'),
+        min_num=0,
+        validate_min=True,
+        extra=extra,
+        can_delete=True,
+        widgets={
+            'description': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Enter Question here'
+                },
+            ),
+            'link': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'URL'
+                }
+            ),
+            'response_type': forms.Select(choices=RESPONSE_TYPES, attrs={'class': 'custom-select d-block w-100'})
+        }
+    )
+
 QuestionFormset = modelformset_factory(
     Question,
     fields=('link', 'description', 'response_type'),
     min_num=0,
     validate_min=True,
+    can_delete=True,
     widgets={
         'description': forms.TextInput(
             attrs={
@@ -92,6 +118,7 @@ QuestionFormset = modelformset_factory(
     }
 )
 
+
 class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
@@ -107,6 +134,7 @@ class GroupForm(forms.ModelForm):
                 }
             )
         }
+
 
 class AddUserForm(forms.ModelForm):
 
