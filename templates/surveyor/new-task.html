@@ -89,7 +89,7 @@
         {% if forloop.counter != 1 %}
         <div class="col-md-1 mb-3">
           <div style="display: none;">
-            {{ formset.empty_form.DELETE }}
+            {{ form.DELETE }}
           </div>
           <label class="invisible">Delete</label>
           <button type="button" class="form-control btn btn-outline-danger" onclick="deleteRow(this.parentElement.parentElement);">Delete</button>
@@ -230,6 +230,23 @@
       requiredFields.forEach(function(field) {
           $( "#" + field ).attr('required', '');
       });
+    });
+
+    $(".delete-template").click(function () {
+        if (confirm('Are you sure you want to delete this template?')) {
+            var btn = $(this);
+            var template = btn.data('template');
+            var form = $('<form method="post">');
+            form.append('{% csrf_token %}');
+            form.append('<input name="template" value="' + template + '" />');
+            form.append('<input name="request_type" value="delete_template" />');
+            $('body').append(form);
+            form.submit();
+        }
+        else {
+            return false;
+        }
+        if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
     });
 </script>
 

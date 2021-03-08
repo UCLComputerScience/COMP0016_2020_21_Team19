@@ -5,12 +5,15 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.forms import formset_factory
+
 from tablib import Dataset
 
 from core.models import UserInvitation
 from surveyor.utils import *
-from .forms import GroupForm, TaskForm, QuestionFormset, QuestionTemplateFormset, AddUserForm, InviteUserForm, MultipleUserForm, InviteSurveyorForm
+# from .forms import GroupForm, TaskForm, QuestionFormset, QuestionTemplateFormset, AddUserForm, InviteUserForm, MultipleUserForm, InviteSurveyorForm
 from .models import *
+from .forms import *
 
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
@@ -287,12 +290,24 @@ def new_task(request):
                     'link': question.link,
                     'response_type': question.response_type
                 })
-            formset = QuestionFormset(queryset=Question.objects.none(), initial=initial)
+            Formset = formset_factory(
+                QuestionForm,
+                extra=0,
+                min_num=0,
+                validate_min=True,
+                can_delete=True
+                )
+            formset = Formset(initial=initial)
+            print('Formset: ', formset)
         else: # Just render the page
             form = TaskForm(request.GET or None, request=request)
             formset = QuestionFormset(queryset=Question.objects.none())
         templates = TaskTemplate.objects.filter(surveyor=user)
     elif request.method == 'POST':
+        if request.POST.get('request_type') == 'delete_template':
+            template_id = request.POST.get('template')
+            TaskTemplate.objects.filter(id=template_id).delete()
+            return HttpResponseRedirect(reverse('new-task'))
         form = TaskForm(request.POST, request=None)
         formset = QuestionFormset(request.POST)
         if "save" in request.POST: # saving template
@@ -334,7 +349,7 @@ def new_task(request):
                 return HttpResponseRedirect(reverse('dashboard'))
             else:
                 for form in formset:
-                    print("ID", form.id)
+                    # print("ID", form.id)
                     print("Desc", form['description'].value())
                     print("Link", form['link'].value())
                     print("Type", form['response_type'].value())
