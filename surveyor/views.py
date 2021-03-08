@@ -265,7 +265,7 @@ def new_task(request):
 
     :param request: The ``GET``/``POST`` request made by the user.
     :type request: django.http.HttpRequest
-    :return: The ``surveyor/new-task.html`` template rendered using the given dictionary.
+    :return: The ``surveyor/new-task.html`` template rendered using the given dictionary or a HttpResponseRedirect to the dashboard.
     :rtype: django.http.HttpResponse
     """
     user = get_object_or_404(Surveyor, user=request.user)
@@ -288,34 +288,13 @@ def new_task(request):
                     'link': question.link,
                     'response_type': question.response_type
                 })
-            Formset = modelformset_factory(
-                Question,
-                fields=('link', 'description', 'response_type'),
-                extra=len(initial),
-                min_num=0,
-                validate_min=True,
-                can_delete=True,
-                widgets={
-                    'description': forms.TextInput(
-                        attrs={
-                            'class': 'form-control',
-                            'placeholder': 'Enter Question here'
-                        },
-                    ),
-                    'link': forms.TextInput(
-                        attrs={
-                            'class': 'form-control',
-                            'placeholder': 'URL'
-                        }
-                    ),
-                    'response_type': forms.Select(choices=RESPONSE_TYPES, attrs={'class': 'custom-select d-block w-100'})
-                }
-            )
+            Formset = get_question_formset(len(initial))
             formset = Formset(queryset=Question.objects.none(), initial=initial)
             
             # print('Formset: ', formset)
         else: # Just render the page
             form = TaskForm(request.GET or None, request=request)
+            QuestionFormset = get_question_formset()
             formset = QuestionFormset(queryset=Question.objects.none())
         templates = TaskTemplate.objects.filter(surveyor=user)
     elif request.method == 'POST':
@@ -324,6 +303,7 @@ def new_task(request):
             TaskTemplate.objects.filter(id=template_id).delete()
             return HttpResponseRedirect(reverse('new-task'))
         form = TaskForm(request.POST, request=None)
+        QuestionFormset = get_question_formset()
         formset = QuestionFormset(request.POST)
 
         if "save" in request.POST: # saving template
@@ -341,16 +321,15 @@ def new_task(request):
                     QuestionTemplate.objects.create(template=task_template,
                                                     description=question_form.description,
                                                     link=sanitize_link(question_form.link),
-                                                    response_type=question_form.response_type
-                                                    )
+                                                    response_type=question_form.response_type)
+            else:
+                raise Exception("Invalid form to save")
             return HttpResponseRedirect(reverse('new-task') + '?template=' + str(task_template.id))
         else: # submitting task
             if form.is_valid() and formset.is_valid():
                 task = form.save(commit=False)
                 task.save()
                 questions = formset.save(commit=False)
-                # for form in formset:
-
                 for deleted in formset.deleted_objects:
                     deleted.delete()
                 for question_form in questions:
@@ -364,16 +343,7 @@ def new_task(request):
                 task.group = Group.objects.get(name=form.cleaned_data['group'])
                 return HttpResponseRedirect(reverse('dashboard'))
             else:
-                for form in formset:
-                    pass
-                    # print("ID", form.id)
-                    # print("Desc", form['description'].value())
-                    # print("Link", form['link'].value())
-                    # print("Type", form['response_type'].value())
-                    # print()
-                print(formset.errors)
-
-
+                raise Exception("Invalid form submission")
     return render(request, 'surveyor/new-task.html',
                   {'user': user, 'groups': groups, 'taskform': form, 'formset': formset, 'templates': templates})
 

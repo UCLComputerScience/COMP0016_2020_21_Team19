@@ -70,6 +70,31 @@ class TaskForm(forms.ModelForm):
         }
 
 
+def get_question_formset(extra=1):
+    return modelformset_factory(
+        Question,
+        fields=('link', 'description', 'response_type'),
+        min_num=0,
+        validate_min=True,
+        extra=extra,
+        can_delete=True,
+        widgets={
+            'description': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Enter Question here'
+                },
+            ),
+            'link': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'URL'
+                }
+            ),
+            'response_type': forms.Select(choices=RESPONSE_TYPES, attrs={'class': 'custom-select d-block w-100'})
+        }
+    )
+
 QuestionFormset = modelformset_factory(
     Question,
     fields=('link', 'description', 'response_type'),
@@ -92,31 +117,6 @@ QuestionFormset = modelformset_factory(
         'response_type': forms.Select(choices=RESPONSE_TYPES, attrs={'class': 'custom-select d-block w-100'})
     }
 )
-
-class QuestionForm(forms.ModelForm):
-    class Meta:
-        model = Question
-        fields = ('description', 'link', 'response_type')
-        labels = {
-            'description': 'Description',
-            'link': 'Link',
-            'response_type': 'Response type'
-        }
-        widgets = {
-            'description': forms.TextInput(
-                attrs={
-                    'class': 'form-control',
-                    'placeholder': 'Enter Question here'
-                },
-            ),
-            'link': forms.TextInput(
-                attrs={
-                    'class': 'form-control',
-                    'placeholder': 'URL'
-                }
-            ),
-            'response_type': forms.Select(choices=RESPONSE_TYPES, attrs={'class': 'custom-select d-block w-100'})
-        }
 
 
 class GroupForm(forms.ModelForm):
