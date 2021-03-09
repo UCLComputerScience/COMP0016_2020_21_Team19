@@ -25,11 +25,13 @@ def run_migrations():
         management.call_command("createsuperuser", "--noinput", "--email=email@example.com", "--username=admin")
 
 def insert_dummy_data():
-    from surveyor.models import Surveyor, Group, GroupSurveyor, Task, Question
+    from surveyor.models import Surveyor, Group, GroupSurveyor, Task, Question, Organisation
     from respondent.models import Respondent, GroupRespondent, Response
 
     User = get_user_model()
 
+    organisation = Organisation.objects.create(name="Org")
+    
     john_doe_user = User.objects.create_user(username="john", email="john@doe.com", password="activityleague")
     jack_white_user = User.objects.create_user(username="jack", email="jack@white.com", password="activityleague")
 
@@ -39,8 +41,10 @@ def insert_dummy_data():
     john_doe = Respondent.objects.create(user=john_doe_user, firstname="John", surname="Doe")
     jack_white = Respondent.objects.create(user=jack_white_user, firstname="Jack", surname="White")
 
-    jane_doe = Surveyor.objects.create(user=jane_doe_user, firstname="Jane", surname="Doe")
-    christine_black = Surveyor.objects.create(user=christine_black_user, firstname="Christine", surname="Black")
+    jane_doe = Surveyor.objects.create(user=jane_doe_user, firstname="Jane", surname="Doe", organisation=organisation)
+    christine_black = Surveyor.objects.create(user=christine_black_user, firstname="Christine", surname="Black", organisation=organisation)
+    organisation.admin = christine_black
+    organisation.save()
 
     shoulder_1 = Group.objects.create(name="Shoulder Therapy 1")
     hip_1 = Group.objects.create(name="Hip Therapy 1")
@@ -54,14 +58,13 @@ def insert_dummy_data():
     jane_doe_groupsurveyor = GroupSurveyor.objects.create(surveyor=jane_doe, group=shoulder_1)
     christine_black_groupsurveyor = GroupSurveyor.objects.create(surveyor=christine_black, group=hip_1)
 
-    press_up_tasks = [Task.objects.create(title="Perform 20 Press-Ups", group=shoulder_1, due_date=datetime.datetime(2021, 7, i), due_time=datetime.time(10 + i, 0)) for i in range(1,4)]
+    press_ups = Task.objects.create(title="Perform 20 Press-Ups", group=shoulder_1, due_date=datetime.datetime(2021, 7, 1), due_time=datetime.time(10, 0))
 
     sit_ups = Task.objects.create(title="Perform 20 Sit-Ups", group=hip_1, due_date=datetime.datetime(2021, 7, 1), due_time=datetime.time(10, 0))
 
     questions = []
-    for task in press_up_tasks:
-        for number in [10, 20, 30]:
-            questions.append(Question.objects.create(task=task, link="https://www.url.com", description="Do " + str(number) + " Push-Ups", response_type=1))
+    for number in [10, 20, 30]:
+        questions.append(Question.objects.create(task=press_ups, link="https://www.url.com", description="How hard was doing " + str(number) + " push-ups?", response_type=4))
 
     for respondent in [john_doe, jack_white]:
         for i, question in enumerate(questions):
