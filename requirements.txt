@@ -9,4 +9,3 @@ django-invitations
 coverage-badge
 django-import-export
 selenium
-chromedriver-py

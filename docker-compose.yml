@@ -3,7 +3,6 @@ version: "3.9"
 services:
   db:
     image: postgres
-    # command: 
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
@@ -24,10 +23,9 @@ services:
       - db
       - selenium
   selenium:
-    image: selenium/standalone-chrome-debug:3.7.1
+    image: selenium/standalone-chrome
     ports:
       - 4444:4444
-      - 5900:5900
 
 volumes:
   postgres_data:
