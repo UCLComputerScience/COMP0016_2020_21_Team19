@@ -11,6 +11,7 @@ from urllib.parse import parse_qsl, urlsplit
 @receiver(user_signed_up)
 def user_signed_up(request, user, **kwargs):
     if request.session.get('organisation_name'):
+        organisation_name = request.session.pop('organisation_name')
         organisation = Organisation.objects.create(name=organisation_name)
         surveyor = Surveyor(
                 user=user,
@@ -21,7 +22,6 @@ def user_signed_up(request, user, **kwargs):
         surveyor.save()
         organisation.admin = surveyor
         organisation.save()
-        request.session.pop('organisation_name')
     else:
         try:
             invite = UserInvitation.objects.get(email=user.email)
