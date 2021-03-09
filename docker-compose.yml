@@ -9,8 +9,6 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    links:
-      - selenium
     ports:
       - "5432:5432"
   web:
@@ -21,11 +19,6 @@ services:
       - .:/code
     depends_on:
       - db
-      - selenium
-  selenium:
-    image: selenium/standalone-chrome
-    ports:
-      - 4444:4444
 
 volumes:
   postgres_data:
