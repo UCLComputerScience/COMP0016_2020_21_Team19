@@ -59,7 +59,7 @@
       </thead>
       <tbody>
         {% for task in tasks %}
-          <tr onclick="document.location = '{% url 'task_overview' task.id %}';">
+          <tr id="task{{forloop.counter}}" onclick="document.location = '{% url 'task_overview' task.id %}';">
             <td class="align-middle">{{ task.title }}</td>
             <td class="align-middle">{{ task.group }}</td>
             <td class="align-middle">{{ task.num_group_respondents }}</td>

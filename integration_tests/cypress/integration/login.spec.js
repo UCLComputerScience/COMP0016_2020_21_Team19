@@ -1,6 +1,10 @@
 /// <reference types="Cypress" />
 
-context('Actions', () => {
+describe('Log In', () => {
+  before(() => {
+    cy.fixture('users.json').as('usersData');
+  })
+
   beforeEach(() => {
     cy.visit('/')
   })

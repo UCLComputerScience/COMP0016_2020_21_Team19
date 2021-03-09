@@ -1,33 +1,23 @@
-/// <reference types="cypress" />
+/// <reference types="Cypress" />
 
-before(() => {
-    // Sign in to the site
-    cy.visit('/')
-    cy.get('#id_login')
-      .type('christine@black.com')
-      .should('have.value', 'christine@black.com')
-
-    cy.get('#id_password')
-      .type('activityleague')
-      .should('have.value', 'activityleague')
-
-    cy.get('button[type=submit]').click();
-})
+import { testNavBar } from './surveyor_nav.spec.js'
 
 context('Actions', () => {
-
     beforeEach(() => {
-      cy.visit('/')
-    })
-    
-    it('Takes you to new task page when you click new task', () => {
-        cy.get('a[href="/accounts/password/reset/"]').click()
-        cy.location('pathname').should('eq', '/accounts/password/reset/')
+      cy.LogIn()
     })
 
-    it('Takes you to new task page when you click new task', () => {
-        cy.get('a[href="/accounts/password/reset/"]').click()
-        cy.location('pathname').should('eq', '/accounts/password/reset/')
+    it('Takes you to the task overview page', () => {
+        cy.get('#task1').click()
+        cy.location('pathname').should('contain', 'task/')
     })
 
+    it('Takes you to the New Task page', () => {
+      cy.contains('New Task').click()
+      cy.location('pathname').should('contain', 'new-task')
+    })
+
+    it('Test Sidebar', () => {
+      testNavBar()
+    })
 })

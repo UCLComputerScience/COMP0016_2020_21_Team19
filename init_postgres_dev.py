@@ -25,7 +25,8 @@ def run_migrations():
         management.call_command("createsuperuser", "--noinput", "--email=email@example.com", "--username=admin")
 
 def insert_dummy_data():
-    from surveyor.models import Surveyor, Group, GroupSurveyor, Task, Question, Organisation
+    from core.models import Group, Task, Question
+    from surveyor.models import Surveyor, GroupSurveyor, Organisation
     from respondent.models import Respondent, GroupRespondent, Response
 
     User = get_user_model()

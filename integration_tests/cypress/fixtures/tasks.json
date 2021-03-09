@@ -1,0 +1,24 @@
+[
+{
+  "model": "surveyor.task",
+  "pk": "874f1436-0058-4ff0-9816-ccb10ba9d881",
+  "fields": {
+    "title": "Perform 20 Press-Ups",
+    "group": "36f656e2-5695-474b-acf1-9859dc70151c",
+    "due_date": "2021-07-01",
+    "due_time": "10:00:00",
+    "completed": false
+  }
+},
+{
+  "model": "surveyor.task",
+  "pk": "ebecfb56-db72-4b2b-909e-4ae248102fcc",
+  "fields": {
+    "title": "Perform 20 Sit-Ups",
+    "group": "0eecf330-60a1-4df2-ae6f-76176560f4e5",
+    "due_date": "2021-07-01",
+    "due_time": "10:00:00",
+    "completed": false
+  }
+}
+]

@@ -3,7 +3,8 @@ import operator
 import random
 
 from respondent.models import Respondent, Response, GroupRespondent
-from surveyor.models import Surveyor, GroupSurveyor, Group, Task, Question
+from surveyor.models import Surveyor, GroupSurveyor
+from .models import Group, Task, Question
 
 
 def get_groups(user):

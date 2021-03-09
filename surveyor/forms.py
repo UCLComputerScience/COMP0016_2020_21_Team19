@@ -1,7 +1,8 @@
 from django import forms
 from django.forms import modelformset_factory
 
-from core.models import UserInvitation
+from authentication.models import UserInvitation
+from core.models import *
 from respondent.models import *
 from .models import *
 

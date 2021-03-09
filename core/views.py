@@ -9,9 +9,9 @@ from django.utils import timezone
 import respondent
 import surveyor
 from respondent.models import Respondent
+from authentication.models import UserInvitation
 from surveyor.models import Surveyor, Organisation
 from .forms import OrganisationSignupForm
-from .models import UserInvitation
 from authentication.views import AuthenticationSignup
 from invitations.views import accept_invitation, AcceptInvite
 

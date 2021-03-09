@@ -3,7 +3,7 @@ import uuid
 from django.contrib.auth.models import User
 from django.db import models
 
-from surveyor.models import Group, Question
+from core.models import Group, Question
 
 """
 Django auto generates ID primary keys for each model, 

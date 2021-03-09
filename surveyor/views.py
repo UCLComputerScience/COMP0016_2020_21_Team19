@@ -8,7 +8,7 @@ from django.urls import reverse
 
 from tablib import Dataset
 
-from core.models import UserInvitation
+from core.models import *
 from surveyor.utils import *
 from .models import *
 from .forms import *

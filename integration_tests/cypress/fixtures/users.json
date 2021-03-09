@@ -1,0 +1,92 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$LrrOeIl0AI9a$CFhDFnO4VITtVCk7oHqid7FvITpgbpbiJKYnUBEJId0=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "email@example.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2021-03-09T15:01:22.267Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$O45zkNKfbFu8$Ot6AVZrGW8vD23jTF/g2hnzB0n7WtLftVgFLH98Dlvk=",
+    "last_login": "2021-03-09T16:02:40.911Z",
+    "is_superuser": false,
+    "username": "john",
+    "first_name": "",
+    "last_name": "",
+    "email": "john@doe.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-03-09T15:01:22.350Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$fmOcRbvcNUf1$KlgbMPpro8d8YLZmhQsC3/fa13qJUtaKHfLM6PEyQGE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "jack",
+    "first_name": "",
+    "last_name": "",
+    "email": "jack@white.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-03-09T15:01:22.409Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$tVP5XmAO6OJF$VbvcxgUus6rjnfdZjof1Rukharva4Kw7PJbfK6jpFfo=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "jane",
+    "first_name": "",
+    "last_name": "",
+    "email": "jane@doe.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-03-09T15:01:22.467Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$ThLDHQF7OhH4$z8nXGuEV9OxGjnIyBUUZdgW7kewinHcc4CsfXIH/4+8=",
+    "last_login": "2021-03-09T20:27:38.772Z",
+    "is_superuser": false,
+    "username": "christine",
+    "first_name": "",
+    "last_name": "",
+    "email": "christine@black.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2021-03-09T15:01:22.523Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

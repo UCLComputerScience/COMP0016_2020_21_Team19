@@ -2,7 +2,7 @@ from allauth.account.signals import user_signed_up
 from allauth.socialaccount.signals import pre_social_login
 from django.dispatch import receiver
 
-from core.models import UserInvitation
+from .models import UserInvitation
 from surveyor.models import Surveyor, Organisation
 from respondent.models import Respondent, GroupRespondent
 from urllib.parse import parse_qsl, urlsplit

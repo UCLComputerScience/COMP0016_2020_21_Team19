@@ -1,9 +1,9 @@
 from allauth.account.forms import SignupForm, LoginForm
 from django import forms
 
-from core.models import UserInvitation
 from respondent.models import Respondent, GroupRespondent
 from surveyor.models import Surveyor
+from .models import UserInvitation
 
 
 class AuthenticationSignupForm(SignupForm):
