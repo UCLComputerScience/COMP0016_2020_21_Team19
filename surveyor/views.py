@@ -426,11 +426,12 @@ def manage_group(request, group_id):
             email = request.POST.get('email')
             if User.objects.filter(email=email).exists():
                 user = User.objects.get(email=email)
-                respondent = Respondent.objects.get(user=user)
-                GroupRespondent.objects.create(
-                    group=group,
-                    respondent=respondent
-                )
+                if Respondent.objects.filter(user=user).exists():
+                    respondent = Respondent.objects.get(user=user)
+                    GroupRespondent.objects.create(
+                        group=group,
+                        respondent=respondent
+                    )
             else:
                 invite = UserInvitation.create(
                     email,
