@@ -32,7 +32,7 @@ class Response(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     respondent = models.ForeignKey(Respondent, on_delete=models.SET_NULL, null=True)
-    value = models.SmallIntegerField(null=True)
+    value = models.FloatField(null=True)
     text = models.CharField(max_length=30, null=True)
     text_positive = models.BooleanField(null=True, default=None)
     date_time = models.DateTimeField()

@@ -78,31 +78,31 @@
         <ul class='radio-set'>
           <li>
               <label>
-                  <input type="radio" name="{{ question.id }}" value="strong_disagree" required {% if question.response.value == 1 %} checked="checked" {% endif %}>
+                  <input type="radio" name="{{ question.id }}" value="1" required {% if question.response.value == 1 %} checked="checked" {% endif %}>
                   Strongly disagree
               </label>
           </li>
           <li>
               <label>
-                  <input type="radio" name="{{ question.id }}" value="disagree" {% if question.response.value == 2 %} checked="checked" {% endif %}>
+                  <input type="radio" name="{{ question.id }}" value="2" {% if question.response.value == 2 %} checked="checked" {% endif %}>
                   Disagree
               </label>
           </li>
           <li>
               <label>
-                  <input type="radio" name="{{ question.id }}" value="neutral" {% if question.response.value == 3 %} checked="checked" {% endif %}>
+                  <input type="radio" name="{{ question.id }}" value="3" {% if question.response.value == 3 %} checked="checked" {% endif %}>
                   Neutral
               </label>
           </li>
           <li>
               <label>
-                  <input type="radio" name="{{ question.id }}" value="agree" {% if question.response.value == 4 %} checked="checked" {% endif %}>
+                  <input type="radio" name="{{ question.id }}" value="4" {% if question.response.value == 4 %} checked="checked" {% endif %}>
                   Agree
               </label>
           </li>
           <li>
               <label>
-                  <input type="radio" name="{{ question.id }}" value="strong_agree" {% if question.response.value == 5 %} checked="checked" {% endif %}>
+                  <input type="radio" name="{{ question.id }}" value="5" {% if question.response.value == 5 %} checked="checked" {% endif %}>
                   Strongly agree
               </label>
           </li>
@@ -125,13 +125,13 @@
     <div class="text-center">
       <div class="btn-group btn-group-toggle" data-toggle="buttons" required>
         <label class="btn {% if question.response.value == 1 %} btn-danger active {% else %} btn-outline-danger {% endif %}">
-          <input type="radio" disabled='disabled' name="{{ question.id }}" value="red" required {% if question.response.value == 1 %} checked="checked" {% endif %}> <i data-feather="frown" style="width: 36px; height 36px"></i>
+          <input type="radio" disabled='disabled' name="{{ question.id }}" value="1.667" required {% if question.response.value == 1 %} checked="checked" {% endif %}> <i data-feather="frown" style="width: 36px; height 36px"></i>
         </label>
         <label class="btn {% if question.response.value == 2 %} btn-warning active {% else %} btn-outline-warning {% endif %}">
-          <input type="radio" disabled='disabled' name="{{ question.id }}" value="yellow" {% if question.response.value == 2 %} checked="checked" {% endif %}> <i data-feather="meh" style="width: 36px; height 36px"></i>
+          <input type="radio" disabled='disabled' name="{{ question.id }}" value="3.333" {% if question.response.value == 2 %} checked="checked" {% endif %}> <i data-feather="meh" style="width: 36px; height 36px"></i>
         </label>
         <label class="btn {% if question.response.value == 3 %} btn-success active {% else %} btn-outline-success {% endif %}">
-          <input type="radio" disabled='disabled' name="{{ question.id }}" value="green" {% if question.response.value == 3 %} checked="checked" {% endif %}> <i data-feather="smile" style="width: 36px; height 36px"></i>
+          <input type="radio" disabled='disabled' name="{{ question.id }}" value="5" {% if question.response.value == 3 %} checked="checked" {% endif %}> <i data-feather="smile" style="width: 36px; height 36px"></i>
         </label>
       </div>
     </div>

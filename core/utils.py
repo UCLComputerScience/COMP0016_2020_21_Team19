@@ -2,6 +2,8 @@ import datetime
 import operator
 import random
 
+from django.db.models import Avg
+
 from respondent.models import Respondent, Response, GroupRespondent
 from surveyor.models import Surveyor, GroupSurveyor, Group, Task, Question
 
@@ -74,6 +76,28 @@ def get_leaderboard(user, **kwargs):
 
     return rows
 
+# TODO: Add documentation here
+# TODO: Unit test this method
+def get_chart_data(user, *kwargs):
+    responses = get_responses(user, **kwargs)
+    responses = responses.filter(value__isnull=False)
+    
+    if not responses:
+        return [], []
+        
+    x_date, y_score = [], []
+    rolling_avg, n = 0, 0
+    
+    date = responses.first().date_time.date()
+    end = datetime.datetime.now().date()
+    
+    while date <= end:
+        rolling_avg = responses.filter(date_time__lte=date).aggregate(Avg('value'))
+        x_date.append(date)
+        y_score.append(rolling_avg)
+        date += datetime.timedelta(days=1)
+
+    return x_date, y_score
 
 # Surveyor
 def get_graph_labels(user, **kwargs):
@@ -143,9 +167,10 @@ def get_graph_data(user, labels, **kwargs):
         for response in responses:
             if response.date_time.date() > date:
                 break
-            if response.date_time.date() > previous_date:
-                queryset.append(response.value)
-        scores.append(calculate_score(queryset) if queryset else previous_score)
+            # if response.date_time.date() > previous_date:
+            queryset.append(response.value)
+        # scores.append(calculate_score(queryset) if queryset else previous_score)
+        scores.append(calculate_score(queryset))
         previous_date = date
         previous_score = scores[-1]
 
