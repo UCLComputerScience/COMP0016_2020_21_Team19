@@ -6,6 +6,8 @@ import warnings
 from django.db.models import Avg
 from django.utils import timezone
 
+from django.db.models import Avg
+
 from respondent.models import Respondent, Response, GroupRespondent
 from surveyor.models import Surveyor, GroupSurveyor
 from .models import Group, Task, Question
@@ -81,7 +83,37 @@ def get_leaderboard(user, **kwargs):
 
 # TODO: Add documentation here
 # TODO: Unit test this method
-def get_chart_data(user, **kwargs):
+def get_chart_data(user, *kwargs):
+    responses = get_responses(user, **kwargs)
+    responses = responses.filter(value__isnull=False)
+    
+    if not responses:
+        return [], []
+        
+    x_date, y_score = [], []
+    rolling_avg, n = 0, 0
+    
+    date = responses.first().date_time.date()
+    end = datetime.datetime.now().date()
+    
+    while date <= end:
+        rolling_avg = responses.filter(date_time__lte=date).aggregate(Avg('value'))
+        x_date.append(date)
+        y_score.append(rolling_avg)
+        date += datetime.timedelta(days=1)
+
+    return x_date, y_score
+
+# Surveyor
+def get_graph_labels(user, **kwargs):
+    """
+    Retrieves the x-axis labels (dates) used for progress graphs.
+
+    :param user:  A ``Surveyor``/``Respondent`` representing the user currently logged in.
+    :type user: Surveyor or Respondent
+    :return: A sorted list containing the dates to be used as x-axis labels.
+    :rtype: List[str]
+    """
     responses = get_responses(user, **kwargs)
     responses = responses.filter(value__isnull=False)
     
