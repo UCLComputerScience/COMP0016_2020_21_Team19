@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 
 {% block sidebar %}
@@ -87,8 +88,9 @@
     <div class="row" style="margin: 0px;">
         <div class="col-xl-6">
             <div class="card mb-4">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     {{ gr.title }}: Graph
+                    <input type="text" id="datepicker_{{gr.id}}" class="form-control col-xl-3">
                 </div>
                 <div class="card-body graph-container">
                   <canvas id="{{ gr.id }}" class="chartjs-render-monitor" style="display: block; height: 329px; width: 824px;">
@@ -125,17 +127,26 @@
   {% endfor %}
 </div>
 {% endblock %}
-
 {% block scripts %}
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 {% for gr in group_data%}
 <script>
+  var dates = {{ gr.labels | safe }}
+  for (var i = 0; i < dates.length; i++) { 
+    dates[i] = new Date(dates[i]);
+  }
+  var data = {{ gr.scores | safe }}
   var ctx = document.getElementById("{{ gr.id }}").getContext('2d');
-  new Chart(ctx, {
+
+  var chart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: {{ gr.labels | safe }},
+      labels: dates,
       datasets: [{
-        data: {{ gr.scores | safe }},
+        data: data,
         lineTension: 0,
         backgroundColor: 'transparent',
         borderColor: '#007bff',
@@ -146,7 +157,7 @@
     options: {
       title: {
         display: true,
-        text: '{{ gr.title }}'
+        text: "{{ gr.title | safe }}"
       },
       scales: {
         yAxes: [{
@@ -163,6 +174,21 @@
           scaleLabel: {
             display: true,
             labelString: 'Time'
+          },
+          type: 'time',
+          time: {
+              displayFormats: {
+                millisecond: 'hA',
+                second: 'hA',
+                minute: 'hA',
+                hour: 'DD MMM',
+                day: 'DD MMM',
+                week: 'DD MMM',
+                month: 'MMM YY',
+                quarter: 'MMM YY',
+                year: 'YYYY'
+              },
+              tooltipFormat: 'DD MMM YYYY'
           }
         }]
       },
@@ -173,6 +199,45 @@
       maintainAspectRatio: false
     }
   });
+
+  var start = moment().subtract(7, 'days');
+  var end = moment();
+
+  function getDiffInDays(date1, date2) {
+    return Math.ceil(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24)); 
+  }
+
+  function updateChart(start, end) {
+    var startDays = getDiffInDays(dates[0], start);
+    var endDays = getDiffInDays(dates[0], end);
+    if (start > dates[0]) { // if start is later than today
+      chart.data.labels = dates.slice(startDays, endDays);
+      chart.data.datasets[0].data = data.slice(startDays, endDays);
+    } else {
+      chart.data.labels = dates;
+      chart.data.datasets[0].data = data;
+    }
+    chart.update();
+  }
+
+  $('input[id="datepicker_{{gr.id}}"]').daterangepicker({
+      "locale": {
+        "format": "DD/MM/YYYY",
+      },
+      "showDropdowns": true,
+      startDate: Math.max(start, dates[0]),
+      endDate: end,
+      "minDate": dates[0],
+      "maxDate": end,
+      ranges: {
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      }
+  }, updateChart);
+
+  updateChart(start, end);
 </script>
 {% endfor %}
 {% endblock %}

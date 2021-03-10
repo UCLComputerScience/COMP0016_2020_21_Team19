@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from core.utils import *
+from core.models import Question
 
 
 @login_required(login_url='/accounts/login/')
@@ -85,24 +86,12 @@ def response(request, id):
                 continue
             q = Question.objects.get(id=qid)
             link_clicked = qid in clicked
-            if q.response_type == 1:  # likert
+            if q.response_type in [Question.ResponseType.LIKERT, Question.ResponseType.TRAFFIC_LIGHT, Question.ResponseType.NUMERICAL]:  # quantitative
                 Response.objects.create(question=q, respondent=user, value=float(data),
                                         date_time=current_date_time, link_clicked=link_clicked)
-            elif q.response_type == 2:  # traffic light
-                Response.objects.create(question=q, respondent=user, value=float(data), date_time=current_date_time,
-                                        link_clicked=link_clicked)
-            elif q.response_type == 4:  # Numerical Radio Buttons
-                Response.objects.create(question=q, respondent=user, value=float(data), date_time=current_date_time,
-                                        link_clicked=link_clicked)
-            elif q.response_type == 3:  # Text
+            else: # qualitative
                 Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time,
-                                        link_clicked=link_clicked)
-            elif q.response_type == 5:  # Text (Positive)
-                Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time,
-                                        link_clicked=link_clicked, text_positive=True)
-            else:  # == 6 | Text (Negative)
-                Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time,
-                                        link_clicked=link_clicked, text_positive=False)
+                                        link_clicked=link_clicked, text_positive=None if q.response_type == Question.ResponseType.TEXT_NEUTRAL else True if q.response_type == Question.ResponseType.TEXT_POSITIVE else False)
 
             # mark completed if all respondents have completed the task
             group = q.task.group

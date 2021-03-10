@@ -1,8 +1,10 @@
 import datetime
 import operator
 import random
+import warnings
 
 from django.db.models import Avg
+from django.utils import timezone
 
 from respondent.models import Respondent, Response, GroupRespondent
 from surveyor.models import Surveyor, GroupSurveyor
@@ -79,7 +81,7 @@ def get_leaderboard(user, **kwargs):
 
 # TODO: Add documentation here
 # TODO: Unit test this method
-def get_chart_data(user, *kwargs):
+def get_chart_data(user, **kwargs):
     responses = get_responses(user, **kwargs)
     responses = responses.filter(value__isnull=False)
     
@@ -87,99 +89,23 @@ def get_chart_data(user, *kwargs):
         return [], []
         
     x_date, y_score = [], []
-    rolling_avg, n = 0, 0
     
-    date = responses.first().date_time.date()
-    end = datetime.datetime.now().date()
-    
-    while date <= end:
-        rolling_avg = responses.filter(date_time__lte=date).aggregate(Avg('value'))
-        x_date.append(date)
-        y_score.append(rolling_avg)
-        date += datetime.timedelta(days=1)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
 
-    return x_date, y_score
+        date = responses.first().date_time
+        end = timezone.now()
+        
+        while date <= end:
+            rolling_avg = responses.filter(date_time__lte=date).aggregate(Avg('value'))['value__avg']
+            date_to_datetime = datetime.datetime.combine(date.date(), datetime.time())
+            milliseconds = date_to_datetime.timestamp() * 1000
+            x_date.append(milliseconds)
+            y_score.append(rolling_avg)
+            date += datetime.timedelta(days=1)
 
-# Surveyor
-def get_graph_labels(user, **kwargs):
-    """
-    Retrieves the x-axis labels (dates) used for progress graphs.
+        return x_date, y_score
 
-    :param user:  A ``Surveyor``/``Respondent`` representing the user currently logged in.
-    :type user: Surveyor or Respondent
-    :return: A sorted list containing the dates to be used as x-axis labels.
-    :rtype: List[str]
-    """
-    responses = get_responses(user, **kwargs)
-    responses = responses.filter(value__isnull=False)
-
-    if not responses:
-        return []
-
-    num_intervals = min(len(responses), 10)
-    dates = list(responses.values_list('date_time', flat=True))
-    dates = [date_time.date() for date_time in dates]
-
-    latest = dates[-1]
-    earliest = dates[0]
-    time_range = latest - earliest
-
-    interval = time_range / num_intervals
-
-    labels = [str(earliest + (interval * i)) for i in range(num_intervals + 1)]
-
-    return labels
-
-
-def get_graph_data(user, labels, **kwargs):
-    """
-    Retrieves the data used for progress graphs on the dashboard and progress page.
-
-    :param user: The ``Surveyor`` or ``Respondent`` whose progress is to be displayed.
-    :type user: Surveyor or Respondent
-    :param labels: List of string datetimes that are the labels on the 
-                   x-axis of the graph that to be displayed.
-    :Keyword Arguments:
-        * *group* (``Group``) If passed, this method shall return the 
-                              progress values for the labels for the 
-                              group that is passed.
-    :type labels: List[str]
-    :return: List of values of length len(labels) corresponding to the
-             values to be plotted.
-    :rtype: List[float]
-    """
-
-    responses = get_responses(user, **kwargs)
-    responses = responses.filter(value__isnull=False)
-
-    if not responses:
-        return []
-
-    dates = [datetime.datetime.strptime(label, '%Y-%m-%d').date() for label in labels]
-
-    if len(dates) == 0:
-        return None
-
-    scores = []
-    previous_date = datetime.date.min
-    previous_score = 0
-    for date in dates:
-        queryset = []
-        for response in responses:
-            if response.date_time.date() > date:
-                break
-            # if response.date_time.date() > previous_date:
-            queryset.append(response.value)
-        # scores.append(calculate_score(queryset) if queryset else previous_score)
-        scores.append(calculate_score(queryset))
-        previous_date = date
-        previous_score = scores[-1]
-
-    assert (len(dates) == len(scores))
-    return scores
-
-
-# Surveyor
 def get_responses(user, **kwargs):
     """
     Retrieves the responses for a user, in accordance with the specified keyword arguments.

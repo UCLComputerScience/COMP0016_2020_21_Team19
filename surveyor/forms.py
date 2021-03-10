@@ -6,16 +6,6 @@ from core.models import *
 from respondent.models import *
 from .models import *
 
-RESPONSE_TYPES = [
-    (1, 'Likert Scale'),
-    (2, 'Traffic Light'),
-    (3, 'Text (Neutral)'),
-    (4, '1-5 Scale'),
-    (5, 'Text (Positive)'),
-    (6, 'Text (Negative)')
-]
-
-
 class TaskForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -92,7 +82,7 @@ def get_question_formset(extra=1):
                     'placeholder': 'URL'
                 }
             ),
-            'response_type': forms.Select(choices=RESPONSE_TYPES, attrs={'class': 'custom-select d-block w-100'})
+            'response_type': forms.Select(choices=Question.ResponseType.choices, attrs={'class': 'custom-select d-block w-100'})
         }
     )
 
@@ -115,7 +105,7 @@ QuestionFormset = modelformset_factory(
                 'placeholder': 'URL'
             }
         ),
-        'response_type': forms.Select(choices=RESPONSE_TYPES, attrs={'class': 'custom-select d-block w-100'})
+        'response_type': forms.Select(choices=Question.ResponseType.choices, attrs={'class': 'custom-select d-block w-100'})
     }
 )
 

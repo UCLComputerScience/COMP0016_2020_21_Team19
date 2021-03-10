@@ -51,7 +51,7 @@
   {% for question in questions %}
 
   {# Text Response (any) #}
-  {% if question.response_type == 3 or question.response_type == 5 or question.response_type == 6 %}
+  {% if question.response_type == 4 or question.response_type == 5 or question.response_type == 6 %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
@@ -90,13 +90,13 @@
           </li>
           <li>
               <label>
-                  <input type="radio" name="{{ question.id }}" value="3" {% if question.response.value == 3 %} checked="checked" {% endif %}>
+                  <input type="radio" name="{{ question.id }}" value="3" {% if question.response.value == 4 %} checked="checked" {% endif %}>
                   Neutral
               </label>
           </li>
           <li>
               <label>
-                  <input type="radio" name="{{ question.id }}" value="4" {% if question.response.value == 4 %} checked="checked" {% endif %}>
+                  <input type="radio" name="{{ question.id }}" value="4" {% if question.response.value == 3 %} checked="checked" {% endif %}>
                   Agree
               </label>
           </li>
@@ -125,19 +125,19 @@
     <div class="text-center">
       <div class="btn-group btn-group-toggle" data-toggle="buttons" required>
         <label class="btn {% if question.response.value == 1 %} btn-danger active {% else %} btn-outline-danger {% endif %}">
-          <input type="radio" disabled='disabled' name="{{ question.id }}" value="1.667" required {% if question.response.value == 1 %} checked="checked" {% endif %}> <i data-feather="frown" style="width: 36px; height 36px"></i>
+          <input type="radio" disabled='disabled' name="{{ question.id }}" value="1.6666666667" required {% if question.response.value == 1 %} checked="checked" {% endif %}> <i data-feather="frown" style="width: 36px; height 36px"></i>
         </label>
         <label class="btn {% if question.response.value == 2 %} btn-warning active {% else %} btn-outline-warning {% endif %}">
-          <input type="radio" disabled='disabled' name="{{ question.id }}" value="3.333" {% if question.response.value == 2 %} checked="checked" {% endif %}> <i data-feather="meh" style="width: 36px; height 36px"></i>
+          <input type="radio" disabled='disabled' name="{{ question.id }}" value="3.3333333333" {% if question.response.value == 2 %} checked="checked" {% endif %}> <i data-feather="meh" style="width: 36px; height 36px"></i>
         </label>
-        <label class="btn {% if question.response.value == 3 %} btn-success active {% else %} btn-outline-success {% endif %}">
-          <input type="radio" disabled='disabled' name="{{ question.id }}" value="5" {% if question.response.value == 3 %} checked="checked" {% endif %}> <i data-feather="smile" style="width: 36px; height 36px"></i>
+        <label class="btn {% if question.response.value == 4 %} btn-success active {% else %} btn-outline-success {% endif %}">
+          <input type="radio" disabled='disabled' name="{{ question.id }}" value="5" {% if question.response.value == 4 %} checked="checked" {% endif %}> <i data-feather="smile" style="width: 36px; height 36px"></i>
         </label>
       </div>
     </div>
   
   {# Numerical Radio Button Response #}
-  {% elif question.response_type == 4 %}
+  {% elif question.response_type == 3 %}
 
     <div class="row">
       <div class="col-md-6 mb-2">
@@ -162,13 +162,13 @@
         </li>
         <li>
             <label>
-                <input type="radio" name="{{ question.id }}" value="3" {% if question.response.value == 3 %} checked="checked" {% endif %}>
+                <input type="radio" name="{{ question.id }}" value="3" {% if question.response.value == 4 %} checked="checked" {% endif %}>
                 3
             </label>
         </li>
         <li>
             <label>
-                <input type="radio" name="{{ question.id }}" value="4" {% if question.response.value == 4 %} checked="checked" {% endif %}>
+                <input type="radio" name="{{ question.id }}" value="4" {% if question.response.value == 3 %} checked="checked" {% endif %}>
                 4
             </label>
         </li>

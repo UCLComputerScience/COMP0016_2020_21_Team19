@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 
 class Group(models.Model):
@@ -25,9 +26,18 @@ class Task(models.Model):
 
 
 class Question(models.Model):
+
+    class ResponseType(models.IntegerChoices):
+        LIKERT = 1, _('Likert Scale')
+        TRAFFIC_LIGHT = 2, _('Traffic Light')
+        NUMERICAL = 3, _('1-5 Scale')
+        TEXT_NEUTRAL = 4, _('Text (Neutral)')
+        TEXT_POSITIVE = 5, _('Text (Positive)')
+        TEXT_NEGATIVE = 6, _('Text (Negative)')
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     task = models.ForeignKey(Task, null=True, on_delete=models.CASCADE)
     link = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=100, blank=False)
-    response_type = models.SmallIntegerField()
+    response_type = models.IntegerField(choices=ResponseType.choices)
 
