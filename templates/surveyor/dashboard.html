@@ -211,21 +211,21 @@
     var startDays = getDiffInDays(dates[0], start);
     var endDays = getDiffInDays(dates[0], end);
     if (start > dates[0]) { // if start is later than today
-      chart.data.labels = dates.slice(startDays, endDays);
-      chart.data.datasets[0].data = data.slice(startDays, endDays);
+      chart.data.labels = dates.slice(startDays, endDays+1);
+      chart.data.datasets[0].data = data.slice(startDays, endDays+1);
     } else {
       chart.data.labels = dates;
       chart.data.datasets[0].data = data;
     }
     chart.update();
   }
-
+  
   $('input[id="datepicker_{{gr.id}}"]').daterangepicker({
       "locale": {
         "format": "DD/MM/YYYY",
       },
       "showDropdowns": true,
-      startDate: Math.max(start, dates[0]),
+      startDate: new Date(Math.max(start, dates[0])),
       endDate: end,
       "minDate": dates[0],
       "maxDate": end,

@@ -83,7 +83,7 @@ def get_leaderboard(user, **kwargs):
 
 # TODO: Add documentation here
 # TODO: Unit test this method
-def get_chart_data(user, *kwargs):
+def get_chart_data(user, **kwargs):
     responses = get_responses(user, **kwargs)
     responses = responses.filter(value__isnull=False)
     
@@ -93,12 +93,16 @@ def get_chart_data(user, *kwargs):
     x_date, y_score = [], []
     rolling_avg, n = 0, 0
     
-    date = responses.first().date_time.date()
-    end = datetime.datetime.now().date()
+    date = responses.first().date_time
+    end = timezone.now()
     
     while date <= end:
-        rolling_avg = responses.filter(date_time__lte=date).aggregate(Avg('value'))
-        x_date.append(date)
+        # print(responses.filter(date_time__lte=date))
+        rolling_avg = responses.filter(date_time__lte=date + datetime.timedelta(days=1)).aggregate(Avg('value'))['value__avg']
+        print('Rolling_Avg: ', rolling_avg)
+        date_to_datetime = datetime.datetime.combine(date.date(), datetime.time())
+        milliseconds = date_to_datetime.timestamp() * 1000
+        x_date.append(milliseconds)
         y_score.append(rolling_avg)
         date += datetime.timedelta(days=1)
 
