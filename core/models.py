@@ -28,9 +28,11 @@ class Task(models.Model):
 class Question(models.Model):
 
     class ResponseType(models.IntegerChoices):
-        LIKERT = 1, _('Likert Scale')
+        LIKERT_ASC = 1, _('Likert Scale (Agree is better)')
+        LIKERT_DESC = 8, _('Likert Scale (Disagree is better)')
         TRAFFIC_LIGHT = 2, _('Traffic Light')
-        NUMERICAL = 3, _('1-5 Scale')
+        NUMERICAL_ASC = 3, _('1-5 (Higher is better)')
+        NUMERICAL_DESC = 7, _('1-5 (Lower is better)')
         TEXT_NEUTRAL = 4, _('Text (Neutral)')
         TEXT_POSITIVE = 5, _('Text (Positive)')
         TEXT_NEGATIVE = 6, _('Text (Negative)')

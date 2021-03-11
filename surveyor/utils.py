@@ -101,29 +101,31 @@ def get_questions(task_id):
         responses = Response.objects.filter(question=question)
         pie_chart_labels = None
         pie_chart_data = None
+        word_cloud = None
 
-        if question.response_type == Question.ResponseType.LIKERT:
+        if question.response_type == Question.ResponseType.LIKERT_ASC:
             response_type = "likert"
             pie_chart_labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
             pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
+        elif question.response_type == Question.ResponseType.LIKERT_DESC:
+            response_type = "likert"
+            pie_chart_labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
+            pie_chart_data = [responses.filter(value=6-i).count() for i in range(1, 6)]
         elif question.response_type == Question.ResponseType.TRAFFIC_LIGHT:
             response_type = "traffic"
             pie_chart_labels = ['Red', 'Yellow', 'Green']
             pie_chart_data = [responses.filter(value=i).count() for i in range(1, 4)]
-        elif question.response_type == Question.ResponseType.TEXT_NEUTRAL:  # neutral text
+        elif question.response_type in [Question.ResponseType.TEXT_NEUTRAL, Question.ResponseType.TEXT_POSITIVE, Question.ResponseType.TEXT_NEGATIVE]:  # neutral text
             response_type = "text"
-        elif question.response_type == Question.ResponseType.TEXT_POSITIVE:  # positive text
-            response_type = "text"
-        elif question.response_type == Question.ResponseType.TEXT_NEGATIVE:  # negative text
-            response_type = "text"
-        elif question.response_type == Question.ResponseType.NUMERICAL:
+            word_cloud = create_word_cloud(responses)
+        elif question.response_type == Question.ResponseType.NUMERICAL_ASC:
             response_type = "numerical-radio"
             pie_chart_labels = ['1', '2', '3', '4', '5']
             pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
-
-        word_cloud = None
-        if response_type in ["text", "text-positive", "text-negative"]:
-            word_cloud = create_word_cloud(responses)
+        elif question.response_type == Question.ResponseType.NUMERICAL_DESC:
+            response_type = "numerical-radio"
+            pie_chart_labels = ['1', '2', '3', '4', '5']
+            pie_chart_data = [responses.filter(value=6-i).count() for i in range(1, 6)]
 
         link_clicks = 0
         for response in responses:
