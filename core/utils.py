@@ -1,6 +1,12 @@
 import datetime
 import operator
 import random
+import warnings
+
+from django.db.models import Avg
+from django.utils import timezone
+
+from django.db.models import Avg
 
 from respondent.models import Respondent, Response, GroupRespondent
 from surveyor.models import Surveyor, GroupSurveyor
@@ -75,6 +81,30 @@ def get_leaderboard(user, **kwargs):
 
     return rows
 
+# TODO: Add documentation here
+# TODO: Unit test this method
+def get_chart_data(user, **kwargs):
+    responses = get_responses(user, **kwargs)
+    responses = responses.filter(value__isnull=False)
+    
+    if not responses:
+        return [], []
+        
+    x_date, y_score = [], []
+    rolling_avg, n = 0, 0
+    
+    date = responses.first().date_time
+    end = timezone.now()
+    
+    while date <= end:
+        rolling_avg = responses.filter(date_time__lte=date + datetime.timedelta(days=1)).aggregate(Avg('value'))['value__avg']
+        date_to_datetime = datetime.datetime.combine(date.date(), datetime.time())
+        milliseconds = date_to_datetime.timestamp() * 1000
+        x_date.append(milliseconds)
+        y_score.append(rolling_avg)
+        date += datetime.timedelta(days=1)
+
+    return x_date, y_score
 
 # Surveyor
 def get_graph_labels(user, **kwargs):
@@ -88,73 +118,28 @@ def get_graph_labels(user, **kwargs):
     """
     responses = get_responses(user, **kwargs)
     responses = responses.filter(value__isnull=False)
-
+    
     if not responses:
-        return []
+        return [], []
+        
+    x_date, y_score = [], []
+    
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
 
-    num_intervals = min(len(responses), 10)
-    dates = list(responses.values_list('date_time', flat=True))
-    dates = [date_time.date() for date_time in dates]
+        date = responses.first().date_time
+        end = timezone.now()
+        
+        while date <= end:
+            rolling_avg = responses.filter(date_time__lte=date).aggregate(Avg('value'))['value__avg']
+            date_to_datetime = datetime.datetime.combine(date.date(), datetime.time())
+            milliseconds = date_to_datetime.timestamp() * 1000
+            x_date.append(milliseconds)
+            y_score.append(rolling_avg)
+            date += datetime.timedelta(days=1)
 
-    latest = dates[-1]
-    earliest = dates[0]
-    time_range = latest - earliest
+        return x_date, y_score
 
-    interval = time_range / num_intervals
-
-    labels = [str(earliest + (interval * i)) for i in range(num_intervals + 1)]
-
-    return labels
-
-
-def get_graph_data(user, labels, **kwargs):
-    """
-    Retrieves the data used for progress graphs on the dashboard and progress page.
-
-    :param user: The ``Surveyor`` or ``Respondent`` whose progress is to be displayed.
-    :type user: Surveyor or Respondent
-    :param labels: List of string datetimes that are the labels on the 
-                   x-axis of the graph that to be displayed.
-    :Keyword Arguments:
-        * *group* (``Group``) If passed, this method shall return the 
-                              progress values for the labels for the 
-                              group that is passed.
-    :type labels: List[str]
-    :return: List of values of length len(labels) corresponding to the
-             values to be plotted.
-    :rtype: List[float]
-    """
-
-    responses = get_responses(user, **kwargs)
-    responses = responses.filter(value__isnull=False)
-
-    if not responses:
-        return []
-
-    dates = [datetime.datetime.strptime(label, '%Y-%m-%d').date() for label in labels]
-
-    if len(dates) == 0:
-        return None
-
-    scores = []
-    previous_date = datetime.date.min
-    previous_score = 0
-    for date in dates:
-        queryset = []
-        for response in responses:
-            if response.date_time.date() > date:
-                break
-            if response.date_time.date() > previous_date:
-                queryset.append(response.value)
-        scores.append(calculate_score(queryset) if queryset else previous_score)
-        previous_date = date
-        previous_score = scores[-1]
-
-    assert (len(dates) == len(scores))
-    return scores
-
-
-# Surveyor
 def get_responses(user, **kwargs):
     """
     Retrieves the responses for a user, in accordance with the specified keyword arguments.
@@ -271,34 +256,6 @@ def get_num_respondents_in_group(group):
     return GroupRespondent.objects.filter(group=group).count()
 
 
-def random_hex_colour():
-    """
-    Generates a random hex colour code between 0x000000 and 0xFFFFFF.
-
-    :return: 6-digit hexadecimal code.
-    :rtype: str
-    """
-    return "#{:06x}".format(random.randint(0, 0xFFFFFF))
-
-
-def get_chartjs_dict(values):
-    """
-    Wraps a list of values in a dictionary in the correct format for a Chart.js line chart.
-
-    :param values: A list of values to use as a dataset for the line chart.
-    :type values: List[float]
-    :return: A dictionary representing a dataset for a Chart.js line chart.
-    :rtype: dict
-    """
-    colour = random_hex_colour()
-    return {'data': values,
-            'lineTension': 0,
-            'backgroundColor': 'transparent',
-            'borderColor': colour,
-            'borderWidth': 4,
-            'pointBackgroundColor': colour}
-
-
 def get_progress_graphs(respondent):
     """
     Gets the graph data for all of the ``Group``\s the ``Respondent`` is in.
@@ -309,20 +266,12 @@ def get_progress_graphs(respondent):
     :rtype: List[dict]
     """
     groups = get_groups(respondent)
-    overall_labels = get_graph_labels(respondent)
 
     group_graphs = []
-    overall_data = []
     for group in groups:
-        group_labels = get_graph_labels(respondent, group=group)
-        group_scores = get_graph_data(respondent, group_labels, group=group)
-        group_title = group.name
+        group_labels, group_scores = get_chart_data(respondent, group=group)
         group_graphs.append(
-            {'id': group.id, 'title': group_title, 'labels': group_labels, 'scores': [get_chartjs_dict(group_scores)]})
-        overall_data.append(get_chartjs_dict(group_scores))
-
-    overall = {'id': 'overall', 'title': 'Overall', 'labels': overall_labels, 'scores': overall_data}
-    group_graphs.insert(0, overall)
+            {'id': group.id, 'title': group.name, 'labels': group_labels, 'scores': group_scores})
 
     return group_graphs
 
