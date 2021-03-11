@@ -97,9 +97,7 @@ def get_chart_data(user, **kwargs):
     end = timezone.now()
     
     while date <= end:
-        # print(responses.filter(date_time__lte=date))
         rolling_avg = responses.filter(date_time__lte=date + datetime.timedelta(days=1)).aggregate(Avg('value'))['value__avg']
-        print('Rolling_Avg: ', rolling_avg)
         date_to_datetime = datetime.datetime.combine(date.date(), datetime.time())
         milliseconds = date_to_datetime.timestamp() * 1000
         x_date.append(milliseconds)
@@ -258,34 +256,6 @@ def get_num_respondents_in_group(group):
     return GroupRespondent.objects.filter(group=group).count()
 
 
-def random_hex_colour():
-    """
-    Generates a random hex colour code between 0x000000 and 0xFFFFFF.
-
-    :return: 6-digit hexadecimal code.
-    :rtype: str
-    """
-    return "#{:06x}".format(random.randint(0, 0xFFFFFF))
-
-
-def get_chartjs_dict(values):
-    """
-    Wraps a list of values in a dictionary in the correct format for a Chart.js line chart.
-
-    :param values: A list of values to use as a dataset for the line chart.
-    :type values: List[float]
-    :return: A dictionary representing a dataset for a Chart.js line chart.
-    :rtype: dict
-    """
-    colour = random_hex_colour()
-    return {'data': values,
-            'lineTension': 0,
-            'backgroundColor': 'transparent',
-            'borderColor': colour,
-            'borderWidth': 4,
-            'pointBackgroundColor': colour}
-
-
 def get_progress_graphs(respondent):
     """
     Gets the graph data for all of the ``Group``\s the ``Respondent`` is in.
@@ -296,20 +266,12 @@ def get_progress_graphs(respondent):
     :rtype: List[dict]
     """
     groups = get_groups(respondent)
-    overall_labels = get_graph_labels(respondent)
 
     group_graphs = []
-    overall_data = []
     for group in groups:
-        group_labels = get_graph_labels(respondent, group=group)
-        group_scores = get_graph_data(respondent, group_labels, group=group)
-        group_title = group.name
+        group_labels, group_scores = get_chart_data(respondent, group=group)
         group_graphs.append(
-            {'id': group.id, 'title': group_title, 'labels': group_labels, 'scores': [get_chartjs_dict(group_scores)]})
-        overall_data.append(get_chartjs_dict(group_scores))
-
-    overall = {'id': 'overall', 'title': 'Overall', 'labels': overall_labels, 'scores': overall_data}
-    group_graphs.insert(0, overall)
+            {'id': group.id, 'title': group.name, 'labels': group_labels, 'scores': group_scores})
 
     return group_graphs
 

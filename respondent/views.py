@@ -56,7 +56,7 @@ def progress(request):
     """
     user = get_object_or_404(Respondent, user=request.user)
     group_graphs = get_progress_graphs(user)
-    return render(request, 'respondent/progress.html', {'user': user, 'groups': group_graphs})
+    return render(request, 'respondent/progress.html', {'user': user, 'group_graphs': group_graphs})
 
 
 @login_required(login_url='/accounts/login/')

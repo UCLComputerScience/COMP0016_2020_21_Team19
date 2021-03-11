@@ -290,8 +290,6 @@ def new_task(request):
                 })
             Formset = get_question_formset(len(initial))
             formset = Formset(queryset=Question.objects.none(), initial=initial)
-            
-            # print('Formset: ', formset)
         else: # Just render the page
             form = TaskForm(request.GET or None, request=request)
             QuestionFormset = get_question_formset()
