@@ -39,7 +39,7 @@
   {% for question in questions %}
 
   {# Text Response (any) #}
-  {% if question.response_type == 3 or question.response_type == 5 or question.response_type == 6 %}
+  {% if question.response_type == 4 or question.response_type == 5 or question.response_type == 6 %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
@@ -66,31 +66,31 @@
         <ul class='radio-set'>
           <li>
               <label>
-                  <input type="radio" name="{{ question.id }}" value="strong_disagree" required>
+                  <input type="radio" name="{{ question.id }}" value="1" required>
                   Strongly disagree
               </label>
           </li>
           <li>
               <label>
-                  <input type="radio" name="{{ question.id }}" value="disagree">
+                  <input type="radio" name="{{ question.id }}" value="2">
                   Disagree
               </label>
           </li>
           <li>
               <label>
-                  <input type="radio" name="{{ question.id }}" value="neutral">
+                  <input type="radio" name="{{ question.id }}" value="3">
                   Neutral
               </label>
           </li>
           <li>
               <label>
-                  <input type="radio" name="{{ question.id }}" value="agree">
+                  <input type="radio" name="{{ question.id }}" value="4">
                   Agree
               </label>
           </li>
           <li>
               <label>
-                  <input type="radio" name="{{ question.id }}" value="strong_agree">
+                  <input type="radio" name="{{ question.id }}" value="5">
                   Strongly agree
               </label>
           </li>
@@ -113,19 +113,19 @@
     <div class="text-center">
       <div class="btn-group btn-group-toggle" data-toggle="buttons" required>
         <label class="btn btn-outline-danger">
-          <input type="radio" name="{{ question.id }}" value="red" required> <i data-feather="frown" style="width: 36px; height 36px"></i>
+          <input type="radio" name="{{ question.id }}" value="1.6666666667" required> <i data-feather="frown" style="width: 36px; height 36px"></i>
         </label>
         <label class="btn btn-outline-warning">
-          <input type="radio" name="{{ question.id }}" value="yellow"> <i data-feather="meh" style="width: 36px; height 36px"></i>
+          <input type="radio" name="{{ question.id }}" value="3.3333333333"> <i data-feather="meh" style="width: 36px; height 36px"></i>
         </label>
         <label class="btn btn-outline-success">
-          <input type="radio" name="{{ question.id }}" value="green"> <i data-feather="smile" style="width: 36px; height 36px"></i>
+          <input type="radio" name="{{ question.id }}" value="5"> <i data-feather="smile" style="width: 36px; height 36px"></i>
         </label>
       </div>
     </div>
   
   {# Numerical Radio Button Response #}
-  {% elif question.response_type == 4 %}
+  {% elif question.response_type == 3 %}
 
     <div class="row">
       <div class="col-md-6 mb-2">

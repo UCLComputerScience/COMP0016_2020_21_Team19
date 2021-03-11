@@ -1,86 +1,43 @@
-import datetime
 import uuid
 
-from django.contrib.sites.models import Site
 from django.db import models
-from django.utils import timezone
-from django.utils.crypto import get_random_string
-from django.utils.translation import ugettext_lazy as _
-
-from invitations import signals
-from invitations.adapters import get_invitations_adapter
-from invitations.app_settings import app_settings
-from invitations.base_invitation import AbstractBaseInvitation
-
-from respondent.models import GroupRespondent
-from surveyor.models import Surveyor, Group, GroupSurveyor, Organisation
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 
-class UserInvitation(AbstractBaseInvitation):
-    email = models.EmailField(unique=True, verbose_name=_('e-mail address'),
-                              max_length=app_settings.EMAIL_MAX_LENGTH)
-    created = models.DateTimeField(verbose_name=_('created'),
-                                   default=timezone.now)
-    organisation = models.ForeignKey(Organisation, blank=True, null=True, on_delete=models.CASCADE)
-    group = models.ForeignKey(Group, blank=True, null=True, on_delete=models.CASCADE)
-    is_respondent = models.BooleanField(default=False)
-
-    @classmethod
-    def create(cls, email, inviter=None, organisation=None, group=None, is_respondent=False, **kwargs):
-        if UserInvitation.objects.filter(email=email).exists():
-            UserInvitation.objects.filter(email=email).delete()
-        key = get_random_string(64).lower()
-        instance = cls._default_manager.create(
-            email=email,
-            key=key,
-            inviter=inviter,
-            organisation=organisation,
-            group=group,
-            is_respondent=is_respondent,
-            **kwargs
-            )
-        return instance
-
-    def key_expired(self):
-        expiration_date = (
-                self.sent + datetime.timedelta(
-            days=app_settings.INVITATION_EXPIRY))
-        return expiration_date <= timezone.now()
-
-    def send_invitation(self, request, **kwargs):
-        surveyor = Surveyor.objects.get(user=self.inviter)
-
-        if not self.is_respondent:
-            self.organisation = surveyor.organisation
-
-        current_site = kwargs.pop('site', Site.objects.get_current())
-        invite_url = reverse('invitations:accept-invite', args=[self.key])
-        invite_url = request.build_absolute_uri(invite_url)
-        ctx = kwargs
-        ctx.update({
-            'invite_url': invite_url,
-            'site_name': current_site.name,
-            'email': self.email,
-            'key': self.key,
-            'inviter': self.inviter,
-        })
-
-        email_template = 'invitations/email/email_invite'
-
-        get_invitations_adapter().send_mail(
-            email_template,
-            self.email,
-            ctx)
-
-        self.sent = timezone.now()
-        self.save()
-
-        signals.invite_url_sent.send(
-            sender=self.__class__,
-            instance=self,
-            invite_url_sent=invite_url,
-            inviter=self.inviter)
+class Group(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=30)
 
     def __str__(self):
-        return "Invite: {0}".format(self.email)
+        return self.name
+
+
+class Task(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=50)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    due_date = models.DateField()
+    due_time = models.TimeField()
+    completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
+
+
+class Question(models.Model):
+
+    class ResponseType(models.IntegerChoices):
+        LIKERT = 1, _('Likert Scale')
+        TRAFFIC_LIGHT = 2, _('Traffic Light')
+        NUMERICAL = 3, _('1-5 Scale')
+        TEXT_NEUTRAL = 4, _('Text (Neutral)')
+        TEXT_POSITIVE = 5, _('Text (Positive)')
+        TEXT_NEGATIVE = 6, _('Text (Negative)')
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    task = models.ForeignKey(Task, null=True, on_delete=models.CASCADE)
+    link = models.CharField(max_length=100, blank=True)
+    description = models.CharField(max_length=100, blank=False)
+    response_type = models.IntegerField(choices=ResponseType.choices)
+

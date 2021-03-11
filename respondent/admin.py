@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Respondent, Response, GroupRespondent
+from .models import GroupRespondent, Respondent, Response
 
 
 class GroupRespondentAdmin(admin.ModelAdmin):

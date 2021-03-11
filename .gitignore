@@ -70,7 +70,11 @@ pytestdebug.log
 # Translations
 *.mo
 
-# Django stuff:
+# Node stuff:
+node_modules/
+
+# Cypress videos
+videos/
 
 # Flask stuff:
 instance/

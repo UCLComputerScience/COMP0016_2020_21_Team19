@@ -8,7 +8,7 @@ from django.urls import reverse
 
 from tablib import Dataset
 
-from core.models import UserInvitation
+from core.models import *
 from surveyor.utils import *
 from .models import *
 from .forms import *
@@ -290,8 +290,6 @@ def new_task(request):
                 })
             Formset = get_question_formset(len(initial))
             formset = Formset(queryset=Question.objects.none(), initial=initial)
-            
-            # print('Formset: ', formset)
         else: # Just render the page
             form = TaskForm(request.GET or None, request=request)
             QuestionFormset = get_question_formset()
