@@ -86,8 +86,11 @@ def response(request, id):
                 continue
             q = Question.objects.get(id=qid)
             link_clicked = qid in clicked
-            if q.response_type in [Question.ResponseType.LIKERT, Question.ResponseType.TRAFFIC_LIGHT, Question.ResponseType.NUMERICAL]:  # quantitative
+            if q.response_type in [Question.ResponseType.LIKERT_ASC, Question.ResponseType.TRAFFIC_LIGHT, Question.ResponseType.NUMERICAL_ASC]:  # quantitative
                 Response.objects.create(question=q, respondent=user, value=float(data),
+                                        date_time=current_date_time, link_clicked=link_clicked)
+            elif q.response_type in [Question.ResponseType.LIKERT_DESC, Question.ResponseType.NUMERICAL_DESC]:
+                Response.objects.create(question=q, respondent=user, value=6-float(data),
                                         date_time=current_date_time, link_clicked=link_clicked)
             else: # qualitative
                 Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time,

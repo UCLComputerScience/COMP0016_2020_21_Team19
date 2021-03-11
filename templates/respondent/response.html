@@ -53,7 +53,7 @@
       </div>
 
   {# Likert Resposnse #}
-  {% elif question.response_type == 1 %}
+  {% elif question.response_type == 1 or question.response_type == 8 %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
@@ -125,7 +125,7 @@
     </div>
   
   {# Numerical Radio Button Response #}
-  {% elif question.response_type == 3 %}
+  {% elif question.response_type == 3 or question.response_type == 7 %}
 
     <div class="row">
       <div class="col-md-6 mb-2">
