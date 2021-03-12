@@ -5,7 +5,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
-
+from django.utils import timezone
 import random
 
 from tablib import Dataset
@@ -14,6 +14,7 @@ from core.models import *
 from surveyor.utils import *
 from .models import *
 from .forms import *
+
 
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
@@ -27,11 +28,11 @@ def dashboard(request):
     :rtype: django.http.HttpResponse
     """
     user = get_object_or_404(Surveyor, user=request.user)
-    tasks, now = get_tasks(user)
+    tasks = get_tasks_data(user)
     tasks = [task for task in tasks if not task.completed]
     group_data = get_graphs_and_leaderboards(user)
     return render(request, 'surveyor/dashboard.html',
-                  {'user': user, 'tasks': tasks, 'now': now, 'group_data': group_data})
+                  {'user': user, 'tasks': tasks, 'now': datetime.datetime.now(), 'group_data': group_data})
 
 
 @login_required(login_url='/accounts/login/')
@@ -65,8 +66,9 @@ def history(request):
     :rtype: django.http.HttpResponse
     """
     user = get_object_or_404(Surveyor, user=request.user)
-    tasks, now = get_tasks(user)
+    tasks = get_tasks_data(user)
     return render(request, 'surveyor/history.html', {'user': user, 'tasks': tasks})
+
 
 @login_required(login_url='/accounts/login/')
 def organisation(request):
@@ -144,11 +146,8 @@ def users(request):
     groups = get_groups(user)
     colors = ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"]
     group_colors = {group.id: random.choice(colors) for group in groups}
-
-    respondents = Respondent.objects.none()
-    for group in groups:
-        respondent_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
-        respondents |= Respondent.objects.filter(id__in=respondent_ids)
+    respondent_ids = GroupRespondent.objects.filter(group__in=groups).values_list('respondent', flat=True)
+    respondents = Respondent.objects.filter(id__in=respondent_ids)
 
     for respondent in respondents:
         group_ids = GroupRespondent.objects.filter(respondent=respondent).values_list('group', flat=True)
@@ -174,7 +173,7 @@ def user_progress(request, user_id):
     """
     user = get_object_or_404(Surveyor, user=request.user)
     respondent = Respondent.objects.get(id=user_id)
-    tasks, now = get_tasks(user)
+    tasks = get_tasks_data(user)
     groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
     tasks = tasks.filter(group__in=groups)
     new_tasks = []

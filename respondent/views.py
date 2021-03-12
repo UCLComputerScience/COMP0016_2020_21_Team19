@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 
+from .handler import *
 from core.utils import *
 from core.models import Question
 
@@ -20,8 +21,8 @@ def dashboard(request):
     :rtype: django.http.HttpResponse
     """
     user = get_object_or_404(Respondent, user=request.user)
-    tasks, now = get_tasks(user)
-    return render(request, 'respondent/dashboard.html', {'user': user, 'tasks': tasks, 'now': now})
+    tasks = get_tasks_data(user)
+    return render(request, 'respondent/dashboard.html', {'user': user, 'tasks': tasks, 'now': datetime.datetime.now()})
 
 
 @login_required(login_url='/accounts/login/')
@@ -75,36 +76,9 @@ def response(request, id):
     user = get_object_or_404(Respondent, user=request.user)
     task = Task.objects.get(id=id)
     questions = Question.objects.filter(task=task)
+
     if request.method == 'POST':
-        dict = request.POST.items()
-        # get a list of Question IDs for which the user clicked the link
-        clicked = [x for x in request.POST.get('clicked').split(',')]
-        current_date_time = timezone.now()
-        for qid, data in dict:
-            # don't need to process the csrf token or the array of clicked Question IDs
-            if qid == 'csrfmiddlewaretoken' or qid == 'clicked':
-                continue
-            q = Question.objects.get(id=qid)
-            link_clicked = qid in clicked
-            if q.response_type in [Question.ResponseType.LIKERT_ASC, Question.ResponseType.TRAFFIC_LIGHT, Question.ResponseType.NUMERICAL_ASC]:  # quantitative
-                Response.objects.create(question=q, respondent=user, value=float(data),
-                                        date_time=current_date_time, link_clicked=link_clicked)
-            elif q.response_type in [Question.ResponseType.LIKERT_DESC, Question.ResponseType.NUMERICAL_DESC]:
-                Response.objects.create(question=q, respondent=user, value=6-float(data),
-                                        date_time=current_date_time, link_clicked=link_clicked)
-            else: # qualitative
-                Response.objects.create(question=q, respondent=user, text=data, date_time=current_date_time,
-                                        link_clicked=link_clicked, text_positive=None if q.response_type == Question.ResponseType.TEXT_NEUTRAL else True if q.response_type == Question.ResponseType.TEXT_POSITIVE else False)
-
-            # mark completed if all respondents have completed the task
-            group = q.task.group
-            questions = Question.objects.filter(task=q.task)
-            num_responses = Response.objects.filter(question__in=questions).count()
-            if num_responses == get_num_respondents_in_group(group):
-                task = q.task
-                task.completed = True
-                task.save()
-
+        post_response(request, user)
         return HttpResponseRedirect(reverse('dashboard'))
     else:
         return render(request, 'respondent/response.html', {'user': user, 'task': task, 'questions': questions})

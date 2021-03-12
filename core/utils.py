@@ -21,51 +21,63 @@ def get_groups(user):
     """
     if isinstance(user, Surveyor):
         group_ids = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
-    elif isinstance(user, Respondent):
-        group_ids = GroupRespondent.objects.filter(respondent=user).values_list('group', flat=True)
     else:
-        raise ValueError('User type not recognised!')
+        group_ids = GroupRespondent.objects.filter(respondent=user).values_list('group', flat=True)
 
     groups = Group.objects.filter(id__in=group_ids)
     return groups
 
 
 def get_leaderboard(user, group=None):
-    """group"
+    """
     Retrieves a sorted list containing the names and scores of the members
     of the leaderboard.
 
     :param user:  A ``Surveyor``/``Respondent`` representing the user currently logged in.
     :type user: Surveyor or Respondent
     :Keyword Arguments:
-        * *group* (``uuid.UUID``) The ``UUID`` of the ``Group`` for which `user` is accessing the leaderboard.
+        * *group* (`Group``) The ``Group`` for which `user` is accessing the leaderboard.
     :return: Sorted descending list containing the full names and scores of of the members 
              of the leaderboard.
     :rtype: List[dict]
     """
-
-    if group:
-        group = group
-        respondent_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
-    else:
-        groups = get_groups(user)
-        respondent_ids = GroupRespondent.objects.filter(group__in=groups).values_list('respondent', flat=True)
-
-    # Get the respondents in the group(s) we want to show the leaderboard for
-    respondents = Respondent.objects.filter(id__in=respondent_ids)
+    respondents = _get_respondents_by_group(group) if group else _get_respondents_by_groups(get_groups(user))
 
     rows = []
     for respondent in respondents:
         # Get their responses and calculate their score
-        if isinstance(user, Surveyor):
-            responses = get_responses(user, group=group, respondent=respondent).values_list('value', flat=True)
-        else:
-            responses = get_responses(respondent, group=group).values_list('value', flat=True)
+        responses = get_responses(user if isinstance(user, Surveyor) else respondent,
+                                  group=group, respondent=respondent).values_list('value', flat=True)
         score = calculate_score(responses)
-        entry = {'name': respondent.firstname + " " + respondent.surname, 'score': round(score, 2)}
-        rows.append(entry)
-    rows.sort(key=operator.itemgetter('score'), reverse=True)
-    return rows
+        rows.append({'name': str(respondent), 'score': round(score, 2)})
+        
+    return sorted(rows, key=operator.itemgetter('score'), reverse=True)
+
+
+def _get_respondents_by_group(group):
+    """
+    Returns the ``Respondent``\s which are members of `group`.
+
+    :param group: The ``Group`` from which to get the member ``Respondent``\s.
+    :type group: ``Group``
+    :return: A ``QuerySet`` containing all the ``Respondent``\s which are members of the given `group`.
+    :rtype: django.db.models.QuerySet
+    """    
+    respondent_ids = GroupRespondent.objects.filter(group=group).values_list('respondent', flat=True)
+    return Respondent.objects.filter(id__in=respondent_ids)
+
+
+def _get_respondents_by_groups(groups):
+    """
+    Returns all ``Respondent``\s which are members of any of the given `groups`.
+    
+    :param groups: The ``Group``\s from which to get the member ``Respondent``\s.
+    :type groups: django.db.models.QuerySet
+    :return: A ``QuerySet`` containing all the ``Respondent``\s which are members of any ``Group`` in `groups`.
+    :rtype: django.db.models.QuerySet
+    """    
+    respondent_ids = GroupRespondent.objects.filter(group__in=groups).values_list('respondent', flat=True)
+    return Respondent.objects.filter(id__in=respondent_ids)
 
 
 def get_chart_data(user, **kwargs):
@@ -81,7 +93,9 @@ def get_chart_data(user, **kwargs):
     :rtype: tuple(List, List)
     """
     responses = get_responses(user, **kwargs)
-    responses = responses.filter(value__isnull=False)  # Filter out text responses
+
+    # Filter out text responses
+    responses = responses.filter(value__isnull=False)
 
     if not responses:
         return [], []
@@ -92,8 +106,7 @@ def get_chart_data(user, **kwargs):
     end = timezone.now()
 
     while date <= end:
-        rolling_avg = responses.filter(date_time__lte=date + datetime.timedelta(days=1)).aggregate(Avg('value'))[
-            'value__avg']
+        rolling_avg = responses.filter(date_time__lte=date + datetime.timedelta(days=1)).aggregate(Avg('value'))['value__avg']
         date_to_datetime = datetime.datetime.combine(date.date(), datetime.time())
         milliseconds = date_to_datetime.timestamp() * 1000
         x_date.append(milliseconds)
@@ -242,41 +255,47 @@ def calculate_score(values):
     :return: The average (mean) of the values.
     :rtype: float
     """
-    values = list(filter(lambda value: value, values))
-    return 0 if not len(values) else sum(values) / len(values)
+    values = list(filter(None, values))
+    return sum(values) / len(values) if values else 0
 
 
-def get_tasks(user):
+def get_tasks_data(user):
     """
-    Retrieves the tasks for a user, and a ``datetime`` instance representing the current date and time.
+    Retrieves the tasks for a user.
     If ``user`` is of type ``Surveyor``, this method returns the tasks that they created.
-    If ``user`` is of type ``Respondent``, this method returns the tasks that they have been assigned.
+    If ``user`` is of type ``Respondent``, this method returns the tasks that they have been assigned and not yet completed.
 
     :param user: A ``Surveyor``/``Respondent`` representing the user currently logged in.
     :type user: Surveyor or Respondent
-    :return: A ``QuerySet`` of the tasks and the ``datetime`` instance representing the current date and time.
-    :rtype: (django.db.models.QuerySet, datetime.datetime)
+    :return: A ``QuerySet`` of the ``Task``s.
+    :rtype: django.db.models.QuerySet
     """
-    if isinstance(user, Surveyor):
-        groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
-    else:
-        groups = GroupRespondent.objects.filter(respondent=user).values_list('group', flat=True)
-    tasks = Task.objects.filter(group__in=groups).order_by('due_date', 'due_time')
+    tasks = _get_tasks(user)
 
     if isinstance(user, Respondent):
-        tasks = list(filter(lambda task: not get_responses(user, task=task), tasks))
+        tasks = list(filter(lambda task: not has_responded_to_task(user, task), tasks))
+
     now = datetime.datetime.now()
     for task in tasks:
-        if isinstance(user, Surveyor):
-            task = _set_task_attrs(task, now)
-        task.due_dt = datetime.datetime.combine(task.due_date, task.due_time)
-        until = task.due_dt - now
-        task.color = "red" if until < datetime.timedelta(days=1) else "orange" if until < datetime.timedelta(days=2) \
-            else "darkgreen"
-    return tasks, now
+        task = _set_task_attrs(user, task, now)
+    return tasks
 
 
-def _set_task_attrs(task, now):
+def _get_tasks(user):
+    """
+    Retrieves the tasks for a user.
+    If ``user`` is of type ``Surveyor``, this method returns the tasks that they ever created.
+    If ``user`` is of type ``Respondent``, this method returns the tasks that they have ever been assigned.
+
+    :param user: [description]
+    :type user: [type]
+    """
+    groups = get_groups(user)
+    tasks = Task.objects.filter(group__in=groups).order_by('due_date', 'due_time')
+    return tasks
+
+
+def _set_task_attrs(user, task, now):
     """
     Returns `task` with additional attributes to be displayed about the task in the rendered template,
     including: the number of responses to the task, the due date of the task and the colour to display
@@ -289,13 +308,24 @@ def _set_task_attrs(task, now):
     :return: The ``Task`` with attributes which are used in the template.
     :rtype: ``Task``
     """
+    if isinstance(user, Surveyor):
+        questions = Question.objects.filter(task=task)
+        responses = Response.objects.filter(question__in=questions)
+        task.num_group_respondents = get_num_respondents_in_group(task.group)
+        task.num_responses = responses.count() // questions.count()
+    task.due_dt = datetime.datetime.combine(task.due_date, task.due_time)
+    print(task.due_dt)
+    until = task.due_dt - now
 
-    questions = Question.objects.filter(task=task)
-    responses = Response.objects.filter(question__in=questions)
-    task.num_group_respondents = get_num_respondents_in_group(task.group)
-    task.num_responses = responses.count() // questions.count()
+    if until < datetime.timedelta(days=1):
+        task.color= "red"
+    elif until < datetime.timedelta(days=2):
+        task.color= "orange"
+    else:
+        task.color= "darkgreen"
+    
     return task
-
+    
 
 def get_num_respondents_in_group(group):
     """

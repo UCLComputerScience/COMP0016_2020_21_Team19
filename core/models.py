@@ -40,3 +40,64 @@ class Question(models.Model):
     link = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=100, blank=False)
     response_type = models.IntegerField(choices=ResponseType.choices)
+
+    @property
+    def is_ascending(self):
+        return self.type in [
+            Question.ResponseType.LIKERT_ASC,
+            Question.ResponseType.TRAFFIC_LIGHT,
+            Question.ResponseType.NUMERICAL_ASC
+        ]
+    
+    @property
+    def is_descending(self):
+        return self.type in [
+            Question.ResponseType.LIKERT_DESC,
+            Question.ResponseType.NUMERICAL_DESC
+        ]
+
+    @property
+    def is_likert(self):
+        return self.type in [
+            Question.ResponseType.LIKERT_ASC,
+            Question.ResponseType.LIKERT_DESC
+        ]
+    
+    @property
+    def is_text(self):
+        return self.type in [
+            Question.ResponseType.TEXT_NEUTRAL,
+            Question.ResponseType.TEXT_POSITIVE,
+            Question.ResponseType.TEXT_NEGATIVE
+        ]
+    
+    @property
+    def is_numerical(self):
+        return self.type in [
+            Question.ResponseType.NUMERICAL_ASC,
+            Question.ResponseType.NUMERICAL_DESC
+        ]
+    
+    @property
+    def is_traffic_light(self):
+        return self.type == Question.ResponseType.TRAFFIC_LIGHT
+
+    @property
+    def is_text_neutral(self):
+        return self.type == Question.ResponseType.TEXT_NEUTRAL
+
+    @property
+    def is_text_negative(self):
+        return self.type == Question.ResponseType.TEXT_NEGATIVE
+
+    @property
+    def is_text_positive(self):
+        return self.type == Question.ResponseType.TEXT_POSITIVE
+
+    def mark_as_complete(self):
+        self.completed = True
+        self.save()
+
+    def mark_as_incomplete(self):
+        self.completed = False
+        self.save()
