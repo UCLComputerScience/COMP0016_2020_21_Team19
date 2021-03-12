@@ -1,10 +1,6 @@
 from allauth.account.forms import SignupForm, LoginForm
 from django import forms
 
-from respondent.models import Respondent, GroupRespondent
-from surveyor.models import Surveyor
-from .models import UserInvitation
-
 
 class AuthenticationSignupForm(SignupForm):
     firstname = forms.CharField(max_length=30, min_length=1, widget=forms.TextInput(attrs={'placeholder': 'Firstname'}))

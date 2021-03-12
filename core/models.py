@@ -1,7 +1,6 @@
 import uuid
 
 from django.db import models
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 
@@ -26,7 +25,6 @@ class Task(models.Model):
 
 
 class Question(models.Model):
-
     class ResponseType(models.IntegerChoices):
         LIKERT_ASC = 1, _('Likert Scale (Agree is better)')
         LIKERT_DESC = 8, _('Likert Scale (Disagree is better)')
@@ -42,4 +40,3 @@ class Question(models.Model):
     link = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=100, blank=False)
     response_type = models.IntegerField(choices=ResponseType.choices)
-

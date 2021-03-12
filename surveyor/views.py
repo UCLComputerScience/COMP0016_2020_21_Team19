@@ -6,6 +6,8 @@ from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
 
+import random
+
 from tablib import Dataset
 
 from core.models import *

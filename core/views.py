@@ -1,19 +1,13 @@
-from allauth.account.views import SignupView
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
-from django.shortcuts import render, get_object_or_404
-import datetime
-from django.utils import timezone
 
 import respondent
 import surveyor
 from respondent.models import Respondent
-from authentication.models import UserInvitation
-from surveyor.models import Surveyor, Organisation
+from surveyor.models import Surveyor
 from .forms import OrganisationSignupForm
-from authentication.views import AuthenticationSignup
-from invitations.views import accept_invitation, AcceptInvite
 
 
 def create_organisation(request):

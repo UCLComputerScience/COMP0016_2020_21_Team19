@@ -5,7 +5,6 @@ from django.db import models
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
-
 from invitations import signals
 from invitations.adapters import get_invitations_adapter
 from invitations.app_settings import app_settings
@@ -37,7 +36,7 @@ class UserInvitation(AbstractBaseInvitation):
             group=group,
             is_respondent=is_respondent,
             **kwargs
-            )
+        )
         return instance
 
     def key_expired(self):

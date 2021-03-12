@@ -1,11 +1,9 @@
 from allauth.account.signals import user_signed_up
-from allauth.socialaccount.signals import pre_social_login
 from django.dispatch import receiver
 
-from .models import UserInvitation
-from surveyor.models import Surveyor, Organisation
 from respondent.models import Respondent, GroupRespondent
-from urllib.parse import parse_qsl, urlsplit
+from surveyor.models import Surveyor, Organisation
+from .models import UserInvitation
 
 
 @receiver(user_signed_up)
@@ -14,11 +12,11 @@ def user_signed_up(request, user, **kwargs):
         organisation_name = request.session.pop('organisation_name')
         organisation = Organisation.objects.create(name=organisation_name)
         surveyor = Surveyor(
-                user=user,
-                firstname=user.first_name,
-                surname=user.last_name,
-                organisation=organisation
-            )
+            user=user,
+            firstname=user.first_name,
+            surname=user.last_name,
+            organisation=organisation
+        )
         surveyor.save()
         organisation.admin = surveyor
         organisation.save()

@@ -13,6 +13,7 @@ import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from psycopg2 import Error
 
+
 def run_migrations():
     from django.core import management
 
@@ -23,6 +24,7 @@ def run_migrations():
     User = get_user_model()
     if not User.objects.filter(username="admin").exists():
         management.call_command("createsuperuser", "--noinput", "--email=email@example.com", "--username=admin")
+
 
 def insert_dummy_data():
     from core.models import Group, Task, Question
@@ -65,7 +67,7 @@ def insert_dummy_data():
 
     questions = []
     for number in [10, 20, 30]:
-        questions.append(Question.objects.create(task=press_ups, link="https://www.url.com", description="How hard was doing " + str(number) + " push-ups?", response_type=4))
+        questions.append(Question.objects.create(task=press_ups, link="https://www.url.com", description="How hard was doing " + str(number) + " push-ups?", response_type=Question.ResponseType.LIKERT_ASC))
 
     for respondent in [john_doe, jack_white]:
         for i, question in enumerate(questions):
@@ -79,6 +81,7 @@ def insert_dummy_data():
         for i, question in enumerate(questions):
             Response.objects.create(question=question, respondent=respondent, value=(i // 3) + 1,  date_time=datetime.datetime(2020, 1, (i // 3) + 1, 10 + (i // 3) + 1, 0, tzinfo=pytz.UTC))
 
+
 def main():
     import django
     django.setup()
@@ -88,6 +91,7 @@ def main():
     
     print("Inserting dummy data")
     insert_dummy_data()
+
 
 if __name__ == '__main__':
     main()
