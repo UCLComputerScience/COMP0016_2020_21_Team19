@@ -116,7 +116,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-<script>
+<script type="text/javascript">
 function dateSorter(a, b) {
   a = a.replace(/<\/?small[^>]*>/g, '').replace(/\s+/g,' ');
   b = b.replace(/<\/?small[^>]*>/g, '').replace(/\s+/g,' ');
@@ -124,7 +124,7 @@ function dateSorter(a, b) {
 }
 </script>
 
-<script>
+<script type="text/javascript">
 $('#table').bootstrapTable({
   onClickRow: function (row, $element, field) {
     var a = row['_id'];
@@ -138,7 +138,7 @@ function isMobileDevice(){
 </script>
 
 {% if neutral_word_cloud %}
-<script>
+<script type="text/javascript">
   var ctx = document.getElementById("neutral-word-cloud");
   img = document.createElement('img');
   img.src = "{{ neutral_word_cloud }}";
@@ -149,7 +149,7 @@ function isMobileDevice(){
 {% endif %}
 
 {% if positive_word_cloud %}
-<script>
+<script type="text/javascript">
   var ctx = document.getElementById("positive-word-cloud");
   img = document.createElement('img');
   img.src = "{{ positive_word_cloud }}";
@@ -160,7 +160,7 @@ function isMobileDevice(){
 {% endif %}
 
 {% if negative_word_cloud %}
-<script>
+<script type="text/javascript">
   var ctx = document.getElementById("negative-word-cloud");
   img = document.createElement('img');
   img.src = "{{ negative_word_cloud }}";
@@ -170,7 +170,7 @@ function isMobileDevice(){
 </script>
 {% endif %}
 
-<script>
+<script type="text/javascript">
 
 $(function () {
   select_button(document.getElementById("button-container").children[0]);

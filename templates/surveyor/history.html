@@ -102,15 +102,12 @@
 {% block scripts %}
 <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
 
-<script>
+<script type="text/javascript">
 function dateSorter(a, b) {
   a = a.replace(/<\/?small[^>]*>/g, '').replace(/\s+/g,' ');
   b = b.replace(/<\/?small[^>]*>/g, '').replace(/\s+/g,' ');
   return Date.parse(a) - Date.parse(b);
 }
-</script>
-
-<script>
 $('#table').bootstrapTable({
   onClickRow: function (row, $element, field) {
     var a = row['_id'];

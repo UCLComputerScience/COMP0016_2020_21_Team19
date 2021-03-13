@@ -23,6 +23,14 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 
+    def mark_as_complete(self):
+        self.completed = True
+        self.save()
+
+    def mark_as_incomplete(self):
+        self.completed = False
+        self.save()
+
 
 class Question(models.Model):
     class ResponseType(models.IntegerChoices):
@@ -93,14 +101,6 @@ class Question(models.Model):
     @property
     def is_text_positive(self):
         return self.response_type == Question.ResponseType.TEXT_POSITIVE
-
-    def mark_as_complete(self):
-        self.completed = True
-        self.save()
-
-    def mark_as_incomplete(self):
-        self.completed = False
-        self.save()
 
     def get_labels(self):
         if self.is_likert:

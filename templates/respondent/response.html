@@ -190,13 +190,10 @@ function formsubmit() {
     setClicked();
     return false;
 }
-
 var links = [];
-
 function addLinkClick(qid) {
     links.push(qid);
 }
-
 function setClicked() {
     document.response_form.clicked.value = links;
 }

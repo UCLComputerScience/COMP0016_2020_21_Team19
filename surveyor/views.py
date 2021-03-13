@@ -207,7 +207,7 @@ def task_overview(request, task_id):
             'task': task,
             'task_total_respondents': get_num_respondents_in_group(task.group),
             'task_respondents_completed': num_responses // questions.count(),
-            'summary': get_task_summary(task_id),
+            'summary': get_task_summary(task_id)
         }
 
         return render(request, 'surveyor/task-overview.html', data)
@@ -280,5 +280,5 @@ def manage_group(request, group_id):
                     {'user': user, 'participants': respondents, 'group': group, 'form': form, 'form_inv': form_inv,
                     'import_form': import_form})
     elif request.method == 'POST':
-        return post_manage_group(group_id, request)
+        return post_manage_group(request, group_id)
         
