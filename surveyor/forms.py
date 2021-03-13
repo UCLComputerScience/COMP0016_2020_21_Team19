@@ -44,7 +44,6 @@ class TaskForm(forms.ModelForm):
             'due_date': forms.DateInput(
                 format='%d-%m-%Y',
                 attrs={
-                    # 'id': 'due_date',
                     'class': 'form-control',
                     'type': 'date',
                     'placeholder': 'MM/DD/YYYY',
@@ -73,41 +72,19 @@ def get_question_formset(extra=1):
             'description': forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'placeholder': 'Enter Question here'
-                },
+                    'placeholder': 'Enter Question here',
+                    'required': ''
+                }
             ),
             'link': forms.TextInput(
                 attrs={
                     'class': 'form-control',
                     'placeholder': 'URL'
-                }
+                },
             ),
-            'response_type': forms.Select(choices=Question.ResponseType.choices, attrs={'class': 'custom-select d-block w-100'})
+            'response_type': forms.Select(choices=Question.ResponseType.choices, attrs={'class': 'custom-select d-block w-100', 'required': ''})
         }
     )
-
-QuestionFormset = modelformset_factory(
-    Question,
-    fields=('link', 'description', 'response_type'),
-    min_num=0,
-    validate_min=True,
-    can_delete=True,
-    widgets={
-        'description': forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter Question here'
-            },
-        ),
-        'link': forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'URL'
-            }
-        ),
-        'response_type': forms.Select(choices=Question.ResponseType.choices, attrs={'class': 'custom-select d-block w-100'})
-    }
-)
 
 
 class GroupForm(forms.ModelForm):

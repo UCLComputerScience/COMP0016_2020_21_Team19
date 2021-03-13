@@ -1,3 +1,5 @@
+import random
+
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
@@ -5,14 +7,10 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils import timezone
-import random
-
 from tablib import Dataset
 
-from core.models import *
+from .handler import *
 from surveyor.utils import *
-from .models import *
 from .forms import *
 
 
@@ -27,12 +25,13 @@ def dashboard(request):
     :return: The ``surveyor/dashboard.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
-    user = get_object_or_404(Surveyor, user=request.user)
-    tasks = get_tasks_data(user)
-    tasks = [task for task in tasks if not task.completed]
-    group_data = get_graphs_and_leaderboards(user)
-    return render(request, 'surveyor/dashboard.html',
-                  {'user': user, 'tasks': tasks, 'now': datetime.datetime.now(), 'group_data': group_data})
+    if request.method == 'GET':
+        user = get_object_or_404(Surveyor, user=request.user)
+        tasks = get_tasks_data(user)
+        tasks = [task for task in tasks if not task.completed]
+        group_data = get_graphs_and_leaderboards(user)
+        return render(request, 'surveyor/dashboard.html',
+                    {'user': user, 'tasks': tasks, 'now': datetime.datetime.now(), 'group_data': group_data})
 
 
 @login_required(login_url='/accounts/login/')
@@ -46,12 +45,13 @@ def leaderboard(request):
     :return: The ``surveyor/leaderboard.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
-    user = get_object_or_404(Surveyor, user=request.user)
-    groups = get_groups(user)
-    for group in groups:
-        group.leaderboard = get_leaderboard(user, group=group)
-    return render(request, 'surveyor/leaderboard.html',
-                  {'user': user, 'groups': groups, 'overall_leaderboard': get_leaderboard(user)})
+    if request.method == 'GET':
+        user = get_object_or_404(Surveyor, user=request.user)
+        groups = get_groups(user)
+        for group in groups:
+            group.leaderboard = get_leaderboard(user, group=group)
+        return render(request, 'surveyor/leaderboard.html',
+                    {'user': user, 'groups': groups, 'overall_leaderboard': get_leaderboard(user)})
 
 
 @login_required(login_url='/accounts/login/')
@@ -65,9 +65,10 @@ def history(request):
     :return: The ``surveyor/history.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
-    user = get_object_or_404(Surveyor, user=request.user)
-    tasks = get_tasks_data(user)
-    return render(request, 'surveyor/history.html', {'user': user, 'tasks': tasks})
+    if request.method == 'GET':
+        user = get_object_or_404(Surveyor, user=request.user)
+        tasks = get_tasks_data(user)
+        return render(request, 'surveyor/history.html', {'user': user, 'tasks': tasks})
 
 
 @login_required(login_url='/accounts/login/')
@@ -84,52 +85,15 @@ def organisation(request):
     """
     user = get_object_or_404(Surveyor, user=request.user)
 
-    if request.method == 'POST':
-
-        if request.POST.get('request_type') == 'delete_surveyor':  # Deleting a Surveyor
-            surveyor_id = request.POST.get('surveyor')
-            surveyor = Surveyor.objects.get(id=surveyor_id)
-            surveyor.user.delete()
-
-        elif request.POST.get('request_type') == 'invite':  # Inviting a Surveyor
-            email = request.POST.get('email')
-            if not User.objects.filter(email=email).exists():
-                invite = UserInvitation.create(
-                    email,
-                    inviter=request.user,
-                    organisation=user.organisation,
-                    is_respondent=False
-                )
-                invite.send_invitation(request)
-                
-        elif request.POST.get('request_type') == 'import':  # Add multiple Surveyors
-            dataset = Dataset()
-            new_persons = request.FILES['file']
-            imported_data = dataset.load(new_persons.read(), format='xlsx', headers=False)
-
-            for entry in imported_data:
-                if entry[0]:
-                    try:
-                        validate_email(entry[0])
-                    except ValidationError:
-                        continue
-                    invite = UserInvitation.create(
-                        str(entry[0]),
-                        inviter=request.user,
-                        organisation=user.organisation,
-                        is_respondent=False
-                    )
-                    invite.send_invitation(request)
-
-        return HttpResponseRedirect(reverse("organisation"))
-    
-    surveyors = Surveyor.objects.filter(organisation=user.organisation)
-    form_inv = InviteSurveyorForm()
-    import_form = MultipleUserForm()
-    
-    return render(request, 'surveyor/organisation.html',
-                  {'user': user, 'surveyors': surveyors, 'organisation': user.organisation, 'form_inv': form_inv,
-                   'import_form': import_form})
+    if request.method == 'GET':
+        surveyors = Surveyor.objects.filter(organisation=user.organisation)
+        form_inv = InviteSurveyorForm()
+        import_form = MultipleUserForm()
+        return render(request, 'surveyor/organisation.html',
+                    {'user': user, 'surveyors': surveyors, 'organisation': user.organisation, 'form_inv': form_inv,
+                    'import_form': import_form})
+    elif request.method == 'POST':
+        return post_organisation(request, user)
 
 
 @login_required(login_url='/accounts/login/')
@@ -142,20 +106,20 @@ def users(request):
     :return: The ``surveyor/users.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
-    user = get_object_or_404(Surveyor, user=request.user)
-    groups = get_groups(user)
-    colors = ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"]
-    group_colors = {group.id: random.choice(colors) for group in groups}
-    respondent_ids = GroupRespondent.objects.filter(group__in=groups).values_list('respondent', flat=True)
-    respondents = Respondent.objects.filter(id__in=respondent_ids)
+    if request.method == 'GET':
+        user = get_object_or_404(Surveyor, user=request.user)
+        groups = get_groups(user)
+        colors = ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"]
+        group_colors = {group.id: random.choice(colors) for group in groups}
+        respondents = get_respondents_by_groups(groups)
 
-    for respondent in respondents:
-        group_ids = GroupRespondent.objects.filter(respondent=respondent).values_list('group', flat=True)
-        respondent.groups = groups.filter(id__in=group_ids)
-        for group in respondent.groups:
-            group.color = group_colors[group.id]
+        for respondent in respondents:
+            group_ids = GroupRespondent.objects.filter(respondent=respondent).values_list('group', flat=True)
+            respondent.groups = groups.filter(id__in=group_ids)
+            for group in respondent.groups:
+                group.color = group_colors[group.id]
 
-    return render(request, 'surveyor/users.html', {'user': user, 'respondents': respondents})
+        return render(request, 'surveyor/users.html', {'user': user, 'respondents': respondents})
 
 
 @login_required(login_url='/accounts/login/')
@@ -171,25 +135,25 @@ def user_progress(request, user_id):
     :return: The ``surveyor/user-progress.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
-    user = get_object_or_404(Surveyor, user=request.user)
-    respondent = Respondent.objects.get(id=user_id)
-    tasks = get_tasks_data(user)
-    groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
-    tasks = tasks.filter(group__in=groups)
-    new_tasks = []
-    for task in tasks:
-        if has_responded_to_task(respondent, task):
-            new_tasks.append(task)
-    neutral_word_cloud = get_overall_word_cloud(user, respondent)
-    positive_word_cloud = get_overall_word_cloud(user, respondent, text_positive=True)
-    negative_word_cloud = get_overall_word_cloud(user, respondent, text_positive=False)
-    graphs = [graph for graph in get_progress_graphs(respondent) if graph['id'] in groups]
-    for graph in graphs:
-        del graph['id']
-    return render(request, 'surveyor/user-progress.html',
-                  {'user': user, 'respondent': respondent, 'tasks': new_tasks, 'graphs': graphs,
-                   'neutral_word_cloud': neutral_word_cloud, 'positive_word_cloud': positive_word_cloud,
-                   'negative_word_cloud': negative_word_cloud})
+    if request.method == 'GET':
+        user = get_object_or_404(Surveyor, user=request.user)
+        respondent = Respondent.objects.get(id=user_id)
+        groups = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
+        tasks = get_tasks_data(user).filter(group__in=groups)
+        
+        tasks = [task for task in tasks if has_responded_to_task(respondent, task)]
+
+        neutral_word_cloud = get_word_cloud(user, respondent)
+        positive_word_cloud = get_word_cloud(user,respondent, text_positive=True)
+        negative_word_cloud = get_word_cloud(user, respondent, text_positive=False)
+        graphs = [graph for graph in get_progress_graphs(respondent) if graph['id'] in groups]
+        for graph in graphs:
+            del graph['id']
+            
+        return render(request, 'surveyor/user-progress.html',
+                     {'user': user, 'respondent': respondent, 'tasks': tasks, 'graphs': graphs,
+                      'neutral_word_cloud': neutral_word_cloud, 'positive_word_cloud': positive_word_cloud,
+                      'negative_word_cloud': negative_word_cloud})
 
 
 @login_required(login_url='/accounts/login/')
@@ -206,15 +170,17 @@ def user_response(request, user_id, task_id):
     :return: The ``surveyor/user-response.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
-    user = get_object_or_404(Surveyor, user=request.user)
-    respondent = Respondent.objects.get(id=user_id)
-    task = Task.objects.get(id=task_id)
-    questions = Question.objects.filter(task=task)
-    responses = Response.objects.filter(question__in=questions, respondent=respondent)
-    for question in questions:
-        question.response = responses.get(question=question)
-    return render(request, 'surveyor/user-response.html',
-                  {'user': user, 'respondent': respondent, 'task': task, 'questions': questions, 'responses': responses})
+    if request.method == 'GET':
+        user = get_object_or_404(Surveyor, user=request.user)
+        respondent = Respondent.objects.get(id=user_id)
+        task = Task.objects.get(id=task_id)
+        questions = Question.objects.filter(task=task)
+        responses = Response.objects.filter(question__in=questions, respondent=respondent)
+        for question in questions:
+            question.response = responses.get(question=question)
+        return render(request, 'surveyor/user-response.html',
+                    {'user': user, 'respondent': respondent, 'task': task, 'questions': questions,
+                    'responses': responses})
 
 
 @login_required(login_url='/accounts/login/')
@@ -230,33 +196,24 @@ def task_overview(request, task_id):
     :return: The ``surveyor/task-overview.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
-    if request.method == 'POST':
-        task_id = request.POST.get('task')
-        task = Task.objects.get(id=task_id)
-        if request.POST.get('request') == 'complete':
-            task.completed = True
-            task.save()
-        elif request.POST.get('request') == 'incomplete':
-            task.completed = False
-            task.save()
-        elif request.POST.get('request') == 'delete':
-            task.delete()
-            return HttpResponseRedirect(reverse("dashboard",))
-        return HttpResponseRedirect(reverse("task_overview", args=(task_id,)))
+    if request.method == 'GET':
+        user = get_object_or_404(Surveyor, user=request.user)
+        task = get_object_or_404(Task, id=task_id)
+        questions = Question.objects.filter(task=task)
+        num_responses = Response.objects.filter(question__in=questions).count()
 
-    user = get_object_or_404(Surveyor, user=request.user)
-    task = get_object_or_404(Task, id=task_id)
-    questions = Question.objects.filter(task=task)
-    num_responses = Response.objects.filter(question__in=questions).count()
+        data = {
+            'user': user,
+            'task': task,
+            'task_total_respondents': get_num_respondents_in_group(task.group),
+            'task_respondents_completed': num_responses // questions.count(),
+            'summary': get_task_summary(task_id),
+        }
 
-    data = {
-        'user': user,
-        'task': task,
-        'task_total_respondents': get_num_respondents_in_group(task.group),
-        'task_respondents_completed': num_responses // questions.count(),
-        'questions': get_questions(task_id),
-    }
-    return render(request, 'surveyor/task-overview.html', data)
+        return render(request, 'surveyor/task-overview.html', data)
+    
+    elif request.method == 'POST':
+        return post_task_overview(request)
 
 
 @login_required(login_url='/accounts/login/')
@@ -270,114 +227,12 @@ def new_task(request):
     :rtype: django.http.HttpResponse
     """
     user = get_object_or_404(Surveyor, user=request.user)
-    group_surveyors = GroupSurveyor.objects.filter(surveyor=user).values_list('group', flat=True)
-    groups = []
-
-    for gr in group_surveyors:
-        groups.append(Group.objects.get(id=gr))
 
     if request.method == 'GET':
-        template_id = request.GET.get('template')
-        if template_id: # Load a specific template
-            template = TaskTemplate.objects.get(id=template_id)
-            questions = QuestionTemplate.objects.filter(template=template)
-            form  = TaskForm(request.GET or None, request=request)
-            initial = []
-            for question in questions:
-                initial.append({
-                    'description': question.description,
-                    'link': question.link,
-                    'response_type': question.response_type
-                })
-            Formset = get_question_formset(len(initial))
-            formset = Formset(queryset=Question.objects.none(), initial=initial)
-        else: # Just render the page
-            form = TaskForm(request.GET or None, request=request)
-            QuestionFormset = get_question_formset()
-            formset = QuestionFormset(queryset=Question.objects.none())
-        templates = TaskTemplate.objects.filter(surveyor=user)
+        groups = get_groups(user)
+        return render(request, 'surveyor/new-task.html', get_new_task(groups, request, user))
     elif request.method == 'POST':
-        if request.POST.get('request_type') == 'delete_template':
-            template_id = request.POST.get('template')
-            TaskTemplate.objects.filter(id=template_id).delete()
-            return HttpResponseRedirect(reverse('new-task'))
-        form = TaskForm(request.POST, request=None)
-        QuestionFormset = get_question_formset()
-        formset = QuestionFormset(request.POST)
-
-        if "save" in request.POST: # saving template
-            form.fields['group'].required = False
-            form.fields['due_date'].required = False
-            form.fields['due_time'].required = False
-
-            if form.is_valid() and formset.is_valid():
-                form.save(commit=False)
-                task_template = TaskTemplate.objects.create(name=form.cleaned_data['title'], surveyor=user)
-                questions = formset.save(commit=False)
-                for deleted in formset.deleted_objects:
-                    deleted.delete()
-                for question_form in questions:
-                    QuestionTemplate.objects.create(template=task_template,
-                                                    description=question_form.description,
-                                                    link=sanitize_link(question_form.link),
-                                                    response_type=question_form.response_type)
-            else:
-                raise Exception("Invalid form to save")
-            return HttpResponseRedirect(reverse('new-task') + '?template=' + str(task_template.id))
-        else: # submitting task
-            if form.is_valid() and formset.is_valid():
-                task = form.save(commit=False)
-                task.save()
-                questions = formset.save(commit=False)
-                for deleted in formset.deleted_objects:
-                    deleted.delete()
-                for question_form in questions:
-                    question_form.link = sanitize_link(question_form.link)
-                    question_form.task = task
-                    question_form.save()
-
-                task.title = form.cleaned_data['title']
-                task.due_date = form.cleaned_data['due_date']
-                task.due_time = form.cleaned_data['due_time']
-                task.group = Group.objects.get(name=form.cleaned_data['group'])
-                return HttpResponseRedirect(reverse('dashboard'))
-            else:
-                raise Exception("Invalid form submission")
-    return render(request, 'surveyor/new-task.html',
-                  {'user': user, 'groups': groups, 'taskform': form, 'formset': formset, 'templates': templates})
-
-
-@login_required(login_url='/accounts/login/')
-def new_group(request):
-    """
-    Modal popup containing a form for the creation of a new ``Group``.
-
-    :param request: The ``GET``/``POST`` request made by the user.
-    :type request: django.http.HttpRequest
-    :return: The ``surveyor/partials/new-group.html`` template rendered using the given dictionary.
-    :rtype: django.http.HttpResponse
-    """
-    data = dict()
-
-    if request.method == 'POST':
-        form = GroupForm(request.POST)
-        if form.is_valid():
-            group = form.save()
-            GroupSurveyor.objects.create(group=group, surveyor=Surveyor.objects.get(user=request.user))
-            data['form_is_valid'] = True
-        else:
-            data['form_is_valid'] = False
-
-        return HttpResponseRedirect(reverse("new-group"))
-    else:
-        form = GroupForm()
-
-    context = {'form': form}
-    data['html_form'] = render_to_string('surveyor/partials/new-group.html',
-                                         context,
-                                         request=request
-                                         )
-    return JsonResponse(data)
+        return post_new_task(request, user)
 
 
 @login_required(login_url='/accounts/login/')
@@ -390,17 +245,16 @@ def groups(request):
     :return: The ``surveyor/groups.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
-    user = get_object_or_404(Surveyor, user=request.user)
-    if request.method == 'POST':
-        if request.POST.get('request_type') == 'delete_group':
-            group_id = request.POST.get('group')
-            group = Group.objects.filter(id=group_id).delete()
-        return HttpResponseRedirect(reverse("groups"))
-
-    groups = get_groups(user)
-    for group in groups:
-        group.num_participants = get_num_respondents_in_group(group)
-    return render(request, 'surveyor/groups.html', {'user': user, 'groups': groups})
+    if request.method == 'GET':
+        user = get_object_or_404(Surveyor, user=request.user)
+        groups = get_groups(user)
+        for group in groups:
+            group.num_participants = get_num_respondents_in_group(group)
+        form = GroupForm()
+        return render(request, 'surveyor/groups.html', {'user': user, 'groups': groups, 'form': form})
+    elif request.method == 'POST':
+        return post_groups(request)
+        
 
 
 @login_required(login_url='/accounts/login/')
@@ -415,60 +269,16 @@ def manage_group(request, group_id):
     :return: The ``surveyor/manage-group.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
     """
-    if request.method == 'POST':
+    if request.method == 'GET':
+        user = get_object_or_404(Surveyor, user=request.user)
         group = Group.objects.get(id=group_id)
-        if request.POST.get('request_type') == 'delete_participant':  # Deleting a participant
-            respondent_id = request.POST.get('respondent')
-            respondent = Respondent.objects.get(id=respondent_id)
-            GroupRespondent.objects.filter(respondent=respondent, group=group).delete()
-        elif request.POST.get('request_type') == 'invite':  # Inviting a participant
-            email = request.POST.get('email')
-            if User.objects.filter(email=email).exists():
-                user = User.objects.get(email=email)
-                if Respondent.objects.filter(user=user).exists():
-                    respondent = Respondent.objects.get(user=user)
-                    GroupRespondent.objects.create(
-                        group=group,
-                        respondent=respondent
-                    )
-            else:
-                invite = UserInvitation.create(
-                    email,
-                    inviter=request.user,
-                    group=group,
-                    is_respondent=True
-                )
-                invite.send_invitation(request)
-        elif request.POST.get('request_type') == 'import':  # Add multiple participants
-            dataset = Dataset()
-            new_persons = request.FILES['file']
-            imported_data = dataset.load(new_persons.read(), format='xlsx', headers=False)
-
-            for entry in imported_data:
-                if entry[0]:
-                    try:
-                        validate_email(entry[0])
-                    except ValidationError:
-                        continue
-                    invite = UserInvitation.create(
-                        str(entry[0]),
-                        inviter=request.user,
-                        group=group,
-                        is_respondent=True
-                    )
-                    invite.send_invitation(request)
-
-        else:  # Adding a participant
-            respondent_id = request.POST.get('respondent')
-            respondent = Respondent.objects.get(id=respondent_id)
-            new_object = GroupRespondent.objects.create(group=group, respondent=respondent)
-        return HttpResponseRedirect(reverse("manage-group", args=(group_id,)))
-    user = get_object_or_404(Surveyor, user=request.user)
-    group = Group.objects.get(id=group_id)
-    respondents = get_group_participants(group)
-    form = AddUserForm(group_id=group_id)
-    form_inv = InviteUserForm()
-    import_form = MultipleUserForm()
-    return render(request, 'surveyor/manage-group.html',
-                  {'user': user, 'participants': respondents, 'group': group, 'form': form, 'form_inv': form_inv,
-                   'import_form': import_form})
+        respondents = get_group_participants(group)
+        form = AddUserForm(group_id=group_id)
+        form_inv = InviteUserForm()
+        import_form = MultipleUserForm()
+        return render(request, 'surveyor/manage-group.html',
+                    {'user': user, 'participants': respondents, 'group': group, 'form': form, 'form_inv': form_inv,
+                    'import_form': import_form})
+    elif request.method == 'POST':
+        return post_manage_group(group_id, request)
+        

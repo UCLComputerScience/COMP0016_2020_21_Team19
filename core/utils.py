@@ -41,7 +41,7 @@ def get_leaderboard(user, group=None):
              of the leaderboard.
     :rtype: List[dict]
     """
-    respondents = _get_respondents_by_group(group) if group else _get_respondents_by_groups(get_groups(user))
+    respondents = get_respondents_by_group(group) if group else get_respondents_by_groups(get_groups(user))
 
     rows = []
     for respondent in respondents:
@@ -54,7 +54,7 @@ def get_leaderboard(user, group=None):
     return sorted(rows, key=operator.itemgetter('score'), reverse=True)
 
 
-def _get_respondents_by_group(group):
+def get_respondents_by_group(group):
     """
     Returns the ``Respondent``\s which are members of `group`.
 
@@ -67,7 +67,7 @@ def _get_respondents_by_group(group):
     return Respondent.objects.filter(id__in=respondent_ids)
 
 
-def _get_respondents_by_groups(groups):
+def get_respondents_by_groups(groups):
     """
     Returns all ``Respondent``\s which are members of any of the given `groups`.
     
@@ -123,7 +123,7 @@ def get_responses(user, **kwargs):
     this method returns a ``QuerySet`` of ``Group``\s which the ``Respondent`` is a member of.
 
     :param user: A ``Surveyor``/``Respondent`` representing the user currently logged in.
-    :type user: Surveyor or Respondent
+    :type user: ``Surveyor`` or ``Respondent``
     :Keyword Arguments:
         * *group* (``Group``) If passed, this method shall return the 
                               ``Response``\s associated with the given ``Group``
@@ -149,8 +149,7 @@ def get_responses(user, **kwargs):
     if isinstance(user, Surveyor):
         responses = _filter_responses_by_surveyor(responses, user)
         if kwargs.get('respondent'):
-            respondent = kwargs.get('respondent')
-            responses = responses.filter(respondent=respondent)
+            responses = responses.filter(respondent=kwargs.get('respondent'))
     else:
         responses = responses.filter(respondent=user)
 
@@ -314,9 +313,8 @@ def _set_task_attrs(user, task, now):
         task.num_group_respondents = get_num_respondents_in_group(task.group)
         task.num_responses = responses.count() // questions.count()
     task.due_dt = datetime.datetime.combine(task.due_date, task.due_time)
-    print(task.due_dt)
-    until = task.due_dt - now
 
+    until = task.due_dt - now
     if until < datetime.timedelta(days=1):
         task.color= "red"
     elif until < datetime.timedelta(days=2):
@@ -361,13 +359,13 @@ def get_progress_graphs(respondent):
 
 def has_responded_to_task(respondent, task):
     """
-    Returns a boolean value representing if a certain ``Respondent`` has responded
-    to a given ``Task``.
+    Returns a boolean value representing if the given `respondent` has responded
+    to the given `task`.
 
     :param respondent: The ``Respondent`` for which to check ``Response``\s from.
-    :type respondent: Respondent
+    :type respondent: ``Respondent``
     :param task: The ``Task`` for which to check ``Response``\s to.
-    :type task: Task
+    :type task: ``Task``
     :return: Returns ``True`` if the number of ``Response``\s to the given ``Task`` is equal to the number of ``Question``\s, ``False`` otherwise
     :rtype: bool
     """

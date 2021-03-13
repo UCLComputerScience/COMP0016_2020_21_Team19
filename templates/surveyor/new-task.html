@@ -220,18 +220,11 @@
     }
 
     const allFields = ['id_group', 'id_due_date', 'id_due_time'] // put all your field ids here
-
     $("#save").click(function () {
-      // Set all your fields back to optional
       allFields.forEach(function(field) {
           $( "#" + field ).removeAttr('required');
-      });
-      // Then trigger the hidden input field to submit the form and send the POST request
+      }); 
       $( "#save" ).trigger( "click" );
-
-      requiredFields.forEach(function(field) {
-          $( "#" + field ).attr('required', '');
-      });
     });
 
     $(".delete-template").click(function () {
@@ -241,7 +234,7 @@
             var form = $('<form method="post">');
             form.append('{% csrf_token %}');
             form.append('<input name="template" value="' + template + '" />');
-            form.append('<input name="request_type" value="delete_template" />');
+            form.append('<input name="delete" value="delete_template" />');
             $('body').append(form);
             form.submit();
         }

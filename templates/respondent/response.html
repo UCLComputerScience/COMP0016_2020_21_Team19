@@ -39,13 +39,13 @@
   {% for question in questions %}
 
   {# Text Response (any) #}
-  {% if question.response_type == 4 or question.response_type == 5 or question.response_type == 6 %}
+  {% if question.is_text %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')" target="_blank"><i>{{ question.link }}</i></a>
               {% endif %}
               <input type="text" class="form-control" name="{{ question.id }}" placeholder="Response" value="" required>
           </label>
@@ -53,13 +53,13 @@
       </div>
 
   {# Likert Resposnse #}
-  {% elif question.response_type == 1 or question.response_type == 8 %}
+  {% elif question.is_likert %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')" target="_blank"><i>{{ question.link }}</i></a>
               {% endif %}
           </label>
         </div>
@@ -98,13 +98,13 @@
       </div>
 
   {# Traffic Light Resposnse #}
-  {% elif question.response_type == 2 %}
+  {% elif question.is_traffic_light %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')" target="_blank"><i>{{ question.link }}</i></a>
               {% endif %}
           </label>
         </div>
@@ -113,25 +113,25 @@
     <div class="text-center">
       <div class="btn-group btn-group-toggle" data-toggle="buttons" required>
         <label class="btn btn-outline-danger">
-          <input type="radio" name="{{ question.id }}" value="1.6666666667" required> <i data-feather="frown" style="width: 36px; height 36px"></i>
+          <input type="radio" name="{{ question.id }}" value="{{ question.traffic_light_sad_value }}" required> <i data-feather="frown" style="width: 36px; height 36px"></i>
         </label>
         <label class="btn btn-outline-warning">
-          <input type="radio" name="{{ question.id }}" value="3.3333333333"> <i data-feather="meh" style="width: 36px; height 36px"></i>
+          <input type="radio" name="{{ question.id }}" value="{{ question.traffic_light_neutral_value }}"> <i data-feather="meh" style="width: 36px; height 36px"></i>
         </label>
         <label class="btn btn-outline-success">
-          <input type="radio" name="{{ question.id }}" value="5"> <i data-feather="smile" style="width: 36px; height 36px"></i>
+          <input type="radio" name="{{ question.id }}" value="{{ question.traffic_light_happy_value }}"> <i data-feather="smile" style="width: 36px; height 36px"></i>
         </label>
       </div>
     </div>
   
   {# Numerical Radio Button Response #}
-  {% elif question.response_type == 3 or question.response_type == 7 %}
+  {% elif question.is_numerical %}
 
     <div class="row">
       <div class="col-md-6 mb-2">
         <label for="response{{ question.id }}">{{ question.description }}
             {% if question.link %}
-                <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')"><i>{{ question.link }}</i></a>
+                <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')" target="_blank"><i>{{ question.link }}</i></a>
             {% endif %}
         </label>
       </div>
