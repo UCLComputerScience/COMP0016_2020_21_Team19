@@ -17,6 +17,8 @@ def create_organisation(request):
             organisation = form.save(commit=False)
             request.session['organisation_name'] = organisation.name
             return HttpResponseRedirect(reverse('authentication-signup'))
+        else:
+            raise Http404("Invalid organisation name")
     form = OrganisationSignupForm()
     return render(request, 'account/create-organisation.html', {'form': form})
 

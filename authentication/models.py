@@ -2,6 +2,7 @@ import datetime
 
 from django.contrib.sites.models import Site
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
@@ -11,7 +12,7 @@ from invitations.app_settings import app_settings
 from invitations.base_invitation import AbstractBaseInvitation
 
 from core.models import Group
-from surveyor.models import Organisation
+from surveyor.models import Organisation, Surveyor
 
 
 class UserInvitation(AbstractBaseInvitation):

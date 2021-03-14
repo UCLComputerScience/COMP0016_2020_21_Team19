@@ -101,20 +101,20 @@ $(function () {
 });
 
 $(".delete-group").click(function () {
-      if (confirm('Are you sure you want to delete this group?')) {
-        var btn = $(this);
-        var group = btn.data('group');
-        var form = $('<form method="post">');
-        form.append('{% csrf_token %}');
-        form.append('<input name="group" value="' + group + '" />');
-        form.append('<input name="request_type" value="delete_group" />');
-        $('body').append(form);
-        form.submit();
-      }
-      else {
-        return false;
-      }
-      if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
-    });
+  if (confirm('Are you sure you want to delete this group?')) {
+    var btn = $(this);
+    var group = btn.data('group');
+    var form = $('<form method="post">');
+    form.append('{% csrf_token %}');
+    form.append('<input name="group" value="' + group + '" />');
+    form.append('<input name="request_type" value="delete_group" />');
+    $('body').append(form);
+    form.submit();
+  }
+  else {
+    return false;
+  }
+  if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
+});
 </script>
 {% endblock %}

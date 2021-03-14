@@ -3,7 +3,7 @@ import random
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -182,6 +182,9 @@ def _post_submit_task(form, formset):
             question_form.save()
 
         return HttpResponseRedirect(reverse('dashboard'))
+    
+    else:
+        raise Http404("Something was wrong with your task!")
 
 
 def _post_save_template(form, formset, user):
@@ -211,7 +214,9 @@ def _post_save_template(form, formset, user):
                                             description=question_form.description,
                                             link=sanitize_link(question_form.link),
                                             response_type=question_form.response_type)
-    return HttpResponseRedirect(reverse('new-task') + '?template=' + str(task_template.id))
+        return HttpResponseRedirect(reverse('new-task') + '?template=' + str(task_template.id))
+    else:
+        raise Http404("Something was wrong with your template!")
 
 
 def post_new_task(request, user):
@@ -277,6 +282,8 @@ def post_groups(request):
         if form.is_valid():
             group = form.save()
             gs = GroupSurveyor.objects.create(group=group, surveyor=Surveyor.objects.get(user=request.user))
+        else:
+            raise Http404("Something went wrong!")
     if request.POST.get('request_type') == 'delete_group':
         group_id = request.POST.get('group')
         group = Group.objects.filter(id=group_id).delete()
@@ -341,7 +348,7 @@ def _invite_multiple_respondents(group, request):
             try:
                 validate_email(entry[0])
             except ValidationError:
-                continue
+                raise Http404("Something was wrong with your file!")
             invite = UserInvitation.create(
                 str(entry[0]),
                 inviter=request.user,
@@ -370,6 +377,8 @@ def _invite_respondent(group, request):
                 group=group,
                 respondent=respondent
             )
+        else:
+            raise Http404("You cannot invite a Surveyor to a Group!")
     else:
         invite = UserInvitation.create(
             email,
