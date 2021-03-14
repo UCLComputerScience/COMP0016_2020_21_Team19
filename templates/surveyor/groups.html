@@ -79,6 +79,7 @@
     <div class="modal fade" id="modal-new-group">
       <div class="modal-dialog">
         <div class="modal-content">
+          {% include "surveyor/partials/new-group.html" %}
         </div>
       </div>
     </div>
@@ -91,62 +92,29 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
+<script type="text/javascript">
 
-// Script for modal popup
-  $(function () {
-    $(".js-new-group").click(function () {
-      $.ajax({
-        url: '/new-group/',
-        type: 'get',
-        dataType: 'json',
-        beforeSend: function () {
-          $("#modal-new-group").modal('show');
-        },
-        success: function (data) {
-          $("#modal-new-group .modal-content").html(data.html_form);
-        }
-      });
-    });
-    $("#modal-new-group").on("submit", ".js-new-group-form", function () {
-      var form = $(this);
-      var csrftoken = $("[name=csrfmiddlewaretoken]").val();
-      $.ajax({
-        headers: { "X-CSRFToken": csrftoken },
-        url: form.attr("action"),
-        data: form.serialize(),
-        type: form.attr("method"),
-        dataType: 'json',
-        success: function (data) {
-          if (data.form_is_valid) {
-            $("#modal-new-group").modal("hide");
-            alert("Group created!");
-          }
-          else {
-            $("#modal-book .modal-content").html(data.html_form);
-          }
-          window.location.reload();
-        }
-      });
-      return false;
-    });
+$(function () {
+  $(".js-new-group").click(function () {
+    $("#modal-new-group").modal('show');
   });
+});
 
 $(".delete-group").click(function () {
-      if (confirm('Are you sure you want to delete this group?')) {
-        var btn = $(this);
-        var group = btn.data('group');
-        var form = $('<form method="post">');
-        form.append('{% csrf_token %}');
-        form.append('<input name="group" value="' + group + '" />');
-        form.append('<input name="request_type" value="delete_group" />');
-        $('body').append(form);
-        form.submit();
-      }
-      else {
-        return false;
-      }
-      if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
-    });
+  if (confirm('Are you sure you want to delete this group?')) {
+    var btn = $(this);
+    var group = btn.data('group');
+    var form = $('<form method="post">');
+    form.append('{% csrf_token %}');
+    form.append('<input name="group" value="' + group + '" />');
+    form.append('<input name="request_type" value="delete_group" />');
+    $('body').append(form);
+    form.submit();
+  }
+  else {
+    return false;
+  }
+  if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
+});
 </script>
 {% endblock %}

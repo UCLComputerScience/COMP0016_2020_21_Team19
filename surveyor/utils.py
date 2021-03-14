@@ -6,9 +6,9 @@ from urllib.parse import urlparse
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
-from core.utils import *
 from core.models import Question
-from surveyor.models import Surveyor, QuestionTemplate, TaskTemplate
+from core.utils import *
+from surveyor.models import Surveyor
 
 
 def get_graphs_and_leaderboards(surveyor):
@@ -91,60 +91,34 @@ def get_group_participants(group):
     return Respondent.objects.filter(id__in=group_respondents)
 
 
-# TODO: Clean up
-def get_questions(task_id):
+def get_task_summary(task_id):
+    """
+    Returns a summary of the responses to, and statistics about the ``Task`` with the given `task_id`.
+
+    :param task_id: String representation of the UUID of the ``Task`` in question.
+    :type task_id: str
+    :return: A list of dictionaries containing, for each ``Question`` in the ``Task``, the
+             question itself, the number of link clicks for each question, the labels and
+             data for the chart for each question (if applicable) and the word cloud (if 
+             applicable).
+    :rtype: List[dict]
+    """
     task = Task.objects.get(id=task_id)
     questions = Question.objects.filter(task=task)
 
     data = []
-    for question in questions:
+    for i, question in enumerate(questions):
         responses = Response.objects.filter(question=question)
-        pie_chart_labels = None
-        pie_chart_data = None
-        word_cloud = None
-
-        if question.response_type == Question.ResponseType.LIKERT_ASC:
-            response_type = "likert"
-            pie_chart_labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
-            pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
-        elif question.response_type == Question.ResponseType.LIKERT_DESC:
-            response_type = "likert"
-            pie_chart_labels = ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
-            pie_chart_data = [responses.filter(value=6-i).count() for i in range(1, 6)]
-        elif question.response_type == Question.ResponseType.TRAFFIC_LIGHT:
-            response_type = "traffic"
-            pie_chart_labels = ['Red', 'Yellow', 'Green']
-            pie_chart_data = [responses.filter(value=i).count() for i in range(1, 4)]
-        elif question.response_type in [Question.ResponseType.TEXT_NEUTRAL, Question.ResponseType.TEXT_POSITIVE, Question.ResponseType.TEXT_NEGATIVE]:  # neutral text
-            response_type = "text"
-            word_cloud = create_word_cloud(responses)
-        elif question.response_type == Question.ResponseType.NUMERICAL_ASC:
-            response_type = "numerical-radio"
-            pie_chart_labels = ['1', '2', '3', '4', '5']
-            pie_chart_data = [responses.filter(value=i).count() for i in range(1, 6)]
-        elif question.response_type == Question.ResponseType.NUMERICAL_DESC:
-            response_type = "numerical-radio"
-            pie_chart_labels = ['1', '2', '3', '4', '5']
-            pie_chart_data = [responses.filter(value=6-i).count() for i in range(1, 6)]
-
-        link_clicks = 0
-        for response in responses:
-            link_clicks += response.link_clicked
-
         data.append({
-            'id': question.id,
-            'link': question.link,
-            'type': response_type,
-            'description': question.description,
-            'link_clicks': link_clicks,
-            'pie_chart_labels': pie_chart_labels,
-            'pie_chart_data': pie_chart_data,
-            'word_cloud': word_cloud})
+            'question': question,
+            'link_clicks': _get_question_link_clicks(responses),
+            'chart_labels': question.get_labels(),
+            'chart_data': _get_question_summary(question, responses)})
 
     return data
 
 
-def get_overall_word_cloud(surveyor, respondent, text_positive=None):
+def get_word_cloud(surveyor, respondent, text_positive=None):
     """
     Gets the combined word cloud for the all of the text responses given by a certain ``Respondent`` to tasks
     set by a given ``Surveyor``.
@@ -162,18 +136,48 @@ def get_overall_word_cloud(surveyor, respondent, text_positive=None):
     """
     groups = get_groups(surveyor)
     responses = get_responses(surveyor, respondent=respondent)
-    responses = responses.filter(text__isnull=False, text_positive=text_positive)  # get only text responses
+    # get only text responses
+    responses = responses.filter(text__isnull=False, text_positive=text_positive)
     word_cloud = create_word_cloud(responses)
     return word_cloud
 
-# def get_templates_and_questions(self, surveyor):
-#     templates = TaskTemplate.objects.filter(surveyor=user)
-#         questions = 
-#         for template in templates:
-#             questions = QuestionTemplate.objects.filter()
-#     data = []
-#     templates = TaskTemplate.objects.filter(surveyor=surveyor)
-#     for template in templates:
-#         entry = {QuestionTemplate.objects.filter}
+
+def _get_question_summary(question, responses):
+    """
+    Returns a summary of the responses to `question`, including the number of responses,
+    word cloud (if applicable). Textual/qualitative responses include word clouds, 
+    quantitative responses include chart labels and response distributions.
+
+    :param question: The ``Question`` to retrieve the summary for.
+    :type question: ``Question``
+    :param responses: The ``Response``\s to the given `question`.
+    :type responses: django.db.models.QuerySet
+    :return: For a quantitative response, this returns a list of values corresponding to
+             the response  distribution to `question`. For qualitative responses, this
+             returns the link to a word cloud.
+    :rtype: List[int] or str
+    """
+    chart_data = None
+
+    if question.is_ascending:
+        chart_data = [responses.filter(value=i).count() for i in question.get_values_list()]
+    elif question.is_descending:
+        chart_data = [responses.filter(value=6-i).count() for i in question.get_values_list()]
+    elif question.is_text:
+        chart_data = create_word_cloud(responses)
+    return chart_data
+
+
+def _get_question_link_clicks(responses):
+    """
+    Returns the number of times the provided link for a ``Question`` was clicked
+    by all the ``Respondent``\s who answered that ``Question``. The method calculates this
+    from the ``QuerySet`` of all the ``Response``\s to a ``Question``.
     
-#     return data
+    :param responses: The set of responses to a question from which to calculate the
+                      number of link clicks.
+    :type responses: django.db.models.QuerySet
+    :return: The number of times the link was clicked.
+    :rtype: int
+    """
+    return sum(response.link_clicked for response in responses)

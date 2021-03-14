@@ -1,7 +1,6 @@
 import uuid
 
 from django.db import models
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 
@@ -24,9 +23,16 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 
+    def mark_as_complete(self):
+        self.completed = True
+        self.save()
+
+    def mark_as_incomplete(self):
+        self.completed = False
+        self.save()
+
 
 class Question(models.Model):
-
     class ResponseType(models.IntegerChoices):
         LIKERT_ASC = 1, _('Likert Scale (Agree is better)')
         LIKERT_DESC = 8, _('Likert Scale (Disagree is better)')
@@ -43,3 +49,85 @@ class Question(models.Model):
     description = models.CharField(max_length=100, blank=False)
     response_type = models.IntegerField(choices=ResponseType.choices)
 
+    @property
+    def is_ascending(self):
+        return self.response_type in [
+            Question.ResponseType.LIKERT_ASC,
+            Question.ResponseType.TRAFFIC_LIGHT,
+            Question.ResponseType.NUMERICAL_ASC
+        ]
+    
+    @property
+    def is_descending(self):
+        return self.response_type in [
+            Question.ResponseType.LIKERT_DESC,
+            Question.ResponseType.NUMERICAL_DESC
+        ]
+
+    @property
+    def is_likert(self):
+        return self.response_type in [
+            Question.ResponseType.LIKERT_ASC,
+            Question.ResponseType.LIKERT_DESC
+        ]
+    
+    @property
+    def is_text(self):
+        return self.response_type in [
+            Question.ResponseType.TEXT_NEUTRAL,
+            Question.ResponseType.TEXT_POSITIVE,
+            Question.ResponseType.TEXT_NEGATIVE
+        ]
+    
+    @property
+    def is_numerical(self):
+        return self.response_type in [
+            Question.ResponseType.NUMERICAL_ASC,
+            Question.ResponseType.NUMERICAL_DESC
+        ]
+    
+    @property
+    def is_traffic_light(self):
+        return self.response_type == Question.ResponseType.TRAFFIC_LIGHT
+
+    @property
+    def is_text_neutral(self):
+        return self.response_type == Question.ResponseType.TEXT_NEUTRAL
+
+    @property
+    def is_text_negative(self):
+        return self.response_type == Question.ResponseType.TEXT_NEGATIVE
+
+    @property
+    def is_text_positive(self):
+        return self.response_type == Question.ResponseType.TEXT_POSITIVE
+
+    def get_labels(self):
+        if self.is_likert:
+            return ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree']
+        elif self.is_traffic_light:
+            return ['Red', 'Yellow', 'Green']
+        elif self.is_numerical:
+            return ['1', '2', '3', '4', '5']
+        else:
+            return None
+    
+    @property
+    def traffic_light_sad_value(self):
+        return 5 / 3
+    
+    @property
+    def traffic_light_neutral_value(self):
+        return (5 / 3) * 2
+    
+    @property
+    def traffic_light_happy_value(self):
+        return 5
+    
+    def get_values_list(self):
+        if self.is_likert or self.is_numerical:
+            return [1, 2, 3, 4, 5]
+        elif self.is_traffic_light:
+            return [self.traffic_light_sad_value, self.traffic_light_neutral_value, self.traffic_light_happy_value]
+        else:
+            return None

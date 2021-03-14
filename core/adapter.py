@@ -1,11 +1,8 @@
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.account.signals import user_signed_up
 from invitations.app_settings import app_settings
-from django.urls import reverse
-from urllib import parse
 
 
-# Code credits here to django-allauth
 class UserInvitationsAdapter(DefaultAccountAdapter):
     def is_open_for_signup(self, request):
         if hasattr(request, 'session') and request.session.get('account_verified_email'):

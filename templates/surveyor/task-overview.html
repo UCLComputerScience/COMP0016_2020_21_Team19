@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block sidebar %}
 <li class="nav-item">
@@ -90,34 +91,34 @@
 
 <div class="border m-3 rounded bg-light" id="responses-container">
   <div id="accordion" class="accordion">
-      {% for question in questions %}
-      <div id="{{ question.id }}" class="card">
+      {% for data in summary %}
+      <div id="{{ data.question.id }}" class="card">
         <div role="button" class="card-header d-flex justify-content-between align-items-center" id="heading{{forloop.counter}}" data-toggle="collapse" data-target="#collapse{{forloop.counter}}" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">
-            <button class="btn btn-link collapsed">{{ question.description }}</button>
-            {% if question.link %}
-                <a class="text-muted"> Link clicked {{question.link_clicks}} times</a>
+            <button class="btn btn-link collapsed">{{ data.question.description }}</button>
+            {% if data.question.link %}
+                <a class="text-muted"> Link clicked {{ data.link_clicks }} times</a>
             {% endif %}
         </div>
 
         <div id="collapse{{forloop.counter}}" class="collapse" aria-labelledby="heading{{forloop.counter}}">
           <div class="card-body" align="center">
             {% if task_respondents_completed > 0 %}
-              {% if question.type == 'text' %}
-                <div id="{{ question.id }}_cloud"></div>
+              {% if data.question.is_text %}
+                <div id="{{ data.question.id }}_cloud"></div>
               {% else %}
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-primary active" onclick="updateChart('pie', '{{question.id}}_canvas')">
-                      <input type="radio" id="pie-chart-button_{{ question.id }}" name="{{ question.id }}" checked><i data-feather="pie-chart"></i>
+                    <label class="btn btn-outline-primary active" onclick="updateChart('pie', '{{data.question.id}}_canvas')">
+                      <input type="radio" id="pie-chart-button_{{ data.question.id }}" name="{{ data.question.id }}" checked><i data-feather="pie-chart"></i>
                     </label>
-                    <label class="btn btn-outline-primary" onclick="updateChart('bar', '{{question.id}}_canvas')">
-                      <input type="radio" id="bar-chart-button_{{ question.id }}" name="{{ question.id }}" required><i data-feather="bar-chart-2"></i>
+                    <label class="btn btn-outline-primary" onclick="updateChart('bar', '{{data.question.id}}_canvas')">
+                      <input type="radio" id="bar-chart-button_{{ data.question.id }}" name="{{ data.question.id }}" required><i data-feather="bar-chart-2"></i>
                     </label>
                   </div>
                 </div>
                 <div class="chart-container" style="position:relative;width:30vh;height:auto">
-                  <canvas id="{{ question.id }}_canvas_pie"></canvas>
-                  <canvas id="{{ question.id }}_canvas_bar"></canvas>
+                  <canvas id="{{ data.question.id }}_canvas_pie"></canvas>
+                  <canvas id="{{ data.question.id }}_canvas_bar"></canvas>
                 </div>
               {% endif %}
             {% else %}
@@ -141,147 +142,29 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-$(function() {
-    $('#toggleAccordions-show').on('click', function(e) {
-        $('#accordion .collapse').collapse('show');
-    })
-    $('#toggleAccordions-hide').on('click', function(e) {
-        $('#accordion .collapse').collapse('hide');
-    })
-});
-$("#complete").click(function () {
-      var btn = $(this);
-      var task = btn.data('task');
-      var form = $('<form method="post">');
-      form.append('{% csrf_token %}');
-      form.append('<input name="task" value="' + task + '" />');
-      form.append('<input name="request" value="complete" />');
-      $('body').append(form);
-      form.submit();
-      if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
-      return false;
-    });
 
-$("#incomplete").click(function () {
-      var btn = $(this);
-      var task = btn.data('task');
-      var form = $('<form method="post">');
-      form.append('{% csrf_token %}');
-      form.append('<input name="task" value="' + task + '" />');
-      form.append('<input name="request" value="incomplete" />');
-      $('body').append(form);
-      form.submit();
-      if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
-      return false;
-    });
-
-  $("#delete").click(function () {
-      var btn = $(this);
-      var task = btn.data('task');
-      var form = $('<form method="post">');
-      form.append('{% csrf_token %}');
-      form.append('<input name="task" value="' + task + '" />');
-      form.append('<input name="request" value="delete" />');
-      $('body').append(form);
-      var message = 'Deleting this task will also delete all responsees associated with it. Are you sure you want to delete this task?';
-      if (confirm(message)) {
-        form.submit();
-      }
-      if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
-      return false;
-    });
+<script type="text/javascript">
+const csrf_complete = '{% csrf_token %}';
+const csrf_incomplete = '{% csrf_token %}';
+const csrf_delete = '{% csrf_token %}';
 </script>
 
-<script>
-function updateChart(type, canvas_id) {
-  if (type === 'pie') {
-    var canvas=document.getElementById(canvas_id + '_bar');
-    canvas.style.display="none";
-    var canvas=document.getElementById(canvas_id + '_pie');
-    canvas.style.display="block";
-  } 
-  else if (type === 'bar') {
-    var canvas=document.getElementById(canvas_id + '_pie');
-    canvas.style.display="none";
-    var canvas=document.getElementById(canvas_id + '_bar');
-    canvas.style.display="block";
-  }
-}
-function isMobileDevice(){
-    return ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-}
-</script>
+<script src={% static 'js/surveyor/task-overview.js' %}></script>
 
 {% if task_respondents_completed > 0 %}
-  {% for question in questions %}
-    {% if question.type == 'text' %}
-    <script>
-      var ctx = document.getElementById("{{ question.id }}_cloud");
-      img = document.createElement('img');
-      img.src = "{{ question.word_cloud }}";
-      img.style.width = isMobileDevice() ? "100%" : "25%";
-      img.style.height = "auto";
-      ctx.appendChild(img);
+  {% for data in summary %}
+    {% if data.question.is_text %}
+    <script type="text/javascript">
+      var ctx = document.getElementById("{{ data.question.id }}_cloud");
+      word_cloud(ctx, "{{ data.chart_data }}");
     </script>
     {% else %}
-    <script>
-      var ctx = document.getElementById("{{ question.id }}_canvas_pie").getContext('2d');
-      var myChart = new Chart (ctx, {
-        type: 'pie',
-        data: {
-          datasets: [{
-            data: {{ question.pie_chart_data | safe}},
-            backgroundColor: [
-              'tomato', 'orange', 'Gold', 'LightGreen', 'SeaGreen'
-            ]
-          }],
-          labels: {{ question.pie_chart_labels | safe}},
-        },
-        options: {
-          legend: {
-            display: !isMobileDevice(),
-            position: 'bottom',
-            align: 'center'
-          }
-        },
-        responsive: true,
-        maintainAspectRatio: false
-      });
-      var ctx = document.getElementById("{{ question.id }}_canvas_bar").getContext('2d');
-      var myChart = new Chart (ctx, {
-        type: 'bar',
-        data: {
-          datasets: [{
-            data: {{ question.pie_chart_data | safe}},
-            backgroundColor: [
-              'tomato', 'orange', 'Gold', 'LightGreen', 'SeaGreen'
-            ]
-          }],
-          labels: {{ question.pie_chart_labels | safe}},
-        },
-        options: {
-          legend: {
-            display: false
-          },
-          scales: {
-            yAxes: [{
-                ticks: {
-                    stepSize: 1
-                }
-            }],
-            xAxes: [{
-                ticks: {
-                  display: !isMobileDevice(),
-                  autoSkip: false
-                }
-            }]
-        }
-        },
-        responsive: true,
-        maintainAspectRatio: false
-      });
-      var ctx = document.getElementById("{{ question.id }}_canvas_bar")
+    <script type="text/javascript">
+      var ctx = document.getElementById("{{ data.question.id }}_canvas_pie").getContext('2d');
+      pie_chart(ctx, {{ data.chart_data|safe }}, {{ data.chart_labels|safe }});
+      var ctx = document.getElementById("{{ data.question.id }}_canvas_bar").getContext('2d');
+      bar_chart(ctx, {{ data.chart_data|safe }}, {{ data.chart_labels|safe }})
+      var ctx = document.getElementById("{{ data.question.id }}_canvas_bar")
       ctx.style.display="none";
     </script>
     {% endif %}

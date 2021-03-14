@@ -49,14 +49,14 @@ class GetQuestionsTestCase(TestCase):
 
     def test_data_formatted_appropriately(self):
         """
-        Each dictionary in the list data should contain keys: id, link, type, description, link_clicks, pie_chart_labels,
-        pie_chart_data, word_cloud.
+        Each dictionary in the list data should contain keys: id, link, type, description, link_clicks, chart_labels,
+        chart_data, word_cloud.
         """
         data = utils.get_questions(self.task.id)
         self.assertTrue(data)
         entry = data[0]
         self.assertEqual(entry.keys(),
-                         {'id', 'link', 'type', 'description', 'link_clicks', 'pie_chart_labels', 'pie_chart_data',
+                         {'id', 'link', 'type', 'description', 'link_clicks', 'chart_labels', 'chart_data',
                           'word_cloud'})
 
     def test_chart_likert_labels_correct(self):
@@ -70,7 +70,7 @@ class GetQuestionsTestCase(TestCase):
             if entry['type'] == 'likert':
                 likert_entry = entry
                 break
-        self.assertEqual(likert_entry['pie_chart_labels'],
+        self.assertEqual(likert_entry['chart_labels'],
                          ['Strongly Disagree', 'Disagree', 'Neutral', 'Agree', 'Strongly Agree'])
 
     def test_chart_traffic_labels_correct(self):
@@ -83,7 +83,7 @@ class GetQuestionsTestCase(TestCase):
             if entry['type'] == 'traffic':
                 traffic_entry = entry
                 break
-        self.assertEqual(traffic_entry['pie_chart_labels'], ['Red', 'Yellow', 'Green'])
+        self.assertEqual(traffic_entry['chart_labels'], ['Red', 'Yellow', 'Green'])
 
     def test_word_cloud_url_correct(self):
         """

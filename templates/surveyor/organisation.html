@@ -123,34 +123,33 @@
 
 {% block scripts %}
 <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
-
-<script>
+<script type="text/javascript">
 $(function () {
-    $(".js-add-surveyor").click(function () {
-      $("#modal-add-surveyor").modal('show');
-    });
+  $(".js-add-surveyor").click(function () {
+    $("#modal-add-surveyor").modal('show');
+  });
 
-    $(".js-add-multiple").click(function () {
-      $("#modal-add-multiple-surveyors").modal('show');
-    });
-    {% if organisation.admin == user %}
-    $(".delete-surveyor").click(function () {
-      console.log("PRESSED")
-      if (confirm('Are you sure you want to remove this surveyor?')) {
-        var btn = $(this);
-        var surveyor = btn.data('surveyor');
-        var form = $('<form method="post">');
-        form.append('{% csrf_token %}');
-        form.append('<input name="surveyor" value="' + surveyor + '" />');
-        form.append('<input name="request_type" value="delete_surveyor" />');
-        $('body').append(form);
-        form.submit();
-      }
-      else {
-        return false;
-      }
-    });
-    {% endif %} 
+  $(".js-add-multiple").click(function () {
+    $("#modal-add-multiple-surveyors").modal('show');
+  });
+  {% if organisation.admin == user %}
+  $(".delete-surveyor").click(function () {
+    console.log("PRESSED")
+    if (confirm('Are you sure you want to remove this surveyor?')) {
+      var btn = $(this);
+      var surveyor = btn.data('surveyor');
+      var form = $('<form method="post">');
+      form.append('{% csrf_token %}');
+      form.append('<input name="surveyor" value="' + surveyor + '" />');
+      form.append('<input name="request_type" value="delete_surveyor" />');
+      $('body').append(form);
+      form.submit();
+    }
+    else {
+      return false;
+    }
+  });
+  {% endif %} 
 });
 </script>
 

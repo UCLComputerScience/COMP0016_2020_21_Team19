@@ -51,7 +51,7 @@
   {% for question in questions %}
 
   {# Text Response (any) #}
-  {% if question.response_type == 4 or question.response_type == 5 or question.response_type == 6 %}
+  {% if question.is_text %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
@@ -65,7 +65,7 @@
       </div>
 
   {# Likert Resposnse #}
-  {% elif question.response_type == 1 or question.response_type == 8 %}
+  {% elif question.is_likert %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
@@ -110,7 +110,7 @@
       </div>
 
   {# Traffic Light Resposnse #}
-  {% elif question.response_type == 2 %}
+  {% elif question.is_traffic_light %}
 
       <div class="row">
         <div class="col-md-6 mb-2">
@@ -124,20 +124,20 @@
 
     <div class="text-center">
       <div class="btn-group btn-group-toggle" data-toggle="buttons" required>
-        <label class="btn {% if question.response.value == 1 %} btn-danger active {% else %} btn-outline-danger {% endif %}">
-          <input type="radio" disabled='disabled' name="{{ question.id }}" value="1.6666666667" required {% if question.response.value == 1 %} checked="checked" {% endif %}> <i data-feather="frown" style="width: 36px; height 36px"></i>
+        <label class="btn {% if question.response.value == question.traffic_light_sad_value %} btn-danger active {% else %} btn-outline-danger {% endif %}">
+          <input type="radio" disabled='disabled' name="{{ question.id }}" value="{{ question.traffic_light_sad_value }}" required {% if question.response.value == question.traffic_light_sad_value %} checked="checked" {% endif %}> <i data-feather="frown" style="width: 36px; height 36px"></i>
         </label>
-        <label class="btn {% if question.response.value == 2 %} btn-warning active {% else %} btn-outline-warning {% endif %}">
-          <input type="radio" disabled='disabled' name="{{ question.id }}" value="3.3333333333" {% if question.response.value == 2 %} checked="checked" {% endif %}> <i data-feather="meh" style="width: 36px; height 36px"></i>
+        <label class="btn {% if question.response.value == question.traffic_light_neutral_value %} btn-warning active {% else %} btn-outline-warning {% endif %}">
+          <input type="radio" disabled='disabled' name="{{ question.id }}" value="{{ question.traffic_light_neutral_value }}" {% if question.response.value == question.traffic_light_neutral_value %} checked="checked" {% endif %}> <i data-feather="meh" style="width: 36px; height 36px"></i>
         </label>
-        <label class="btn {% if question.response.value == 4 %} btn-success active {% else %} btn-outline-success {% endif %}">
-          <input type="radio" disabled='disabled' name="{{ question.id }}" value="5" {% if question.response.value == 4 %} checked="checked" {% endif %}> <i data-feather="smile" style="width: 36px; height 36px"></i>
+        <label class="btn {% if question.response.value == question.traffic_light_happy_value %} btn-success active {% else %} btn-outline-success {% endif %}">
+          <input type="radio" disabled='disabled' name="{{ question.id }}" value="{{ question.traffic_light_happy_value }}" {% if question.response.value == question.traffic_light_happy_value %} checked="checked" {% endif %}> <i data-feather="smile" style="width: 36px; height 36px"></i>
         </label>
       </div>
     </div>
   
   {# Numerical Radio Button Response #}
-  {% elif question.response_type == 3 or question.response_type == 7 %}
+  {% elif question.is_numerical %}
 
     <div class="row">
       <div class="col-md-6 mb-2">
@@ -190,9 +190,5 @@
   {% endfor %}
   </fieldset>
 </form>
-
-{% endblock %}
-
-{% block scripts %}
 
 {% endblock %}
