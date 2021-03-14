@@ -28,7 +28,6 @@ urlpatterns = [
 
     # surveyor
     url(r'^task/(?P<task_id>[0-9a-f-]+)/?$', surveyor.task_overview, name='task_overview'),
-    # url(r'^new-group/?$', surveyor.new_group, name='new-group'),
     url(r'^groups/?$', surveyor.groups, name='groups'),
     url(r'^history/?$', surveyor.history, name='history'),
     url(r'^organisation/?$', surveyor.organisation, name='organisation'),

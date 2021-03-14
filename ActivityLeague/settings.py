@@ -47,8 +47,6 @@ INSTALLED_APPS = [
     'invitations',
     'import_export',
 
-    'django_extensions',
-
     'core',
     'surveyor',
     'respondent',
