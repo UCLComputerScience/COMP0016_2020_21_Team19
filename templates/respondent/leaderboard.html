@@ -48,7 +48,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script src ={% static 'js/respondent/leaderboard.js' %}></script>
+<script src ={% static 'js/leaderboard.js' %}></script>
 <script type="text/javascript">
 $(function () {
     render_leaderboard({{ overall_leaderboard | safe }});

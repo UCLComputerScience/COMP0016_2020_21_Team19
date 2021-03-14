@@ -156,77 +156,14 @@ const csrf_delete = '{% csrf_token %}';
     {% if data.question.is_text %}
     <script type="text/javascript">
       var ctx = document.getElementById("{{ data.question.id }}_cloud");
-      img = document.createElement('img');
-      img.src = "{{ data.chart_data }}";
-      img.style.width = isMobileDevice() ? "100%" : "25%";
-      img.style.height = "auto";
-      ctx.appendChild(img);
+      word_cloud(ctx, "{{ data.chart_data }}");
     </script>
     {% else %}
     <script type="text/javascript">
       var ctx = document.getElementById("{{ data.question.id }}_canvas_pie").getContext('2d');
-      var myChart = new Chart (ctx, {
-        type: 'pie',
-        data: {
-          datasets: [{
-            data: {{ data.chart_data | safe}},
-            backgroundColor: [
-              {% if data.chart_data|length == 5 %}
-              'tomato', 'orange', 'Gold', 'LightGreen', 'SeaGreen'
-              {% else %}
-              'tomato', 'Gold', 'SeaGreen'
-              {% endif %}
-            ]
-          }],
-          labels: {{ data.chart_labels | safe}},
-        },
-        options: {
-          legend: {
-            display: !isMobileDevice(),
-            position: 'bottom',
-            align: 'center'
-          }
-        },
-        responsive: true,
-        maintainAspectRatio: false
-      });
+      pie_chart(ctx, {{ data.chart_data|safe }}, {{ data.chart_labels|safe }});
       var ctx = document.getElementById("{{ data.question.id }}_canvas_bar").getContext('2d');
-      var myChart = new Chart (ctx, {
-        type: 'bar',
-        data: {
-          datasets: [{
-            data: {{ data.chart_data | safe}},
-            backgroundColor: [
-              {% if data.chart_data|length == 5 %}
-              'tomato', 'orange', 'Gold', 'LightGreen', 'SeaGreen'
-              {% else %}
-              'tomato', 'Gold', 'SeaGreen'
-              {% endif %}
-            ]
-          }],
-          labels: {{ data.chart_labels | safe}},
-        },
-        options: {
-          legend: {
-            display: false
-          },
-          scales: {
-            yAxes: [{
-                ticks: {
-                    stepSize: 1
-                }
-            }],
-            xAxes: [{
-                ticks: {
-                  display: !isMobileDevice(),
-                  autoSkip: false
-                }
-            }]
-        }
-        },
-        responsive: true,
-        maintainAspectRatio: false
-      });
+      bar_chart(ctx, {{ data.chart_data|safe }}, {{ data.chart_labels|safe }})
       var ctx = document.getElementById("{{ data.question.id }}_canvas_bar")
       ctx.style.display="none";
     </script>
