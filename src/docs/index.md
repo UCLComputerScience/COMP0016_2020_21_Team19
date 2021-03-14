@@ -10,5 +10,5 @@ Here are a list of shortcuts:
 
 User Manual
 
-  - [Surveyor](surveyor)
-  - [Respondent](respondent)
+  - [Surveyor](surveyor/)
+  - [Respondent](respondent/)
