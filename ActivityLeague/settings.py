@@ -157,9 +157,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
-#     'microsoft': {
-#         'tenant': 'organizations',
-#     },
     'google': {
         'APP': {
             'client_id': '570328810485-7al6v22col30j4lppb8t9birn3q5sdg8.apps.googleusercontent.com',
