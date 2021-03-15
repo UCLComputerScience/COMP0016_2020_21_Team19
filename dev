@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+if [ ! -d ".venv" ] 
+then
+    python3 -n venv .venv
+    source .venv/bin/activate
+    pip install mkdocs
+fi
+source .venv/bin/activate
+rm -rf dist/
+mkdocs build
+rm -rf public/guide
+mv -f guide/ public/guide
+yarn build
+cd dist/
+python3 -m http.server 8080

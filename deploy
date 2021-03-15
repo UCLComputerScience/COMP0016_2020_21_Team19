@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+if [ ! -d ".venv" ] 
+then
+    python3 -n venv .venv
+    source .venv/bin/activate
+    pip install mkdocs
+fi
+source .venv/bin/activate
+rm -rf dist/
+mkdocs build
+rm -rf public/guide
+mv -f guide/ public/guide
+yarn build
+read -p "Enter UCL CS Username: " uname
+rsync -av --delete-before -e ssh ./dist/. $uname@knuckles.cs.ucl.ac.uk:/cs/student/www/2020/group19/
