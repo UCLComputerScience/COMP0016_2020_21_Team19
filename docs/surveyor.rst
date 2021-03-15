@@ -1,15 +1,6 @@
 surveyor package
 ================
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   surveyor.migrations
-   surveyor.tests
-
 Submodules
 ----------
 
@@ -33,6 +24,14 @@ surveyor.forms module
 ---------------------
 
 .. automodule:: surveyor.forms
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+surveyor.handler module
+-----------------------
+
+.. automodule:: surveyor.handler
    :members:
    :undoc-members:
    :show-inheritance:

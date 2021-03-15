@@ -75,8 +75,8 @@ def history(request):
 def organisation(request):
     """
     The Organisation page for the ``Surveyor``.
-    Displays the ``Surveyor``s present in the ``Organisation`` and allows invitations
-    for new ``Surveyor``s.
+    Displays the ``Surveyor``\s present in the ``Organisation`` and allows invitations
+    for new ``Surveyor``\s.
 
     :param request: The ``GET`` request made by the user.
     :type request: django.http.HttpRequest

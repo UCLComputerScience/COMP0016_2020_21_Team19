@@ -1,16 +1,16 @@
 core package
 ============
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   core.tests
-
 Submodules
 ----------
+
+core.adapter module
+-------------------
+
+.. automodule:: core.adapter
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 core.admin module
 -----------------
@@ -24,6 +24,14 @@ core.apps module
 ----------------
 
 .. automodule:: core.apps
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+core.forms module
+-----------------
+
+.. automodule:: core.forms
    :members:
    :undoc-members:
    :show-inheritance:

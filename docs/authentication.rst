@@ -36,6 +36,14 @@ authentication.models module
    :undoc-members:
    :show-inheritance:
 
+authentication.signals module
+-----------------------------
+
+.. automodule:: authentication.signals
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 authentication.tests module
 ---------------------------
 

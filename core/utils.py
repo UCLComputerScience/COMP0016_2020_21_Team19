@@ -261,12 +261,12 @@ def calculate_score(values):
 def get_tasks_data(user):
     """
     Retrieves the tasks for a user.
-    If ``user`` is of type ``Surveyor``, this method returns the tasks that they created.
-    If ``user`` is of type ``Respondent``, this method returns the tasks that they have been assigned and not yet completed.
+    If ``user`` is of type ``Surveyor`` this method returns the tasks that they created.
+    If ``user`` is of type ``Respondent`` this method returns the tasks that they have been assigned and not yet completed.
 
     :param user: A ``Surveyor``/``Respondent`` representing the user currently logged in.
-    :type user: Surveyor or Respondent
-    :return: A ``QuerySet`` of the ``Task``s.
+    :type user: ``Surveyor`` or ``Respondent``
+    :return: A ``QuerySet`` of the ``Task``\s.
     :rtype: django.db.models.QuerySet
     """
     tasks = _get_tasks(user)

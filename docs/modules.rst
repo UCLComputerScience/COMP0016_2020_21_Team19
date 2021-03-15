@@ -7,7 +7,6 @@ code
    ActivityLeague
    authentication
    core
-   init_postgres_dev
    manage
    respondent
    surveyor

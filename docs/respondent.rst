@@ -1,15 +1,6 @@
 respondent package
 ==================
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   respondent.migrations
-   respondent.tests
-
 Submodules
 ----------
 
@@ -25,6 +16,14 @@ respondent.apps module
 ----------------------
 
 .. automodule:: respondent.apps
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+respondent.handler module
+-------------------------
+
+.. automodule:: respondent.handler
    :members:
    :undoc-members:
    :show-inheritance:
