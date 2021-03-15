@@ -13,7 +13,7 @@
 
   <form class="login" method="POST" action="{% url 'account_login' %}">
     {% csrf_token %}
-    <img class="mb-4" src="{% static 'assets/a.svg' %}" alt="" width="75" height="75">
+    <img class="mb-4" src="{% static 'assets/logo.png' %}" alt="" width="100%">
     <h1 class="h3 mb-3 font-weight-normal">{% trans "Sign In" %}</h1>
     {% for field in form %}
       {% if field.name == 'remember' %}

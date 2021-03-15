@@ -1,23 +1,23 @@
 import os
 import datetime
 import pytz
-from sys import exit
+import random
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ActivityLeague.settings')
+
 from collections import namedtuple
 
 import django
 from django.contrib.auth import get_user_model
 from django.core import management
+from ActivityLeague.settings import DATABASES
 
+from sys import exit
+
+import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from psycopg2 import Error
 
-from ActivityLeague.settings import DATABASES
-from core.models import Group, Task, Question
-from surveyor.models import Surveyor, GroupSurveyor, Organisation
-from respondent.models import Respondent, GroupRespondent, Response
 
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ActivityLeague.settings')
 Name = namedtuple("Name", ["first", "last"])
 
 
@@ -28,7 +28,7 @@ def run_migrations():
 
     User = get_user_model()
     if not User.objects.filter(username="admin").exists():
-        management.call_command("createsuperuser", "--noinput", "--username=admin")
+        management.call_command("createsuperuser", "--noinput", "--email=email@example.com", "--username=admin")
 
 
 def get_respondent_names():
@@ -47,7 +47,9 @@ def get_respondent_names():
             Name("susie", "gilbert"),
             Name("adam", "prince"),
             Name("julia", "novikov"),
-            Name("sam", "duncan")]
+            Name("sam", "duncan"),
+            Name("felix", "jones"),
+            Name("bruce", "wayne")]
 
 
 def get_surveyor_names():
@@ -60,48 +62,21 @@ def get_group_names():
     return ["COPD Therapy",
             "Hip Therapy",
             "Shoulder Therapy",
+            "Elderly",
             "Diabetics",
-            "Post Back Surgery",
-            "Elderly"]
+            "Post Back Surgery"]
 
-"""
+assert(len(get_respondent_names()) % len(get_group_names()) == 0)
+assert(len(get_group_names()) % len(get_surveyor_names()) == 0)
 
-Task: Active COPD Rehab
-Group: COPD Rehab
-
-Question 1: Take a relaxed, 20 minute walk outside. Rate the following statement afterward: I feel breathless.
-response type: likert_desc
-
-Question 2: The NHS recommends breathing exercises found on the link below to support living with COPD. Rate the usefulness of the information.
-link: https://www.nhs.uk/conditions/chronic-obstructive-pulmonary-disease-copd/living-with/
-response_type: numerical_asc
-
-Question 3: Use a few words to describe what is useful about this resource.
-link: https://www.nhs.uk/conditions/chronic-obstructive-pulmonary-disease-copd/living-with/
-response_type: text_positive
-
-Question 4: Use a few words to describe what isn't useful about this resource.
-link: https://www.nhs.uk/conditions/chronic-obstructive-pulmonary-disease-copd/living-with/
-response_type: Text negative
-
-Question 5: The NHS believe that the inhalation of strong-smelling substances like perfumes cause breathlessness. Rate your agreement with this belief.
-response_type: likert_asc
-
-Question 6: Briefly describe how you felt after your walk.
-response_type: text_neutral
-
-Question 7: Is there anything you've discovered that personally makes living with COPD easier?
-response_type: text_positive
-
-"""
 
 def get_tasks():
     return {"COPD Therapy": [{
-                                'title': 'Active COPD Rehab',
-                                'questions': [
+                            'title': 'Active COPD Rehab',
+                            'questions': [
                                     {
                                         'description': 'Take a relaxed, 20 minute walk outside. Rate the following statement afterward: I feel breathless.',
-                                        'link': None,
+                                        'link': '',
                                         'response_type': Question.ResponseType.LIKERT_DESC
                                     },
                                     {
@@ -121,83 +96,88 @@ def get_tasks():
                                     },
                                     {
                                         'description': "Is there anything you've discovered that personally makes living with COPD easier?",
-                                        'link': None,
+                                        'link': '',
                                         'response_type': Question.ResponseType.TEXT_POSITIVE
                                     }
-                                ] 
+                                ],
+                            'due_date': datetime.date(2021, 2, 14),
+                            'due_time': datetime.time(12, 0)
+                            },
+                            {
+                            'title': 'Passive COPD Rehab',
+                            'questions': [
+                                    {
+                                        'description': 'Quantitative Question 1',
+                                        'link': '',
+                                        'response_type': Question.ResponseType.LIKERT_DESC
+                                    },
+                                    {
+                                        'description': 'Quantitative Question 2',
+                                        'link': '',
+                                        'response_type': Question.ResponseType.NUMERICAL_ASC
+                                    },
+                                    {
+                                        'description': 'Quantitative Question 3',
+                                        'link': '',
+                                        'response_type': Question.ResponseType.NUMERICAL_DESC
+                                    },
+                                    {
+                                        'description': 'Quantitative Question 4',
+                                        'link': '',
+                                        'response_type': Question.ResponseType.TRAFFIC_LIGHT
+                                    },
+                                    {
+                                        'description': "Quantitative Question 5",
+                                        'link': '',
+                                        'response_type': Question.ResponseType.NUMERICAL_ASC
+                                    }
+                                ],
+                            'due_date': datetime.date(2021, 2, 27),
+                            'due_time': datetime.time(12, 0)
+                            },
+                            {
+                            'title': 'COPD Roflumilast Medication',
+                            'questions': [
+                                    {
+                                        'description': 'Quantitative Question 1',
+                                        'link': '',
+                                        'response_type': Question.ResponseType.LIKERT_DESC
+                                    },
+                                    {
+                                        'description': 'Quantitative Question 2',
+                                        'link': '',
+                                        'response_type': Question.ResponseType.NUMERICAL_ASC
+                                    },
+                                    {
+                                        'description': 'Quantitative Question 3',
+                                        'link': '',
+                                        'response_type': Question.ResponseType.NUMERICAL_DESC
+                                    },
+                                    {
+                                        'description': 'Quantitative Question 4',
+                                        'link': '',
+                                        'response_type': Question.ResponseType.NUMERICAL_DESC
+                                    },
+                                    {
+                                        'description': "Quantitative Question 5",
+                                        'link': '',
+                                        'response_type': Question.ResponseType.NUMERICAL_DESC
+                                    }
+                                ],
+                            'due_date': datetime.date(2021, 3, 4),
+                            'due_time': datetime.time(12, 0)
                             }]
-
-# question = models.ForeignKey(Question, on_delete=models.CASCADE)
-# respondent = models.ForeignKey(Respondent, on_delete=models.SET_NULL, null=True)
-# value = models.FloatField(null=True)
-# text = models.CharField(max_length=30, null=True)
-# text_positive = models.BooleanField(null=True, default=None)
-# date_time = models.DateTimeField()
-# link_clicked = models.BooleanField(default=False)
-
-def get_responses_to_COPD():
-    return {
-        'COPD Therapy': {
-            'Active COPD Rehab': {
-                'Responses': [{
-                    'value': 4,
-                    'text': None, 
-                    'text_positive': None,
-                    'date_time': datetime.datetime(2021,2,19,12,30),
-                    'link_clicked': False
-                },
-                {
-                    'value': 2,
-                    'text': None, 
-                    'text_positive': None,
-                    'date_time': datetime.datetime(2021,2,19,12,30),
-                    'link_clicked': True
-                },
-                {
-                    'value': 'Reference to smoking',
-                    'text': None, 
-                    'text_positive': None,
-                    'date_time': datetime.datetime(2021,2,19,12,30),
-                    'link_clicked': False
-                },
-                {
-                    'value': None,
-                    'text': 'Missing social aspect', 
-                    'text_positive': True,
-                    'date_time': datetime.datetime(2021,2,19,12,30),
-                    'link_clicked': False
-                },
-                {
-                    'value': 5,
-                    'text': None, 
-                    'text_positive': True,
-                    'date_time': datetime.datetime(2021,2,19,12,30),
-                    'link_clicked': False
-                },
-                {
-                    'value': None,
-                    'text': 'Tired', 
-                    'text_positive': False,
-                    'date_time': datetime.datetime(2021,2,19,12,30),
-                    'link_clicked': False
-                },
-                {
-                    'value': 5,
-                    'text': None, 
-                    'text_positive': True,
-                    'date_time': datetime.datetime(2021,2,19,12,30),
-                    'link_clicked': False
-                }
-            }
-        }
     }
 
-def create_responses(tasks, respondents):
-    for task in tasks:
-        for question in task['questions']:
-            for respondent in respondents:
-                
-                Response.objects.create()
+
+def create_quantitative_responses(tasks, respondents, respondents_by_group, questions):
+    for task in tasks.values():
+        respondent_names = respondents_by_group[task.group.name]
+        for question in questions[task.title]:
+            for name in respondent_names:
+                if not question.is_text:
+                    Response.objects.create(question=question, respondent=respondents[name], value=random.choice(question.get_values_list()), text=None, text_positive=None, date_time=datetime.datetime.combine(task.due_date-datetime.timedelta(days=random.randint(2, 10)), task.due_time))
+    
     
 def insert_dummy_data():
     User = get_user_model()
@@ -209,7 +189,7 @@ def insert_dummy_data():
 
     for name in get_respondent_names():
         fullname = name.first + " " + name.last
-        email = name.first + "@" name.last + ".com"
+        email = name.first + "@" + name.last + ".com"
         user = User.objects.create_user(username=name.first, first_name=name.first.capitalize(), last_name=name.last.capitalize(), email=email, password="activityleague")
         respondent_users[fullname] = user
         respondents[fullname] = Respondent.objects.create(user=user, firstname=name.first.capitalize(), surname=name.last.capitalize())
@@ -219,7 +199,7 @@ def insert_dummy_data():
     
     for name in get_surveyor_names():
         fullname = name.first + " " + name.last
-        email = name.first + "@" name.last + ".com"
+        email = name.first + "@" + name.last + ".com"
         user = User.objects.create_user(username=name.first, first_name=name.first.capitalize(), last_name=name.last.capitalize(), email=email, password="activityleague")
         surveyor_users[fullname] = user
         surveyors[fullname] = Surveyor.objects.create(user=user, firstname=name.first.capitalize(), surname=name.last.capitalize(), organisation=organisation)
@@ -228,42 +208,43 @@ def insert_dummy_data():
     organisation.admin = surveyors['christine black']
     organisation.save()
 
+    groups = {}
+    for group_name in get_group_names():
+        groups[group_name] = Group.objects.create(name=group_name)
+
+    groups_by_surveyor = {'christine black': [groups["COPD Therapy"], groups["Hip Therapy"]],
+                          'reece gilbert': [groups["Shoulder Therapy"], groups["Diabetics"]],
+                          'ben connolly': [groups["Post Back Surgery"], groups["Elderly"]]}
+    for surveyor, group_list in groups_by_surveyor.items():
+        for group in group_list:
+            GroupSurveyor.objects.create(surveyor=surveyors[surveyor], group=group)
+
+    groups_by_respondent = {'john doe': [groups["COPD Therapy"], groups["Hip Therapy"], groups["Shoulder Therapy"]],
+                            'jack white': [groups["COPD Therapy"], groups["Hip Therapy"], groups["Shoulder Therapy"]],
+                            'jean brunton': [groups["COPD Therapy"], groups["Hip Therapy"], groups["Shoulder Therapy"]],
+                            'isabelle chandler': [groups["COPD Therapy"], groups["Hip Therapy"], groups["Shoulder Therapy"]]}
+    for respondent, group_list in groups_by_respondent.items():
+        for group in group_list:
+            GroupRespondent.objects.create(respondent=respondents[respondent], group=group)
     
+    respondents_by_group = {"COPD Therapy": ['john doe', 'jack white', 'jean brunton', 'isabelle chandler'],
+                            "Hip Therapy": ['john doe', 'jack white', 'jean brunton', 'isabelle chandler'],
+                            "Shoulder Therapy": ['john doe', 'jack white', 'jean brunton', 'isabelle chandler']}
 
-    # ##################################
+    tasks = {}
+    questions = {}
+    for group_name, task_list in get_tasks().items():
+        group = groups[group_name]
+        for task in task_list:
+            tasks[group_name] = Task.objects.create(title=task['title'], group=group, due_date=task['due_date'], due_time=task['due_time'])
 
-    shoulder_1 = Group.objects.create(name="Shoulder Therapy 1")
-    hip_1 = Group.objects.create(name="Hip Therapy 1")
+            questions[task['title']] = []
+            for question in task['questions']:
+                print('Description: ', question['description'])
+                print('Link:', question['link'])
+                questions[task['title']].append(Question.objects.create(task=tasks[group_name], link=question['link'], description=question['description'], response_type=question['response_type']))
 
-    john_doe_grouprespondent_shoulder = GroupRespondent.objects.create(respondent=john_doe, group=shoulder_1)
-    john_doe_grouprespondent_hip = GroupRespondent.objects.create(respondent=john_doe, group=hip_1)
-
-    jack_white_grouprespondent_shoulder = GroupRespondent.objects.create(respondent=jack_white, group=shoulder_1)
-    jack_white_grouprespondent_hip = GroupRespondent.objects.create(respondent=jack_white, group=hip_1)
-
-    jane_doe_groupsurveyor = GroupSurveyor.objects.create(surveyor=jane_doe, group=shoulder_1)
-    christine_black_groupsurveyor = GroupSurveyor.objects.create(surveyor=christine_black, group=hip_1)
-
-    press_ups = Task.objects.create(title="Perform 20 Press-Ups", group=shoulder_1, due_date=datetime.datetime(2021, 7, 1), due_time=datetime.time(10, 0))
-
-    sit_ups = Task.objects.create(title="Perform 20 Sit-Ups", group=hip_1, due_date=datetime.datetime(2021, 7, 1), due_time=datetime.time(10, 0))
-
-    questions = []
-    for number in [10, 20, 30]:
-        questions.append(Question.objects.create(task=press_ups, link="https://www.url.com", description="How hard was doing " + str(number) + " push-ups?", response_type=Question.ResponseType.LIKERT_ASC))
-
-    for respondent in [john_doe, jack_white]:
-        for i, question in enumerate(questions):
-            Response.objects.create(question=question, respondent=respondent, value=(i // 3) + 1,  date_time=datetime.datetime(2020, 1, (i // 3) + 1, 10 + (i // 3) + 1, 0, tzinfo=pytz.UTC))
-    
-    questions = []
-    for number in [10, 20, 30]:
-        questions.append(Question.objects.create(task=sit_ups, link="https://www.url.com", description="Perform " + str(number) + " Sit-Ups", response_type=1))
-
-    for respondent in [john_doe, jack_white]:
-        for i, question in enumerate(questions):
-            Response.objects.create(question=question, respondent=respondent, value=(i // 3) + 1,  date_time=datetime.datetime(2020, 1, (i // 3) + 1, 10 + (i // 3) + 1, 0, tzinfo=pytz.UTC))
-
+    create_quantitative_responses(tasks, respondents, respondents_by_group, questions)
 
 if __name__ == '__main__':
     django.setup()
@@ -272,4 +253,7 @@ if __name__ == '__main__':
     run_migrations()
     
     print("Inserting dummy data")
+    from core.models import Group, Task, Question
+    from surveyor.models import Surveyor, GroupSurveyor, Organisation
+    from respondent.models import Respondent, GroupRespondent, Response
     insert_dummy_data()
