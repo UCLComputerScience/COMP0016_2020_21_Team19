@@ -3,12 +3,18 @@ from django import forms
 
 
 class AuthenticationSignupForm(SignupForm):
+    """
+    Form used to sign up new users.
+    """
+
     firstname = forms.CharField(max_length=30, min_length=1, widget=forms.TextInput(attrs={'placeholder': 'Firstname'}))
 
     surname = forms.CharField(max_length=30, min_length=1, widget=forms.TextInput(attrs={'placeholder': 'Surname'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
+        # Remove unnecessary labels from form
         self.fields['email'].label = ""
         self.fields['firstname'].label = ""
         self.fields['surname'].label = ""
@@ -24,6 +30,9 @@ class AuthenticationSignupForm(SignupForm):
 
 
 class AuthenticationLoginForm(LoginForm):
+    """
+    Form used to authenticate users at login.
+    """
     class Meta:
         field_order = ['login', 'password']
 

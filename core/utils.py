@@ -9,6 +9,13 @@ from surveyor.models import Surveyor, GroupSurveyor
 from .models import Group, Task, Question
 
 
+"""
+Contains utility functions.
+
+Underscored methods are designated for internal use only.
+"""
+
+
 def get_groups(user):
     """
     Retrieves the ``Group``\s which the user is a manager/member of.

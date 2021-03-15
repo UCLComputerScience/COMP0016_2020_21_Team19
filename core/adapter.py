@@ -4,6 +4,10 @@ from invitations.app_settings import app_settings
 
 
 class UserInvitationsAdapter(DefaultAccountAdapter):
+    """
+    Custom adapter for django-invitations.
+    Restricts signup to new Surveyors and invited users only.
+    """
     def is_open_for_signup(self, request):
         if hasattr(request, 'session') and request.session.get('account_verified_email'):
             return True

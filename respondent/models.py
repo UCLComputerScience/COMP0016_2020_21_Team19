@@ -5,14 +5,11 @@ from django.db import models
 
 from core.models import Group, Question
 
-"""
-Django auto generates ID primary keys for each model, 
-so these fields have been omitted in the model 
-definition here.
-"""
-
 
 class Respondent(models.Model):
+    """
+    Model representing a ``Respondent``.
+    """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     firstname = models.CharField(max_length=30)
@@ -23,12 +20,19 @@ class Respondent(models.Model):
 
 
 class GroupRespondent(models.Model):
+    """
+    Model representing a ``Respondent`` in a ``Group``.
+    For each ``Group`` that a ``Respondent`` is in, a corresponding ``GroupRespondent`` is created.
+    """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     respondent = models.ForeignKey(Respondent, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
 
 class Response(models.Model):
+    """
+    Model representing a ``Response``.
+    """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     respondent = models.ForeignKey(Respondent, on_delete=models.SET_NULL, null=True)

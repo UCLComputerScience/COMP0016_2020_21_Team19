@@ -4,6 +4,12 @@ from core.utils import *
 from core.models import Question
 from .models import Response
 
+
+"""
+Contains functions designated to handle specific requests made to the views.
+"""
+
+
 def post_response(request, user):
     """
     Handles the POST request made by the ``Respondent`` by saving the ``Response``\s to the

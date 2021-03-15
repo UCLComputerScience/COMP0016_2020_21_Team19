@@ -1,3 +1,4 @@
+
 import datetime
 
 from django.contrib.sites.models import Site
@@ -16,6 +17,9 @@ from surveyor.models import Organisation, Surveyor
 
 
 class UserInvitation(AbstractBaseInvitation):
+    """
+    Model representing an invitation to join the platform being sent to the user.
+    """
     email = models.EmailField(unique=True, verbose_name=_('e-mail address'),
                               max_length=app_settings.EMAIL_MAX_LENGTH)
     created = models.DateTimeField(verbose_name=_('created'),
@@ -62,7 +66,7 @@ class UserInvitation(AbstractBaseInvitation):
             'email': self.email,
             'key': self.key,
             'inviter': self.inviter,
-        })
+        }) # Dictionary passed into the invitation for checks later.
 
         email_template = 'invitations/email/email_invite'
 

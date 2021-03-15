@@ -7,6 +7,9 @@ from respondent.models import *
 from .models import *
 
 class TaskForm(forms.ModelForm):
+    """
+    Form used to create new Task instances.
+    """
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop("request")
@@ -61,6 +64,16 @@ class TaskForm(forms.ModelForm):
 
 
 def get_question_formset(extra=1):
+    """
+    Returns a formset with the specified nummber of `extra` instances of forms.
+    One form can be used to create one Question.
+
+    :param extra: defines the number of fields the form should have
+                  (i.e.) the number of ``Question``\s to create, defaults to 1.
+    :type extra: int, optional
+    :return: A ``Question`` formset with the specified number of instances.
+    :rtype: django.forms.BaseFormset
+    """
     return modelformset_factory(
         Question,
         fields=('link', 'description', 'response_type'),
@@ -88,6 +101,10 @@ def get_question_formset(extra=1):
 
 
 class GroupForm(forms.ModelForm):
+    """
+    Form used to create new Group instances.
+    """
+
     class Meta:
         model = Group
         fields = ('name',)
@@ -105,6 +122,9 @@ class GroupForm(forms.ModelForm):
 
 
 class AddUserForm(forms.ModelForm):
+    """
+    Form used to add ``Respondent``\s to ``Group``\s.
+    """
 
     def __init__(self, *args, **kwargs):
         self.group_id = kwargs.pop('group_id')
@@ -130,6 +150,10 @@ class AddUserForm(forms.ModelForm):
 
 
 class InviteSurveyorForm(forms.ModelForm):
+    """
+    Form used to invite ``Surveyor``\s to ``Organisations``\s.
+    """
+
     def __init__(self, *args, **kwargs):
         super(InviteSurveyorForm, self).__init__(*args, **kwargs)
         self.fields['email'] = forms.EmailField(
@@ -149,6 +173,10 @@ class InviteSurveyorForm(forms.ModelForm):
         fields = ('email',)
 
 class InviteUserForm(forms.ModelForm):
+    """
+    Form used to invite ``Respondent``\s to ``Group``\s.
+    """
+
     def __init__(self, *args, **kwargs):
         super(InviteUserForm, self).__init__(*args, **kwargs)
         self.fields['email'] = forms.EmailField(
@@ -169,4 +197,8 @@ class InviteUserForm(forms.ModelForm):
 
 
 class MultipleUserForm(forms.Form):
+    """
+    Form used to invite multiple ``Respondent``\s / ``Surveyor``\s 
+    to ``Group``\s / ``Organisations``\s.
+    """
     file = forms.FileField()

@@ -4,6 +4,10 @@ from surveyor.models import Organisation
 
 
 class OrganisationSignupForm(forms.ModelForm):
+    """
+    Form used to create new organisations.
+    """
+
     class Meta:
         model = Organisation
         fields = ('name',)

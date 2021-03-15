@@ -11,6 +11,13 @@ from core.utils import *
 from surveyor.models import Surveyor
 
 
+"""
+Contains utility functions.
+
+Underscored methods are designated for internal use only.
+"""
+
+
 def get_graphs_and_leaderboards(surveyor):
     """
     Retrieves a list of dictionaries containing the `labels`, `scores`, `leaderboards` and 

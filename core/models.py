@@ -5,6 +5,10 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Group(models.Model):
+    """
+    Model representing a ``Group``.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=30)
 
@@ -13,6 +17,10 @@ class Group(models.Model):
 
 
 class Task(models.Model):
+    """
+    Model representing a ``Task``.
+    """
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=50)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
@@ -33,7 +41,14 @@ class Task(models.Model):
 
 
 class Question(models.Model):
+    """
+    Model representing a ``Question``.
+    """
+
     class ResponseType(models.IntegerChoices):
+        """
+        Model representing all the possible response types.
+        """
         LIKERT_ASC = 1, _('Likert Scale (Agree is better)')
         LIKERT_DESC = 8, _('Likert Scale (Disagree is better)')
         TRAFFIC_LIGHT = 2, _('Traffic Light')

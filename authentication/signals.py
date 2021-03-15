@@ -9,6 +9,13 @@ from .models import UserInvitation
 
 @receiver(user_signed_up)
 def user_signed_up(request, user, **kwargs):
+    """
+    When django-allauth fires the user_signed_up signal, we want to
+    check if the user was invited in the first place (and raise an exception
+    if they were not), and create the appropriate user objects in the database
+    if they were.
+    """
+
     if request.session.get('organisation_name'):
         organisation_name = request.session.pop('organisation_name')
         organisation = Organisation.objects.create(name=organisation_name)

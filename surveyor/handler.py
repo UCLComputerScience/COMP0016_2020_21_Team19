@@ -14,6 +14,11 @@ from surveyor.utils import *
 from .forms import *
 
 
+"""
+Contains functions designated to handle specific requests made to the views.
+"""
+
+
 def get_new_task(groups, request, user):
     """
     Handles GET requests made to the new_task view.
@@ -346,7 +351,7 @@ def _invite_multiple_respondents(group, request):
     for entry in imported_data:
         if entry[0]:
             try:
-                validate_email(entry[0])
+                validate_email(entry[0]) # Check the email is valid
             except ValidationError:
                 raise Http404("Something was wrong with your file!")
             invite = UserInvitation.create(

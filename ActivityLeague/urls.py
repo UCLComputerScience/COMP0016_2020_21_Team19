@@ -8,6 +8,11 @@ from core import views as core
 from respondent import views as respondent
 from surveyor import views as surveyor
 
+""" 
+URLs used in the project are defined here. Each URL also points to an associated view, 
+which is accessible in views.py and is responsible for rendering the template.
+"""
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda r: HttpResponseRedirect('/accounts/login')),
