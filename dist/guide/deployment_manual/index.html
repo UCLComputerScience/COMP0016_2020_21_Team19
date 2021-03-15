@@ -14,7 +14,7 @@
     
     
       
-        <title>Deployment manual - Activity League</title>
+        <title>Deployment Manual - Activity League</title>
       
     
     
@@ -60,6 +60,11 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
+      
+        
+        <a href="#deploying-activity-league" class="md-skip">
+          Skip to content
+        </a>
       
     </div>
     <div data-md-component="announce">
@@ -125,7 +130,7 @@
           <div class="md-header__topic" data-md-component="header-topic">
             <span class="md-ellipsis">
               <!-- 
-                Deployment manual
+                Deployment Manual
                -->
             </span>
           </div>
@@ -292,6 +297,80 @@
   
 
     
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Deployment Manual
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Deployment Manual
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-docker-and-docker-compose-by-following-the-official-instructions" class="md-nav__link">
+    Install Docker and Docker Compose by following the official instructions:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-the-web-app" class="md-nav__link">
+    Starting the web app
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-the-server-to-run-activity-league-on-reboot" class="md-nav__link">
+    Configuring the server to run Activity League on reboot
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manual-deployment" class="md-nav__link">
+    Manual Deployment
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -299,15 +378,140 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-docker-and-docker-compose-by-following-the-official-instructions" class="md-nav__link">
+    Install Docker and Docker Compose by following the official instructions:
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-the-web-app" class="md-nav__link">
+    Starting the web app
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuring-the-server-to-run-activity-league-on-reboot" class="md-nav__link">
+    Configuring the server to run Activity League on reboot
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manual-deployment" class="md-nav__link">
+    Manual Deployment
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
               
                 
                 
-                  <h1>Deployment manual</h1>
-                
-                
+                <h1 id="deploying-activity-league">Deploying Activity League</h1>
+<h2 id="install-docker-and-docker-compose-by-following-the-official-instructions">Install Docker and Docker Compose by following the official instructions:</h2>
+<ul>
+<li>Docker: <a href="https://docs.docker.com/get-docker/">https://docs.docker.com/get-docker/</a></li>
+<li>Docker Compose: <a href="https://docs.docker.com/compose/install/">https://docs.docker.com/compose/install/</a></li>
+</ul>
+<h2 id="starting-the-web-app">Starting the web app</h2>
+<p>Create a new directory in the <code>$HOME</code> directory.</p>
+<p>Copy the following <code>docker-compose.yml</code> into <code>~/deploy/</code>.</p>
+<p>This file manages all the images and containers that the app requires.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span> <span class="s">&quot;3.9&quot;</span>
+
+<span class="nt">services</span><span class="p">:</span>
+  <span class="nt">db</span><span class="p">:</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">postgres</span>
+    <span class="nt">environment</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">POSTGRES_DB=postgres</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">POSTGRES_USER=postgres</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+    <span class="nt">volumes</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">postgres_data:/var/lib/postgresql/data/</span>
+  <span class="nt">web</span><span class="p">:</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">docker.pkg.github.com/uclcomputerscience/comp0016_2020_21_team19/activityleague_web:latest</span>
+    <span class="nt">ports</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="s">&quot;8000:8000&quot;</span>
+    <span class="nt">depends_on</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">db</span>
+  <span class="nt">watchtower</span><span class="p">:</span>
+    <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">containrrr/watchtower</span>
+    <span class="nt">volumes</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/var/run/docker.sock:/var/run/docker.sock</span>
+    <span class="nt">command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">--interval 30</span>
+<span class="nt">volumes</span><span class="p">:</span>
+  <span class="nt">postgres_data</span><span class="p">:</span>
+</code></pre></div>
+<p>The <code>watchtower</code> service is used to continuously check GitHub Packages for a newer build of the image and if it finds one, the new image is pulled and deployed.</p>
+<h2 id="configuring-the-server-to-run-activity-league-on-reboot">Configuring the server to run Activity League on reboot</h2>
+<p>To run Activity League on server reboot automatically, create a file called <code>activity_league.service</code> in <code>/etc/systemd/system</code> and populate it with the following:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">Activity league docker compose deployment</span>
+
+<span class="k">[Service]</span>
+<span class="na">User</span><span class="o">=</span><span class="s">{USERNAME}</span>
+<span class="na">Group</span><span class="o">=</span><span class="s">docker</span>
+<span class="na">WorkingDirectory</span><span class="o">=</span><span class="s">/home/{USERNAME}/deploy</span>
+
+<span class="na">ExecStartPre</span><span class="o">=</span><span class="s">/usr/local/bin/docker-compose pull --quiet</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/local/bin/docker-compose up</span>
+
+<span class="na">ExecStop</span><span class="o">=</span><span class="s">/usr/local/bin/docker-compose down</span>
+
+<span class="na">ExecReload</span><span class="o">=</span><span class="s">/usr/local/bin/docker-compose pull --quiet</span>
+<span class="na">ExecReload</span><span class="o">=</span><span class="s">/usr/local/bin/docker-compose down</span>
+<span class="na">ExecReload</span><span class="o">=</span><span class="s">/usr/local/bin/docker-compose up</span>
+
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</code></pre></div>
+<p>Change <code>USERNAMEE</code> to whichever user is being used to deploy Activity League.</p>
+<p>After you've copied this, save and close the file.</p>
+<ul>
+<li>Run <code>sudo systemctl daemon-reload</code> to allow the system to recognise the new service and once you've done this.</li>
+<li>Run <code>sudo systemctl enable activity_league</code> to ensure that the service runs automatically at startup.</li>
+<li>To get it up and running now, run <code>sudo systemctl activity_league start</code>.</li>
+</ul>
+<h2 id="manual-deployment">Manual Deployment</h2>
+<p>The steps described above will set up a continuous deployment workflow.</p>
+<p>If this type of deployment is undesirable, you can simply omit the <code>watchtower</code> service from the <code>docker.compose.yml</code>.</p>
+<p>The image running on the server can then be updated only by:</p>
+<ul>
+<li>SSH-ing into the server as the user being used to deploy Activity League.</li>
+<li>Navigating to <code>~/deploy</code>.</li>
+<li>Running <code>docker-compose down</code> to stop the web app.</li>
+<li>Running <code>docker-compose build</code> to rebuild the containers using the latest images.</li>
+<li>Running <code>docker-compose up -d</code> to run the web app on port 8000 in detached mode (i.e. in the background).</li>
+</ul>
                 
               
               
@@ -322,6 +526,25 @@
       
         
 <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../respondent/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Respondent
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

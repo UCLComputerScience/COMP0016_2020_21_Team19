@@ -12,3 +12,5 @@ User Manual
 
   - [Surveyor](surveyor/)
   - [Respondent](respondent/)
+
+[Deployment Manual](deployment_manual/)

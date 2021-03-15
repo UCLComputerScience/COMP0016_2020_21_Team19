@@ -1,7 +1,7 @@
 <template>
   <div>
     <PageTitle title="Design"></PageTitle>
-      <!--Implantation of finished functionality-->
+      <!-- Tech Stack and Implementation -->
       <section class="section">
           <div class="container">
               <div class="row">
@@ -18,7 +18,7 @@
                           that would need to be implemented in our platform by default (for example, the creation and validation of forms). Moreover, Django has its own ORM (Object-Relational Mapper) which completely
                           handles the relationship between the classes that we defined as our project and the relations in our PostgreSQL database.
                           <br><br>
-                          Activity League has been programmed to follow Django's file-structure convention and default Model View Controller implementation. Django breaks down a project into applications. Each 
+                          Activity League has been programmed to follow Django's file-structure convention and default Model View Template implementation. Django breaks down a project into applications. Each 
                           generated application has a models.py file containing the classes to be used in that application (translated to relations in the database by the ORM), a views.py file containing view functions
                           which map web requests to web responses and plenty of flexibility when writing control logic. For each app that we defined in the project, we created a utils.py file containing the vast majoroity
                           of the logic and utility functions associated with each of our view functions.
@@ -29,8 +29,26 @@
                           </p>
                           <p>
                               <carousel :perPage="1" :navigationEnabled="true" style="text-align: center">
-                                  <slide v-for="n in 9" v-bind:key="n">
-                                      <img :src="'images/' + n + '.png'" class="img-responsive slideImg">
+                                  <slide v-for="n in 6" v-bind:key="n">
+                                      <img :src="'images/design/django/' + n + '.png'" class="img-responsive slideImg">
+                                  </slide>
+                              </carousel>
+                          </p>
+
+                          <h4>Bootstrap</h4>
+                          <p>
+                          To ensure that our application was responsive to changes in the screen size and devices using it, we used the frontend framework Bootstrap when creating our HTML templates.
+                          Consequently, the web application is optimised for specific devices when using it. For example, logging in to Activity League on an iPhone will hide our sidebar menu and
+                          open it on click, with a smooth transition animation, whereas when viewed on desktop, it remains stuck to the left hand side of the page.
+                          <br><br>
+                          This was an important consideration for us, given that our dashboard is feature and content heavy, and without the ability to restyle the layout by device, our web app 
+                          would have been virtually unusable on smaller devices.
+                          <br><br>
+                          </p>
+                          <p>
+                              <carousel :perPage="1" :navigationEnabled="true" style="text-align: center">
+                                  <slide v-for="n in 3" v-bind:key="n">
+                                      <img :src="'images/design/bootstrap/' + n + '.png'" class="img-responsive slideImg">
                                   </slide>
                               </carousel>
                           </p>
@@ -38,24 +56,12 @@
                           <br><br>
                           <h4>Database</h4>
                           <p>
-                          The backend of Activity League rests on PostgreSQL databases. PostgreSQL was a particularly suitable choice for Activity League, given there was extensive literature and resources available on
+                          All data stored by Activity League lies in a PostgreSQL database. PostgreSQL was a particularly suitable choice for Activity League, given there was extensive literature and resources available on
                           the Django documentation on integrating the two of them. Our data also fit the relational model very nicely given the structure of our data, and the fact that lots of the functionalities required
-                          could be implemented using small, structured SQL queries. Conveniently, PostgreSQL was also free. This stands in contrast to other popular databases including MongoDB, which was paid.
-ites 
+                          could be implemented using small, structured SQL queries. Conveniently, PostgreSQL was also open source. This stands in contrast to other popular databases including MongoDB, which was a paid alternative.
                         
                           <br><br>
-                          As mentioned in the previous section, Django's ORM handled the translation between models (classes) defined specific to Activity League to tables, where one model defined corresponded to one table.
-                          <br><br>r>
-                          <carousel :perPage="1" :navigationEnabled="true" style="text-align: center">
-                              <slide v-for="n in 12" v-bind:key="n">
-                                  <img :src="'images/' + n + '.png'" class="img-responsive slideImg">
-                              </slide>
-                          </carousel>
-                          <br>
-                          <p>
-                              We have hosted our backend on Azure B1s virtual machine at a cost of £6.42 per month, provided by UCL. In order to efficiently manage the backend server, I have set up
-                              a github webhook in our server, in order to automatically pull and deploy the latest github changes.
-                          </p>
+                          As mentioned in the previous section, Django's ORM handled the translation between models (classes) defined specific to Activity League to PostgreSQL tables, where one model defined corresponded to one table.
                           <br><br>
                           <h4>Docker</h4>
                           <p>
@@ -66,55 +72,77 @@ ites
                           Given Activity League was going to be deployed on a Linode server, Docker's containerisation system also likely saved a great amount of time debugging features that worked locally but didn't work on the
                           server, which allowed us to further refine and implement new functionalities to our solution.
                           <br><br>
-                          <carousel :perPage="3" :navigationEnabled="true" style="text-align: center">
-                              <slide v-for="n in 11" v-bind:key="n">
-                                  <img :src="'images/' + n + '.jpeg'" class="img-responsive slideImg">
-                              </slide>
-                          </carousel>
+                          <img src="images/design/docker.png" class="img-responsive" style="width: 100%;">
                           </p>
                           <br><br>
+
                           <h4>Linode</h4>
-                          <carousel :perPage="1" :navigationEnabled="true" style="text-align: center">
-                              <slide v-for="n in 15" v-bind:key="n">
-                                  <img :src="'images/' + n + '.jpeg'" class="img-responsive slideImg">
-                              </slide>
-                          </carousel>
+                          <img src="images/design/linode.png" class="img-responsive" style="width: 100%;">
                           <p>
                           Activity League is currently deployed on a Linode server with 1 core, 1GB of RAM and 25GB of storage for a total cost of $5 per month. Linode was selected out of client preference, but was a convenient choice
                           for the project deployment given its simplicity to setup.
                           <br><br>
-                          As part of a continuous deployment practice, Activity League makes use of <a href="https://github.com/containrrr/watchtower" target="_blank">WatchTower</a> on the Linode server. Every time a new commits is made to the the main branch, GitHub actions runs our
-                          tests and if they pass, builds a new Docker image hosted on GitHub packages, which WatchTower looks for. WatchTower is configured to probe the project repository every 60 seconds, and if it detects a newer edition of the image being hosted by GitHub packages,
+                          As part of a continuous deployment practice, Activity League makes use of <a href="https://github.com/containrrr/watchtower" target="_blank">WatchTower</a> on the Linode server. Every time a new commits is made to the the main branch, GitHub Actions runs our
+                          tests and if they pass, builds a new Docker image hosted on GitHub packages, which WatchTower looks for. WatchTower is configured to probe the project repository every 60 seconds, and if it detects a newer edition of the image being hosted by GitHub Packages,
                           it takes the old version down and deploys the new image automatically.
                           <br><br>
                           The database state is separate from this image - it is a persistent volume stored on the Linode server, meaning that we can continue merging pull requests in the main repository (assuming there were no changes to the structure of the database)
                           without having to repopulate the database each time that it was built. Hence, each time that we pushed to the main branch, we would see the latest version of the app deployed to the server in under two minutes.
                           <br><br>
                           </p>
-                          <p>We used Vue a progressive javascript framework for web application development together with the Material design which backed by Google. Vue using latest design structure MVVM to keep track of data, if the data changes the view will also update to the corresponding layout.
-
-                              The web application is responsive means it can optimize its layout in different size of the screen, and the design when running on mobile models tend to be like a native application rather than a web application.
-
-                              User can log in or register on the web application. Once login, user can modify their detail such as choosing AR model, upload image as profile and filling the detail. The history and favourite list are up to date with the mobile application. User can delete or view the detail of each item from the list.</p>
                           <br><br>
                       </div>
                   </div>
               </div>
-
-
-
           </div>
       </section>
-      <!--/Implentation of finished functionality-->
+      <!--/Tech Stack and Implementation-->
 
+    <!--Design Patterns-->
+    <section class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 mx-auto text-center">
+            <h3 class="section-title">Design Patterns</h3>
+            <div class="text-left">
+            <!-- MVT -->
+            <h4>Model View Template</h4>
+            <p>
+            By default, Django formats its files in accordance with the principles of the MVT design pattern (each application have models.py, views.py and template files associated with them). Our solution has been developed
+            in extension of thes principles which nicely decouples the templates from the views, subsequently making editing specific pages a lot easier.
+            <br><br>
+            The design pattern is very similar to the Model View Controller pattern, which separates the models from the views with the controller (housing all of the control logic) as the middle man. This design pattern was
+            an option that we considered given it would have made the flow easier to understand. However, we decided that the MVT template was the optimal choice as the controller is managed by Django itself (controlling The
+            interactions between the models and the view), making an additional implementation unnecessary.
+            <br><br>
+            MVT allows Activity League to be easily scalable: the addition of a new page simply requires the creation of a new template, a URL being added and a single function being written within the application to render
+            the newly defined template. We hope that in future, our design choice here significantly speeds the process by which developers may add new pages and functionalities to Activity League.
+            <br><br>
+            </p>
+            <!-- /MVT -->
+
+            <!-- Adapter -->
+            <h4>Adapter</h4>
+            <p>
+            During the invitation processs (by email), Activity League uses two dependencies: django-invitations (takes care of the email invitations) and django-allauth (takes care of secure user authentication). As Activity
+            League is invite-only and django-allauth doesn't support customisation of signup methods (signup is either closed or it isn't), we implemented the adapter design pattern to change the signal that was being passed
+            from django-inviations to django-allauth. This allows us to selectively open the signup if a user is creating an organisation, but closes it off otherwise.
+            </p>
+            <!-- /Adapter --> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /Design Patterns-->
+    
     <!--System Arthitecture Diagram-->
     <section class="section">
       <div class="container">
         <div class="row">
           <div class="col-lg-10 mx-auto text-center">
             <h3 class="section-title">System Architecture Diagram</h3>
-            <img src="images/" class="img-responsive" style="width: 100%;" />
-              *We have decided to use JWT authentication instead of LinkedIn OAuth, however this can be added in the future.
+            <img src="images/design/architecture.png" class="img-responsive" style="width: 100%;" />
           </div>
         </div>
       </div>
@@ -130,8 +158,7 @@ ites
                             <slide v-for="n in 6" v-bind:key="n">
                                 <img :src="'images/design/sequence/' + n + '.png'" class="img-responsive slideImg">
                             </slide>
-                        </carousel>
-                      <p class="text-left">LOREM IPSUM</p>
+                      </carousel>
                   </div>
               </div>
           </div>
@@ -148,21 +175,7 @@ ites
           </div>
       </section>
 
-
-      <section class="section">
-          <div class="container">
-              <div class="row">
-                  <div class="col-lg-10 mx-auto text-center">
-                      <h3 class="section-title">Data Storage ER Diagram</h3>
-                      <img src="images/" class="img-responsive" style="width: 100%;" />
-                  </div>
-              </div>
-          </div>
-      </section>
-
-
-
-    <!--ER Diagram-->
+    <!--Entity Relationship Diagram-->
     <section class="section">
       <div class="container">
         <div class="row">
@@ -185,26 +198,18 @@ ites
 
               <hr>
               <div class="class-diagram">
-                  <h4>Backend App (Node.JS)</h4>
+                  <h4>App-specific</h4>
                   <carousel :perPage="1" :navigationEnabled="true">
-                      <slide v-for="n in 6" v-bind:key="n">
-                          <img :src="'images/design/node/'+n+'.png'" class="img-responsive slideImg">
+                      <slide v-for="n in 4" v-bind:key="n">
+                          <img :src="'images/design/class-diagrams/' + n +'.png'" class="img-responsive slideImg">
                       </slide>
                   </carousel>
               </div>
-
           </div>
         </div>
       </div>
     </section>
-    <!-- /ER Diagram-->
-
-
-
-
-
-
-
+    <!-- /Entity Relationship Diagram-->
 
   </div>
 </template>

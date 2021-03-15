@@ -1,4 +1,4 @@
-# Surveyor
+# Surveyor User Manual
 
 ## Launch the Application
 

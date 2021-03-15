@@ -39,6 +39,9 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/guide" >Guide</router-link>
             </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/docs" >Documentation</router-link>
+            </li>
           </ul>
         </div>
       </nav>

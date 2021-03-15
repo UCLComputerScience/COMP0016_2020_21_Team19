@@ -1,4 +1,4 @@
-# Respondent
+# Respondent User Manual
 
 ## Launch the Application
 

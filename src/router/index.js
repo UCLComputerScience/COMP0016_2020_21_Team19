@@ -8,6 +8,7 @@ import design from '../pages/design'
 import evaluation from '../pages/evaluation'
 import testing from '../pages/testing'
 import guide from '../pages/guide'
+import docs from '../pages/docs'
 Vue.use(Router);
 
 export default new Router({
@@ -64,6 +65,11 @@ export default new Router({
             path: "/guide",
             component: guide,
             name:"guide"
+        },
+        {
+            path: "/docs",
+            component: docs,
+            name:"docs"
         },
         {
             path: "/index.html",
