@@ -61,7 +61,7 @@ class Question(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     task = models.ForeignKey(Task, null=True, on_delete=models.CASCADE)
     link = models.CharField(max_length=100, blank=True)
-    description = models.CharField(max_length=100, blank=False)
+    description = models.CharField(max_length=500, blank=False)
     response_type = models.IntegerField(choices=ResponseType.choices)
 
     @property
