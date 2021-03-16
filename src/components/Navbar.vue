@@ -4,7 +4,7 @@
     <div class="container containerHeader">
       <nav class="navbar navbar-expand-lg">
               <router-link class="navbar-brand font-tertiary h3" to="/" >
-                <img src="images/logo.png" style="max-height: 60px;" alt="Team 19">
+                <img src="images/logo.png" style="max-height: 40px;" alt="Team 19">
               </router-link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fixedNavbar" aria-controls="fixedNavbar" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="togler-icon-inner">
@@ -19,28 +19,31 @@
               <router-link class="nav-link" to="/" exact>Home</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/requirements" >Requirements</router-link>
+              <router-link class="nav-link" to="/requirements">Requirements</router-link>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <router-link class="nav-link" to="/research" >Research</router-link>
+            </li> -->
+            <li class="nav-item">
+              <router-link class="nav-link" to="/hci">HCI</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/hci" >Hci</router-link>
+              <router-link class="nav-link" to="/system-design">System‎ Design</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/design" >Design</router-link>
+              <router-link class="nav-link" to="/implementation">Implementation</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/testing" >Testing</router-link>
+              <router-link class="nav-link" to="/testing">Testing</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/evaluation" >Evaluation</router-link>
+              <router-link class="nav-link" to="/evaluation">Evaluation</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/guide" >Guide</router-link>
+              <router-link class="nav-link" to="/guide">Guide</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/docs" >Documentation</router-link>
+              <router-link class="nav-link" to="/docs">Documentation</router-link>
             </li>
           </ul>
         </div>

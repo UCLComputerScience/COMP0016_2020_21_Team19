@@ -4,7 +4,8 @@ import home from '../pages/home'
 import requirements from '../pages/requirements'
 import research from '../pages/research'
 import hci from '../pages/hci'
-import design from '../pages/design'
+import system_design from '../pages/system_design'
+import implementation from '../pages/implementation'
 import evaluation from '../pages/evaluation'
 import testing from '../pages/testing'
 import guide from '../pages/guide'
@@ -47,9 +48,14 @@ export default new Router({
             name:"hci"
         },
         {
-            path: "/design",
-            component: design,
-            name:"design"
+            path: "/system-design",
+            component: system_design,
+            name:"system-design"
+        },
+        {
+            path: "/implementation",
+            component: implementation,
+            name:"implementation"
         },
         {
             path: "/testing",

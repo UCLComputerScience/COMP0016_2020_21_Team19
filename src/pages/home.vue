@@ -37,7 +37,7 @@
           </div>
           <!--// .col //-->
           <div class="col-lg-5 hero-image text-right wow fadeInRight">
-            <img src="images/" class="img-fluid img-jump">
+            <img src="images/home/" class="img-fluid img-jump">
           </div>
           <!--// .col //-->
         </div>
@@ -61,9 +61,10 @@
                 The
                 <span>Problem</span>
               </h2>
-              <p
-                class="section-sub-title"
-              >Lorem ipsum</p>
+              <p class="section-sub-title">
+                NHS clinicians have no reliable, centralised mechanism to gather Patient Reported Outcome Measures (PROMs) per individual and to understand the factors that help and hinder an individual from adherence to set treatment plans.
+                This problem doesn't just exist in the NHS. Reported outcomes and subsequent analysis are a vital feedback mechanism in numerous disciplines, from classrooms to hospital wards.
+              </p>
             </div>
           </div>
           <!--// .col //-->
@@ -79,8 +80,10 @@
                 <span class="mdi mdi-alert-circle"></span>
               </div>
               <div class="services-body">
-                <h5>Lorem ipsum</h5>
-                <p>Lorem ipsum</p>
+                <h5>Slow</h5>
+                <p>
+                PROMs are typically collected by mailing paper questionnaires to patients. The NHS reports that for a single group of patients, PROMs data can take up to a year to collect.
+                </p>
               </div>
             </div>
           </div>
@@ -94,8 +97,10 @@
                 <span class="mdi mdi-alert-circle"></span>
               </div>
               <div class="services-body">
-                <h5>Lorem ipsum</h5>
-                <p>Lorem ipsum</p>
+                <h5>Necessary</h5>
+                <p>
+                It is becoming increasingly important for doctors to continue monitoring the health of their patients after they've been discharged. Many hospitals are now mandated to do so.
+                </p>
               </div>
             </div>
           </div>
@@ -109,8 +114,10 @@
                 <span class="mdi mdi-alert-circle"></span>
               </div>
               <div class="services-body">
-                <h5>Lorem ipsum</h5>
-                <p>Lorem ipsum</p>
+                <h5>Difficult to Analyse</h5>
+                <p>
+                Collecting responses of physical questionnaires means manually updating records - providing no quick and easy visualisations to assist in analysing the repsonse data.
+                </p>
               </div>
             </div>
           </div>
@@ -128,26 +135,29 @@
         <div class="row align-items-center">
           <div class="col-md-5 col-lg-6 wow fadeInLeft text-left" style="position: relative;">
             <div style="transform: translateX(-100px)">
-              <img src="images/" class="img-fluid img-jump">
+              <img src="images/home/surveyor_dashboard.png" class="img-fluid img-jump">
             </div>
           </div>
           <!--// .col //-->
           <div class="col-md-7 col-lg-6 wow fadeInUp">
             <div class="about-inner">
               <span class="section-badge">Our Solution</span>
-              <h3>Lorem ipsum</h3>
-              <p>Lorem ipsum</p>
+              <h3>Web-based solution to capturing user-reported outcomes</h3>
+              <p></p>
             </div>
             <div class="about-list">
               <ul>
                 <li>
-                  <i class="fa fa-check"></i>Lorem ipsum
+                  <i class="fa fa-check"></i>
+                  Clinicians can assign tasks to groups
                 </li>
                 <li>
-                  <i class="fa fa-check"></i>Lorem ipsum
+                  <i class="fa fa-check"></i>
+                  Patients can report the outcomes of these tasks
                 </li>
                 <li>
-                  <i class="fa fa-check"></i>Lorem ipsum
+                  <i class="fa fa-check"></i>
+                  Progress visualisations provided for both clinicians and patients
                 </li>
               </ul>
             </div>
@@ -163,28 +173,28 @@
             <div class="col-md-7 col-lg-6 about-content-wrap wow fadeInLeft">
               <div class="features-inner">
                 <span class="section-badge">Key Features</span>
-                <h3>Lorem ipsum</h3>
+                <h3>Collect & Analyse Results</h3>
                 <p>Lorem ipsum</p>
                 <ul class="features-list">
                   <li class="d-flex align-items-center">
-                    <i class="mdi mdi-account-box-multiple"></i>
+                    <i class="mdi mdi-file-document"></i>
                     <div class="features-box">
-                      <h6>Lorem ipsum</h6>
-                      <span>Lorem ipsum</span>
+                      <h6>Submit New Tasks</h6>
+                      <span>Completely digitize the process of distributing PROMs and collecting their responses.</span>
                     </div>
                   </li>
                   <li class="d-flex align-items-center">
-                    <i class="mdi mdi-translate"></i>
+                    <i class="mdi mdi-account-check"></i>
                     <div class="features-box">
-                      <h6>Lorem ipsum</h6>
-                      <span>Lorem ipsum</span>
+                      <h6>Gather Responses</h6>
+                      <span>Both quantitative and qualitative responses can be collected for a given task.</span>
                     </div>
                   </li>
                   <li class="d-flex align-items-center">
-                    <i class="mdi mdi-email"></i>
+                    <i class="mdi mdi-chart-arc"></i>
                     <div class="features-box">
-                      <h6>Lorem ipsum</h6>
-                      <span>Lorem ipsum</span>
+                      <h6>Visualise Results</h6>
+                      <span>Results are aggregated per group, giving clinicians the ability to analyse progress for both individuals and groups as a whole.</span>
                     </div>
                   </li>
                 </ul>
@@ -192,14 +202,11 @@
             </div>
             <!--// .col //-->
             <div
-              class="col-md-5 col-lg-5 text-center features-image-order features-image-resp wow slideInRight"
+              class="col-md-5 col-lg-6 text-center features-image-order features-image-resp wow slideInRight"
             >
               <div class="features-circle"></div>
               <div class="feature-image-wrap wow zoomIn" data-wow-delay="0.8s">
-                <img
-                  src="images/"
-                  class="img-fluid img-jump"
-                >
+                <img src="images/home/task_overview.png" class="img-fluid img-jump">
               </div>
             </div>
             <!--// .col //-->
@@ -216,10 +223,7 @@
             >
               <div class="features-circle"></div>
               <div class="feature-image-wrap wow zoomIn" data-wow-delay="0.8s">
-                <img
-                  src="images/"
-                  class="img-fluid img-jump"
-                >
+                <PhoneFrame imgSrc="images/home/response_mobile.png" class="img-fluid img-jump"></PhoneFrame>
               </div>
             </div>
             <!--// .col //-->
@@ -436,7 +440,7 @@
       <div class="container">
         <div class="row justify-content-between align-items-center">
           <div class="col-lg-6 download-image wow slideInLeft">
-            <img src="images/logo.png" style="max-width: 90%" class="img-fluid" />
+            <img src="images/logo.png" style="max-width: 50%" class="img-fluid" />
           </div>
           <!--// .col //-->
           <div class="col-lg-6 col-md-12 col-sm-11 col-xs-12 wow fadeInUp" data-wow-delay="0.3s">
@@ -462,8 +466,12 @@
 </template>
 
 <script>
+import PhoneFrame from "../components/PhoneFrame.vue";
 export default {
   name: "home",
+  components: {
+    PhoneFrame
+  }
 };
 </script>
 

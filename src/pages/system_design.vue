@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PageTitle title="Design"></PageTitle>
+    <PageTitle title="System Design"></PageTitle>
       <!-- Tech Stack and Implementation -->
       <section class="section">
           <div class="container">
@@ -219,7 +219,7 @@ import PageTitle from "../components/PageTitle.vue";
 import SvgPanZoom from 'vue-svg-pan-zoom';
 import { Carousel, Slide } from 'vue-carousel';
 export default {
-  name: "design",
+  name: "system-design",
   components: {
     PageTitle,
     SvgPanZoom,
