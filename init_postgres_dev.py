@@ -20,7 +20,6 @@ from psycopg2 import Error
 
 Name = namedtuple("Name", ["first", "last"])
 
-
 def run_migrations():
     management.call_command("makemigrations", "core", "authentication", "surveyor", "respondent")
     management.call_command("migrate")
@@ -98,45 +97,13 @@ def get_tasks():
                                         'description': "Is there anything you've discovered that personally makes living with COPD easier?",
                                         'link': '',
                                         'response_type': Question.ResponseType.TEXT_POSITIVE
-                                    }
+                                    },
                                 ],
-                            'due_date': datetime.date(2021, 2, 14),
+                            'due_date': datetime.date(2021, 2, 15),
                             'due_time': datetime.time(12, 0)
-                            },
-                            {
-                            'title': 'Passive COPD Rehab',
-                            'questions': [
-                                    {
-                                        'description': 'Quantitative Question 1',
-                                        'link': '',
-                                        'response_type': Question.ResponseType.LIKERT_DESC
-                                    },
-                                    {
-                                        'description': 'Quantitative Question 2',
-                                        'link': '',
-                                        'response_type': Question.ResponseType.NUMERICAL_ASC
-                                    },
-                                    {
-                                        'description': 'Quantitative Question 3',
-                                        'link': '',
-                                        'response_type': Question.ResponseType.NUMERICAL_DESC
-                                    },
-                                    {
-                                        'description': 'Quantitative Question 4',
-                                        'link': '',
-                                        'response_type': Question.ResponseType.TRAFFIC_LIGHT
-                                    },
-                                    {
-                                        'description': "Quantitative Question 5",
-                                        'link': '',
-                                        'response_type': Question.ResponseType.NUMERICAL_ASC
-                                    }
-                                ],
-                            'due_date': datetime.date(2021, 2, 27),
-                            'due_time': datetime.time(12, 0)
-                            },
-                            {
-                            'title': 'COPD Roflumilast Medication',
+                            }],
+            "Hip Therapy":  [{
+                            'title': 'Sciatica Medication',
                             'questions': [
                                     {
                                         'description': 'Quantitative Question 1',
@@ -164,46 +131,64 @@ def get_tasks():
                                         'response_type': Question.ResponseType.NUMERICAL_DESC
                                     }
                                 ],
-                            'due_date': datetime.date(2021, 3, 16),
+                            'due_date': datetime.date(2021, 3, 17),
                             'due_time': datetime.time(12, 0)
-                            }]
+                            }],
+                            
     }
 
 
-def create_quantitative_responses(tasks, respondents, respondents_by_group, questions):
+def create_responses(tasks, respondents, respondents_by_group, questions):
     for task in tasks.values():
         respondent_names = respondents_by_group[task.group.name]
         for question in questions[task.title]:
             for name in respondent_names:
+                date_time = datetime.datetime.combine(task.due_date-datetime.timedelta(days=random.randint(2, 10)), task.due_time)
+                link_clicked = bool(random.randint(0, 1)) if question.link else False
                 if not question.is_text:
-                    Response.objects.create(question=question, respondent=respondents[name], value=random.choice(question.get_values_list()), text=None, text_positive=None, date_time=datetime.datetime.combine(task.due_date-datetime.timedelta(days=random.randint(2, 10)), task.due_time))
-    
-    
-def insert_dummy_data():
-    User = get_user_model()
+                    Response.objects.create(question=question, respondent=respondents[name], value=random.choice(question.get_values_list()), text=None, text_positive=None, date_time=date_time, link_clicked=link_clicked)
+            
+            text_positive = None if question.is_text_neutral else question.is_text_positive
+            if question.description == 'What is useful about this resource?':
+                Response.objects.create(question=question, respondent=respondents["john doe"], text='Info about smoking', text_positive=text_positive, date_time=date_time, link_clicked=link_clicked)
+                Response.objects.create(question=question, respondent=respondents["jack white"], text='Contains remedies', text_positive=text_positive, date_time=date_time, link_clicked=link_clicked)
+                Response.objects.create(question=question, respondent=respondents["jean brunton"], text='Alcohol is unhealthy', text_positive=text_positive, date_time=date_time, link_clicked=link_clicked)
+                Response.objects.create(question=question, respondent=respondents["isabelle chandler"], text='More walking', text_positive=text_positive, date_time=date_time, link_clicked=link_clicked)
+            elif question.description == 'What is not useful about this resource?':
+                Response.objects.create(question=question, respondent=respondents["john doe"], text='Too long', text_positive=text_positive, date_time=date_time, link_clicked=link_clicked)
+                Response.objects.create(question=question, respondent=respondents["jack white"], text='Confusing', text_positive=text_positive, date_time=date_time, link_clicked=link_clicked)
+                Response.objects.create(question=question, respondent=respondents["jean brunton"], text='Contradictory', text_positive=text_positive, date_time=date_time, link_clicked=link_clicked)
+                Response.objects.create(question=question, respondent=respondents["isabelle chandler"], text='Missing socialising', text_positive=text_positive, date_time=date_time, link_clicked=link_clicked)
+            elif question.description == "Is there anything you've discovered that personally makes living with COPD easier?":
+                Response.objects.create(question=question, respondent=respondents["john doe"], text='Vegan diet', text_positive=text_positive, date_time=date_time, link_clicked=link_clicked)
+                Response.objects.create(question=question, respondent=respondents["jack white"], text='Daily exercise', text_positive=text_positive, date_time=date_time, link_clicked=link_clicked)
+                Response.objects.create(question=question, respondent=respondents["jean brunton"], text='Supplementing Vitamin C', text_positive=text_positive, date_time=date_time, link_clicked=link_clicked)
+                Response.objects.create(question=question, respondent=respondents[name], text='Fresh air', text_positive=text_positive, date_time=date_time, link_clicked=link_clicked)
 
-    organisation = Organisation.objects.create(name="NHS Clinic")
-
-    respondent_users = {}
+def create_respondents():
     respondents = {}
-
     for name in get_respondent_names():
         fullname = name.first + " " + name.last
         email = name.first + "@" + name.last + ".com"
         user = User.objects.create_user(username=name.first, first_name=name.first.capitalize(), last_name=name.last.capitalize(), email=email, password="activityleague")
-        respondent_users[fullname] = user
         respondents[fullname] = Respondent.objects.create(user=user, firstname=name.first.capitalize(), surname=name.last.capitalize())
-    
-    surveyor_users = {}
+    return respondents
+
+def create_surveyors(organisation):
     surveyors = {}
-    
     for name in get_surveyor_names():
         fullname = name.first + " " + name.last
         email = name.first + "@" + name.last + ".com"
         user = User.objects.create_user(username=name.first, first_name=name.first.capitalize(), last_name=name.last.capitalize(), email=email, password="activityleague")
-        surveyor_users[fullname] = user
         surveyors[fullname] = Surveyor.objects.create(user=user, firstname=name.first.capitalize(), surname=name.last.capitalize(), organisation=organisation)
+    return surveyors
     
+def insert_dummy_data():
+
+    organisation = Organisation.objects.create(name="NHS Clinic")
+
+    respondents = create_respondents()
+    surveyors = create_surveyors(organisation)
 
     organisation.admin = surveyors['christine black']
     organisation.save()
@@ -240,11 +225,9 @@ def insert_dummy_data():
 
             questions[task['title']] = []
             for question in task['questions']:
-                print('Description: ', question['description'])
-                print('Link:', question['link'])
                 questions[task['title']].append(Question.objects.create(task=tasks[group_name], link=question['link'], description=question['description'], response_type=question['response_type']))
 
-    create_quantitative_responses(tasks, respondents, respondents_by_group, questions)
+    create_responses(tasks, respondents, respondents_by_group, questions)
 
 if __name__ == '__main__':
     django.setup()
@@ -256,4 +239,5 @@ if __name__ == '__main__':
     from core.models import Group, Task, Question
     from surveyor.models import Surveyor, GroupSurveyor, Organisation
     from respondent.models import Respondent, GroupRespondent, Response
+    User = get_user_model()
     insert_dummy_data()

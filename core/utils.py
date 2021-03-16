@@ -377,5 +377,4 @@ def has_responded_to_task(respondent, task):
     :rtype: bool
     """
     questions = Question.objects.filter(task=task)
-    responses = Response.objects.filter(respondent=respondent, question__in=questions)
-    return len(responses) == len(questions)
+    return Response.objects.filter(respondent=respondent, question__in=questions).exists()

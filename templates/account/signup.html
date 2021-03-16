@@ -13,7 +13,7 @@
 
   <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
     {% csrf_token %}
-    <img class="mb-4" src="{% static 'assets/logo.png' %}" alt="" width="100%">
+    <img class="mb-4" src="{% static 'assets/logo.svg' %}" alt="" width="75" height="75">
     <h1 class="h3 mb-3 font-weight-normal">{% trans "Sign Up" %}</h1>
     {% for field in form %}
       {{ field|as_crispy_field }}
