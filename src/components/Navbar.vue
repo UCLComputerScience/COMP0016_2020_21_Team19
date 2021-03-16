@@ -21,9 +21,9 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/requirements">Requirements</router-link>
             </li>
-            <!-- <li class="nav-item">
+            <li class="nav-item">
               <router-link class="nav-link" to="/research" >Research</router-link>
-            </li> -->
+            </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/hci">HCI</router-link>
             </li>
@@ -43,7 +43,7 @@
               <router-link class="nav-link" to="/guide">Guide</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/docs">Documentation</router-link>
+              <router-link class="nav-link" to="/docs">Docs</router-link>
             </li>
           </ul>
         </div>

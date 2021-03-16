@@ -17,7 +17,7 @@
               Team 19 – UCL Computer Science
               <br/>Hamza Nasir · Karan Chawla · Jamie Weigold
             </p>
-            <a
+            <!-- <a
               href="#"
               class="default-outline-btn wow fadeInUp"
               data-scroll-nav="1"
@@ -33,11 +33,20 @@
               data-wow-delay="0.5s"
             >
               <i class="fa fa-play"></i>
-            </a>
+            </a> -->
           </div>
           <!--// .col //-->
           <div class="col-lg-5 hero-image text-right wow fadeInRight">
-            <img src="images/home/" class="img-fluid img-jump">
+            <div class="how-it-work-video">
+                <iframe
+                  width="622"
+                  height="350"
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              </div>
           </div>
           <!--// .col //-->
         </div>
@@ -174,7 +183,7 @@
               <div class="features-inner">
                 <span class="section-badge">Key Features</span>
                 <h3>Collect & Analyse Results</h3>
-                <p>Lorem ipsum</p>
+                <p></p>
                 <ul class="features-list">
                   <li class="d-flex align-items-center">
                     <i class="mdi mdi-file-document"></i>
@@ -187,7 +196,7 @@
                     <i class="mdi mdi-account-check"></i>
                     <div class="features-box">
                       <h6>Gather Responses</h6>
-                      <span>Both quantitative and qualitative responses can be collected for a given task.</span>
+                      <span>Instantly receive and visualise both quantitative and qualitative responses for a given task.</span>
                     </div>
                   </li>
                   <li class="d-flex align-items-center">
@@ -230,28 +239,28 @@
             <div class="col-md-7 col-lg-6 about-content-wrap wow fadeInRight">
               <div class="features-inner">
                 <span class="section-badge">Key Features</span>
-                <h3>Lorem ipsum</h3>
-                <p>Lorem ipsum</p>
+                <h3>Generalised Platform</h3>
+                <p></p>
                 <ul class="features-list">
                   <li class="d-flex align-items-center">
                     <i class="mdi mdi-account-lock"></i>
                     <div class="features-box">
-                      <h6>Lorem ipsum</h6>
-                      <span>Lorem ipsum</span>
+                      <h6>Invitation Only</h6>
+                      <span>Aside those creating an Organisation on the app for the first time it is invite-only, ensuring only those invited to your organisation can see those within it.</span>
                     </div>
                   </li>
                   <li class="d-flex align-items-center">
                     <i class="mdi mdi-qrcode-scan"></i>
                     <div class="features-box">
-                      <h6>Lorem ipsum</h6>
-                      <span>Lorem ipsum</span>
+                      <h6>Single Sign-On Support</h6>
+                      <span>With SSO extensibility provided out of the box, adding just a few lines of code can allow users to sign in with a range of different providers.</span>
                     </div>
                   </li>
                   <li class="d-flex align-items-center">
                     <i class="mdi mdi-format-list-bulleted"></i>
                     <div class="features-box">
-                      <h6>Lorem ipsum</h6>
-                      <span>Lorem ipsum</span>
+                      <h6>User Management</h6>
+                      <span>Clinicians can choose to invite patients to the platform individually, or bulk import using Microsoft Excel spreadsheets.</span>
                     </div>
                   </li>
                 </ul>
@@ -264,7 +273,7 @@
       </div>
     </section>
 
-    <!--// video Section Start //-->
+    <!--// Gantt Section Start //-->
     <section
       id="how-it-works"
       class="how-it-works-section jarallax bg-gradient-green section-padding"
@@ -276,63 +285,12 @@
       <div class="container">
         <!--// .row //-->
         <div class="row justify-content-center align-items-center how-it-work-wrap">
-          <div class="col-lg-7 col-md-10 col-sm-12">
+          <div class="col-lg-12 col-md-10 col-sm-12">
             <div class="how-it-works-inner text-center">
-              <h3 class="text-white">Video Goes Here?</h3>
-              <p>Lorem ipsum</p>
+              <h3 class="text-white">Project Management</h3>
+              <p>05 Oct 2020 – 24 March 2021</p>
               <div class="how-it-work-video">
-                <iframe
-                  width="622"
-                  height="350"
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                ></iframe>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="how-it-work-process">
-          <div class="row text-center">
-            <div class="col-lg-3 col-md-6 col-sm-6 how-it-work-item">
-              <div class="how-it-work-number">
-                <a>
-                  <span>01</span>
-                </a>
-              </div>
-              <h6>Team and Background Introduction</h6>
-              <div class="how-it-work-text">
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 how-it-work-item">
-              <div class="how-it-work-number">
-                <a>
-                  <span>02</span>
-                </a>
-              </div>
-              <h6>Technical Overview</h6>
-              <div class="how-it-work-text">
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 how-it-work-item">
-              <div class="how-it-work-number">
-                <a>
-                  <span>03</span>
-                </a>
-              </div>
-              <h6>Demonstration and Code Review</h6>
-              <div class="how-it-work-text">
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 how-it-work-item">
-              <div class="how-it-work-number">
-                <a>
-                  <span>04</span>
-                </a>
-              </div>
-              <h6>Achievements and Summaries</h6>
-              <div class="how-it-work-text">
+                <img src="images/home/gantt.svg" class="img-fluid img-jump">
               </div>
             </div>
           </div>
@@ -362,7 +320,7 @@
           >
             <div class="team-card item-shadow">
               <div class="team-img">
-                <img src="images/bg/hamza.png" alt="Team image" class="img-fluid" />
+                <img src="images/bg/hamza.jpeg" alt="Hamza Nasir" class="img-fluid" />
                 <ul class="team-social">
                   <li>
                     <a href="https://github.com/h-nasir">
@@ -376,7 +334,7 @@
                 <div class="email">
                   <a href="mailto:hamza.nasir.19@ucl.ac.uk">hamza.nasir.19@ucl.ac.uk</a>
                 </div>
-                <span class="desc">BSc Computer Science Student @ UCL</span>&nbsp;
+                <span class="desc">BSc Computer Science Student | UCL</span>&nbsp;
               </div>
             </div>
           </div>
@@ -387,7 +345,7 @@
           >
             <div class="team-card item-shadow">
               <div class="team-img">
-                <img src="images/bg/karan.jpeg" alt="Team image" class="img-fluid" />
+                <img src="images/bg/karan.jpeg" alt="Karan Chawla" class="img-fluid" />
                 <ul class="team-social">
                   <li>
                     <a href="https://github.com/1kc2">
@@ -401,7 +359,7 @@
                 <div class="email">
                   <a href="mailto:karan.chawla.19@ucl.ac.uk">karan.chawla.19@ucl.ac.uk</a>
                 </div>
-                <span class="desc">BSc Computer Science Student @ UCL</span>&nbsp;
+                <span class="desc">BSc Computer Science Student | UCL</span>&nbsp;
               </div>
             </div>
           </div>
@@ -412,7 +370,7 @@
           >
             <div class="team-card item-shadow">
               <div class="team-img">
-                <img src="images/bg/jamie.jpeg" alt="Team image" class="img-fluid" />
+                <img src="images/bg/jamie.jpeg" alt="Jamie Weigold" class="img-fluid" />
                 <ul class="team-social">
                   <li>
                     <a href="https://github.com/jweig0ld">
@@ -426,7 +384,7 @@
                 <div class="email">
                   <a href="mailto:jamie.weigold.19@ucl.ac.uk">jamie.weigold.19@ucl.ac.uk</a>
                 </div>
-                <span class="desc">BSc Computer Science Student @ UCL</span>
+                <span class="desc">BSc Computer Science Student | UCL</span>
               </div>
             </div>
           </div>
@@ -445,13 +403,13 @@
           <!--// .col //-->
           <div class="col-lg-6 col-md-12 col-sm-11 col-xs-12 wow fadeInUp" data-wow-delay="0.3s">
             <div class="download-section-inner">
-              <h2>Lorem ipsum</h2>
+              <h2>Get Started</h2>
               <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Launch Activity League now by clicking the button below. Looking forward to seeing you there!
               </p>
 
               <div class="download-buttons d-flex justify-content-start">
-                <a href="#/guide" class="download-btn">
+                <a href="http://178.79.143.29.xip.io:8000/" target="_blank" class="download-btn">
                   <i class="fa fa-external-link-alt"></i>
                   <span>Launch</span>
                   <span>Activity League</span>
