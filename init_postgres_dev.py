@@ -164,7 +164,7 @@ def get_tasks():
                                         'response_type': Question.ResponseType.NUMERICAL_DESC
                                     }
                                 ],
-                            'due_date': datetime.date(2021, 3, 4),
+                            'due_date': datetime.date(2021, 3, 16),
                             'due_time': datetime.time(12, 0)
                             }]
     }
