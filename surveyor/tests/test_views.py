@@ -4,9 +4,10 @@ import pytz
 from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
 
-from respondent.models import Respondent, GroupRespondent
 from surveyor import views
-from surveyor.models import Surveyor, Question, Task, Group, GroupSurveyor
+from core.models import *
+from respondent.models import *
+from surveyor.models import *
 
 
 class TaskOverViewTestCase(TestCase):
@@ -21,7 +22,7 @@ class TaskOverViewTestCase(TestCase):
         self.task = Task.objects.create(title="Perform 20 Press-Ups", group=self.group,
                                         due_date=datetime.datetime(2021, 7, 3, tzinfo=pytz.UTC),
                                         due_time=datetime.time(10, 0))
-        self.question = Question.objects.create(task=self.task, description="This task was difficult", response_type=1)
+        self.question = Question.objects.create(task=self.task, description="This task was difficult", response_type=Question.ResponseType.LIKERT_ASC)
 
     def test_response_code_200_if_valid(self):
         """
@@ -49,7 +50,7 @@ class DashboardTestCase(TestCase):
                                         due_date=datetime.datetime(2021, 7, 3, tzinfo=pytz.UTC),
                                         due_time=datetime.time(10, 0))
 
-        self.question = Question.objects.create(task=self.task, description="This task was difficult", response_type=1)
+        self.question = Question.objects.create(task=self.task, description="This task was difficult", response_type=Question.ResponseType.LIKERT_ASC)
 
     def test_response_code_200_if_valid_path(self):
         request = self.factory.get('/dashboard')
@@ -72,7 +73,7 @@ class LeaderboardTestCase(TestCase):
                                         due_date=datetime.datetime(2021, 7, 3, tzinfo=pytz.UTC),
                                         due_time=datetime.time(10, 0))
 
-        self.question = Question.objects.create(task=self.task, description="This task was difficult", response_type=1)
+        self.question = Question.objects.create(task=self.task, description="This task was difficult", response_type=Question.ResponseType.LIKERT_ASC)
 
     def test_response_code_200_if_valid_path(self):
         request = self.factory.get('/leaderboard')
@@ -97,30 +98,6 @@ class NewTaskTestCase(TestCase):
         response = views.new_task(request)
         self.assertEqual(response.status_code, 200)
 
-
-class NewGroupTestCase(TestCase):
-
-    @classmethod
-    def setUp(self):
-        self.factory = RequestFactory()
-        self.user = User.objects.create_user(username='jane', email='jane@email.com', password='activityleague')
-        self.surveyor = Surveyor.objects.create(user=self.user, firstname='Jane', surname='White')
-
-    def test_response_code_200_if_valid_path(self):
-        self.client.login(username='jane', password='activityleague')
-        request = self.factory.get('/new-group')
-        request.user = self.user
-        response = views.new_group(request)
-        self.assertEqual(response.status_code, 200)
-
-    def test_new_group_post(self):
-        self.client.login(username='jane', password='activityleague')
-        request = self.client.post('/new-group', {'name': 'Shoulder Therapy 1'})
-        self.assertTrue(Group.objects.filter(name="Shoulder Therapy 1").exists())
-        group = Group.objects.get(name="Shoulder Therapy 1")
-        self.assertTrue(GroupSurveyor.objects.filter(surveyor=self.surveyor, group=group).exists())
-
-
 class GroupsTestCase(TestCase):
 
     @classmethod
@@ -134,7 +111,7 @@ class GroupsTestCase(TestCase):
                                         due_date=datetime.datetime(2021, 7, 3, tzinfo=pytz.UTC),
                                         due_time=datetime.time(10, 0))
 
-        self.question = Question.objects.create(task=self.task, description="This task was difficult", response_type=1)
+        self.question = Question.objects.create(task=self.task, description="This task was difficult", response_type=Question.ResponseType.LIKERT_ASC)
 
     def test_response_code_200_if_valid_login(self):
         request = self.factory.get('/groups')

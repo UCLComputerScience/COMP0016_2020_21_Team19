@@ -50,13 +50,13 @@ class Question(models.Model):
         Model representing all the possible response types.
         """
         LIKERT_ASC = 1, _('Likert Scale (Agree is better)')
-        LIKERT_DESC = 8, _('Likert Scale (Disagree is better)')
-        TRAFFIC_LIGHT = 2, _('Traffic Light')
-        NUMERICAL_ASC = 3, _('1-5 (Higher is better)')
-        NUMERICAL_DESC = 7, _('1-5 (Lower is better)')
-        TEXT_NEUTRAL = 4, _('Text (Neutral)')
-        TEXT_POSITIVE = 5, _('Text (Positive)')
-        TEXT_NEGATIVE = 6, _('Text (Negative)')
+        LIKERT_DESC = 2, _('Likert Scale (Disagree is better)')
+        TRAFFIC_LIGHT = 3, _('Traffic Light')
+        NUMERICAL_ASC = 4, _('1-5 (Higher is better)')
+        NUMERICAL_DESC = 5, _('1-5 (Lower is better)')
+        TEXT_NEUTRAL = 6, _('Text (Neutral)')
+        TEXT_POSITIVE = 7, _('Text (Positive)')
+        TEXT_NEGATIVE = 8, _('Text (Negative)')
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     task = models.ForeignKey(Task, null=True, on_delete=models.CASCADE)

@@ -4,9 +4,10 @@ import pytz
 from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
 
-from respondent.models import Respondent, Response
 from surveyor import utils
-from surveyor.models import Surveyor, Question, Task, Group, GroupSurveyor
+from core.models import *
+from respondent.models import *
+from surveyor.models import *
 
 
 class GetQuestionsTestCase(TestCase):
@@ -27,12 +28,12 @@ class GetQuestionsTestCase(TestCase):
                                         due_date=datetime.datetime(2021, 7, 3, tzinfo=pytz.UTC),
                                         due_time=datetime.time(10, 0))
 
-        self.question_1 = Question.objects.create(task=self.task, description="Walk for 2 miles", response_type=1)
+        self.question_1 = Question.objects.create(task=self.task, description="Walk for 2 miles", response_type=Question.ResponseType.LIKERT_ASC)
         self.question_2 = Question.objects.create(task=self.task, description="Socialise with 2 people today",
-                                                  response_type=2)
+                                                  response_type=Question.ResponseType.TRAFFIC_LIGHT)
         self.question_3 = Question.objects.create(task=self.task,
                                                   description="Spend less than 1h per day on your phone",
-                                                  response_type=3)
+                                                  response_type=Question.ResponseType.TEXT_NEUTRAL)
 
         self.response_1 = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1,
                                                   text=None,
@@ -52,22 +53,20 @@ class GetQuestionsTestCase(TestCase):
         Each dictionary in the list data should contain keys: id, link, type, description, link_clicks, chart_labels,
         chart_data, word_cloud.
         """
-        data = utils.get_questions(self.task.id)
+        data = utils.get_task_summary(self.task.id)
         self.assertTrue(data)
         entry = data[0]
-        self.assertEqual(entry.keys(),
-                         {'id', 'link', 'type', 'description', 'link_clicks', 'chart_labels', 'chart_data',
-                          'word_cloud'})
+        self.assertEqual(entry.keys(), {'question', 'link_clicks', 'chart_labels', 'chart_data'})
 
     def test_chart_likert_labels_correct(self):
         """
         Questions with response_type = 1 (likert questions) should have labels: 'Strongly Disagree', 'Disagree', 'Neutral',
         'Agree', 'Strongly Agree'.
         """
-        data = utils.get_questions(self.task.id)
+        data = utils.get_task_summary(self.task.id)
         likert_entry = None
         for entry in data:
-            if entry['type'] == 'likert':
+            if entry['question'].is_likert:
                 likert_entry = entry
                 break
         self.assertEqual(likert_entry['chart_labels'],
@@ -77,10 +76,10 @@ class GetQuestionsTestCase(TestCase):
         """
         Questions with response_type = 2 (traffic light questions) should have labels: 'Red', 'Yellow', 'Green'.
         """
-        data = utils.get_questions(self.task.id)
+        data = utils.get_task_summary(self.task.id)
         traffic_entry = None
         for entry in data:
-            if entry['type'] == 'traffic':
+            if entry['question'].is_traffic_light:
                 traffic_entry = entry
                 break
         self.assertEqual(traffic_entry['chart_labels'], ['Red', 'Yellow', 'Green'])
@@ -90,20 +89,20 @@ class GetQuestionsTestCase(TestCase):
         If a question contains a text-based response, we should get a link to a generated word cloud image
         of the form 'data:image/png;base64' + string.
         """
-        data = utils.get_questions(self.task.id)
+        data = utils.get_task_summary(self.task.id)
         text_entry = None
         for entry in data:
-            if entry['type'] == 'text':
+            if entry['question'].is_text:
                 text_entry = entry
                 break
-        self.assertTrue('data:image/png;base64' in text_entry['word_cloud'])
+        self.assertTrue(text_entry['chart_data'].startswith('data:image/png;base64'))
 
     def test_link_clicks_correct(self):
         """
         Tests whether the number of link clicks returned is the same as the number of link clicks recorded
         per question.
         """
-        data = utils.get_questions(self.task.id)
+        data = utils.get_task_summary(self.task.id)
         clicks = []
         for i in range(0, 3):
             clicks.append(1 if data[i]['link_clicks'] else 0)
@@ -115,7 +114,7 @@ class GetQuestionsTestCase(TestCase):
         any descriptions of questions that are not part of the task and do not neglect any descriptions
         that are part of the task.
         """
-        data = utils.get_questions(self.task.id)
-        descriptions = {entry['description'] for entry in data}
+        data = utils.get_task_summary(self.task.id)
+        descriptions = {entry['question'].description for entry in data}
         self.assertEqual(descriptions, {"Walk for 2 miles", "Socialise with 2 people today",
                                         "Spend less than 1h per day on your phone"})

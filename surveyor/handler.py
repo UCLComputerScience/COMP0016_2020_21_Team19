@@ -38,7 +38,7 @@ def get_new_task(groups, request, user):
     template_id = request.GET.get('template')
     form = TaskForm(request.GET or None, request=request)
     if template_id:  # Load a specific template
-        formset = _get_template(request, template_id)
+        formset = _get_template(template_id)
     else:  # Don't load a template, just render the page
         QuestionFormset = get_question_formset()
         formset = QuestionFormset(queryset=Question.objects.none())
@@ -46,7 +46,7 @@ def get_new_task(groups, request, user):
     return {'user': user, 'groups': groups, 'taskform': form, 'formset': formset, 'templates': templates}
 
 
-def _get_template(request, template_id):
+def _get_template(template_id):
     """
     Retrieves a formset representing a task template for the task with ID `template_id`.
 
@@ -79,7 +79,7 @@ def post_organisation(request, user):
     :return: A redirect back to the organisation page.
     :rtype: django.http.HttpResponseRedirect
     """
-    if request.POST.get('request_type') == '_delete_surveyor':
+    if request.POST.get('request_type') == 'delete_surveyor':
         _delete_surveyor(request)
 
     elif request.POST.get('request_type') == 'invite':  # Inviting a Surveyor
@@ -102,7 +102,7 @@ def _invite_multiple_surveyors(request, user):
     :type request: django.http.HttpRequest
     :param user: The ``Surveyor`` representing the currently logged-in user.
     :type user: ``Surveyor``
-    """    
+    """
     dataset = Dataset()
     new_persons = request.FILES['file']
     imported_data = dataset.load(new_persons.read(), format='xlsx', headers=False)
@@ -124,6 +124,8 @@ def _invite_multiple_surveyors(request, user):
 def _invite_surveyor(request, user):
     """
     Invite a single new ``Surveyor`` to an ``Organisation`` via email.
+    Surveyors cannot be a member of more than one Organisation, so if their
+    email already exists in the system they cannot be invited to another Organisation.
 
     :param request: The request given to the `organisation` view.
     :type request: django.http.HttpRequest
@@ -132,9 +134,6 @@ def _invite_surveyor(request, user):
     """
     email = request.POST.get('email')
 
-    # Surveyors cannot be a member of more than one Organisation, so if their
-    # email already exists in the system they cannot be invited to another
-    # Organisation.
     if not User.objects.filter(email=email).exists():
         invite = UserInvitation.create(
             email,
