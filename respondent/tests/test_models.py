@@ -1,6 +1,8 @@
 from django.test import TestCase
 
-from respondent.models import Respondent
+from core.models import *
+from respondent.models import *
+from surveyor.models import *
 
 
 class RespondentTestCase(TestCase):

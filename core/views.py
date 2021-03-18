@@ -19,8 +19,9 @@ def create_organisation(request):
             return HttpResponseRedirect(reverse('authentication-signup'))
         else:
             raise Http404("Invalid organisation name")
-    form = OrganisationSignupForm()
-    return render(request, 'account/create-organisation.html', {'form': form})
+    elif request.method == 'GET':
+        form = OrganisationSignupForm()
+        return render(request, 'account/create-organisation.html', {'form': form})
 
 
 @login_required(login_url='/accounts/login/')

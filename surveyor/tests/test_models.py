@@ -3,7 +3,9 @@ import datetime
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from surveyor.models import Surveyor, Group, GroupSurveyor, Task, Question
+from core.models import *
+from respondent.models import *
+from surveyor.models import *
 
 
 class SurveyorTestCase(TestCase):

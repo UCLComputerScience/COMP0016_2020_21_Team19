@@ -38,7 +38,7 @@ def get_new_task(groups, request, user):
     template_id = request.GET.get('template')
     form = TaskForm(request.GET or None, request=request)
     if template_id:  # Load a specific template
-        formset = _get_template(request, template_id)
+        formset = _get_template(template_id)
     else:  # Don't load a template, just render the page
         QuestionFormset = get_question_formset()
         formset = QuestionFormset(queryset=Question.objects.none())
@@ -46,7 +46,7 @@ def get_new_task(groups, request, user):
     return {'user': user, 'groups': groups, 'taskform': form, 'formset': formset, 'templates': templates}
 
 
-def _get_template(request, template_id):
+def _get_template(template_id):
     """
     Retrieves a formset representing a task template for the task with ID `template_id`.
 
@@ -79,7 +79,7 @@ def post_organisation(request, user):
     :return: A redirect back to the organisation page.
     :rtype: django.http.HttpResponseRedirect
     """
-    if request.POST.get('request_type') == '_delete_surveyor':
+    if request.POST.get('request_type') == 'delete_surveyor':
         _delete_surveyor(request)
 
     elif request.POST.get('request_type') == 'invite':  # Inviting a Surveyor
@@ -102,7 +102,7 @@ def _invite_multiple_surveyors(request, user):
     :type request: django.http.HttpRequest
     :param user: The ``Surveyor`` representing the currently logged-in user.
     :type user: ``Surveyor``
-    """    
+    """
     dataset = Dataset()
     new_persons = request.FILES['file']
     imported_data = dataset.load(new_persons.read(), format='xlsx', headers=False)
@@ -111,7 +111,7 @@ def _invite_multiple_surveyors(request, user):
             try:
                 validate_email(entry[0])
             except ValidationError:
-                continue
+                raise Http404("Something was wrong with your file!")
             invite = UserInvitation.create(
                 str(entry[0]),
                 inviter=request.user,
@@ -124,6 +124,8 @@ def _invite_multiple_surveyors(request, user):
 def _invite_surveyor(request, user):
     """
     Invite a single new ``Surveyor`` to an ``Organisation`` via email.
+    Surveyors cannot be a member of more than one Organisation, so if their
+    email already exists in the system they cannot be invited to another Organisation.
 
     :param request: The request given to the `organisation` view.
     :type request: django.http.HttpRequest
@@ -132,9 +134,6 @@ def _invite_surveyor(request, user):
     """
     email = request.POST.get('email')
 
-    # Surveyors cannot be a member of more than one Organisation, so if their
-    # email already exists in the system they cannot be invited to another
-    # Organisation.
     if not User.objects.filter(email=email).exists():
         invite = UserInvitation.create(
             email,
@@ -158,7 +157,7 @@ def _delete_surveyor(request):
     surveyor.user.delete()
 
 
-def _post_submit_task(form, formset):
+def _submit_task(form, formset):
     """
     Submits a new task (creates a ``Task`` in the background).
 
@@ -192,7 +191,7 @@ def _post_submit_task(form, formset):
         raise Http404("Something was wrong with your task!")
 
 
-def _post_save_template(form, formset, user):
+def _save_template(form, formset, user):
     """
     Saves a new template created by the `user`.
 
@@ -208,6 +207,7 @@ def _post_save_template(form, formset, user):
     form.fields['group'].required = False
     form.fields['due_date'].required = False
     form.fields['due_time'].required = False
+
     if form.is_valid() and formset.is_valid():
         form.save(commit=False)
         task_template = TaskTemplate.objects.create(name=form.cleaned_data['title'], surveyor=user)
@@ -238,17 +238,17 @@ def post_new_task(request, user):
     :rtype: django.http.HttpResponseRedirect
     """
     if request.POST.get('delete'): # delete a template
-        return _post_delete_template(request)
+        return _delete_template(request)
 
     form = TaskForm(request.POST, request=None)
     QuestionFormset = get_question_formset()
     formset = QuestionFormset(request.POST)
 
     if request.POST.get('save'):  # saving template
-        return _post_save_template(form, formset, user)
+        return _save_template(form, formset, user)
 
     else: # submit a task
-        return _post_submit_task(form, formset)
+        return _submit_task(form, formset)
 
 
 def post_task_overview(request):
@@ -408,7 +408,7 @@ def _delete_respondent_from_group(group, request):
     GroupRespondent.objects.filter(respondent=respondent, group=group).delete()
 
 
-def _post_delete_template(request):
+def _delete_template(request):
     """
     Deletes the ``TaskTemplate`` specified in the the POST request.
 
@@ -418,5 +418,5 @@ def _post_delete_template(request):
     :rtype: django.http.HttpResponseRedirect
     """
     template_id = request.POST.get('template')
-    TaskTemplate.objects.filter(id=template_id).delete()
+    TaskTemplate.objects.get(id=template_id).delete()
     return HttpResponseRedirect(reverse('new-task'))
