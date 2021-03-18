@@ -104,39 +104,30 @@ class CoreUtilSurveyor(TestCase):
         self.question_1 = Question.objects.create(task=self.task, description="", response_type=Question.ResponseType.LIKERT_ASC)
         self.question_2 = Question.objects.create(task=self.task, description="", response_type=Question.ResponseType.LIKERT_ASC)
         self.question_3 = Question.objects.create(task=self.task, description="", response_type=Question.ResponseType.LIKERT_ASC)
-
+        self.response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1, date_time=timezone.now())
+        
     def test_get_responses(self):
-        response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1,
-                                           date_time=datetime.datetime(2021, 7, 4, tzinfo=pytz.UTC))
         responses = get_responses(self.surveyor)
-        self.assertEqual(responses.get(), response)
+        self.assertEqual(responses.get(), self.response)
 
     def test_get_responses_from_task(self):
-        response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1,
-                                           date_time=datetime.datetime(2021, 7, 4, tzinfo=pytz.UTC))
         responses = get_responses(self.surveyor, task=self.task)
-        self.assertEqual(responses.get(), response)
+        self.assertEqual(responses.get(), self.response)
 
     def test_get_responses_from_question(self):
-        response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1,
-                                           date_time=datetime.datetime(2021, 7, 4, tzinfo=pytz.UTC))
         responses = get_responses(self.surveyor, question=self.question_1)
-        self.assertEqual(responses.get(), response)
+        self.assertEqual(responses.get(), self.response)
 
     def test_get_responses_from_group(self):
-        response = Response.objects.create(question=self.question_1, respondent=self.respondent, value=1,
-                                           date_time=datetime.datetime(2021, 7, 4, tzinfo=pytz.UTC))
         responses = get_responses(self.surveyor, group=self.group)
-        self.assertEqual(responses.get(), response)
+        self.assertEqual(responses.get(), self.response)
 
-    def test_calculate_score_values(self):
-        values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        self.assertEqual(calculate_score(values), 5.5)
-
-    def test_calculate_score_values_contains_none(self):
-        values = [1, 2, 3, 4, None, 5, 6, 7, 8, 9]
-        self.assertEqual(calculate_score(values), 5)
-
-    def test_calculate_score_values_is_empty(self):
-        values = []
-        self.assertEqual(calculate_score(values), 0)
+    def test_same_number_of_scores_and_labels(self):
+        x, y = get_chart_data(self.surveyor)
+        self.assertEqual(len(x), len(y))
+    
+    def test_no_responses_returns_empty_lists(self):
+        self.response.delete()
+        x, y = get_chart_data(self.surveyor)
+        self.assertEqual((x,y), ([],[]))
+        

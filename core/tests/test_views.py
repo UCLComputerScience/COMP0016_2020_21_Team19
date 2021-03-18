@@ -9,6 +9,11 @@ from core.models import *
 from respondent.models import *
 from surveyor.models import *
 
+"""
+Testing invalid GET requests is unnecessary - it is the same as testing Django's
+internal get_object_or_404 which is assumed to work.
+"""
+
 
 class CoreViewTest(TestCase):
     def setUp(self):

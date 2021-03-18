@@ -1,5 +1,3 @@
-import random
-
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
@@ -109,15 +107,8 @@ def users(request):
     if request.method == 'GET':
         user = get_object_or_404(Surveyor, user=request.user)
         groups = get_groups(user)
-        colors = ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"]
-        group_colors = {group.id: random.choice(colors) for group in groups}
         respondents = get_respondents_by_groups(groups)
-
-        for respondent in respondents:
-            group_ids = GroupRespondent.objects.filter(respondent=respondent).values_list('group', flat=True)
-            respondent.groups = groups.filter(id__in=group_ids)
-            for group in respondent.groups:
-                group.color = group_colors[group.id]
+        respondents = set_respondent_groups(respondents, groups)
 
         return render(request, 'surveyor/users.html', {'user': user, 'respondents': respondents})
 
@@ -130,7 +121,7 @@ def user_progress(request, user_id):
 
     :param request: ``GET`` request made by the current user.
     :type request: django.http.HttpRequest
-    :param user_id: Primary key of the ``Surveyor`` accessing the page.
+    :param user_id: Primary key of the ``Respondent`` for which to show data.
     :type user_id: uuid.UUID
     :return: The ``surveyor/user-progress.html`` template rendered using the given dictionary.
     :rtype: django.http.HttpResponse
@@ -147,8 +138,9 @@ def user_progress(request, user_id):
         positive_word_cloud = get_word_cloud(user,respondent, text_positive=True)
         negative_word_cloud = get_word_cloud(user, respondent, text_positive=False)
         graphs = [graph for graph in get_progress_graphs(respondent) if graph['id'] in groups]
+        
         for graph in graphs:
-            del graph['id']
+            del graph['id'] # Remove to fit Chart.js expected format
             
         return render(request, 'surveyor/user-progress.html',
                      {'user': user, 'respondent': respondent, 'tasks': tasks, 'graphs': graphs,

@@ -1,5 +1,6 @@
 import base64
 import io
+import random
 import urllib
 from urllib.parse import urlparse
 
@@ -188,3 +189,27 @@ def _get_question_link_clicks(responses):
     :rtype: int
     """
     return sum(response.link_clicked for response in responses)
+
+
+def set_respondent_groups(respondents, groups):
+    """
+    Returns a ``django.db.models.QuerySet`` of ``Respondent``\s with an additional
+    ``groups`` attribute representing all the groups which a ``Respondent`` is a member of.
+
+    :param respondents: The ``Respondent``\s for which the `groups` attribute needs to be set.
+    :type respondents: django.db.models.QuerySet
+    :param groups: The ``Group``\s which need to be set as attributes of the `respondents`
+    :type groups: django.db.models.QuerySet
+    :return: A ``django.db.models.QuerySet`` of ``Respondent``/s with `groups` attributes.
+    :rtype: django.db.models.QuerySet
+    """
+    colors = ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"]
+    group_colors = {group.id: random.choice(colors) for group in groups}
+
+    for respondent in respondents:
+        group_ids = GroupRespondent.objects.filter(respondent=respondent).values_list('group', flat=True)
+        respondent.groups = groups.filter(id__in=group_ids)
+        for group in respondent.groups:
+            group.color = group_colors[group.id]
+    
+    return respondents

@@ -111,7 +111,7 @@ def _invite_multiple_surveyors(request, user):
             try:
                 validate_email(entry[0])
             except ValidationError:
-                continue
+                raise Http404("Something was wrong with your file!")
             invite = UserInvitation.create(
                 str(entry[0]),
                 inviter=request.user,
@@ -157,7 +157,7 @@ def _delete_surveyor(request):
     surveyor.user.delete()
 
 
-def _post_submit_task(form, formset):
+def _submit_task(form, formset):
     """
     Submits a new task (creates a ``Task`` in the background).
 
@@ -191,7 +191,7 @@ def _post_submit_task(form, formset):
         raise Http404("Something was wrong with your task!")
 
 
-def _post_save_template(form, formset, user):
+def _save_template(form, formset, user):
     """
     Saves a new template created by the `user`.
 
@@ -207,6 +207,7 @@ def _post_save_template(form, formset, user):
     form.fields['group'].required = False
     form.fields['due_date'].required = False
     form.fields['due_time'].required = False
+
     if form.is_valid() and formset.is_valid():
         form.save(commit=False)
         task_template = TaskTemplate.objects.create(name=form.cleaned_data['title'], surveyor=user)
@@ -237,17 +238,17 @@ def post_new_task(request, user):
     :rtype: django.http.HttpResponseRedirect
     """
     if request.POST.get('delete'): # delete a template
-        return _post_delete_template(request)
+        return _delete_template(request)
 
     form = TaskForm(request.POST, request=None)
     QuestionFormset = get_question_formset()
     formset = QuestionFormset(request.POST)
 
     if request.POST.get('save'):  # saving template
-        return _post_save_template(form, formset, user)
+        return _save_template(form, formset, user)
 
     else: # submit a task
-        return _post_submit_task(form, formset)
+        return _submit_task(form, formset)
 
 
 def post_task_overview(request):
@@ -407,7 +408,7 @@ def _delete_respondent_from_group(group, request):
     GroupRespondent.objects.filter(respondent=respondent, group=group).delete()
 
 
-def _post_delete_template(request):
+def _delete_template(request):
     """
     Deletes the ``TaskTemplate`` specified in the the POST request.
 
@@ -417,5 +418,5 @@ def _post_delete_template(request):
     :rtype: django.http.HttpResponseRedirect
     """
     template_id = request.POST.get('template')
-    TaskTemplate.objects.filter(id=template_id).delete()
+    TaskTemplate.objects.get(id=template_id).delete()
     return HttpResponseRedirect(reverse('new-task'))
