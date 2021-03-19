@@ -50,10 +50,5 @@ describe("The user progress page: ", () => {
       .should("have.text", "Sciatica Medication");
   });
 
-  it("Should take you to a manage group page if you click on one of the pill group tags", () => {
-    cy.get(".badge").contains("COPD Therapy").click();
-    cy.location("pathname").should("contain", "manage-group/");
-  });
-
   testNavBar();
 });

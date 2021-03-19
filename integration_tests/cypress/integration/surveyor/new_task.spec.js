@@ -39,7 +39,7 @@ describe("The New Task page: ", () => {
   });
 
   it("Should take you back to the dashboard if Cancel is clicked", () => {
-    cy.get("button").contains("Cancel").click();
+    cy.get(".btn").contains("Cancel").click();
     cy.location("pathname").should("eq", "/dashboard");
   });
 
