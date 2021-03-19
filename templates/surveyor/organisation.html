@@ -64,12 +64,7 @@
         <tbody>
         {% for surveyor in surveyors %}
             <tr id="{{ surveyor.id }}">
-                <td class="align-middle">
-                {{ surveyor.firstname }}
-                {% if surveyor == organisation.admin and organisation.admin != user %}
-                <a class="badge badge-success">Admin</a>
-                {% endif %}
-                </td>
+                <td class="align-middle">{{ surveyor.firstname }}</td>
                 <td class="align-middle">{{ surveyor.surname }}</td>
                 {% if organisation.admin == user %}
                 <td style="width:1px">
@@ -134,7 +129,6 @@ $(function () {
   });
   {% if organisation.admin == user %}
   $(".delete-surveyor").click(function () {
-    console.log("PRESSED")
     if (confirm('Are you sure you want to remove this surveyor?')) {
       var btn = $(this);
       var surveyor = btn.data('surveyor');
@@ -148,6 +142,7 @@ $(function () {
     else {
       return false;
     }
+    if (event.stopPropagation) event.stopPropagation(); else event.cancelBubble = true;
   });
   {% endif %} 
 });
