@@ -4,6 +4,7 @@ django-allauth
 django-crispy-forms
 django-invitations
 django-import-export
+whitenoise
 wordcloud
 coverage
 pandas

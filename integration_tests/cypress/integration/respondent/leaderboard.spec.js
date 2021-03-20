@@ -18,7 +18,6 @@ describe("The leaderboard page: ", () => {
     // We are expecting to click on the COPD Therapy button
     cy.get(".btn-light").eq(0).click;
     cy.get("tbody tr:first td").eq(0).should("have.text", "1");
-    cy.get("tbody tr:first td").eq(1).should("have.text", "John Doe");
   })
 
   testNavBar();

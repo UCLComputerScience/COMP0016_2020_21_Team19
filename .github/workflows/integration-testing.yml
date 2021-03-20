@@ -52,7 +52,7 @@ jobs:
     - name: Initialise database with dummy data
       run: |
         python init_db.py
-        python manage.py runserver 0.0.0.0:8000 &
+        python manage.py runserver 0.0.0.0:8000 --insecure &
     - name: Run Integration Tests
       uses: cypress-io/github-action@v2
       with:
