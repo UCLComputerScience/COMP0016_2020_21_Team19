@@ -16,8 +16,8 @@
 │   ├── asgi.py                             # ASGI config for the Django project.
 │   ├── settings.py                         # Django settings.
 │   ├── urls.py                             # URLs used in the project are defined here. Each URL
-│   │                                       # also points to an associated view, which is accessible in
-│   │                                       # views.py and is responsible for rendering the template.
+│   │                                         also points to an associated view, which is accessible in
+│   │                                         views.py and is responsible for rendering the template.
 │   └── wsgi.py                             # WSGI config for the Django project.
 ├── Dockerfile                              # Dockerfile using base Python image
 ├── LICENSE                                 # AGPL3 License
@@ -28,14 +28,14 @@
 │   ├── signals.py                          # Contains code handling signals fired during authentication.
 │   ├── tests/                              # Tests for the authentication app.
 │   └── views.py                            # Views for each URL are defined here. Each view corresponds
-│                                           # to a URL and handles GET / POST requests.
+│                                             to a URL and handles GET / POST requests.
 ├── core                                    # Django app containing code handling core functionality
-│   │                                       # which is also used by other apps.
+│   │                                         which is also used by other apps.
 │   ├── adapter.py                          # Defines a custom configuration for invitations backend.
 │   ├── admin.py                            # Configuration used to display models in the Django admin panel.
 │   ├── apps.py                             # Configuration for core-specific attributes.
 │   ├── forms.py                            # Contains code for all forms used by both the surveyor
-│   │                                       # and respondent apps.
+│   │                                         and respondent apps.
 │   ├── models.py                           # Defines core-specific database tables.
 │   ├── tests/                              # Tests for the authentication app.
 │   ├── utils.py                            # Utility methods used by both the surveyor and respondent apps.
@@ -44,42 +44,42 @@
 ├── docker-compose.yml                      # Docker Compose configuration for use in development.
 ├── docs/                                   # Sphinx-generated reStructuredText documentation.
 ├── docs.sh                                 # Shell script to generate html from docstrings. Recommended
-│                                           # use is from within the 'web' Docker container.
+│                                             use is from within the 'web' Docker container.
 ├── init_db.py                              # Python script to populate the database with dummy data.
-│                                           # Should be used indirectly via 'init_db.sh' script.
+│                                             Should be used indirectly via 'init_db.sh' script.
 ├── init_db.sh                              # Bash script to execute 'init_ddb.py' after setting environment
-│                                           # variables correctly. Should be used from within the
-│                                           # 'web' Docker container. 
+│                                             variables correctly. Should be used from within the
+│                                             'web' Docker container. 
 ├── integration_tests                       # Integration tests for the project.
 ├── manage.py                               # Django project management utility.
 ├── requirements.txt                        # Contains a list of Python packages required by this project. 
 ├── respondent                              # Django app containing code handling functionality relating
-│   │                                       # to respondents.
+│   │                                         to respondents.
 │   ├── admin.py                            # Configuration used to display models in the Django admin panel.
 │   ├── apps.py                             # Configuration for respondent-specific attributes.
 │   ├── handler.py                          # Handles complex GET and all POST requests made to respondent views.
 │   ├── models.py                           # Defines respondent-specific database tables.
-│   ├── tests                               # Tests for the authentication app.
+│   ├── tests/                              # Tests for the authentication app.
 │   └── views.py                            # Views for each URL are defined here. Each view corresponds
-│                                           # to a URL and handles GET / POST requests.
+│                                             to a URL and handles GET / POST requests.
 ├── setup.cfg                               # Configuration for unit tests to exclude certain files from coverage.
 ├── start.sh                                # Docker container entrypoint file.
 ├── static/                                 # Contains CSS/JS files and assets.
 ├── surveyor                                # Django app containing code handling functionality relating
-│   │                                       # to surveyors.
+│   │                                         to surveyors.
 │   ├── admin.py                            # Configuration used to display models in the Django admin panel.
 │   ├── apps.py                             # Configuration for surveyor-specific attributes.
 │   ├── forms.py                            # Contains code for all surveyor facing forms.
 │   ├── handler.py                          # Handles complex GET and all POST requests made to surveyor views.
 │   ├── models.py                           # Defines surveyor-specific database tables.
-│   ├── tests                               # Tests for the surveyor app.
+│   ├── tests/                              # Tests for the surveyor app.
 │   ├── utils.py                            # Surveyor-specific utility methods.
 │   └── views.py                            # Views for each URL are defined here. Each view corresponds
-│                                           # to a URL and handles GET / POST requests.
+│                                             to a URL and handles GET / POST requests.
 └── templates                               # Contains HTML for all the pages that the project uses.
     ├── account                             # Pages used during authentication-related processes.
     ├── base.html                           # Page defining basic layout used by all pages in
-    │                                       # surveyor/ and respondent/.
+    │                                         surveyor/ and respondent/.
     ├── invitations                         # Pages used during invitation-related processes.
     ├── respondent                          # Contains only respondent facing pages.
     └── surveyor                            # Contains only surveyor facing pages.
