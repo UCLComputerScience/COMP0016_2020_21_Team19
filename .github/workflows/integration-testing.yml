@@ -3,6 +3,16 @@ on: [ push ]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    env:
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DEBUG: "False"
+      EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+      EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+      EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_SECRET: ${{ secrets.GOOGLE_SECRET }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     defaults:
       run:
         working-directory: .
@@ -51,12 +61,4 @@ jobs:
         DB: ${{ matrix.db }}
         DB_HOST: 127.0.0.1
         DB_PORT: ${{ matrix.db_port }}
-        DB_USER: ${{ secrets.DB_USER }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DEBUG: "False"
-        EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
-        EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
-        EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
-        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-        GOOGLE_SECRET: ${{ secrets.GOOGLE_SECRET }}
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
