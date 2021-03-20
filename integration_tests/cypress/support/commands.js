@@ -65,7 +65,7 @@ Cypress.Commands.add("LogInAsRespondent", () => {
       form: true,
       body: {
         csrfmiddlewaretoken: token,
-        login: "christine@black.com",
+        login: "luca@white.com",
         password: "activityleague",
       },
       headers: {

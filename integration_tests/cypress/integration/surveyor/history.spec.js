@@ -28,9 +28,9 @@ describe("The history page: ", () => {
   });
 
   it("Should sort the table by the number of Users assigned if you click on the Users Assigned heading", () => {
-    cy.get("tbody tr:first td").eq(2).should("have.text", "4");
+    cy.get("tbody tr:first td").eq(2).should("have.text", "5");
     cy.get(".sortable").eq(2).click().click();
-    cy.get("tbody tr:first td").eq(2).should("have.text", "4");
+    cy.get("tbody tr:first td").eq(2).should("have.text", "5");
   });
 
   it("Should sort the table by the number of Users completed if you click on the Users Completed heading", () => {

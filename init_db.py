@@ -1,13 +1,12 @@
 import os
 import datetime
-import pytz
 import random
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ActivityLeague.settings')
-
 from collections import namedtuple
 
 import django
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from django.core import management
 from ActivityLeague.settings import DATABASES
 
@@ -65,9 +64,8 @@ def get_group_names():
             "Diabetics",
             "Post Back Surgery"]
 
-assert(len(get_respondent_names()) % len(get_group_names()) == 0)
-assert(len(get_group_names()) % len(get_surveyor_names()) == 0)
-
+# assert(len(get_respondent_names()) % len(get_group_names()) == 0)
+# assert(len(get_group_names()) % len(get_surveyor_names()) == 0)
 
 def get_tasks():
     return {"COPD Therapy": [{
@@ -143,7 +141,7 @@ def create_responses(tasks, respondents, respondents_by_group, questions):
         respondent_names = respondents_by_group[task.group.name]
         for question in questions[task.title]:
             for name in respondent_names:
-                date_time = datetime.datetime.combine(task.due_date-datetime.timedelta(days=random.randint(2, 10)), task.due_time)
+                date_time = timezone.make_aware(datetime.datetime.combine(task.due_date-datetime.timedelta(days=random.randint(2, 10)), task.due_time))
                 link_clicked = bool(random.randint(0, 1)) if question.link else False
                 if not question.is_text:
                     Response.objects.create(question=question, respondent=respondents[name], value=random.choice(question.get_values_list()), text=None, text_positive=None, date_time=date_time, link_clicked=link_clicked)
@@ -211,6 +209,7 @@ def insert_dummy_data():
     for respondent, group_list in groups_by_respondent.items():
         for group in group_list:
             GroupRespondent.objects.create(respondent=respondents[respondent], group=group)
+    GroupRespondent.objects.create(respondent=respondents['luca white'], group=group_list[0])
     
     respondents_by_group = {"COPD Therapy": ['john doe', 'jack white', 'jean brunton', 'isabelle chandler'],
                             "Hip Therapy": ['john doe', 'jack white', 'jean brunton', 'isabelle chandler'],

@@ -93,7 +93,6 @@
 $('#table').bootstrapTable({
   onClickRow: function (row, $element, field) {
     var a = row['_id'];
-    console.log(a);
     document.location = "{% url 'user_progress' 1234 %}".replace(/1234/, a.toString());
   }
 })
