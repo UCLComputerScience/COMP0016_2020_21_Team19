@@ -57,7 +57,7 @@
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="//{{ question.link }}"><i>{{ question.link }}</i></a>{% if question.response.link_clicked %}<span data-toggle="tooltip" data-placement="right" title="This link was clicked."> ✅</span>{% else %}<span data-toggle="tooltip" data-placement="right" title="This link was not clicked."> ❌</span>{% endif %}
+                  <br><a class="text-primary" href="{{ question.link }}"><i>{{ question.link }}</i></a>{% if question.response.link_clicked %}<span data-toggle="tooltip" data-placement="right" title="This link was clicked."> ✅</span>{% else %}<span data-toggle="tooltip" data-placement="right" title="This link was not clicked."> ❌</span>{% endif %}
               {% endif %}
               <input type="text" class="form-control" name="{{ question.id }}" placeholder="{{ question.response.text }}" value="" required>
           </label>
@@ -71,7 +71,7 @@
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="//{{ question.link }}"><i>{{ question.link }}</i></a>{% if question.response.link_clicked %}<span data-toggle="tooltip" data-placement="right" title="This link was clicked."> ✅</span>{% else %}<span data-toggle="tooltip" data-placement="right" title="This link was not clicked."> ❌</span>{% endif %}
+                  <br><a class="text-primary" href="{{ question.link }}"><i>{{ question.link }}</i></a>{% if question.response.link_clicked %}<span data-toggle="tooltip" data-placement="right" title="This link was clicked."> ✅</span>{% else %}<span data-toggle="tooltip" data-placement="right" title="This link was not clicked."> ❌</span>{% endif %}
               {% endif %}
           </label>
         </div>
@@ -116,7 +116,7 @@
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="//{{ question.link }}"><i>{{ question.link }}</i></a>{% if question.response.link_clicked %}<span data-toggle="tooltip" data-placement="right" title="This link was clicked."> ✅</span>{% else %}<span data-toggle="tooltip" data-placement="right" title="This link was not clicked."> ❌</span>{% endif %}
+                  <br><a class="text-primary" href="{{ question.link }}"><i>{{ question.link }}</i></a>{% if question.response.link_clicked %}<span data-toggle="tooltip" data-placement="right" title="This link was clicked."> ✅</span>{% else %}<span data-toggle="tooltip" data-placement="right" title="This link was not clicked."> ❌</span>{% endif %}
               {% endif %}
           </label>
         </div>
@@ -143,7 +143,7 @@
       <div class="col-md-6 mb-2">
         <label for="response{{ question.id }}">{{ question.description }}
             {% if question.link %}
-                <br><a class="text-primary" href="//{{ question.link }}"><i>{{ question.link }}</i></a>{% if question.response.link_clicked %}<span data-toggle="tooltip" data-placement="right" title="This link was clicked."> ✅</span>{% else %}<span data-toggle="tooltip" data-placement="right" title="This link was not clicked."> ❌</span>{% endif %}
+                <br><a class="text-primary" href="{{ question.link }}"><i>{{ question.link }}</i></a>{% if question.response.link_clicked %}<span data-toggle="tooltip" data-placement="right" title="This link was clicked."> ✅</span>{% else %}<span data-toggle="tooltip" data-placement="right" title="This link was not clicked."> ❌</span>{% endif %}
             {% endif %}
         </label>
       </div>

@@ -24,16 +24,56 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add("LogIn", () => {
+Cypress.Commands.add("LogInAsSurveyor", () => {
     cy.visit('/')
+    cy.get("[name=csrfmiddlewaretoken]")
+      .should("exist")
+      .should("have.attr", "value")
+      .as("csrfToken");
 
-    cy.get('#id_login')
-      .type('christine@black.com')
-      .should('have.value', 'christine@black.com')
+    cy.get("@csrfToken").then((token) => {
+      cy.request({
+        method: "POST",
+        url: "/accounts/login/", 
+        form: true,
+        body: {
+          csrfmiddlewaretoken: token,
+          login: "christine@black.com",
+          password: "activityleague",
+        },
+        headers: {
+          "X-CSRFTOKEN": token,
+        },
+      });
+    });
 
-    cy.get('#id_password')
-      .type('activityleague')
-      .should('have.value', 'activityleague')
+    cy.getCookie("sessionid").should("exist");
+    cy.getCookie("csrftoken").should("exist");
+})
 
-    cy.get('button[type=submit]').click();
+Cypress.Commands.add("LogInAsRespondent", () => {
+  cy.visit('/')
+  cy.get("[name=csrfmiddlewaretoken]")
+    .should("exist")
+    .should("have.attr", "value")
+    .as("csrfToken");
+
+  cy.get("@csrfToken").then((token) => {
+    cy.request({
+      method: "POST",
+      url: "/accounts/login/", 
+      form: true,
+      body: {
+        csrfmiddlewaretoken: token,
+        login: "luca@white.com",
+        password: "activityleague",
+      },
+      headers: {
+        "X-CSRFTOKEN": token,
+      },
+    });
+    cy.getCookie("sessionid").should("exist");
+    cy.getCookie("csrftoken").should("exist");
+    cy.visit('/dashboard')
+  });
 })

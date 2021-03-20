@@ -40,7 +40,7 @@ $("#delete").click(function () {
     form.append('<input name="task" value="' + task + '" />');
     form.append('<input name="request" value="delete" />');
     $('body').append(form);
-    var message = 'Deleting this task will also delete all responsees associated with it. Are you sure you want to delete this task?';
+    var message = 'Deleting this task will also delete all responses associated with it. Are you sure you want to delete this task?';
     if (confirm(message)) {
       form.submit();
     }

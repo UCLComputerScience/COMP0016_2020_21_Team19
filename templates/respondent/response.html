@@ -45,7 +45,7 @@
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')" target="_blank"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="{{ question.link }}" onclick="addLinkClick('{{ question.id }}')" target="_blank"><i>{{ question.link }}</i></a>
               {% endif %}
               <input type="text" class="form-control" name="{{ question.id }}" placeholder="Response" value="" required>
           </label>
@@ -59,7 +59,7 @@
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')" target="_blank"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="{{ question.link }}" onclick="addLinkClick('{{ question.id }}')" target="_blank"><i>{{ question.link }}</i></a>
               {% endif %}
           </label>
         </div>
@@ -104,7 +104,7 @@
         <div class="col-md-6 mb-2">
           <label for="response{{ question.id }}">{{ question.description }}
               {% if question.link %}
-                  <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')" target="_blank"><i>{{ question.link }}</i></a>
+                  <br><a class="text-primary" href="{{ question.link }}" onclick="addLinkClick('{{ question.id }}')" target="_blank"><i>{{ question.link }}</i></a>
               {% endif %}
           </label>
         </div>
@@ -131,7 +131,7 @@
       <div class="col-md-6 mb-2">
         <label for="response{{ question.id }}">{{ question.description }}
             {% if question.link %}
-                <br><a class="text-primary" href="//{{ question.link }}" onclick="addLinkClick('{{ question.id }}')" target="_blank"><i>{{ question.link }}</i></a>
+                <br><a class="text-primary" href="{{ question.link }}" onclick="addLinkClick('{{ question.id }}')" target="_blank"><i>{{ question.link }}</i></a>
             {% endif %}
         </label>
       </div>

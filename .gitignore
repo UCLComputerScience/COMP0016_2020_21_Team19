@@ -509,4 +509,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+secrets/
+
 # End of https://www.toptal.com/developers/gitignore/api/django,python,vscode,pycharm,pycharm+all,pycharm+iml,jekyll,macos,windows,linux
