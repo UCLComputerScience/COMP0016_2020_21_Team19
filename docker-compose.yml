@@ -4,13 +4,16 @@ services:
   db:
     image: postgres
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      POSTGRES_DB: postgres
+      POSTGRES_USER_FILE: /run/secrets/db_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
+    secrets:
+      - db_user
+      - db_password
   web:
     build: .
     ports:
@@ -19,6 +22,43 @@ services:
       - .:/code
     depends_on:
       - db
+    environment:
+      DB_USER_FILE: /run/secrets/db_user
+      DB_PASSWORD_FILE: /run/secrets/db_password
+      DEBUG: "True"
+      EMAIL_HOST_FILE: /run/secrets/email_host
+      EMAIL_HOST_PASSWORD_FILE: /run/secrets/email_host_password
+      EMAIL_HOST_USER_FILE: /run/secrets/email_host_user
+      GOOGLE_CLIENT_ID_FILE: /run/secrets/google_client_id
+      GOOGLE_SECRET_FILE: /run/secrets/google_secret  
+      SECRET_KEY_FILE: /run/secrets/secret_key
+    secrets:
+      - db_user
+      - db_password
+      - email_host
+      - email_host_password
+      - email_host_user
+      - google_client_id
+      - google_secret
+      - secret_key
 
 volumes:
   postgres_data:
+
+secrets:
+  db_user:
+    file: ./secrets/DB_USER
+  db_password:
+    file: ./secrets/DB_PASSWORD
+  email_host:
+    file: ./secrets/EMAIL_HOST
+  email_host_password:
+    file: ./secrets/EMAIL_HOST_PASSWORD
+  email_host_user:
+    file: ./secrets/EMAIL_HOST_USER
+  google_client_id:
+    file: ./secrets/GOOGLE_CLIENT_ID
+  google_secret:
+    file: ./secrets/GOOGLE_SECRET
+  secret_key:
+    file: ./secrets/SECRET_KEY

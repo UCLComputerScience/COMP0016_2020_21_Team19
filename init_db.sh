@@ -30,8 +30,4 @@ file_env "GOOGLE_CLIENT_ID"
 file_env "GOOGLE_SECRET"
 file_env "SECRET_KEY"
 
-echo "Starting up server"
-
-python manage.py makemigrations core surveyor respondent authentication
-python manage.py migrate
-python manage.py runserver 0.0.0.0:8000
+python init_db.py

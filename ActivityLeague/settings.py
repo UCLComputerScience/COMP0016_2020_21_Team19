@@ -20,10 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'kq67&^o(dce07$=gd5%(%-6kaw9q&l2di$$c6_rie4y)+j_sf('
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
@@ -85,10 +85,10 @@ if DEBUG:  # not being used
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = 587
-EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = 'theactivityleague@gmail.com'
-EMAIL_HOST_PASSWORD = 'N4@5z@7me7h$#^'
+EMAIL_HOST_USER = DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 ROOT_URLCONF = 'ActivityLeague.urls'
 
@@ -131,8 +131,8 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'postgres',
-            'USER': 'postgres',
-            'PASSWORD': 'postgres',
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
             'HOST': 'db',
             'PORT': 5432,
         }
@@ -159,8 +159,8 @@ AUTH_PASSWORD_VALIDATORS = [
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
-            'client_id': '570328810485-7al6v22col30j4lppb8t9birn3q5sdg8.apps.googleusercontent.com',
-            'secret': 'tcrv7rq9Ls45O5gt372_F8Nz',
+            'client_id': os.getenv('GOOGLE_CLIENT_ID'),
+            'secret': os.getenv('GOOGLE_SECRET'),
             'key': ''
         },
         'SCOPE': [

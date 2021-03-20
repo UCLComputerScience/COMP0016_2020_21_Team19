@@ -6,4 +6,3 @@ django-invitations
 django-import-export
 wordcloud
 coverage
-pandas
