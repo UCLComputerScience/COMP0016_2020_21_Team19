@@ -1,0 +1,41 @@
+# This is an example docker-compose.yml that can be used on a production server.
+# The environment variables defined under the `web` service are used in `ActivityLeague/settings.py`
+# and can be configured as your deployed instance requires.
+
+# See `docker-compose.yml` for a configuration which can be used during development.
+
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: POSTGRES_USER
+      POSTGRES_PASSWORD: POSTGRES_PASSWORD
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  web:
+    image: docker.pkg.github.com/uclcomputerscience/comp0016_2020_21_team19/activityleague_web:latest
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DB_USER: POSTGRES_USER
+      DB_PASSWORD: POSTGRES_PASSWORD
+      DEBUG: "False"
+      EMAIL_HOST: MAILSERVER.COM
+      EMAIL_HOST_PASSWORD: EMAIL_HOST_PASSWORD
+      EMAIL_HOST_USER: EMAIL_HOST_USER
+      GOOGLE_CLIENT_ID: GOOGLE_CLIENT_ID
+      GOOGLE_SECRET: GOOGLE_SECRET
+      SECRET_KEY: SECRET_KEY
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/host/.docker/config.json:/config.json
+    command: --interval 30
+volumes:
+  postgres_data:

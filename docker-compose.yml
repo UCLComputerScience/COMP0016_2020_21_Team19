@@ -1,3 +1,13 @@
+# This is the docker-compose.yml which can be used in development.
+# The environment variables defined under the `web` service are used in `ActivityLeague/settings.py`
+# and can be configured as your deployed instance requires.
+
+# This configuration (and the rest of the project) is designed to be open-source friendly,
+# and hence requires you to define sensitive information in a `secrets/` directory which
+# can be accessed in the codebase via environment variables.
+
+# See `docker-compose-production-example` for a configuration which can be used on a production server.
+
 version: "3.9"
    
 services:
