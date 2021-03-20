@@ -28,8 +28,8 @@ jobs:
       postgres:
         image: postgres:10
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
         volumes:
           - postgres_data:/var/lib/postgresql/data/
         options: >-
@@ -57,6 +57,8 @@ jobs:
       uses: cypress-io/github-action@v2
       with:
         working-directory: ./integration_tests
+        browser: chrome
+        headless: true
       env:
         DB: ${{ matrix.db }}
         DB_HOST: 127.0.0.1
