@@ -47,7 +47,7 @@
 │                                             use is from within the 'web' Docker container.
 ├── init_db.py                              # Python script to populate the database with dummy data.
 │                                             Should be used indirectly via 'init_db.sh' script.
-├── init_db.sh                              # Bash script to execute 'init_ddb.py' after setting environment
+├── init_db.sh                              # Bash script to execute 'init_db.py' after setting environment
 │                                             variables correctly. Should be used from within the
 │                                             'web' Docker container. 
 ├── integration_tests                       # Integration tests for the project.
@@ -96,7 +96,7 @@ These instructions should be followed on a production server.
 
 ### Starting the web app
 
-Create a new directory in the `$HOME` directory.
+Create a new directory called `deploy` in the `$HOME` directory.
 
 Copy the following [`docker-compose-production-example.yml`](docker-compose-production-example.yml) into `~/deploy/`.
 
