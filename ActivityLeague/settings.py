@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     'invitations',
     'import_export',
+    'sslserver',
 
     'core',
     'surveyor',
