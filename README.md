@@ -50,7 +50,7 @@
 │                                             Should be used indirectly via 'init_db.sh' script.
 ├── init_db.sh                              # Bash script to execute 'init_db.py' after setting environment
 │                                             variables correctly. Should be used from within the
-│                                             'web' Docker container. 
+│                                             'web' Docker container.
 ├── integration_tests                       # Integration tests for the project.
 ├── manage.py                               # Django project management utility.
 ├── requirements.txt                        # Contains a list of Python packages required by this project. 
@@ -77,13 +77,15 @@
 │   ├── utils.py                            # Surveyor-specific utility methods.
 │   └── views.py                            # Views for each URL are defined here. Each view corresponds
 │                                             to a URL and handles GET / POST requests.
-└── templates                               # Contains HTML for all the pages that the project uses.
-    ├── account                             # Pages used during authentication-related processes.
-    ├── base.html                           # Page defining basic layout used by all pages in
-    │                                         surveyor/ and respondent/.
-    ├── invitations                         # Pages used during invitation-related processes.
-    ├── respondent                          # Contains only respondent facing pages.
-    └── surveyor                            # Contains only surveyor facing pages.
+├── templates                               # Contains HTML for all the pages that the project uses.
+│   ├── account                             # Pages used during authentication-related processes.
+│   ├── base.html                           # Page defining basic layout used by all pages in
+│   │                                         surveyor/ and respondent/.
+│   ├── invitations                         # Pages used during invitation-related processes.
+│   ├── respondent                          # Contains only respondent facing pages.
+│   └── surveyor                            # Contains only surveyor facing pages.
+└── test.sh                                 # Shell script to run unit tests. Should be used from within
+                                              the 'web' Docker container. 
 ```
 
 ## Deployment

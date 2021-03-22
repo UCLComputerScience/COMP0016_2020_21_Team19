@@ -6,6 +6,7 @@ RUN pip install -r requirements.txt
 COPY . /code/
 
 RUN chmod +x /code/start.sh
+RUN chmod +x /code/test.sh
 RUN chmod +x /code/init_db.sh
 
 EXPOSE 8000
