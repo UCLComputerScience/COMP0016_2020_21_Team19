@@ -1,0 +1,66 @@
+name: Integration Testing CI (Firefox)
+on: [ push ]
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    env:
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DEBUG: "False"
+      EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+      EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+      EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_SECRET: ${{ secrets.GOOGLE_SECRET }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+    defaults:
+      run:
+        working-directory: .
+    strategy:
+      max-parallel: 4
+      matrix:
+        db: [postgres]
+        python-version: [3]
+        include:
+          - db: postgres
+            db_port: 5432
+    services:
+      postgres:
+        image: postgres:10
+        env:
+          POSTGRES_USER: ${{ secrets.DB_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        volumes:
+          - postgres_data:/var/lib/postgresql/data/
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Initialise database with dummy data
+      run: |
+        python init_db.py
+        python manage.py runserver 0.0.0.0:8000 --insecure &
+    - name: Run Integration Tests
+      uses: cypress-io/github-action@v2
+      with:
+        working-directory: ./integration_tests
+        browser: firefox
+        headless: true
+      env:
+        DB: ${{ matrix.db }}
+        DB_HOST: 127.0.0.1
+        DB_PORT: ${{ matrix.db_port }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}

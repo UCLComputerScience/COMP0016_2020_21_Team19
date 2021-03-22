@@ -47,14 +47,5 @@ describe("The Organisation page: ", () => {
     cy.get("#modal-add-multiple-surveyors").should("be.visible");
   });
 
-  // it("Should show confirmation dialog if delete button pressed", () => {
-  //   cy.on("window:confirm", (str) => {
-  //     expect(str === "Are you sure you want to remove this surveyor?").to.be
-  //     .true;
-  //     return false;
-  //   });
-  //   cy.get(".delete-surveyor").eq(0).click();
-  // });
-
   testNavBar();
 });

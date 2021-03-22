@@ -4,7 +4,8 @@
 ![Python](https://img.shields.io/pypi/pyversions/django)
 ![Coverage](./coverage.svg)
 [![Unit Testing CI](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions/workflows/unit-testing.yml/badge.svg)](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions/workflows/unit-testing.yml)
-[![Integration Testing CI](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions/workflows/integration-testing.yml/badge.svg)](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions/workflows/integration-testing.yml)
+[![Integration Testing CI (Chrome)](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions/workflows/integration-testing-chrome.yml/badge.svg)](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions/workflows/integration-testing-chrome.yml)
+[![Integration Testing CI (Firefox)](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions/workflows/integration-testing-firefox.yml/badge.svg)](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions/workflows/integration-testing-firefox.yml)
 [![Publish Docker image](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions/workflows/publish.yml/badge.svg)](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions/workflows/publish.yml)
 
 ## Development

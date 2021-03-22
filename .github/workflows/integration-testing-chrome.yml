@@ -1,4 +1,4 @@
-name: Integration Testing CI
+name: Integration Testing CI (Chrome)
 on: [ push ]
 jobs:
   cypress-run:

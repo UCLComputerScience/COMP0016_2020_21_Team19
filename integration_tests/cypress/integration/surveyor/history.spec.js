@@ -40,9 +40,9 @@ describe("The history page: ", () => {
   });
 
   it("Should sort the table by the Due Date if you click on the Due Date heading", () => {
-    cy.get("tbody tr:first td").eq(4).should("contain.text", "Feb. 15, 2021");
+    cy.get("tbody tr:first td").eq(4).should("contain.text", "15 Feb 2021");
     cy.get(".sortable").eq(4).click().click();
-    cy.get("tbody tr:first td").eq(4).should("contain.text", "March 17, 2021");
+    cy.get("tbody tr:first td").eq(4).should("contain.text", "17 Mar 2021");
   });
 
   it("Should sort the table by the Status if you click on the Status heading", () => {

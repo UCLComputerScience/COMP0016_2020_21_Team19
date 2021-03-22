@@ -98,7 +98,7 @@
             <td class="align-middle">{{ task.title }}</td>
             <td class="align-middle">{{ task.group }}</td>
             <td class="align-middle">
-                {{ task.due_date }}
+                {{ task.due_date|date:"d M Y" }}
                 <small class="text-muted d-block">{{ task.due_time|time:"H:i" }}</small>
             </td>
           </tr>
@@ -119,7 +119,6 @@
 
 <script src={% static 'js/datesorter.js' %}></script>
 <script src={% static 'js/surveyor/user-progress.js' %}></script>
-<script src={% static 'js/surveyor/mobile.js' %}></script>
 
 
 <script type="text/javascript">

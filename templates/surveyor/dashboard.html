@@ -67,7 +67,7 @@
             <td class="align-middle">{{ task.num_group_respondents }}</td>
             <td class="align-middle">{{ task.num_responses }}</td>
             <td class="align-middle">
-                {{ task.due_date }}
+                {{ task.due_date|date:"d M Y" }}
                 <small class="text-muted d-block">{{ task.due_time|time:"H:i" }}</small>
             </td>
             <td class="align-middle" style="color:{{ task.color }}">{{ task.due_dt|timeuntil:now }}</td>

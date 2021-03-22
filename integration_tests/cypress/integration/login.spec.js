@@ -38,12 +38,6 @@ describe("Log In", () => {
     cy.location("pathname").should("eq", "/accounts/login/");
   });
 
-  it("Takes you to Google SSO on Google button click", () => {
-    cy.get(".sb-google").click();
-
-    cy.url().should("contain", "google.com");
-  });
-
   it("Takes you to the forgot password page on forgot password click", () => {
     cy.get('a[href="/accounts/password/reset/"]').click();
     cy.location("pathname").should("eq", "/accounts/password/reset/");
