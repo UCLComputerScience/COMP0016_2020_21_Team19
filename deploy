@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 if [ ! -d ".venv" ] 
 then
     python3 -n venv .venv
@@ -7,10 +5,18 @@ then
     pip install mkdocs
 fi
 source .venv/bin/activate
-rm -rf dist/
+
+rm -rf build/
+rm -rf site/static/guide/
+
+cd manual
 mkdocs build
-rm -rf public/guide
-mv -f guide/ public/guide
-yarn build
+mv -f guide/ ../site/static/guide/
+cd ..
+
+cd site
+hugo -D
+cd ..
+
 read -p "Enter UCL CS Username: " uname
-rsync -av --delete-before -e ssh ./dist/. $uname@knuckles.cs.ucl.ac.uk:/cs/student/www/2020/group19/
+rsync -av --delete-before -e ssh ./build/. $uname@knuckles.cs.ucl.ac.uk:/cs/student/www/2020/group19/

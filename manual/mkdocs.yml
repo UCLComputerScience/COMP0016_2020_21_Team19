@@ -1,0 +1,23 @@
+site_name: Activity League
+theme:
+  name: material
+  custom_dir: overrides
+  icon:
+    repo: fontawesome/brands/github
+repo_url: https://github.com/UCLComputerScience/COMP0016_2020_21_Team19
+repo_name: UCLComputerScience/COMP0016_2020_21_Team19
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - admonition
+  - attr_list
+nav:
+    - Home: 'index.md'
+    - Getting Started: 'getting_started.md'
+    - User Manual:
+        - 'Surveyor': 'surveyor.md'
+        - 'Respondent': 'respondent.md'
+    - Deployment Manual: 'deployment_manual.md'
+extra:
+  generator: false
+site_dir: guide

@@ -1,0 +1,88 @@
+title: Activity League
+# baseURL: http://students.cs.ucl.ac.uk/2020/group19/
+publishDir: ../build
+params:
+  base_font: nunito-sans
+  palette: blue
+  header:
+    logo_img: images/logo-dark.png
+    logo_img_alt: Logo
+    has_nav: true
+    nav_links:
+      - label: Home
+        url: /
+        style: link
+      - label: Requirements
+        url: /requirements
+        style: link
+      - label: Research
+        url: /research
+        style: link
+      - label: HCI
+        url: /hci
+        style: link
+      - label: System Design
+        url: /system-design
+        style: link
+      - label: Implementation
+        url: /implementation
+        style: link
+      - label: Testing
+        url: /testing
+        style: link
+      - label: Evaluation
+        url: /evaluation
+        style: link
+      - label: Guide
+        url: /guide
+        style: link
+      - label: Docs
+        url: /docs
+        style: link
+  footer:
+    sections:
+      - type: footer_text
+        image: images/logo-light.png
+        image_url: /
+        image_alt: Activity League Logo
+        content: >-
+          Click <a href="http://178.79.143.29.xip.io:8000/"
+          target="_blank">here</a> to launch Activity League.
+      - type: footer_nav
+        title: Links
+        nav_links:
+          - label: GitHub
+            url: "https://github.com/UCLComputerScience/COMP0016_2020_21_Team19"
+            style: link
+            has_icon: true
+            icon: github
+            icon_position: left
+          - label: Development Blog
+            url: "https://uclcomputerscience.github.io/COMP0016_2020_21_Team19"
+            style: link
+            has_icon: true
+            icon: blogger
+            icon_position: left
+    has_nav: true
+    nav_links:
+      # - label: Terms of Service
+      #   url: /terms-of-service
+      #   style: link
+      # - label: Privacy Policy
+      #   url: /privacy-policy
+      #   style: link
+    content: >-
+      &copy; Hamza Nasir, Karan Chawla, Jamie Weigold.
+      This project was created as part of the
+      <a href="https://www.ucl.ac.uk/computer-science/collaborate/ucl-industry-exchange-network-ucl-ixn"
+      target="_blank" rel="noopener">UCL Industry Exchange Network</a>.
+taxonomies:
+  stub: stub
+disableKinds:
+  - RSS
+  - taxonomy
+  - taxonomyTerm
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
