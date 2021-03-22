@@ -2,19 +2,19 @@
 
 {% block sidebar %}
 <li class="nav-item">
-  <a class="nav-link" href="{% url 'dashboard' %}">
+  <a class="nav-link" href="{% url 'dashboard' %}" style="color: #aaaaaa;">
     <span data-feather="home"></span>
     Dashboard
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="{% url 'leaderboard' %}">
+  <a class="nav-link" href="{% url 'leaderboard' %}" style="color: #aaaaaa;">
     <span data-feather="award"></span>
     Leaderboard
   </a>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="{% url 'groups' %}">
+  <a class="nav-link" href="{% url 'groups' %}" style="color: #aaaaaa;">
     <span data-feather="grid"></span>
     Groups
   </a>
@@ -26,13 +26,13 @@
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{% url 'history' %}">
+    <a class="nav-link" href="{% url 'history' %}" style="color: #aaaaaa;">
       <span data-feather="clock"></span>
       Task History
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="{% url 'organisation' %}">
+    <a class="nav-link" href="{% url 'organisation' %}" style="color: #aaaaaa;">
       <span data-feather="globe"></span>
     Organisation<span class="sr-only">(current)</span>
     </a>
@@ -71,7 +71,7 @@
             <td class="align-middle">{{ respondent.surname }}</td>
             <td class="align-middle">
             {% for group in respondent.groups %}
-              <span class="badge badge-{{ group.color }}" href="{% url 'manage-group' group.id %}">{{ group.name }}</span>
+              <a class="badge badge-{{ group.color }}" href="{% url 'manage-group' group.id %}">{{ group.name }}</a>
             {% endfor %}
             </td>
           </tr>

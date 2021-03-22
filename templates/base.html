@@ -27,13 +27,13 @@
       themeConfig.initTheme();
       const darkSwitch = writeDarkSwitch(themeConfig);
       darkSwitch.parentElement.classList.add('ml-3');
-      darkSwitch.nextElementSibling.style.color = 'rgba(255,255,255,.5)';
+      darkSwitch.nextElementSibling.style.color = '#aaaaaa';
     </script>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span></button>
     <ul class="navbar-nav px-3 ml-auto">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" style="color: #aaaaaa;">
           {{user}} <span data-feather="users"></span>
         </a>
         <div class="dropdown-menu" style="position:absolute;">
@@ -50,7 +50,7 @@
     <div class="row">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
         <div class="sidebar-sticky pt-3">
-          <ul class="nav flex-column text-white">
+          <ul class="nav flex-column">
             {% block sidebar %}
             {% endblock %}
           </ul>
