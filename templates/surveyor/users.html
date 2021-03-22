@@ -71,7 +71,7 @@
             <td class="align-middle">{{ respondent.surname }}</td>
             <td class="align-middle">
             {% for group in respondent.groups %}
-              <a class="badge badge-{{ group.color }}" href="{% url 'manage-group' group.id %}">{{ group.name }}</a>
+              <span class="badge badge-{{ group.color }}" href="{% url 'manage-group' group.id %}">{{ group.name }}</span>
             {% endfor %}
             </td>
           </tr>
