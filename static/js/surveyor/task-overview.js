@@ -72,6 +72,7 @@ function word_cloud(ctx, src) {
     img.src = src;
     img.style.width = isMobileDevice() ? "100%" : "25%";
     img.style.height = "auto";
+    img.alt = "Word cloud"
     ctx.appendChild(img);
 }
 
