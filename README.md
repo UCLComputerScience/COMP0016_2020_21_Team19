@@ -10,6 +10,32 @@
 
 ## Development
 
+This section will describe how to get started with development on your local machine.
+Refer to the [Deployment](#deployment) section for instructions on how to deploy Activity League.
+
+### Getting Started
+
+You will need to have [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
+
+1. Clone this repo and `cd` into the cloned folder.
+    `git clone https://github.com/UCLComputerScience/COMP0016_2020_21_Team19`
+    
+    `cd COMP0016_2020_21_Team19`
+
+2. Run `docker-compose build` to build the image. This will make the database migrations and install all dependencies.
+3. Run `docker-compose up`. This will start the application on `localhost:8000`.
+   > The application will have no data to begin with. If you wish to populate the database with some dummy data, simply run the `init-db.sh` script from within the container using `docker-compose run web bash -c "./init-db.sh"`. This will create users on the platform and you can log in as one of them using the details below:
+   > - Surveyor
+   >    - email: `christine@black.com`
+   >    - password: `activityleague`
+   > - Respondent: `john@doe.com`
+   >    - email: `john@doe.com`
+   >    - password: `activityleague`
+   > - Django admin:
+   >    - username: `admin`
+   >    - password: `activityleague`
+
+Since this is a Django app, it is recommended to familiarise yourself with the [documentation](https://docs.djangoproject.com/en/3.1/) before proceeding with development.
 ### Repository Structure
 ```
 .
