@@ -6,6 +6,18 @@ then
 fi
 source .venv/bin/activate
 
+line='baseURL: http://students.cs.ucl.ac.uk/2020/group19/'
+
+case `grep -Fx "$line" site/config.yml >/dev/null; echo $?` in
+  1)
+    echo "The `baseURL` is commented. Uncomment it before deploying."
+    echo "\033[0;31m# baseURL: http://students.cs.ucl.ac.uk/2020/group19/\033[0m"
+    echo "                         ↓"
+    echo "\033[0;32mbaseURL: http://students.cs.ucl.ac.uk/2020/group19/\033[0m"
+    exit 1
+    ;;
+esac
+
 rm -rf build/
 rm -rf site/static/guide/
 
