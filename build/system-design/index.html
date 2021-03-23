@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>System Design | Activity League</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="" />
+        
+        
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        
+        
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="http://students.cs.ucl.ac.uk/2020/group19/assets/css/main.css">
+        
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    </head>
+        <div id="page" class="site">
+          <header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        <p class="site-logo"><a href='/2020/group19/'><img src="/2020/group19/images/logo-dark.png" alt="Logo" /></a></p>
+        
+        
+        <p class="site-title screen-reader-text"><a href='/2020/group19/'>Activity League</a></p>
+        
+      </div>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/"
+  
+  
+  class="">
+  
+  <span >Home</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/requirements"
+  
+  
+  class="">
+  
+  <span >Requirements</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/research"
+  
+  
+  class="">
+  
+  <span >Research</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/hci"
+  
+  
+  class="">
+  
+  <span >HCI</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/system-design"
+  
+  
+  class="">
+  
+  <span >System Design</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/implementation"
+  
+  
+  class="">
+  
+  <span >Implementation</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/testing"
+  
+  
+  class="">
+  
+  <span >Testing</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/evaluation"
+  
+  
+  class="">
+  
+  <span >Evaluation</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/guide"
+  
+  
+  class="">
+  
+  <span >Guide</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/docs"
+  
+  
+  class="">
+  
+  <span >Docs</span>
+</a>
+
+              </li>
+            
+          </ul>
+        </div>
+      </nav>
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      
+    </div>
+  </div>
+</header>
+
+          <main id="content" class="site-content">
+            
+
+<div class="outer">
+  <div class="inner-medium">
+    <article class="post post-full">
+      <header class="post-header">
+        <h1 class="post-title">System Design</h1>
+        
+      </header>
+      
+      <div class="post-content">
+        <h2 id="system-architecture-diagram">System Architecture Diagram</h2>
+<p><img src="../images/design/architecture.png" alt="System Architecture Diagram"></p>
+<h2 id="user-sequence-diagrams">User Sequence Diagrams</h2>
+<div id="carouselSequence" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
+  <div class="carousel-indicators" style="bottom:-30px">
+    <button type="button" data-bs-target="#carouselSequence" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselSequence" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselSequence" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselSequence" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    <button type="button" data-bs-target="#carouselSequence" data-bs-slide-to="4" aria-label="Slide 5"></button>
+    <button type="button" data-bs-target="#carouselSequence" data-bs-slide-to="5" aria-label="Slide 6"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="../images/design/sequence/1.png" class="d-block w-100" alt="Slide 1">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/sequence/2.png" class="d-block w-100" alt="Slide 2">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/sequence/3.png" class="d-block w-100" alt="Slide 3">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/sequence/4.png" class="d-block w-100" alt="Slide 4">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/sequence/5.png" class="d-block w-100" alt="Slide 5">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/sequence/6.png" class="d-block w-100" alt="Slide 6">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselSequence" data-bs-slide="prev" style="left:-80px">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselSequence" data-bs-slide="next" style="right:-80px">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<h2 id="user-authentication-sequence-diagram">User Authentication Sequence Diagram</h2>
+<p><img src="../images/design/signup.png" alt="User Authentication Sequence Diagram"></p>
+<h2 id="class-diagrams-entity-relationship">Class Diagrams (Entity Relationship)</h2>
+<br>
+<h3 id="overall">Overall</h3>
+<img src="../images/design/overall.svg" alt="Overall class diagram">
+<br>
+<h3 id="app-specific">App-specific</h3>
+<div id="carouselClass" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
+  <div class="carousel-indicators" style="bottom:-30px">
+    <button type="button" data-bs-target="#carouselClass" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselClass" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselClass" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselClass" data-bs-slide-to="3" aria-label="Slide 4"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="../images/design/class-diagrams/1.png" class="d-block w-100" alt="Slide 1">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/class-diagrams/2.png" class="d-block w-100" alt="Slide 2">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/class-diagrams/3.png" class="d-block w-100" alt="Slide 3">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/class-diagrams/4.png" class="d-block w-100" alt="Slide 4">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselClass" data-bs-slide="prev" style="left:-80px">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselClass" data-bs-slide="next" style="right:-80px">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+      </div>
+      
+      
+
+    </article>
+  </div>
+</div>
+
+
+          </main>
+          <footer id="colophon" class="site-footer">
+  
+    
+    <div class="footer-top outer">
+      <div class="inner">
+        <div class="grid footer-widgets">
+          
+            
+            
+            
+<section class="cell widget widget-text">
+  
+    
+    <a class="widget-image" href='/2020/group19/'><img src="/2020/group19/images/logo-light.png" alt="Activity League Logo" /></a>
+    
+  
+  
+  <p>Click <a href="http://178.79.143.29.xip.io:8000/" target="_blank">here</a> to launch Activity League.</p>
+</section>
+
+          
+            
+            
+            
+<section class="cell widget widget-nav">
+  
+  <h2 class="widget-title">Links</h2>
+  
+  
+  <ul class="menu">
+    
+    <li class="menu-item">
+      
+      
+
+
+
+<a href="https://github.com/UCLComputerScience/COMP0016_2020_21_Team19"
+  
+  
+  class=" has-icon">
+  
+    
+    
+<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  
+  <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+  
+</svg>
+
+  
+  <span >GitHub</span>
+</a>
+
+    </li>
+    
+    <li class="menu-item">
+      
+      
+
+
+
+<a href="https://uclcomputerscience.github.io/COMP0016_2020_21_Team19"
+  
+  
+  class=" has-icon">
+  
+    
+    
+<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  
+  <path d="M22.814 9.031h-1.95c-1 0-1.185-.764-1.185-1.707.001-4.045-3.272-7.324-7.308-7.324h-5.062c-4.037 0-7.309 3.279-7.309 7.324v9.352c0 4.045 3.272 7.324 7.309 7.324h9.383c4.036 0 7.308-3.279 7.308-7.324v-6.457c0-.657-.531-1.188-1.186-1.188zm-15.428-3.031h4.229c.765 0 1.385.671 1.385 1.5s-.62 1.5-1.386 1.5h-4.228c-.766 0-1.386-.671-1.386-1.5s.62-1.5 1.386-1.5zm9.134 12h-9.04c-.817 0-1.48-.672-1.48-1.5 0-.83.663-1.5 1.48-1.5h9.039c.817 0 1.48.67 1.48 1.5.001.828-.662 1.5-1.479 1.5z"/>
+  
+</svg>
+
+  
+  <span >Development Blog</span>
+</a>
+
+    </li>
+    
+  </ul>
+  
+</section>
+
+          
+        </div>
+      </div>
+    </div>
+    
+  
+  <div class="footer-bottom outer">
+    <div class="inner">
+      
+      <div class="site-info">
+        &copy; Hamza Nasir, Karan Chawla, Jamie Weigold. This project was created as part of the <a href="https://www.ucl.ac.uk/computer-science/collaborate/ucl-industry-exchange-network-ucl-ixn" target="_blank" rel="noopener">UCL Industry Exchange Network</a>.
+        &nbsp;
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+        </div>
+        
+        <script src="/2020/group19/js/plugins.js"></script>
+        <script src="/2020/group19/js/init.js"></script>
+        <script src="/2020/group19/js/main.js"></script>
+    </body> 
+</html>

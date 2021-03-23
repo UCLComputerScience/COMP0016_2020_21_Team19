@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>Implementation | Activity League</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="" />
+        
+        
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        
+        
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="http://students.cs.ucl.ac.uk/2020/group19/assets/css/main.css">
+        
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    </head>
+        <div id="page" class="site">
+          <header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        <p class="site-logo"><a href='/2020/group19/'><img src="/2020/group19/images/logo-dark.png" alt="Logo" /></a></p>
+        
+        
+        <p class="site-title screen-reader-text"><a href='/2020/group19/'>Activity League</a></p>
+        
+      </div>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/"
+  
+  
+  class="">
+  
+  <span >Home</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/requirements"
+  
+  
+  class="">
+  
+  <span >Requirements</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/research"
+  
+  
+  class="">
+  
+  <span >Research</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/hci"
+  
+  
+  class="">
+  
+  <span >HCI</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/system-design"
+  
+  
+  class="">
+  
+  <span >System Design</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/implementation"
+  
+  
+  class="">
+  
+  <span >Implementation</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/testing"
+  
+  
+  class="">
+  
+  <span >Testing</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/evaluation"
+  
+  
+  class="">
+  
+  <span >Evaluation</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/guide"
+  
+  
+  class="">
+  
+  <span >Guide</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/docs"
+  
+  
+  class="">
+  
+  <span >Docs</span>
+</a>
+
+              </li>
+            
+          </ul>
+        </div>
+      </nav>
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      
+    </div>
+  </div>
+</header>
+
+          <main id="content" class="site-content">
+            
+
+<div class="outer">
+  <div class="inner-medium">
+    <article class="post post-full">
+      <header class="post-header">
+        <h1 class="post-title">Implementation</h1>
+        
+      </header>
+      
+      <div class="post-content">
+        <h2 id="django">Django</h2>
+<p>Activity League has been developed using Django. Django proved to be a very good choice for the development of our web app, as it handled standard cases of functionalities
+that would need to be implemented in our platform by default (for example, the creation and validation of forms). Moreover, Django has its own ORM (Object-Relational Mapper) which completely
+handles the relationship between the classes that we defined as our project and the relations in our PostgreSQL database.</p>
+<p>Activity League has been programmed to follow Django&rsquo;s file-structure convention and default Model View Template implementation. Django breaks down a project into applications. Each
+generated application has a models.py file containing the classes to be used in that application (translated to relations in the database by the ORM), a views.py file containing view functions
+which map web requests to web responses and plenty of flexibility when writing control logic. For each app that we defined in the project, we created a utils.py file containing the vast majoroity
+of the logic and utility functions associated with each of our view functions.</p>
+<p>Applications that are involved with pages that create and submit forms, such as the new task page and pages allowing you to add/remove people from groups and organisations also have a dedicated
+forms.py file. This file leverages the existing Django Forms API and contains the structure and content of the forms that are used in each of these views.</p>
+<div id="carouselDjango" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
+  <div class="carousel-indicators" style="bottom:-30px">
+    <button type="button" data-bs-target="#carouselDjango" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselDjango" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselDjango" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselDjango" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    <button type="button" data-bs-target="#carouselDjango" data-bs-slide-to="4" aria-label="Slide 5"></button>
+    <button type="button" data-bs-target="#carouselDjango" data-bs-slide-to="5" aria-label="Slide 6"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="../images/design/django/1.png" class="d-block w-100" alt="Slide 1">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/django/2.png" class="d-block w-100" alt="Slide 2">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/django/3.png" class="d-block w-100" alt="Slide 3">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/django/4.png" class="d-block w-100" alt="Slide 4">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/django/5.png" class="d-block w-100" alt="Slide 5">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/django/6.png" class="d-block w-100" alt="Slide 6">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselDjango" data-bs-slide="prev" style="left:-80px">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselDjango" data-bs-slide="next" style="right:-80px">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<h3 id="bootstrap">Bootstrap</h3>
+<p>To ensure that our application was responsive to changes in the screen size and devices using it, we used the frontend framework Bootstrap when creating our HTML templates. Consequently, the web application is optimised for specific devices when using it. For example, logging in to Activity League on an iPhone will hide our sidebar menu and open it on click, with a smooth transition animation, whereas when viewed on desktop, it remains stuck to the left hand side of the page.</p>
+<p>This was an important consideration for us, given that our dashboard is feature and content heavy, and without the ability to restyle the layout by device, our web app would have been virtually unusable on smaller devices.</p>
+<div id="carouselBootstrap" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
+  <div class="carousel-indicators" style="bottom:-30px">
+    <button type="button" data-bs-target="#carouselBootstrap" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselBootstrap" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselBootstrap" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="../images/design/bootstrap/1.png" class="d-block w-100" alt="Slide 1">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/bootstrap/2.png" class="d-block w-100" alt="Slide 2">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/design/bootstrap/3.png" class="d-block w-100" alt="Slide 3">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselBootstrap" data-bs-slide="prev" style="left:-80px">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselBootstrap" data-bs-slide="next" style="right:-80px">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<h3 id="database">Database</h3>
+<p>All data stored by Activity League lies in a PostgreSQL database. PostgreSQL was a particularly suitable choice for Activity League, given there was extensive literature and resources available on the Django documentation on integrating the two of them. Our data also fit the relational model very nicely given the structure of our data, and the fact that lots of the functionalities required could be implemented using small, structured SQL queries. Conveniently, PostgreSQL was also open source. This stands in contrast to other popular databases including MongoDB, which was a paid alternative.</p>
+<p>As mentioned in the previous section, Django&rsquo;s ORM handled the translation between models (classes) defined specific to Activity League to PostgreSQL tables, where one model defined corresponded to one table.</p>
+<h3 id="docker">Docker</h3>
+<p>To ensure the easy deployment of Activity League, we decided to dockerise the entire application. Docker is a containerisation service - allowing for software to be distributed in the form of packages called containers. Containers allowed developers to isolate the development of an app from its local environment. This is particularly useful in deployment, as it means that theoretically, any system with docker installed could simply pull the Activity League container and run it on their system without dependency version conflicts (dependencies and versions are specified in the container).</p>
+<p>Given Activity League was going to be deployed on a Linode server, Docker&rsquo;s containerisation system also likely saved a great amount of time debugging features that worked locally but didn&rsquo;t work on the server, which allowed us to further refine and implement new functionalities to our solution.</p>
+<p><img src="../images/design/docker.png" alt="Docker"></p>
+<h3 id="linode">Linode</h3>
+<p>Activity League is currently deployed on a Linode server with 1 core, 1GB of RAM and 25GB of storage for a total cost of $5 per month. Linode was selected out of client preference, but was a convenient choice for the project deployment given its simplicity to setup.</p>
+<p><img src="../images/design/linode.png" alt="Linode"></p>
+<p>As part of a continuous deployment practice, Activity League makes use of WatchTower on the Linode server. Every time a new commit is made to the the main branch, GitHub Actions runs our tests and if they pass, builds a new Docker image hosted on GitHub packages, which WatchTower looks for. WatchTower is configured to probe the project repository every 60 seconds, and if it detects a newer edition of the image being hosted by GitHub Packages, it takes the old version down and deploys the new image automatically.</p>
+<p>The database state is separate from this image - it is a persistent volume stored on the Linode server, meaning that we can continue merging pull requests in the main repository (assuming there were no changes to the structure of the database) without having to repopulate the database each time that it was built. Hence, each time that we pushed to the main branch, we would see the latest version of the app deployed to the server in under two minutes.</p>
+<h2 id="design-patterns">Design Patterns</h2>
+<h3 id="model-view-template">Model View Template</h3>
+<p>By default, Django formats its files in accordance with the principles of the MVT design pattern (each application have models.py, views.py and template files associated with them). Our solution has been developed in extension of thes principles which nicely decouples the templates from the views, subsequently making editing specific pages a lot easier.</p>
+<p>The design pattern is very similar to the Model View Controller pattern, which separates the models from the views with the controller (housing all of the control logic) as the middle man. This design pattern was an option that we considered given it would have made the flow easier to understand. However, we decided that the MVT template was the optimal choice as the controller is managed by Django itself (controlling The interactions between the models and the view), making an additional implementation unnecessary.</p>
+<p>MVT allows Activity League to be easily scalable: the addition of a new page simply requires the creation of a new template, a URL being added and a single function being written within the application to render the newly defined template. We hope that in future, our design choice here significantly speeds the process by which developers may add new pages and functionalities to Activity League.</p>
+<h3 id="adapter">Adapter</h3>
+<p>During the invitation processs (by email), Activity League uses two dependencies: django-invitations (takes care of the email invitations) and django-allauth (takes care of secure user authentication). As Activity League is invite-only and django-allauth doesn&rsquo;t support customisation of signup methods (signup is either closed or it isn&rsquo;t), we implemented the adapter design pattern to change the signal that was being passed from django-inviations to django-allauth. This allows us to selectively open the signup if a user is creating an organisation, but closes it off otherwise.</p>
+
+      </div>
+      
+      
+
+    </article>
+  </div>
+</div>
+
+
+          </main>
+          <footer id="colophon" class="site-footer">
+  
+    
+    <div class="footer-top outer">
+      <div class="inner">
+        <div class="grid footer-widgets">
+          
+            
+            
+            
+<section class="cell widget widget-text">
+  
+    
+    <a class="widget-image" href='/2020/group19/'><img src="/2020/group19/images/logo-light.png" alt="Activity League Logo" /></a>
+    
+  
+  
+  <p>Click <a href="http://178.79.143.29.xip.io:8000/" target="_blank">here</a> to launch Activity League.</p>
+</section>
+
+          
+            
+            
+            
+<section class="cell widget widget-nav">
+  
+  <h2 class="widget-title">Links</h2>
+  
+  
+  <ul class="menu">
+    
+    <li class="menu-item">
+      
+      
+
+
+
+<a href="https://github.com/UCLComputerScience/COMP0016_2020_21_Team19"
+  
+  
+  class=" has-icon">
+  
+    
+    
+<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  
+  <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+  
+</svg>
+
+  
+  <span >GitHub</span>
+</a>
+
+    </li>
+    
+    <li class="menu-item">
+      
+      
+
+
+
+<a href="https://uclcomputerscience.github.io/COMP0016_2020_21_Team19"
+  
+  
+  class=" has-icon">
+  
+    
+    
+<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  
+  <path d="M22.814 9.031h-1.95c-1 0-1.185-.764-1.185-1.707.001-4.045-3.272-7.324-7.308-7.324h-5.062c-4.037 0-7.309 3.279-7.309 7.324v9.352c0 4.045 3.272 7.324 7.309 7.324h9.383c4.036 0 7.308-3.279 7.308-7.324v-6.457c0-.657-.531-1.188-1.186-1.188zm-15.428-3.031h4.229c.765 0 1.385.671 1.385 1.5s-.62 1.5-1.386 1.5h-4.228c-.766 0-1.386-.671-1.386-1.5s.62-1.5 1.386-1.5zm9.134 12h-9.04c-.817 0-1.48-.672-1.48-1.5 0-.83.663-1.5 1.48-1.5h9.039c.817 0 1.48.67 1.48 1.5.001.828-.662 1.5-1.479 1.5z"/>
+  
+</svg>
+
+  
+  <span >Development Blog</span>
+</a>
+
+    </li>
+    
+  </ul>
+  
+</section>
+
+          
+        </div>
+      </div>
+    </div>
+    
+  
+  <div class="footer-bottom outer">
+    <div class="inner">
+      
+      <div class="site-info">
+        &copy; Hamza Nasir, Karan Chawla, Jamie Weigold. This project was created as part of the <a href="https://www.ucl.ac.uk/computer-science/collaborate/ucl-industry-exchange-network-ucl-ixn" target="_blank" rel="noopener">UCL Industry Exchange Network</a>.
+        &nbsp;
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+        </div>
+        
+        <script src="/2020/group19/js/plugins.js"></script>
+        <script src="/2020/group19/js/init.js"></script>
+        <script src="/2020/group19/js/main.js"></script>
+    </body> 
+</html>

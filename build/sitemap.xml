@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>http://students.cs.ucl.ac.uk/2020/group19/evaluation/</loc>
+  </url><url>
+    <loc>http://students.cs.ucl.ac.uk/2020/group19/hci/</loc>
+  </url><url>
+    <loc>http://students.cs.ucl.ac.uk/2020/group19/</loc>
+  </url><url>
+    <loc>http://students.cs.ucl.ac.uk/2020/group19/implementation/</loc>
+  </url><url>
+    <loc>http://students.cs.ucl.ac.uk/2020/group19/requirements/</loc>
+  </url><url>
+    <loc>http://students.cs.ucl.ac.uk/2020/group19/research/</loc>
+  </url><url>
+    <loc>http://students.cs.ucl.ac.uk/2020/group19/style-guide/</loc>
+  </url><url>
+    <loc>http://students.cs.ucl.ac.uk/2020/group19/system-design/</loc>
+  </url><url>
+    <loc>http://students.cs.ucl.ac.uk/2020/group19/testing/</loc>
+  </url>
+</urlset>

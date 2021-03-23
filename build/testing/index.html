@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="en">
+    <head>    
+
+        <title>Testing | Activity League</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="google" content="notranslate" />
+        <meta name="description" content="" />
+        
+        
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        
+        
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="http://students.cs.ucl.ac.uk/2020/group19/assets/css/main.css">
+        
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    </head>
+        <div id="page" class="site">
+          <header id="masthead" class="site-header outer">
+  <div class="inner">
+    <div class="site-header-inside">
+      <div class="site-branding">
+        
+        <p class="site-logo"><a href='/2020/group19/'><img src="/2020/group19/images/logo-dark.png" alt="Logo" /></a></p>
+        
+        
+        <p class="site-title screen-reader-text"><a href='/2020/group19/'>Activity League</a></p>
+        
+      </div>
+      
+      <nav id="main-navigation" class="site-navigation" aria-label="Main Navigation">
+        <div class="site-nav-inside">
+          <button id="menu-close" class="menu-toggle"><span class="screen-reader-text">Open Menu</span><span class="icon-close" aria-hidden="true"></span></button>
+          <ul class="menu">
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/"
+  
+  
+  class="">
+  
+  <span >Home</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/requirements"
+  
+  
+  class="">
+  
+  <span >Requirements</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/research"
+  
+  
+  class="">
+  
+  <span >Research</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/hci"
+  
+  
+  class="">
+  
+  <span >HCI</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/system-design"
+  
+  
+  class="">
+  
+  <span >System Design</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/implementation"
+  
+  
+  class="">
+  
+  <span >Implementation</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/testing"
+  
+  
+  class="">
+  
+  <span >Testing</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/evaluation"
+  
+  
+  class="">
+  
+  <span >Evaluation</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/guide"
+  
+  
+  class="">
+  
+  <span >Guide</span>
+</a>
+
+              </li>
+            
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/docs"
+  
+  
+  class="">
+  
+  <span >Docs</span>
+</a>
+
+              </li>
+            
+          </ul>
+        </div>
+      </nav>
+      <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
+      
+    </div>
+  </div>
+</header>
+
+          <main id="content" class="site-content">
+            
+
+<div class="outer">
+  <div class="inner-medium">
+    <article class="post post-full">
+      <header class="post-header">
+        <h1 class="post-title">Testing</h1>
+        
+      </header>
+      
+      <div class="post-content">
+        <h2 id="testing-strategy">Testing Strategy</h2>
+<br>
+<p>Testing is an incredibly important part of development as it provides us, developers, with confidence that our code does what it is supposed to do. We&rsquo;ve taken this message to heart and have put in the hours to ensure not only that our tests cover our code to a very high standard, but have used writing tests as an opportunity to <strong>document</strong> behaviours of our web app which otherwise would have been nontrivial. We&rsquo;re confident that in our tests, developers looking to extend our application will have a valuable resource.</p>
+<br>
+<h2 id="unit-testing">Unit Testing</h2>
+<br>
+<p>We conducted unit testing for the following reasons:</p>
+<ol>
+<li>
+<p>They provide us with confidence that the subcomponents of our solution work correctly.</p>
+</li>
+<li>
+<p>Unit tests <strong>tell us if we&rsquo;ve broken something later on in the development process</strong> during refactoring or whilst adding a new feature.</p>
+</li>
+<li>
+<p>They are an opportunity to document the micro-behaviour of our solution.</p>
+</li>
+<li>
+<p>Assistance in debugging: a failing test is a great way to isolate buggy behaviour.</p>
+</li>
+</ol>
+<p>Accordingly, we implemented unit testing before we attempted any other kind of testing so that we could completely automate its execution and make it part of our Continuous Integration/Continuous Deployment workflow.</p>
+<p>Our implementation of unit tests follows the convention defined in the <a href="https://docs.djangoproject.com/en/3.1/topics/testing/overview/">django docs</a>. We used the testing package <a href="https://docs.python.org/3/library/unittest.html">unittest</a> to create a <code>TestCase</code> for each application:</p>
+<ul>
+<li><code>views.py</code>: testing the correct pages are loaded and correct response codes are returned.</li>
+<li><code>models.py</code>: testing whether objects are created, and whether their attributes match what we expect.</li>
+<li><code>utils.py</code>: testing that specific utility functions return from the ORM what is expected of them.</li>
+<li><code>handler.py</code>: testing that the responses to <code>GET</code> and <code>POST</code> requests behaved as expected.</li>
+</ul>
+<p>We created multiple tests for each function, simulating behaviour on different (and sometimes erroneous) inputs to ensure that each function behaved in the way that we had anticipated.</p>
+<p>To ensure that we&rsquo;d covered as much of the code as possible, we used package <a href="https://pypi.org/project/coverage/">coverage</a> to generate HTML documents detailing the statements we&rsquo;d covered, and those that we&rsquo;d missed.</p>
+<p><img src="../images/testing/coverage.png" alt="Coverage Report"></p>
+<p>In total, we wrote <strong>109</strong> unit tests and have code coverage of <strong>97%</strong>.</p>
+<br>
+<h2 id="integration-testing">Integration Testing</h2>
+<br>
+<p>Integration testing is extremely important to us given it simulates the interaction between all of the subcomponents of our app, and the way that the user eventually interacts with it.</p>
+<p>The latter realisation led to our strategic decision to steer clear of traditional integration testing suites such as <a href="https://pypi.org/project/selenium/">selenium</a> which requires dependency and subcomponent mocking, and typically involves testing individual isolated components of the web application. Instead, <strong>we opted to use end to end testing</strong> tool <a href="https://www.cypress.io/">cypress</a> which we believe to be a much more valuable form of testing given that it <strong>provides the most accurate emulation of how a user will interact with the app</strong> (Guijarro, 2021).</p>
+<p>Cypress also had the benefit of being <strong>completely automated</strong>, which allowed us to integrate our end to end tests into our CI/CD workflow. It also enabled us to run the same suite on different browsers - enabling us to identify compatibility issues on the fly (saving an immense amount of time debugging).</p>
+<p><img src="../images/testing/cypress/login.gif" alt="gif"></p>
+<p>We used cypress specifically to test user interactions with the app - such as typing things into forms and submitting them, checking that our redirects on different pages are correct and testing table sorting or searching functionalities.</p>
+<br>
+<h4 id="semi-automation">Semi-Automation</h4>
+<br>
+<p>Note that though Cypress enabled the full automation and testing of all components, we deliberately chose to exclude tests that involved creating new objects (such as creating new tasks or creating new responses) from our automated test suite, as the results of these influenced the state of the test database and the other subsequent integration tests.</p>
+<p>These excluded tests have been tested <strong>extensively</strong> manually.</p>
+<br>
+<h4 id="results">Results</h4>
+<p>On our existing workflow, we run <strong>152 end to end tests per browser, all of which pass.</strong>.</p>
+<!-- > The strength of brand loyalty begins with how your product makes people feel. - Jay Samit -->
+<br>
+<h2 id="compatibility-testing">Compatibility Testing</h2>
+<br>
+<p>The principal users of our web application in a clinical and educational use case are likely to be accessing our solution using browsers such as <strong>Internet Explorer</strong> and <strong>Microsoft Edge</strong>, which both differ significantly to the <strong>Google Chrome</strong> and <strong>Mozilla Firefox</strong> browsers used in development.</p>
+<p>Accordingly, compatibility testing - testing that the dependencies and libraries that we use are compatible with their browsers - is of paramount importance to ensuring that our end users can use our web application at all.</p>
+<div id="carouselCompatibility" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
+  <div class="carousel-indicators" style="bottom:-30px">
+    <button type="button" data-bs-target="#carouselCompatibility" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselCompatibility" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselCompatibility" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner pb-4">
+    <div class="carousel-item active">
+      <img src="../images/testing/ie.png" class="d-block w-100" alt="Slide 1">
+      <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
+        <h5>Internet Explorer</h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="../images/testing/firefox.png" class="d-block w-100" alt="Slide 2">
+      <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
+        <h5>Firefox</h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="../images/testing/safari.png" class="d-block w-100" alt="Slide 3">
+      <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
+        <h5>Safari</h5>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselCompatibility" data-bs-slide="prev" style="left:-80px">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselCompatibility" data-bs-slide="next" style="right:-80px">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<p>We&rsquo;ve taken a semi-automated approach to compatibility testing:</p>
+<ul>
+<li>We use Cypress to run end-to-end tests on different browsers and from the command line.</li>
+<li>For the browsers that Cypress does not emulate (such as Internet Explorer), we&rsquo;ve tested each page and action in the app manually.</li>
+</ul>
+<p>To add another layer of certainty, we used tools like <a href="https://caniuse.com/">caniuse</a> to test whether there are any compatibility conflicts with between the dependencies that we have and the browsers that our clients shall likely use.</p>
+<p>Historically, this has <strong>allowed us to uncover the root cause of a number of compatibility issues</strong> including HTML5 datepickers not being supported by Internet Explorer <a href="https://caniuse.com/?search=HTML5">and more</a>.</p>
+<p>Having consulted tools like this throughout the project, and having performed compatibility testing across, numerous different browsers, we are <strong>confident that our solution is compatible with Chrome, Firefox, Internet Explorer, Microsoft Edge, Safari, Opera and the mobile editions of these browsers</strong>.</p>
+<br>
+<h2 id="responsive-design-testing">Responsive Design Testing</h2>
+<br>
+<p>Activity League is required to be general: usage in schools, clinics and for patients implies usage across a wide range of devices. Consequently, it is important to ensure that the web app&rsquo;s responsive design performs as it is intended to to ensure that the end user has a smooth experience and is able to interact with the web app.</p>
+<p>To perform responsive design testing, we used <a href="https://developers.google.com/web/tools/chrome-devtools">Chrome developer tools</a> to test the design and all functionality across a range of different devices.</p>
+<div id="carouselResponsiveness" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
+  <div class="carousel-indicators" style="bottom:-30px">
+    <button type="button" data-bs-target="#carouselResponsiveness" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselResponsiveness" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselResponsiveness" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselResponsiveness" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    <button type="button" data-bs-target="#carouselResponsiveness" data-bs-slide-to="4" aria-label="Slide 5"></button>
+    <button type="button" data-bs-target="#carouselResponsiveness" data-bs-slide-to="5" aria-label="Slide 6"></button>
+    <button type="button" data-bs-target="#carouselResponsiveness" data-bs-slide-to="6" aria-label="Slide 7"></button>
+    <button type="button" data-bs-target="#carouselResponsiveness" data-bs-slide-to="7" aria-label="Slide 8"></button>
+    <button type="button" data-bs-target="#carouselResponsiveness" data-bs-slide-to="8" aria-label="Slide 9"></button>
+    <button type="button" data-bs-target="#carouselResponsiveness" data-bs-slide-to="9" aria-label="Slide 10"></button>
+  </div>
+  <div class="carousel-inner pb-4">
+    <div class="carousel-item active">
+      <img src="../images/testing/responsive/add_multiple_participants.png" class="d-block w-100" alt="Slide 1">
+      <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
+        <h5>iPhone 5/SE</h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="../images/testing/responsive/login.png" class="d-block w-100" alt="Slide 2">
+      <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
+        <h5>iPhone X</h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="../images/testing/responsive/manage_group.png" class="d-block w-100" alt="Slide 3">
+      <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
+        <h5>iPhone 6/7/8</h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="../images/testing/responsive/manage_users.png" class="d-block w-100" alt="Slide 4">
+      <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
+        <h5>iPhone 6/7/8</h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="../images/testing/responsive/surveyor_dashboard_ipad.png" class="d-block w-100" alt="Slide 5">
+      <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
+        <h5>iPad Pro</h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="../images/testing/responsive/surveyor_dashboard_mobile.png" class="d-block w-100" alt="Slide 6">
+      <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
+        <h5>iPhone X</h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="../images/testing/responsive/task_history.png" class="d-block w-100" alt="Slide 7">
+      <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
+        <h5>iPhone 6/7/8</h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="../images/testing/responsive/task_overview_ipad.png" class="d-block w-100" alt="Slide 8">
+      <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
+        <h5>iPad</h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="../images/testing/responsive/task_overview_mobile.png" class="d-block w-100" alt="Slide 9">
+      <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
+        <h5>Google Pixel 2</h5>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="../images/testing/responsive/task_overview.png" class="d-block w-100" alt="Slide 10">
+      <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
+        <h5>Window Resizing</h5>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselResponsiveness" data-bs-slide="prev" style="left:-80px">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselResponsiveness" data-bs-slide="next" style="right:-80px">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<p>Manual repsonsiveness testing initially alerted us to issues with the way that <code>Chart.js</code> rendered on smaller screens and in Activity League has always been a successful method of identifying responsiveness issues.</p>
+<p>The conclusion of our Responsiveness testing is that <strong>the web application is responsive across all display sizes that we have tested it with - retaining its slick UI and usability in all.</strong> However, the manual nature of these tests is likely a source of error (however small) and future work on this project may seek to automate this process using tools such as <a href="http://galenframework.com/">the Galen Framework</a>, though unfortunately due to time constraints we were unable to attempt to incorporate this into Activity League.</p>
+<br>
+<h2 id="performance-testing">Performance Testing</h2>
+<br>
+<p>Since our application is likely to be used by multiple organisations at the same time, it is important that the web app can function successfully under load.</p>
+<p>To find performance savings and improvements, we used <a href="https://developers.google.com/web/tools/lighthouse">lighthouse</a>, an automated tool for reporting on performance and accessibility. We&rsquo;ve attached lighthouse-generated reports for some of our pages below:</p>
+<br>
+<div class="accordion accordion-flush" id="accordionFlushLighthouse">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingOne">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+        Desktop Respondent Dashboard
+      </button>
+    </h2>
+    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/desktop_respondent_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+        Desktop Surveyor Dashboard
+      </button>
+    </h2>
+    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/desktop_surveyor_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+        Desktop Surveyor Leaderboard
+      </button>
+    </h2>
+    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/desktop_surveyor_leaderboard.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingFour">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+        Desktop Task Overview
+      </button>
+    </h2>
+    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/desktop_task_overview.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingFive">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+        Desktop User Progress
+      </button>
+    </h2>
+    <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/desktop_user_progress.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingSix">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+        Mobile Respondent Dashboard
+      </button>
+    </h2>
+    <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/mobile_respondent_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingSeven">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSeven" aria-expanded="false" aria-controls="flush-collapseSeven">
+        Mobile Surveyor Dashboard
+      </button>
+    </h2>
+    <div id="flush-collapseSeven" class="accordion-collapse collapse" aria-labelledby="flush-headingSeven" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/mobile_surveyor_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingEight">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseEight" aria-expanded="false" aria-controls="flush-collapseEight">
+        Mobile Surveyor Leaderboard
+      </button>
+    </h2>
+    <div id="flush-collapseEight" class="accordion-collapse collapse" aria-labelledby="flush-headingEight" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/mobile_surveyor_leaderboard.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingNine">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseNine" aria-expanded="false" aria-controls="flush-collapseNine">
+        Mobile Task Overview
+      </button>
+    </h2>
+    <div id="flush-collapseNine" class="accordion-collapse collapse" aria-labelledby="flush-headingNine" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/mobile_task_overview.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingTen">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTen" aria-expanded="false" aria-controls="flush-collapseTen">
+        Mobile User Progress
+      </button>
+    </h2>
+    <div id="flush-collapseTen" class="accordion-collapse collapse" aria-labelledby="flush-headingTen" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/mobile_user_progress.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<p>Looking deeper into these numbers, we can notice consistently that under the best practises section, we are continuously being penalised for a lack of https. This is something that we wanted to integrate, though decided not to due to time constraint, and the fact that we don&rsquo;t have a domain name, which complicates the process of obtaining a certificate.</p>
+<br>
+<h2 id="references">References</h2>
+<br>
+<p>Guijarro, R., 2021. Testing Strategies for Modern Web Applications. [Blog] Medium, Available at: <a href="https://medium.com/scopedev/testing-strategies-for-modern-web-applications-71836e480cc6">https://medium.com/scopedev/testing-strategies-for-modern-web-applications-71836e480cc6</a> [Accessed 3 January 2021].</p>
+
+      </div>
+      
+      
+
+    </article>
+  </div>
+</div>
+
+
+          </main>
+          <footer id="colophon" class="site-footer">
+  
+    
+    <div class="footer-top outer">
+      <div class="inner">
+        <div class="grid footer-widgets">
+          
+            
+            
+            
+<section class="cell widget widget-text">
+  
+    
+    <a class="widget-image" href='/2020/group19/'><img src="/2020/group19/images/logo-light.png" alt="Activity League Logo" /></a>
+    
+  
+  
+  <p>Click <a href="http://178.79.143.29.xip.io:8000/" target="_blank">here</a> to launch Activity League.</p>
+</section>
+
+          
+            
+            
+            
+<section class="cell widget widget-nav">
+  
+  <h2 class="widget-title">Links</h2>
+  
+  
+  <ul class="menu">
+    
+    <li class="menu-item">
+      
+      
+
+
+
+<a href="https://github.com/UCLComputerScience/COMP0016_2020_21_Team19"
+  
+  
+  class=" has-icon">
+  
+    
+    
+<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  
+  <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+  
+</svg>
+
+  
+  <span >GitHub</span>
+</a>
+
+    </li>
+    
+    <li class="menu-item">
+      
+      
+
+
+
+<a href="https://uclcomputerscience.github.io/COMP0016_2020_21_Team19"
+  
+  
+  class=" has-icon">
+  
+    
+    
+<svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  
+  <path d="M22.814 9.031h-1.95c-1 0-1.185-.764-1.185-1.707.001-4.045-3.272-7.324-7.308-7.324h-5.062c-4.037 0-7.309 3.279-7.309 7.324v9.352c0 4.045 3.272 7.324 7.309 7.324h9.383c4.036 0 7.308-3.279 7.308-7.324v-6.457c0-.657-.531-1.188-1.186-1.188zm-15.428-3.031h4.229c.765 0 1.385.671 1.385 1.5s-.62 1.5-1.386 1.5h-4.228c-.766 0-1.386-.671-1.386-1.5s.62-1.5 1.386-1.5zm9.134 12h-9.04c-.817 0-1.48-.672-1.48-1.5 0-.83.663-1.5 1.48-1.5h9.039c.817 0 1.48.67 1.48 1.5.001.828-.662 1.5-1.479 1.5z"/>
+  
+</svg>
+
+  
+  <span >Development Blog</span>
+</a>
+
+    </li>
+    
+  </ul>
+  
+</section>
+
+          
+        </div>
+      </div>
+    </div>
+    
+  
+  <div class="footer-bottom outer">
+    <div class="inner">
+      
+      <div class="site-info">
+        &copy; Hamza Nasir, Karan Chawla, Jamie Weigold. This project was created as part of the <a href="https://www.ucl.ac.uk/computer-science/collaborate/ucl-industry-exchange-network-ucl-ixn" target="_blank" rel="noopener">UCL Industry Exchange Network</a>.
+        &nbsp;
+        
+      </div>
+    </div>
+  </div>
+</footer>
+
+        </div>
+        
+        <script src="/2020/group19/js/plugins.js"></script>
+        <script src="/2020/group19/js/init.js"></script>
+        <script src="/2020/group19/js/main.js"></script>
+    </body> 
+</html>
