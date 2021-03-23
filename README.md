@@ -23,12 +23,33 @@ You will need to have [Docker](https://docs.docker.com/get-docker/) and [Docker 
     `cd COMP0016_2020_21_Team19`
 
 2. Run `docker-compose build` to build the image. This will make the database migrations and install all dependencies.
-3. Run `docker-compose up`. This will start the application on `localhost:8000`.
+3. Since the repository has been created with use of a VCS such as git in mind, a secrets folder is required to avoid using and committing sensitive information (such as API keys) in code. Create a `secrets/` folder containing the following files:
+   * `DB_USER` - database user
+   * `DB_PASSWORD` - database password
+   * `EMAIL_HOST` - email provider server name
+   * `EMAIL_HOST_USER` - an email address
+   * `EMAIL_HOST_PASSWORD` - password of above email address
+   * `GOOGLE_CLIENT_ID` - Google API client ID
+   * `GOOGLE_SECRET` - Google API secret key ID
+   * `SECRET_KEY` - Django production key
+
+   Each file should contain a single line containing the corresponding secret token.
+   
+   Only the `DB_PASSWORD` and `DB_USER`, and `SECRET_KEY` are strictly required. If you don't need an email backend during development, you can use the following setting in [`settings.py`](ActivityLeague/settings.py) and not create the `EMAIL_HOST` `EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD` secrets.
+   
+   ```python
+   EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+   ```
+   
+   If you don't intend on using Google SSO, you can also ignore the `GOOGLE*` secrets.
+   
+   Note: **You will need to modify the [`docker-compose.yml`](docker-compose.yml) and [`settings.py`](ActivityLeague/settings.py) files in accordance with the secrets you intend on using.**
+4. Run `docker-compose up`. This will start the application on `localhost:8000`.
    > The application will have no data to begin with. If you wish to populate the database with some dummy data, simply run the `init-db.sh` script from within the container using `docker-compose run web bash -c "./init-db.sh"`. This will create users on the platform and you can log in as one of them using the details below:
    > - Surveyor
    >    - email: `christine@black.com`
    >    - password: `activityleague`
-   > - Respondent: `john@doe.com`
+   > - Respondent:
    >    - email: `john@doe.com`
    >    - password: `activityleague`
    > - Django admin:
