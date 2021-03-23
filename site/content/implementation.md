@@ -58,7 +58,7 @@ forms.py file. This file leverages the existing Django Forms API and contains th
   </button>
 </div>
 
-### Bootstrap
+## Bootstrap
 To ensure that our application was responsive to changes in the screen size and devices using it, we used the frontend framework Bootstrap when creating our HTML templates. Consequently, the web application is optimised for specific devices when using it. For example, logging in to Activity League on an iPhone will hide our sidebar menu and open it on click, with a smooth transition animation, whereas when viewed on desktop, it remains stuck to the left hand side of the page.
 
 This was an important consideration for us, given that our dashboard is feature and content heavy, and without the ability to restyle the layout by device, our web app would have been virtually unusable on smaller devices.
@@ -90,19 +90,19 @@ This was an important consideration for us, given that our dashboard is feature 
   </button>
 </div>
 
-### Database
+## Database
 All data stored by Activity League lies in a PostgreSQL database. PostgreSQL was a particularly suitable choice for Activity League, given there was extensive literature and resources available on the Django documentation on integrating the two of them. Our data also fit the relational model very nicely given the structure of our data, and the fact that lots of the functionalities required could be implemented using small, structured SQL queries. Conveniently, PostgreSQL was also open source. This stands in contrast to other popular databases including MongoDB, which was a paid alternative.
 
 As mentioned in the previous section, Django's ORM handled the translation between models (classes) defined specific to Activity League to PostgreSQL tables, where one model defined corresponded to one table.
 
-### Docker
+## Docker
 To ensure the easy deployment of Activity League, we decided to dockerise the entire application. Docker is a containerisation service - allowing for software to be distributed in the form of packages called containers. Containers allowed developers to isolate the development of an app from its local environment. This is particularly useful in deployment, as it means that theoretically, any system with docker installed could simply pull the Activity League container and run it on their system without dependency version conflicts (dependencies and versions are specified in the container).
 
 Given Activity League was going to be deployed on a Linode server, Docker's containerisation system also likely saved a great amount of time debugging features that worked locally but didn't work on the server, which allowed us to further refine and implement new functionalities to our solution.
 
 ![Docker](../images/design/docker.png)
 
-### Linode
+## Linode
 Activity League is currently deployed on a Linode server with 1 core, 1GB of RAM and 25GB of storage for a total cost of $5 per month. Linode was selected out of client preference, but was a convenient choice for the project deployment given its simplicity to setup.
 
 ![Linode](../images/design/linode.png)

@@ -7,9 +7,11 @@ sections:
     image_alt: App preview
     title: Activity League
     content: >-
+      <img src="../images/ixn.png" style="max-width:40%">
+      <br>
+      <br>
       Team 19 – UCL Computer Science COMP0016 2020/21
-
-
+      <br>
       Hamza Nasir · Karan Chawla · Jamie Weigold
     actions:
       - label: Watch demo
