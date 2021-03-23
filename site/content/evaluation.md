@@ -1,6 +1,5 @@
 ---
 title: Evaluation
-subtitle: Understanding the characteristics of the problem
 excerpt: >-
   A story about customer loyalty curabitur sed consectetur nisi Integer sit
   amet commodo massa
@@ -8,6 +7,8 @@ layout: post
 ---
 
 ## Achievements
+
+<br>
 
 <div class="accordion accordion-flush" id="accordionFlushExample">
   <div class="accordion-item">
@@ -143,3 +144,8 @@ layout: post
     </div>
   </div>
 </div>
+
+<br>
+
+## Going beyond the requirements
+

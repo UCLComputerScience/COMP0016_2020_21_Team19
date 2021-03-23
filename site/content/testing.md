@@ -1,6 +1,5 @@
 ---
 title: Testing
-subtitle: Confidence in code
 excerpt: >-
   A story about customer loyalty curabitur sed consectetur nisi. Integer sit
   amet commodo massa.
@@ -54,7 +53,7 @@ In total, we wrote **109** unit tests and have code coverage of **97%**.
 
 Integration testing is extremely important to us given it simulates the interaction between all of the subcomponents of our app, and the way that the user eventually interacts with it.
 
-The latter realisation led to our strategic decision to steer clear of traditional integration testing suites such as [selenium](https://pypi.org/project/selenium/) which requires dependency and subcomponent mocking, and typically involves testing individual isolated components of the web application. Instead, **we opted to use end to end testing** tool [cypress](https://www.cypress.io/) which we believe to be a much more valuable form of testing given that it **provides the most accurate emulation of how a user will interact with the app**.
+The latter realisation led to our strategic decision to steer clear of traditional integration testing suites such as [selenium](https://pypi.org/project/selenium/) which requires dependency and subcomponent mocking, and typically involves testing individual isolated components of the web application. Instead, **we opted to use end to end testing** tool [cypress](https://www.cypress.io/) which we believe to be a much more valuable form of testing given that it **provides the most accurate emulation of how a user will interact with the app** (Guijarro, 2021).
 
 Cypress also had the benefit of being **completely automated**, which allowed us to integrate our end to end tests into our CI/CD workflow. It also enabled us to run the same suite on different browsers - enabling us to identify compatibility issues on the fly (saving an immense amount of time debugging).
 
@@ -241,24 +240,146 @@ The conclusion of our Responsiveness testing is that **the web application is re
 
 ## Performance Testing
 
+<br>
+
 Since our application is likely to be used by multiple organisations at the same time, it is important that the web app can function successfully under load.
 
-Click [here](/lighthouse/desktop_respondent_dashboard.html)
+To find performance savings and improvements, we used [lighthouse](https://developers.google.com/web/tools/lighthouse), an automated tool for reporting on performance and accessibility. We've attached lighthouse-generated reports for some of our pages below:
 
+<br>
 
-<div class="accordion accordion-flush" id="accordionFlushExample">
+<div class="accordion accordion-flush" id="accordionFlushLighthouse">
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingOne">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-        Desktop Lighthouse report
+        Desktop Respondent Dashboard
       </button>
     </h2>
     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" >
       <div class="accordion-body">
-      <iframe src="/lighthouse/desktop_respondent_dashboard.html" title="description" width="100%" height="1000vh">
+      <iframe src="/lighthouse/desktop_respondent_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+        Desktop Surveyor Dashboard
+      </button>
+    </h2>
+    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/desktop_surveyor_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+        Desktop Surveyor Leaderboard
+      </button>
+    </h2>
+    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/desktop_surveyor_leaderboard.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingFour">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+        Desktop Task Overview
+      </button>
+    </h2>
+    <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/desktop_task_overview.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingFive">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+        Desktop User Progress
+      </button>
+    </h2>
+    <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/desktop_user_progress.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingSix">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+        Mobile Respondent Dashboard
+      </button>
+    </h2>
+    <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/mobile_respondent_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingSeven">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSeven" aria-expanded="false" aria-controls="flush-collapseSeven">
+        Mobile Surveyor Dashboard
+      </button>
+    </h2>
+    <div id="flush-collapseSeven" class="accordion-collapse collapse" aria-labelledby="flush-headingSeven" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/mobile_surveyor_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingEight">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseEight" aria-expanded="false" aria-controls="flush-collapseEight">
+        Mobile Surveyor Leaderboard
+      </button>
+    </h2>
+    <div id="flush-collapseEight" class="accordion-collapse collapse" aria-labelledby="flush-headingEight" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/mobile_surveyor_leaderboard.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingNine">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseNine" aria-expanded="false" aria-controls="flush-collapseNine">
+        Mobile Task Overview
+      </button>
+    </h2>
+    <div id="flush-collapseNine" class="accordion-collapse collapse" aria-labelledby="flush-headingNine" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/mobile_task_overview.html" title="description" width="100%" height="1000vh"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="flush-headingTen">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTen" aria-expanded="false" aria-controls="flush-collapseTen">
+        Mobile User Progress
+      </button>
+    </h2>
+    <div id="flush-collapseTen" class="accordion-collapse collapse" aria-labelledby="flush-headingTen" >
+      <div class="accordion-body">
+      <iframe src="/lighthouse/mobile_user_progress.html" title="description" width="100%" height="1000vh"></iframe>
       </div>
     </div>
   </div>
 </div>
 
 <br>
+
+Looking deeper into these numbers, we can notice consistently that under the best practises section, we are continuously being penalised for a lack of https. This is something that we wanted to integrate, though decided not to due to time constraint, and the fact that we don't have a domain name, which complicates the process of obtaining a certificate.
+
+<br>
+
+## References
+
+<br>
+
+Guijarro, R., 2021. Testing Strategies for Modern Web Applications. [Blog] Medium, Available at: <https://medium.com/scopedev/testing-strategies-for-modern-web-applications-71836e480cc6> [Accessed 3 January 2021].
+
