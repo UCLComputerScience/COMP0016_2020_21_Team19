@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Week Twenty-two: Organisations & Invitations"
+title:  "Week Twenty-two: Finishing Development"
 date:   2021-03-23
 categories: integration, testing, 
 name: Team 19
