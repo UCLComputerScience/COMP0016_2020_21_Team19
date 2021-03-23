@@ -149,3 +149,42 @@ layout: post
 
 ## Going beyond the requirements
 
+<br>
+
+
+
+<br>
+
+## Known bugs
+
+<br>
+
+* Chart.js rendering can occasionally take up a large vertical space (this is likely to be a bug within Chart.js)
+* On Internet Explorer, the Activity League logo occasionally does not appear at the top left conrer of the page.
+
+<br>
+
+## Critical evaluation
+
+<br>
+
+Lorem ipsum
+
+<br>
+
+### User interface
+
+###
+
+<br>
+
+Lorem ipsum
+
+<br>
+
+## Future work
+
+<br>
+
+Lorem ipsum
+

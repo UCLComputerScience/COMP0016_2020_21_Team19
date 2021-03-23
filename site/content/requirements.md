@@ -70,6 +70,9 @@ The system would be used daily by students and probably up to multiple times per
 
 ## Personas
 
+![Personas](../images/requirements/persona1.jpg)
+![Personas](../images/requirements/persona2.jpg)
+
 <br>
 
 ## Use Cases

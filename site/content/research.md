@@ -6,16 +6,36 @@ excerpt: >-
 layout: post
 ---
 
-## Project Background and Client Introduction
+## Overview
 
+<br>
 
+<br>
 
-## Project Goals
+## Similar Works
 
-> The strength of brand loyalty begins with how your product makes people feel. - Jay Samit
+<br>
 
-## Personas
+<br>
 
-## Use Cases
+## Potential Solutions
 
-## MoSCoW Requirements
+<br>
+
+<br>
+
+## Potential Technologies
+
+<br>
+
+<br>
+
+## Ultimate Design Decisions
+
+<br>
+
+<br>
+
+## References
+
+<br>
