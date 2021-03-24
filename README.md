@@ -45,7 +45,11 @@ You will need to have [Docker](https://docs.docker.com/get-docker/) and [Docker 
    
    Note: **You will need to modify the [`docker-compose.yml`](docker-compose.yml) and [`settings.py`](ActivityLeague/settings.py) files in accordance with the secrets you intend on using.**
 4. Run `docker-compose up`. This will start the application on `localhost:8000`.
-   > The application will have no data to begin with. If you wish to populate the database with some dummy data, simply run the `init-db.sh` script from within the container using `docker-compose run web bash -c "./init-db.sh"`. This will create users on the platform and you can log in as one of them using the details below:
+   > The application will have no data to begin with. If you wish to populate the database with some dummy data, simply run the `init-db.sh` script from within the container using
+   ```
+   docker-compose run web bash -c "./init-db.sh"
+   ```
+   This will create users on the platform and you can log in as one of them using the details below:
    > - Surveyor
    >    - email: `christine@black.com`
    >    - password: `activityleague`
@@ -57,7 +61,56 @@ You will need to have [Docker](https://docs.docker.com/get-docker/) and [Docker 
    >    - password: `activityleague`
 
 Since this is a Django app, it is recommended to familiarise yourself with the [documentation](https://docs.djangoproject.com/en/3.1/) before proceeding with development.
+
+### Testing
+
+#### Unit
+
+The unit testing suite for this project uses Django's built in testing library.
+
+```python
+from django.test import TestCase
+```
+
+The [coverage](https://coverage.readthedocs.io/en/coverage-5.5/) module is used to generate coverage reports.
+
+To run the unit tests, simply execute the `test.sh` script from within the container using
+```
+docker-compose run web bash -c "./test.sh"
+```
+
+This will run the tests and provide a statement coverage summary in the command line. A directory named `htmlcov` will also be generated containing html files which can be viewed in a browser.
+
+Run
+
+```
+python -m http.server 8080 -d htmlcov
+```
+
+to view the coverage report in your browser on `localhost:8080`.
+
+The unit tests are located in the `tests/` directory within each app ([`authentication`](./authentication), [`core`](./core), [`respondent`](./respondent), [`surveyor`](./surveyor)).
+
+#### Integration
+
+The unit testing suite for this project uses the testing framework [Cypress](https://www.cypress.io/).
+
+![Cypress](https://uclcomputerscience.github.io/COMP0016_2020_21_Team19/assets/cypress.gif)
+
+To use Cypress, you will need to have [Node.js](https://nodejs.org/en/) installed. Follow [these](https://docs.cypress.io/guides/getting-started/installing-cypress#System-requirements) instructions to install the necessary requirements.
+
+To run the tests, simply navigate to the [`integration_tests`](./integration_tests) directory and run the following commands.
+
+`npm install` – to install the required Cypress dependencies
+
+`npm run cypress:run` – to launch the Cypress app and run the tests in the GUI. If you would like to run the tests in headless mode with the output being shown in the command line, use `npx` instead of `npm`.
+
+Cypress is a very extensive framework and more information about configuration and usage can be found [here](https://docs.cypress.io/guides/overview/why-cypress).
+
+The integration tests can be found in the [`integration_tests/cypress/integration`](./integration_tests/cypress/integration) directory.
+
 ### Repository Structure
+
 ```
 .
 ├── ActivityLeague                          # Contains Django specific configuration files
