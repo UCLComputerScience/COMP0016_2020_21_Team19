@@ -13,6 +13,8 @@
 This section will describe how to get started with development on your local machine.
 Refer to the [Deployment](#deployment) section for instructions on how to deploy Activity League.
 
+Documentation for Activity League can be found [here](students.cs.ucl.ac.uk/2020/group19/docs).
+
 ### Getting Started
 
 You will need to have [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
