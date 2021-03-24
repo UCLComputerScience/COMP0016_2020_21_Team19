@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Week Eighteen: Unit Testing and Client Feedback"
+title:  "Week Eighteen: Refactoring, Restyling, and Visualising User Progress"
 date:   2021-02-23
-categories: unit-testing
+categories: refactoring, styling, frontend
 name: Team 19
 ---
 
