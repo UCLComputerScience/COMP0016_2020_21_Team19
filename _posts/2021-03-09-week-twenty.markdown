@@ -106,7 +106,6 @@ The tab now open will contain a tab for **OAuth Consent Screen**. This needs to 
 ![OAuth Consent Screen](/COMP0016_2020_21_Team19/assets/google_oauth_consent_screen.png)
 
 
-
 For more information and detail about the process of setting up Google SSO, we found the [allauth docs](https://django-allauth.readthedocs.io/en/latest/providers.html) and [this tutorial](https://whizzoe.medium.com/in-5-mins-set-up-google-login-to-sign-up-users-on-django-e71d5c38f5d5) to be particularly helpful.
 
 #### Dark Mode
