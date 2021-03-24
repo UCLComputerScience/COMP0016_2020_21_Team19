@@ -63,7 +63,7 @@ We used cypress specifically to test user interactions with the app - such as ty
 
 <br>
 
-#### Semi-Automation
+### Semi-Automation
 
 <br>
 
@@ -73,7 +73,7 @@ These excluded tests have been tested **extensively** manually.
 
 <br>
 
-#### Results
+### Results
 
 On our existing workflow, we run **152 end to end tests per browser, all of which pass.**.
 
@@ -244,7 +244,7 @@ The conclusion of our Responsiveness testing is that **the web application is re
 
 Since our application is likely to be used by multiple organisations at the same time, it is important that the web app can function successfully under load.
 
-To find performance savings and improvements, we used [lighthouse](https://developers.google.com/web/tools/lighthouse), an automated tool for reporting on performance and accessibility. We've attached lighthouse-generated reports for some of our pages below:
+To find performance savings and improvements, we used [Lighthouse](https://developers.google.com/web/tools/lighthouse), an automated tool for reporting on performance and accessibility. We've attached lighthouse-generated reports for some of our pages below:
 
 <br>
 

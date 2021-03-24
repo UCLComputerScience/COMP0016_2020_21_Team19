@@ -70,8 +70,17 @@ The system would be used daily by students and probably up to multiple times per
 
 ## Personas
 
+After interviewing our users, we created personas to represent the motivations and desires of the user (Nielsen, 2009). Doing this allows us to make the users more understandable and challenge our assumptions (Dam and Teo, 2020) about the user. We also created scenarios based on the interviews with our users to better understand the context of use, and to assist to evaluate the efficacy of our designs later.
+
 ![Personas](../images/requirements/persona1.jpg)
+
+> During her working day, Olivia plans the lessons and activities that her students are going to do and has a think about how she can make her lessons more engaging. After she has thought this through, she sits down at her teacher's desk in the classroom with her computer and logs in to the activity league platform, where she is able to quickly add a new task and an associated series of feedback questions in addition to a due date for her students.
+
+<br>
+
 ![Personas](../images/requirements/persona2.jpg)
+
+> After completing a school task, Oliver is told by his teacher to fill in a feedback form. It is at the end of an activity – Oliver is tired and wants to talk to his friends (or family, if done at home). He opens the activity league web app, logs in, selects the appropriate task and is given a maximum of 10 questions, of which all are Likert scales (except two short response questions at the bottom). He is happy the tasks are short, and if he doesn't remember something that he was introduced to in an activity, he clicks a link to a learning resource which reminds him of the key points. The process takes a maximum of a few minutes.​
 
 <br>
 
@@ -91,7 +100,44 @@ The system would be used daily by students and probably up to multiple times per
       </button>
     </h2>
     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" >
-      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+      <div class="accordion-body">
+        <table class="table table-hover table-responsive">
+          <thead>
+            <th>Requirement</th>
+            <th>Functional?</th>
+          </thead>
+          <tbody class="table-success">
+            <tr>
+              <td>Surveyors can collect feedback from respondents.​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>Surveyors can set tasks containing qualitative and quantitative responses.​​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>System is accessible via a web-browser.​​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>Surveyors must be able to see individual Responses to a task.​​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>Surveyors must be able to create and manage groups of Respondents that they can assign tasks to collectively.​</td>
+              <td>Non-Functional</td>
+            </tr>
+            <tr>
+              <td>The ability to score and rank Respondents by the responses that they generate on a league table.​</td>
+              <td>Non-Functional</td>
+            </tr>
+            <tr>
+              <td>Respondent should be able to see the tasks that they have been assigned to complete.​​​</td>
+              <td>Non-Functional</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="accordion-item">
@@ -101,7 +147,32 @@ The system would be used daily by students and probably up to multiple times per
       </button>
     </h2>
     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" >
-      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
+      <div class="accordion-body">
+        <table class="table table-hover table-responsive">
+          <thead>
+            <th>Requirement</th>
+            <th>Functional?</th>
+          </thead>
+          <tbody class="table-info">
+            <tr>
+              <td>Summary visualisations for groups​.​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>Create and reuse Task templates​.​​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>Responsive to different display sizes​.​​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>Visualisations for the breakdown of responses to a question.​​​</td>
+              <td>Non-Functional</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="accordion-item">
@@ -111,7 +182,32 @@ The system would be used daily by students and probably up to multiple times per
       </button>
     </h2>
     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" >
-      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+      <div class="accordion-body">
+        <table class="table table-hover table-responsive">
+          <thead>
+            <th>Requirement</th>
+            <th>Functional?</th>
+          </thead>
+          <tbody class="table-warning">
+            <tr>
+              <td>Attach links to questions and track number of link clicks for each question​.​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>Word clouds to visualise text responses​.​​​</td>
+              <td>Non-Functional</td>
+            </tr>
+            <tr>
+              <td>Modify the way that a question is scored​​.​​​</td>
+              <td>Non-Functional</td>
+            </tr>
+            <tr>
+              <td>Dedicated page for visualising group progress over time​.​​​</td>
+              <td>Non-Functional</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="accordion-item">
@@ -121,7 +217,20 @@ The system would be used daily by students and probably up to multiple times per
       </button>
     </h2>
     <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" >
-      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+      <div class="accordion-body">
+        <table class="table table-hover table-responsive">
+          <thead>
+            <th>Requirement</th>
+            <th>Functional?</th>
+          </thead>
+          <tbody class="table-danger">
+            <tr>
+              <td>Feedback forms will not contain any task-specific content and should only be used as a mechanism to gather feedback.​​</td>
+              <td>Functional</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
@@ -133,4 +242,8 @@ The system would be used daily by students and probably up to multiple times per
 NHS Digital. 2021. Background information about PROMs - NHS Digital. [online] Available at: <https://digital.nhs.uk/data-and-information/data-tools-and-services/data-services/patient-reported-outcome-measures-proms/background-information-about-proms> [Accessed 17 November 2020].
 
 Kovacevic, D., 2018. Patient Reported Outcome Measure (PROM) feedback form.. [image] Available at: <https://www.researchgate.net/profile/David-Kovacevic/publication/326524497/figure/fig1/AS:652804830011402@1532652208322/Patient-Reported-Outcomes-Measurement-Information-System-PROMIS-Global-10-form.png> [Accessed 21 March 2021].
+
+Nielsen, L. (2009). Personas. [online] The Interaction Design Foundation. Available at: https://www.interaction-design.org/literature/book/the-encyclopedia-of-human-computer-interaction-2nd-ed/personas. [Accessed 8 November 2020]​
+
+Dam, R.F. and Teo, Y.S. (2020). Learn How to Use the Best Ideation Methods: Challenge Assumptions. [online] The Interaction Design Foundation. Available at: https://www.interaction-design.org/literature/article/learn-how-to-use-the-best-ideation-methods-challenge-assumptions. [Accessed 8 November 2020]​
 

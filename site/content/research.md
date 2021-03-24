@@ -99,7 +99,18 @@ In a clinical setting, there exist numerous solutions to the Patient Reported Ou
 
 <br>
 
-<!-- Could have done mobile, instead chose to go web -->
+Taking inspiration from the existing solutions above, we've identified a few key solutions to the problem that we could implement:
+
+- A mobile application (iOS/Android)
+- A web application
+- A physical device containing custom software to respond to a PROMs with a corresponding control centre application
+- A desktop application (macOS/Windows)
+
+We unanimously decided to move forward with the **web application** due to the **generality** requirement that we have of this project. Different schools, clinics and members of the public are going to use different devices, so limiting ourselves to a specific desktop or mobile application is unsuitable for this project given that requirement.
+
+Creating a custom device, as did assisTek for their solution [1] is also out of the scope of this module and project, and something that we believe to be unnecessary irrespectively.
+
+By process of elimination, this leaves us with the web application, which does not constrain the range of devices that Surveyors or Respondents can use to submit and complete PROMs.
 
 <br>
 
@@ -107,8 +118,64 @@ In a clinical setting, there exist numerous solutions to the Patient Reported Ou
 
 <br>
 
-<!-- React, Django, Node, MySQL, PostgreSQL, MongoDB -->
-<!-- Make sure that we mention performance and compatibility -->
+### Web Frameworks
+
+<br>
+
+Our solution could be developed using either client-side or server-side frameworks. Given that a large proportion of the functionality required in our requirements need database data coming from the server, we opted to narrow our initial search down only to server-side frameworks to prevent the need for browser-to-server round trips and thus **reduce the load times** for our users [6, 7].
+
+Thus, with the help of some additional sources [8, 9, 10], we narrowed our search for server-side frameworks down to the following.
+
+<div class="card">
+  <img class="card-img-top" src="../images/research/logos/ruby_on_rails.png" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Ruby on Rails</h5>
+    <p class="card-text">Ruby on Rails (RoR) is a server-side web framework used by numerous global organisations including GitHub and AirBnB for their web apps. RoR has a vibrant web development community, and is known for its intuitive syntax designed to minimise the amount of code required of developers. As a result, development speed using RoR is very good.</p>
+    <p>RoR abides by several design principles including DRY (Don't Repeat Yourself) and MVC (Model View Controller), and has easy integration with existing frontend Frameworks such as React, Angular and Vue.js, making it a popular choice for many developers. Based on Ruby, it is also object-oriented and dynamically typed.</p>
+    <p>RoR's main documented disadvantage is its popularity (Ruby-based frameworks cannot be compared in popularity terms to Python-based frameworks like Django and Flask) and subsequently the time taken for new developers to get up to speed [11, 12]. Though RoR's code is simple, it is not initially easy to understand [12]. RoR is widely criticised for being slow, though inappropriately. The majority of the time this is due to developers not understand what is going on under the hood, and 'slow' programs often simply require memory optimisation to bring them up to speed [13]. For a project that has to be completed from scratch in under 6 months, taking the time out to learn Ruby and properly understand what's going on under the hood in addition to learning frontend frameworks and completing other project deliverables makes RoR a potential but likely suboptimal choice of framework.</p>
+  </div>
+</div>
+
+<br>
+
+<div class="card">
+  <img class="card-img-top" src="../images/research/logos/flask.png" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Flask</h5>
+    <p class="card-text">In contrast to RoR, Flask is written in Python, a language with which all of the members of this team are familiar with. Flask is a simplistic micro-framework great for serving light applications and which is very beginner-friendly [14]. It uses a template engine, which allows you Python to inject variables into templates and contains inbuilt development servers, fast debuggers and restful request dispatching [14].</p>
+    <p>The disadvantage to the simplicity of Flask is its dependence on dependencies to implement anything other than basic functionalities. Increasing the number of dependencies associated with the project correspondingly increases the expected number of security vulnerabilities within the project, and is a significant disadvantage in production. Flask is also build with a modular design philosophy instead of following traditional design patterns such as Model View Controller (MVC) and has no inbuilt database interaction.[15].</p>
+  </div>
+</div>
+
+<br>
+
+<div class="card">
+  <img class="card-img-top" src="../images/research/logos/node.png" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Node.js</h5>
+    <p class="card-text">Node.js is a server-side JavaScript runtime engine based on Chrome's v8 JavaScript engine [16]. A Node.js backend offers a number of advantages to web developers. Among the most notable is the fact that it is based on JavaScript, meaning that developers using popular frontend frameworks such as React and Angular can continue development in the same language, significantly speeding the development process. Moreover, it's incredibly easy to build REST APIs and has a great package manager, npm. As a result, there are lots of frameworks and packages to choose and use from - the majority of which are incredibly well documented.</p>
+    <p>Node is also fast. Its asynchronous, single-threaded, non-blocking I/O enables it to always be ready to receive new requests while worker threads perform computation in the background, drastically increasing its performance [17]. </p>
+    <p>In the context of our project, its disadvantage is our lack of experience using JavaScript, and its lack of a native Object Relational Mapper (ORM), which simplifies interactions with a database, and cuts the time required for testing and mocking databases.</p>
+  </div>
+</div>
+
+<br>
+
+<div class="card">
+  <img class="card-img-top" src="../images/research/logos/django.png" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Django</h5>
+    <p class="card-text">Django is a python-based web development framework optimised to allow developers to put out web applications as quickly as possible with a bunch of in-built functionality enhancing this: Django has it's own Object Relational Mapper (ORM) which translates models used in development to tables in the database by default. Moreover, it has a number of inbuilt security mechanisms including CRSF tokens to protect against Cross Request Site Forgery attacks, ensuring that developed applications have a baseline level of security which is higher than its conterparts using other frameworks [18].</p>
+    <p>Django also implements the Model View Template (MVT)/Model Template View design pattern, which decomposes the components and responsibilities of different parts of the web application and makes developing web apps using it very scalable. On a non-technical level, our client has a strong preference for our use of Django, which has influenced our decision making during this process.</p>
+    <p>On the frontend, Django has its own templating engine [19] which provides a convenient way to dynamically render HTML on the server-side and supports URL matching using regular expressions. Administratively, it is also supported by extensive documentation, and a strong community.</p>
+  </div>
+</div>
+
+<br>
+
+### Databases
+
+<br>
 
 <br>
 
@@ -131,3 +198,31 @@ In a clinical setting, there exist numerous solutions to the Patient Reported Ou
 [4] ArisGlobal. 2021. LifeSphere eCOA | ArisGlobal. [online] Available at: <https://www.arisglobal.com/products/lifesphere-ecoa-agoutcomes/> [Accessed 21 March 2021].
 
 [5] Castor EDC. 2021. Patient Reported Outcome (ePRO) Software | Castor. [online] Available at: <https://www.castoredc.com/epro/> [Accessed 28 December 2020].
+
+[6] Cloudflare. 2021. What do client side and server side mean? | Client side vs. server side. [online] Available at: <https://www.cloudflare.com/en-gb/learning/serverless/glossary/client-side-vs-server-side/> [Accessed 3 November 2020].
+
+[7] Toptal Engineering Blog. 2021. Client-side vs. Server-side vs. Pre-rendering for Web Apps. [online] Available at: <https://www.toptal.com/front-end/client-side-vs-server-side-pre-rendering#:~:text=Client%2Dside%20rendering%20manages%20the,displays%20a%20blank%20page%20first.> [Accessed 4 November 2020].
+
+[8] KeyCDN, 2021. Top 8 Best Backend Frameworks. Available at: <https://www.keycdn.com/blog/best-backend-frameworks> [Accessed 4 November 2020].
+
+[9] GeeksforGeeks. 2021. Top 10 Frameworks for Web Applications - GeeksforGeeks. [online] Available at: <https://www.geeksforgeeks.org/top-10-frameworks-for-web-applications/> [Accessed 4 November 2020].
+
+[10] Developer.mozilla.org. 2021. Server-side web frameworks - Learn web development | MDN. [online] Available at: <https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Web_frameworks> [Accessed 4 November 2020].
+
+[11] Watson, T., 2021. Django vs. Rails: Web Frameworks Performance and Popularity - Skywell Software. [online] Skywell Software. Available at: <https://skywell.software/blog/django-vs-rails-web-frameworks-performance-and-popularity/> [Accessed 6 November 2020].
+
+[12] Yung, Z., 2021. Python vs. Ruby vs. Node.js - Which Platform Is a Fit for Your Project?. [online] Blog by Railsware. Available at: <https://railsware.com/blog/python-vs-ruby-vs-node-js-which-platform-is-a-fit-for-your-project/#Popularity> [Accessed 6 March 2020].
+
+[13] Kontny, N., 2021. Ruby On Rails Is Slow. [online] Rockstar Coders. Available at: <https://www.rockstarcoders.com/ruby-on-rails-is-slow/> [Accessed 6 November 2020].
+
+[14] DEV Community. 2021. Python Flask: pros and cons. [online] Available at: <https://dev.to/detimo/python-flask-pros-and-cons-1mlo> [Accessed 6 November 2020].
+
+[15] Medium. 2020. Flask vs Django: How to Understand Whether You Need a Hammer or a Toolbox. [online] Available at: <https://steelkiwi.medium.com/flask-vs-django-how-to-understand-whether-you-need-a-hammer-or-a-toolbox-39b8b3a2e4a5#:~:text=Django%20provides%20its%20own%20Django,any%20data%20models%20at%20all.&text=Django%20bundles%20everything%20together%2C%20while,Model%E2%80%93View%E2%80%93Controller%20framework.> [Accessed 6 November 2020].
+
+[16] Node.js. 2020. Node.js. [online] Available at: <https://nodejs.org/en/> [Accessed 6 November 2020].
+
+[17] Rastogi, N., 2021. Why you should use Node.js over Django. [Blog] Gitconnected, Available at: <https://levelup.gitconnected.com/why-you-should-use-node-js-over-django-f6870dd8dac0> [Accessed 6 November 2020].
+
+[18] Djangoproject.com. 2020. The Web framework for perfectionists with deadlines | Django. [online] Available at: <https://www.djangoproject.com/> [Accessed 6 November 2020].
+
+[19] Docs.djangoproject.com. 2020. Templates | Django documentation | Django. [online] Available at: <https://docs.djangoproject.com/en/3.1/topics/templates/> [Accessed 6 November 2020].

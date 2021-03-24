@@ -236,4 +236,8 @@ We chose to evaluate our prototype by performing a usability test (What is Usabi
   </button>
 </div>
 
-## Slides
+## References
+
+The Interaction Design Foundation. 2020. What Is Usability Testing?. [online] Available at: https://www.interaction-design.org/literature/topics/usability-testing [Accessed 8 November 2020].​
+
+2014.hci.international. 2020. T07: Research Driven Think-Aloud Protocols In Usability Testing | HCI International 2014. [online] Available at: http://2014.hci.international/t07 [Accessed 6 November 2020].​

@@ -60,7 +60,47 @@ layout: post
 <br>
 
 ### Overall
-<img src="../images/design/overall.svg" alt="Overall class diagram">
+<div class="btn-group">
+  <button id="zoomInButton" type="button" class="btn btn-primary">Zoom In</button>
+  <button id="zoomOutButton" type="button" class="btn btn-primary">Zoom Out</button>
+  <button id="resetButton" type="button" class="btn btn-primary">Reset</button>
+</div>
+<input id="rangeSlider" class="range-input" type="range" min="1" max="8" step="0.01" value="1">
+<div class="border border-3 border-dark mt-3">
+  <img id="overall-class-diagram" src="../images/design/overall.svg" alt="Overall class diagram">
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.3.2/dist/panzoom.min.js"></script>
+<script>
+const img = document.getElementById('overall-class-diagram');
+const zoomInButton = document.getElementById('zoomInButton');
+const zoomOutButton = document.getElementById('zoomOutButton');
+const resetButton = document.getElementById('resetButton');
+const rangeSlider = document.getElementById('rangeSlider');
+const panzoom = Panzoom(img, {
+  maxScale: 8,
+  //contain: 'outside'
+})
+zoomInButton.addEventListener('click', (event) => {
+  panzoom.zoomIn();
+  rangeSlider.value = panzoom.getScale();
+})
+zoomOutButton.addEventListener('click', (event) => {
+  panzoom.zoomOut();
+  rangeSlider.value = panzoom.getScale();
+})
+resetButton.addEventListener('click', (event) => {
+  panzoom.reset();
+  rangeSlider.value = panzoom.getScale();
+})
+rangeSlider.addEventListener('input', (event) => {
+  panzoom.zoom(event.target.valueAsNumber)
+})
+img.parentElement.addEventListener('wheel', (event) => {
+  panzoom.zoomWithWheel(event);
+  rangeSlider.value = panzoom.getScale();
+})
+</script>
 
 <br>
 
