@@ -249,6 +249,25 @@
         
       </header>
       
+      <aside class="hidden lg:block tableOfContentContainer" id="tableOfContentContainer">
+          <h3>Table of contents</h3>
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#testing-strategy">Testing Strategy</a></li>
+    <li><a href="#unit-testing">Unit Testing</a></li>
+    <li><a href="#integration-testing">Integration Testing</a>
+      <ul>
+        <li><a href="#semi-automation">Semi-Automation</a></li>
+        <li><a href="#results">Results</a></li>
+      </ul>
+    </li>
+    <li><a href="#compatibility-testing">Compatibility Testing</a></li>
+    <li><a href="#responsive-design-testing">Responsive Design Testing</a></li>
+    <li><a href="#performance-testing">Performance Testing</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+      </aside>
       <div class="post-content">
         <h2 id="testing-strategy">Testing Strategy</h2>
 <br>
@@ -292,12 +311,12 @@
 <p><img src="../images/testing/cypress/login.gif" alt="gif"></p>
 <p>We used cypress specifically to test user interactions with the app - such as typing things into forms and submitting them, checking that our redirects on different pages are correct and testing table sorting or searching functionalities.</p>
 <br>
-<h4 id="semi-automation">Semi-Automation</h4>
+<h3 id="semi-automation">Semi-Automation</h3>
 <br>
 <p>Note that though Cypress enabled the full automation and testing of all components, we deliberately chose to exclude tests that involved creating new objects (such as creating new tasks or creating new responses) from our automated test suite, as the results of these influenced the state of the test database and the other subsequent integration tests.</p>
 <p>These excluded tests have been tested <strong>extensively</strong> manually.</p>
 <br>
-<h4 id="results">Results</h4>
+<h3 id="results">Results</h3>
 <p>On our existing workflow, we run <strong>152 end to end tests per browser, all of which pass.</strong>.</p>
 <!-- > The strength of brand loyalty begins with how your product makes people feel. - Jay Samit -->
 <br>
@@ -443,7 +462,7 @@
 <h2 id="performance-testing">Performance Testing</h2>
 <br>
 <p>Since our application is likely to be used by multiple organisations at the same time, it is important that the web app can function successfully under load.</p>
-<p>To find performance savings and improvements, we used <a href="https://developers.google.com/web/tools/lighthouse">lighthouse</a>, an automated tool for reporting on performance and accessibility. We&rsquo;ve attached lighthouse-generated reports for some of our pages below:</p>
+<p>To find performance savings and improvements, we used <a href="https://developers.google.com/web/tools/lighthouse">Lighthouse</a>, an automated tool for reporting on performance and accessibility. We&rsquo;ve attached lighthouse-generated reports for some of our pages below:</p>
 <br>
 <div class="accordion accordion-flush" id="accordionFlushLighthouse">
   <div class="accordion-item">
@@ -454,7 +473,7 @@
     </h2>
     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" >
       <div class="accordion-body">
-      <iframe src="/lighthouse/desktop_respondent_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
+      <iframe src="../lighthouse/desktop_respondent_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
       </div>
     </div>
   </div>
@@ -466,7 +485,7 @@
     </h2>
     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" >
       <div class="accordion-body">
-      <iframe src="/lighthouse/desktop_surveyor_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
+      <iframe src="../lighthouse/desktop_surveyor_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
       </div>
     </div>
   </div>
@@ -478,7 +497,7 @@
     </h2>
     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" >
       <div class="accordion-body">
-      <iframe src="/lighthouse/desktop_surveyor_leaderboard.html" title="description" width="100%" height="1000vh"></iframe>
+      <iframe src="../lighthouse/desktop_surveyor_leaderboard.html" title="description" width="100%" height="1000vh"></iframe>
       </div>
     </div>
   </div>
@@ -490,7 +509,7 @@
     </h2>
     <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" >
       <div class="accordion-body">
-      <iframe src="/lighthouse/desktop_task_overview.html" title="description" width="100%" height="1000vh"></iframe>
+      <iframe src="../lighthouse/desktop_task_overview.html" title="description" width="100%" height="1000vh"></iframe>
       </div>
     </div>
   </div>
@@ -502,7 +521,7 @@
     </h2>
     <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" >
       <div class="accordion-body">
-      <iframe src="/lighthouse/desktop_user_progress.html" title="description" width="100%" height="1000vh"></iframe>
+      <iframe src="../lighthouse/desktop_user_progress.html" title="description" width="100%" height="1000vh"></iframe>
       </div>
     </div>
   </div>
@@ -514,7 +533,7 @@
     </h2>
     <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" >
       <div class="accordion-body">
-      <iframe src="/lighthouse/mobile_respondent_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
+      <iframe src="../lighthouse/mobile_respondent_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
       </div>
     </div>
   </div>
@@ -526,7 +545,7 @@
     </h2>
     <div id="flush-collapseSeven" class="accordion-collapse collapse" aria-labelledby="flush-headingSeven" >
       <div class="accordion-body">
-      <iframe src="/lighthouse/mobile_surveyor_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
+      <iframe src="../lighthouse/mobile_surveyor_dashboard.html" title="description" width="100%" height="1000vh"></iframe>
       </div>
     </div>
   </div>
@@ -538,7 +557,7 @@
     </h2>
     <div id="flush-collapseEight" class="accordion-collapse collapse" aria-labelledby="flush-headingEight" >
       <div class="accordion-body">
-      <iframe src="/lighthouse/mobile_surveyor_leaderboard.html" title="description" width="100%" height="1000vh"></iframe>
+      <iframe src="../lighthouse/mobile_surveyor_leaderboard.html" title="description" width="100%" height="1000vh"></iframe>
       </div>
     </div>
   </div>
@@ -550,7 +569,7 @@
     </h2>
     <div id="flush-collapseNine" class="accordion-collapse collapse" aria-labelledby="flush-headingNine" >
       <div class="accordion-body">
-      <iframe src="/lighthouse/mobile_task_overview.html" title="description" width="100%" height="1000vh"></iframe>
+      <iframe src="../lighthouse/mobile_task_overview.html" title="description" width="100%" height="1000vh"></iframe>
       </div>
     </div>
   </div>
@@ -562,13 +581,13 @@
     </h2>
     <div id="flush-collapseTen" class="accordion-collapse collapse" aria-labelledby="flush-headingTen" >
       <div class="accordion-body">
-      <iframe src="/lighthouse/mobile_user_progress.html" title="description" width="100%" height="1000vh"></iframe>
+      <iframe src="../lighthouse/mobile_user_progress.html" title="description" width="100%" height="1000vh"></iframe>
       </div>
     </div>
   </div>
 </div>
 <br>
-<p>Looking deeper into these numbers, we can notice consistently that under the best practises section, we are continuously being penalised for a lack of https. This is something that we wanted to integrate, though decided not to due to time constraint, and the fact that we don&rsquo;t have a domain name, which complicates the process of obtaining a certificate.</p>
+<p>Looking deeper into these numbers, we can notice consistently that under the best practices section, we are continuously being penalised for a lack of https. This is something that we wanted to integrate, though decided not to due to time constraint, and the fact that we don&rsquo;t have a domain name, which complicates the process of obtaining a certificate.</p>
 <br>
 <h2 id="references">References</h2>
 <br>
@@ -581,7 +600,6 @@
     </article>
   </div>
 </div>
-
 
           </main>
           <footer id="colophon" class="site-footer">

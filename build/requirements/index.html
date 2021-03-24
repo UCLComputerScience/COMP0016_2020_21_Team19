@@ -253,6 +253,20 @@
         
       </header>
       
+      <aside class="hidden lg:block tableOfContentContainer" id="tableOfContentContainer">
+          <h3>Table of contents</h3>
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#project-background">Project Background</a></li>
+    <li><a href="#project-goals">Project Goals</a></li>
+    <li><a href="#gathering-requirements">Gathering Requirements</a></li>
+    <li><a href="#personas">Personas</a></li>
+    <li><a href="#use-cases">Use Cases</a></li>
+    <li><a href="#moscow-requirements">MoSCoW Requirements</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+      </aside>
       <div class="post-content">
         <h2 id="project-background">Project Background</h2>
 <p>Increasingly, hospitals are being mandated to monitor patient wellbeing post-treatment through Patient Reported Outcome Measures (PROMs). These are typically collected using questionnaires designed to receive subjective responses from patients to give a measure of the patient&rsquo;s sense of health and wellbeing. The questionnaires are often distributed in <strong>paper form</strong>, which dramatically increases the time that it takes to collect and analyse (given the questionnaires are mailed to the houses of the patients) and ultimately, the process of collecting and analysing the responses to these questionnaires can take <strong>up to a year</strong> to finalize (Background information about PROMs - NHS Digital, 2021).</p>
@@ -285,6 +299,37 @@
 <!-- End of Teacher Questions -->
 <br>
 <h2 id="personas">Personas</h2>
+<p>After interviewing our users, we created personas to represent the motivations and desires of the user (Nielsen, 2009). Doing this allows us to make the users more understandable and challenge our assumptions (Dam and Teo, 2020) about the user. We also created scenarios based on the interviews with our users to better understand the context of use, and to assist to evaluate the efficacy of our designs later.</p>
+<div id="carouselPersonas" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
+  <div class="carousel-indicators" style="bottom:-30px">
+    <button type="button" data-bs-target="#carouselPersonas" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselPersonas" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselPersonas" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselPersonas" data-bs-slide-to="3" aria-label="Slide 4"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="../images/requirements/personas/clinician.jpg" class="d-block w-100" alt="Clinician Persona">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/requirements/personas/patient.jpg" class="d-block w-100" alt="Patient Persona">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/requirements/personas/teacher.jpg" class="d-block w-100" alt="Teacher Persona">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/requirements/personas/student.jpg" class="d-block w-100" alt="Student Persona">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselPersonas" data-bs-slide="prev" style="left:-80px">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselPersonas" data-bs-slide="next" style="right:-80px">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
 <br>
 <h2 id="use-cases">Use Cases</h2>
 <br>
@@ -298,7 +343,44 @@
       </button>
     </h2>
     <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" >
-      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+      <div class="accordion-body">
+        <table class="table table-hover table-responsive">
+          <thead>
+            <th>Requirement</th>
+            <th>Type</th>
+          </thead>
+          <tbody class="table-success">
+            <tr>
+              <td>Surveyors can collect feedback from respondents.​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>Surveyors can set tasks containing qualitative and quantitative responses.​​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>System is accessible via a web-browser.​​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>Surveyors must be able to see individual Responses to a task.​​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>Surveyors must be able to create and manage groups of Respondents that they can assign tasks to collectively.​</td>
+              <td>Non-functional</td>
+            </tr>
+            <tr>
+              <td>The ability to score and rank Respondents by the responses that they generate on a league table.​</td>
+              <td>Non-functional</td>
+            </tr>
+            <tr>
+              <td>Respondent should be able to see the tasks that they have been assigned to complete.​​​</td>
+              <td>Non-functional</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="accordion-item">
@@ -308,7 +390,32 @@
       </button>
     </h2>
     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" >
-      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
+      <div class="accordion-body">
+        <table class="table table-hover table-responsive">
+          <thead>
+            <th>Requirement</th>
+            <th>Type</th>
+          </thead>
+          <tbody class="table-info">
+            <tr>
+              <td>Summary visualisations for groups​.​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>Create and reuse Task templates​.​​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>Responsive to different display sizes​.​​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>Visualisations for the breakdown of responses to a question.​​​</td>
+              <td>Non-functional</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="accordion-item">
@@ -318,7 +425,32 @@
       </button>
     </h2>
     <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" >
-      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+      <div class="accordion-body">
+        <table class="table table-hover table-responsive">
+          <thead>
+            <th>Requirement</th>
+            <th>Type</th>
+          </thead>
+          <tbody class="table-warning">
+            <tr>
+              <td>Attach links to questions and track number of link clicks for each question​.​​</td>
+              <td>Functional</td>
+            </tr>
+            <tr>
+              <td>Word clouds to visualise text responses​.​​​</td>
+              <td>Non-functional</td>
+            </tr>
+            <tr>
+              <td>Modify the way that a question is scored​​.​​​</td>
+              <td>Non-functional</td>
+            </tr>
+            <tr>
+              <td>Dedicated page for visualising group progress over time​.​​​</td>
+              <td>Non-functional</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="accordion-item">
@@ -328,7 +460,20 @@
       </button>
     </h2>
     <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" >
-      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+      <div class="accordion-body">
+        <table class="table table-hover table-responsive">
+          <thead>
+            <th>Requirement</th>
+            <th>Type</th>
+          </thead>
+          <tbody class="table-danger">
+            <tr>
+              <td>Feedback forms will not contain any task-specific content and should only be used as a mechanism to gather feedback.​​</td>
+              <td>Functional</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
@@ -336,6 +481,8 @@
 <h2 id="references">References</h2>
 <p>NHS Digital. 2021. Background information about PROMs - NHS Digital. [online] Available at: <a href="https://digital.nhs.uk/data-and-information/data-tools-and-services/data-services/patient-reported-outcome-measures-proms/background-information-about-proms">https://digital.nhs.uk/data-and-information/data-tools-and-services/data-services/patient-reported-outcome-measures-proms/background-information-about-proms</a> [Accessed 17 November 2020].</p>
 <p>Kovacevic, D., 2018. Patient Reported Outcome Measure (PROM) feedback form.. [image] Available at: <a href="https://www.researchgate.net/profile/David-Kovacevic/publication/326524497/figure/fig1/AS:652804830011402@1532652208322/Patient-Reported-Outcomes-Measurement-Information-System-PROMIS-Global-10-form.png">https://www.researchgate.net/profile/David-Kovacevic/publication/326524497/figure/fig1/AS:652804830011402@1532652208322/Patient-Reported-Outcomes-Measurement-Information-System-PROMIS-Global-10-form.png</a> [Accessed 21 March 2021].</p>
+<p>Nielsen, L. (2009). Personas. [online] The Interaction Design Foundation. Available at: <a href="https://www.interaction-design.org/literature/book/the-encyclopedia-of-human-computer-interaction-2nd-ed/personas">https://www.interaction-design.org/literature/book/the-encyclopedia-of-human-computer-interaction-2nd-ed/personas</a>. [Accessed 8 November 2020]​</p>
+<p>Dam, R.F. and Teo, Y.S. (2020). Learn How to Use the Best Ideation Methods: Challenge Assumptions. [online] The Interaction Design Foundation. Available at: <a href="https://www.interaction-design.org/literature/article/learn-how-to-use-the-best-ideation-methods-challenge-assumptions">https://www.interaction-design.org/literature/article/learn-how-to-use-the-best-ideation-methods-challenge-assumptions</a>. [Accessed 8 November 2020]​</p>
 
       </div>
       
@@ -344,7 +491,6 @@
     </article>
   </div>
 </div>
-
 
           </main>
           <footer id="colophon" class="site-footer">

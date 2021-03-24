@@ -14,7 +14,20 @@
   <div class="inner">
     <div class="grid">
       {{ range $plan := $section.pricing_plans }}
-      <div class="cell plan">
+      <div class="cell">
+        <div class="card text-center">
+          <h2 class="card-header text-white" style="background: rgb(12, 125, 249)">
+            {{ $plan.price }}
+          </h2>
+          <div class="card-body">
+            <!-- <h5 class="card-title">Special title treatment</h5> -->
+            <div class="plan-content">
+              {{ partial "markdownify-block" $plan.details }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="cell plan">
         <div class="card{{ if $plan.highlight }} highlight{{ end }}">
           <div class="plan-header">
             {{ if $plan.title }}
@@ -35,9 +48,9 @@
             {{ $include_dict := dict "actions" $plan.actions }}
             {{ partial "cta_buttons.html" $include_dict }}
           </div>
-        {{ end }}
+          {{ end }}
         </div>
-      </div>
+      </div> -->
       {{ end }}
     </div>
   </div>

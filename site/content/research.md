@@ -118,7 +118,7 @@ By process of elimination, this leaves us with the web application, which does n
 
 <br>
 
-### Web Frameworks
+### Programming Languages & Web Frameworks
 
 <br>
 
@@ -177,11 +177,29 @@ Thus, with the help of some additional sources [8, 9, 10], we narrowed our searc
 
 <br>
 
+#### SQL vs NoSQL
+
+<br>
+
+There are two types of database we could use in Activity League.
+
+SQL databases have predefined schema and are based on Structured Query Language (SQL) which is incredibly useful for performing long and complex queries through the database, whereas NoSQL databases do not and are document-based instead of relational. They do not impose restrictions on the contents of the documents within the database. Comparatively, this makes scaling NoSQL databases easier than scaling SQL databases, where changes to the schema of a database can prove costly and disruptive to the usage of an application [20].
+
+In the event that a bigger database is eventually used for Activity League, this would also give the upper hand to the NoSQL database which can be scaled horizontally (i.e. by adding more servers) rather than vertically like the SQL databases (adding more storage, RAM, etc) [20].
+
+However, in the context of Activity League, storing data in a relational database makes much more sense considering that a number of the functionalities implemented can be ultimately underpinned by complex, structured queries which are much better handled by SQL databases than NoSQL. For example, querying all of the users in a certain group of users who have completed a specific questionnaire.
+
+Nonetheless, this is still eventually determined by the way that we choose to structure our data, and at this (research) stage, we could realistically do either.
+
 <br>
 
 ## Ultimate Design Decisions
 
 <br>
+
+Given our past project experience in Python, its ORM and handling of views and requests, we opted to use Django 
+
+Our eventual choice of database has been determined by our choice of web framework: Django does not officially support NoSQL databases [21] and integrations between Django and NoSQL database providers such as MongoDB are conducted using unofficial package [`djongo`](https://github.com/nesdis/djongo).
 
 <br>
 
@@ -201,7 +219,7 @@ Thus, with the help of some additional sources [8, 9, 10], we narrowed our searc
 
 [6] Cloudflare. 2021. What do client side and server side mean? | Client side vs. server side. [online] Available at: <https://www.cloudflare.com/en-gb/learning/serverless/glossary/client-side-vs-server-side/> [Accessed 3 November 2020].
 
-[7] Toptal Engineering Blog. 2021. Client-side vs. Server-side vs. Pre-rendering for Web Apps. [online] Available at: <https://www.toptal.com/front-end/client-side-vs-server-side-pre-rendering#:~:text=Client%2Dside%20rendering%20manages%20the,displays%20a%20blank%20page%20first.> [Accessed 4 November 2020].
+[7] Toptal Engineering Blog. 2021. Client-side vs. Server-side vs. Pre-rendering for Web Apps. [online] Available at: <https://www.toptal.com/front-end/client-side-vs-server-side-pre-rendering> [Accessed 4 November 2020].
 
 [8] KeyCDN, 2021. Top 8 Best Backend Frameworks. Available at: <https://www.keycdn.com/blog/best-backend-frameworks> [Accessed 4 November 2020].
 
@@ -217,7 +235,7 @@ Thus, with the help of some additional sources [8, 9, 10], we narrowed our searc
 
 [14] DEV Community. 2021. Python Flask: pros and cons. [online] Available at: <https://dev.to/detimo/python-flask-pros-and-cons-1mlo> [Accessed 6 November 2020].
 
-[15] Medium. 2020. Flask vs Django: How to Understand Whether You Need a Hammer or a Toolbox. [online] Available at: <https://steelkiwi.medium.com/flask-vs-django-how-to-understand-whether-you-need-a-hammer-or-a-toolbox-39b8b3a2e4a5#:~:text=Django%20provides%20its%20own%20Django,any%20data%20models%20at%20all.&text=Django%20bundles%20everything%20together%2C%20while,Model%E2%80%93View%E2%80%93Controller%20framework.> [Accessed 6 November 2020].
+[15] Medium. 2020. Flask vs Django: How to Understand Whether You Need a Hammer or a Toolbox. [online] Available at: <https://steelkiwi.medium.com/flask-vs-django-how-to-understand-whether-you-need-a-hammer-or-a-toolbox-39b8b3a2e4a5> [Accessed 6 November 2020].
 
 [16] Node.js. 2020. Node.js. [online] Available at: <https://nodejs.org/en/> [Accessed 6 November 2020].
 
@@ -226,3 +244,7 @@ Thus, with the help of some additional sources [8, 9, 10], we narrowed our searc
 [18] Djangoproject.com. 2020. The Web framework for perfectionists with deadlines | Django. [online] Available at: <https://www.djangoproject.com/> [Accessed 6 November 2020].
 
 [19] Docs.djangoproject.com. 2020. Templates | Django documentation | Django. [online] Available at: <https://docs.djangoproject.com/en/3.1/topics/templates/> [Accessed 6 November 2020].
+
+[20] GeeksforGeeks. 2020. Difference between SQL and NoSQL - GeeksforGeeks. [online] Available at: <https://www.geeksforgeeks.org/difference-between-sql-and-nosql/> [Accessed 9 November 2020].
+
+[21] Code.djangoproject.com. 2020. NoSqlSupport – Django. [online] Available at: <https://code.djangoproject.com/wiki/NoSqlSupport> [Accessed 9 November 2020].

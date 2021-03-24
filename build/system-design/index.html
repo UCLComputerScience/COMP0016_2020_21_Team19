@@ -249,6 +249,22 @@
         
       </header>
       
+      <aside class="hidden lg:block tableOfContentContainer" id="tableOfContentContainer">
+          <h3>Table of contents</h3>
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#system-architecture-diagram">System Architecture Diagram</a></li>
+    <li><a href="#user-sequence-diagrams">User Sequence Diagrams</a></li>
+    <li><a href="#user-authentication-sequence-diagram">User Authentication Sequence Diagram</a></li>
+    <li><a href="#class-diagrams-entity-relationship">Class Diagrams (Entity Relationship)</a>
+      <ul>
+        <li><a href="#overall">Overall</a></li>
+        <li><a href="#app-specific">App-specific</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </aside>
       <div class="post-content">
         <h2 id="system-architecture-diagram">System Architecture Diagram</h2>
 <p><img src="../images/design/architecture.png" alt="System Architecture Diagram"></p>
@@ -296,15 +312,54 @@
 <h2 id="class-diagrams-entity-relationship">Class Diagrams (Entity Relationship)</h2>
 <br>
 <h3 id="overall">Overall</h3>
-<img src="../images/design/overall.svg" alt="Overall class diagram">
+<div class="btn-group">
+  <button id="zoomInButton" type="button" class="btn btn-primary">Zoom In</button>
+  <button id="zoomOutButton" type="button" class="btn btn-primary">Zoom Out</button>
+  <button id="resetButton" type="button" class="btn btn-primary">Reset</button>
+</div>
+<input id="rangeSlider" class="range-input" type="range" min="1" max="8" step="0.01" value="1">
+<div class="border border-3 border-dark mt-3">
+  <img id="overall-class-diagram" src="../images/design/overall.svg" alt="Overall class diagram">
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.3.2/dist/panzoom.min.js"></script>
+<script>
+const img = document.getElementById('overall-class-diagram');
+const zoomInButton = document.getElementById('zoomInButton');
+const zoomOutButton = document.getElementById('zoomOutButton');
+const resetButton = document.getElementById('resetButton');
+const rangeSlider = document.getElementById('rangeSlider');
+const panzoom = Panzoom(img, {
+  maxScale: 8,
+  //contain: 'outside'
+})
+zoomInButton.addEventListener('click', (event) => {
+  panzoom.zoomIn();
+  rangeSlider.value = panzoom.getScale();
+})
+zoomOutButton.addEventListener('click', (event) => {
+  panzoom.zoomOut();
+  rangeSlider.value = panzoom.getScale();
+})
+resetButton.addEventListener('click', (event) => {
+  panzoom.reset();
+  rangeSlider.value = panzoom.getScale();
+})
+rangeSlider.addEventListener('input', (event) => {
+  panzoom.zoom(event.target.valueAsNumber)
+})
+img.parentElement.addEventListener('wheel', (event) => {
+  panzoom.zoomWithWheel(event);
+  rangeSlider.value = panzoom.getScale();
+})
+</script>
 <br>
 <h3 id="app-specific">App-specific</h3>
-<div id="carouselClass" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
+<div id="carouselClassDiagrams" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
   <div class="carousel-indicators" style="bottom:-30px">
-    <button type="button" data-bs-target="#carouselClass" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselClass" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselClass" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    <button type="button" data-bs-target="#carouselClass" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    <button type="button" data-bs-target="#carouselClassDiagrams" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselClassDiagrams" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselClassDiagrams" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselClassDiagrams" data-bs-slide-to="3" aria-label="Slide 4"></button>
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
@@ -320,11 +375,11 @@
       <img src="../images/design/class-diagrams/4.png" class="d-block w-100" alt="Slide 4">
     </div>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselClass" data-bs-slide="prev" style="left:-80px">
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselClassDiagrams" data-bs-slide="prev" style="left:-80px">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
   </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselClass" data-bs-slide="next" style="right:-80px">
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselClassDiagrams" data-bs-slide="next" style="right:-80px">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
@@ -336,7 +391,6 @@
     </article>
   </div>
 </div>
-
 
           </main>
           <footer id="colophon" class="site-footer">

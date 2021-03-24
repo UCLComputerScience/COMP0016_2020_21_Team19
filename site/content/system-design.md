@@ -106,12 +106,12 @@ img.parentElement.addEventListener('wheel', (event) => {
 
 ### App-specific
 
-<div id="carouselClass" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
+<div id="carouselClassDiagrams" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
   <div class="carousel-indicators" style="bottom:-30px">
-    <button type="button" data-bs-target="#carouselClass" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselClass" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselClass" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    <button type="button" data-bs-target="#carouselClass" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    <button type="button" data-bs-target="#carouselClassDiagrams" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselClassDiagrams" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselClassDiagrams" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselClassDiagrams" data-bs-slide-to="3" aria-label="Slide 4"></button>
   </div>
   <div class="carousel-inner">
     <div class="carousel-item active">
@@ -127,11 +127,11 @@ img.parentElement.addEventListener('wheel', (event) => {
       <img src="../images/design/class-diagrams/4.png" class="d-block w-100" alt="Slide 4">
     </div>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselClass" data-bs-slide="prev" style="left:-80px">
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselClassDiagrams" data-bs-slide="prev" style="left:-80px">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
   </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselClass" data-bs-slide="next" style="right:-80px">
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselClassDiagrams" data-bs-slide="next" style="right:-80px">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>

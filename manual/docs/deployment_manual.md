@@ -1,5 +1,7 @@
 # Deploying Activity League
 
+These instructions should be followed on a production server.
+
 ## Install Docker and Docker Compose by following the official instructions:
 
 - Docker: [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)
@@ -7,9 +9,9 @@
 
 ## Starting the web app
 
-Create a new directory in the `$HOME` directory.
+Create a new directory called `deploy` in the `$HOME` directory.
 
-Copy the following `docker-compose.yml` into `~/deploy/`.
+Copy the following [`docker-compose-production-example.yml`](docker-compose-production-example.yml) into `~/deploy/`.
 
 This file manages all the images and containers that the app requires.
 
@@ -20,9 +22,9 @@ services:
   db:
     image: postgres
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      POSTGRES_DB: postgres
+      POSTGRES_USER: {{ POSTGRES_USER }}
+      POSTGRES_PASSWORD: {{ POSTGRES_PASSWORD }}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
   web:
@@ -31,16 +33,30 @@ services:
       - "8000:8000"
     depends_on:
       - db
-  watchtower:
+    environment:
+      DB_USER: {{ POSTGRES_USER }}
+      DB_PASSWORD: {{ POSTGRES_PASSWORD }}
+      DEBUG: "False"
+      EMAIL_HOST: {{ MAILSERVER.COM }}
+      EMAIL_HOST_PASSWORD: {{ EMAIL_HOST_PASSWORD }}
+      EMAIL_HOST_USER: {{ EMAIL_HOST_USER }}
+      GOOGLE_CLIENT_ID: {{ GOOGLE_CLIENT_ID }}
+      GOOGLE_SECRET: {{ GOOGLE_SECRET }}
+      SECRET_KEY: {{ SECRET_KEY }}
+  watchtower: # optional
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - /home/host/.docker/config.json:/config.json
     command: --interval 30
 volumes:
   postgres_data:
 ```
 
-The `watchtower` service is used to continuously check GitHub Packages for a newer build of the image and if it finds one, the new image is pulled and deployed.
+This is an example `docker-compose.yml` that can be used on a production server.
+The environment variables defined under the `web` service are used in `ActivityLeague/settings.py` and can be configured as your deployed instance requires.
+
+The `watchtower` service is used to continuously check GitHub Packages for a newer build of the image and if it finds one, the new image is pulled and deployed. This service is optional
 
 ## Configuring the server to run Activity League on reboot
 
@@ -68,7 +84,7 @@ ExecReload=/usr/local/bin/docker-compose up
 WantedBy=multi-user.target
 ```
 
-Change `USERNAMEE` to whichever user is being used to deploy Activity League.
+Change `USERNAME` to whichever user is being used to deploy Activity League.
 
 After you've copied this, save and close the file.
 

@@ -72,15 +72,36 @@ The system would be used daily by students and probably up to multiple times per
 
 After interviewing our users, we created personas to represent the motivations and desires of the user (Nielsen, 2009). Doing this allows us to make the users more understandable and challenge our assumptions (Dam and Teo, 2020) about the user. We also created scenarios based on the interviews with our users to better understand the context of use, and to assist to evaluate the efficacy of our designs later.
 
-![Personas](../images/requirements/persona1.jpg)
-
-> During her working day, Olivia plans the lessons and activities that her students are going to do and has a think about how she can make her lessons more engaging. After she has thought this through, she sits down at her teacher's desk in the classroom with her computer and logs in to the activity league platform, where she is able to quickly add a new task and an associated series of feedback questions in addition to a due date for her students.
-
-<br>
-
-![Personas](../images/requirements/persona2.jpg)
-
-> After completing a school task, Oliver is told by his teacher to fill in a feedback form. It is at the end of an activity – Oliver is tired and wants to talk to his friends (or family, if done at home). He opens the activity league web app, logs in, selects the appropriate task and is given a maximum of 10 questions, of which all are Likert scales (except two short response questions at the bottom). He is happy the tasks are short, and if he doesn't remember something that he was introduced to in an activity, he clicks a link to a learning resource which reminds him of the key points. The process takes a maximum of a few minutes.​
+<div id="carouselPersonas" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
+  <div class="carousel-indicators" style="bottom:-30px">
+    <button type="button" data-bs-target="#carouselPersonas" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselPersonas" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselPersonas" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <button type="button" data-bs-target="#carouselPersonas" data-bs-slide-to="3" aria-label="Slide 4"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="../images/requirements/personas/clinician.jpg" class="d-block w-100" alt="Clinician Persona">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/requirements/personas/patient.jpg" class="d-block w-100" alt="Patient Persona">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/requirements/personas/teacher.jpg" class="d-block w-100" alt="Teacher Persona">
+    </div>
+    <div class="carousel-item">
+      <img src="../images/requirements/personas/student.jpg" class="d-block w-100" alt="Student Persona">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselPersonas" data-bs-slide="prev" style="left:-80px">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselPersonas" data-bs-slide="next" style="right:-80px">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
 
 <br>
 
@@ -104,7 +125,7 @@ After interviewing our users, we created personas to represent the motivations a
         <table class="table table-hover table-responsive">
           <thead>
             <th>Requirement</th>
-            <th>Functional?</th>
+            <th>Type</th>
           </thead>
           <tbody class="table-success">
             <tr>
@@ -125,15 +146,15 @@ After interviewing our users, we created personas to represent the motivations a
             </tr>
             <tr>
               <td>Surveyors must be able to create and manage groups of Respondents that they can assign tasks to collectively.​</td>
-              <td>Non-Functional</td>
+              <td>Non-functional</td>
             </tr>
             <tr>
               <td>The ability to score and rank Respondents by the responses that they generate on a league table.​</td>
-              <td>Non-Functional</td>
+              <td>Non-functional</td>
             </tr>
             <tr>
               <td>Respondent should be able to see the tasks that they have been assigned to complete.​​​</td>
-              <td>Non-Functional</td>
+              <td>Non-functional</td>
             </tr>
           </tbody>
         </table>
@@ -151,7 +172,7 @@ After interviewing our users, we created personas to represent the motivations a
         <table class="table table-hover table-responsive">
           <thead>
             <th>Requirement</th>
-            <th>Functional?</th>
+            <th>Type</th>
           </thead>
           <tbody class="table-info">
             <tr>
@@ -168,7 +189,7 @@ After interviewing our users, we created personas to represent the motivations a
             </tr>
             <tr>
               <td>Visualisations for the breakdown of responses to a question.​​​</td>
-              <td>Non-Functional</td>
+              <td>Non-functional</td>
             </tr>
           </tbody>
         </table>
@@ -186,7 +207,7 @@ After interviewing our users, we created personas to represent the motivations a
         <table class="table table-hover table-responsive">
           <thead>
             <th>Requirement</th>
-            <th>Functional?</th>
+            <th>Type</th>
           </thead>
           <tbody class="table-warning">
             <tr>
@@ -195,15 +216,15 @@ After interviewing our users, we created personas to represent the motivations a
             </tr>
             <tr>
               <td>Word clouds to visualise text responses​.​​​</td>
-              <td>Non-Functional</td>
+              <td>Non-functional</td>
             </tr>
             <tr>
               <td>Modify the way that a question is scored​​.​​​</td>
-              <td>Non-Functional</td>
+              <td>Non-functional</td>
             </tr>
             <tr>
               <td>Dedicated page for visualising group progress over time​.​​​</td>
-              <td>Non-Functional</td>
+              <td>Non-functional</td>
             </tr>
           </tbody>
         </table>
@@ -221,7 +242,7 @@ After interviewing our users, we created personas to represent the motivations a
         <table class="table table-hover table-responsive">
           <thead>
             <th>Requirement</th>
-            <th>Functional?</th>
+            <th>Type</th>
           </thead>
           <tbody class="table-danger">
             <tr>

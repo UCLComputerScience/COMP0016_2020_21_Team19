@@ -249,6 +249,24 @@
         
       </header>
       
+      <aside class="hidden lg:block tableOfContentContainer" id="tableOfContentContainer">
+          <h3>Table of contents</h3>
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#django">Django</a></li>
+    <li><a href="#bootstrap">Bootstrap</a></li>
+    <li><a href="#database">Database</a></li>
+    <li><a href="#docker">Docker</a></li>
+    <li><a href="#linode">Linode</a></li>
+    <li><a href="#design-patterns">Design Patterns</a>
+      <ul>
+        <li><a href="#model-view-template">Model View Template</a></li>
+        <li><a href="#adapter">Adapter</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </aside>
       <div class="post-content">
         <h2 id="django">Django</h2>
 <p>Activity League has been developed using Django. Django proved to be a very good choice for the development of our web app, as it handled standard cases of functionalities
@@ -298,7 +316,7 @@ forms.py file. This file leverages the existing Django Forms API and contains th
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-<h3 id="bootstrap">Bootstrap</h3>
+<h2 id="bootstrap">Bootstrap</h2>
 <p>To ensure that our application was responsive to changes in the screen size and devices using it, we used the frontend framework Bootstrap when creating our HTML templates. Consequently, the web application is optimised for specific devices when using it. For example, logging in to Activity League on an iPhone will hide our sidebar menu and open it on click, with a smooth transition animation, whereas when viewed on desktop, it remains stuck to the left hand side of the page.</p>
 <p>This was an important consideration for us, given that our dashboard is feature and content heavy, and without the ability to restyle the layout by device, our web app would have been virtually unusable on smaller devices.</p>
 <div id="carouselBootstrap" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
@@ -327,14 +345,14 @@ forms.py file. This file leverages the existing Django Forms API and contains th
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-<h3 id="database">Database</h3>
+<h2 id="database">Database</h2>
 <p>All data stored by Activity League lies in a PostgreSQL database. PostgreSQL was a particularly suitable choice for Activity League, given there was extensive literature and resources available on the Django documentation on integrating the two of them. Our data also fit the relational model very nicely given the structure of our data, and the fact that lots of the functionalities required could be implemented using small, structured SQL queries. Conveniently, PostgreSQL was also open source. This stands in contrast to other popular databases including MongoDB, which was a paid alternative.</p>
 <p>As mentioned in the previous section, Django&rsquo;s ORM handled the translation between models (classes) defined specific to Activity League to PostgreSQL tables, where one model defined corresponded to one table.</p>
-<h3 id="docker">Docker</h3>
+<h2 id="docker">Docker</h2>
 <p>To ensure the easy deployment of Activity League, we decided to dockerise the entire application. Docker is a containerisation service - allowing for software to be distributed in the form of packages called containers. Containers allowed developers to isolate the development of an app from its local environment. This is particularly useful in deployment, as it means that theoretically, any system with docker installed could simply pull the Activity League container and run it on their system without dependency version conflicts (dependencies and versions are specified in the container).</p>
 <p>Given Activity League was going to be deployed on a Linode server, Docker&rsquo;s containerisation system also likely saved a great amount of time debugging features that worked locally but didn&rsquo;t work on the server, which allowed us to further refine and implement new functionalities to our solution.</p>
 <p><img src="../images/design/docker.png" alt="Docker"></p>
-<h3 id="linode">Linode</h3>
+<h2 id="linode">Linode</h2>
 <p>Activity League is currently deployed on a Linode server with 1 core, 1GB of RAM and 25GB of storage for a total cost of $5 per month. Linode was selected out of client preference, but was a convenient choice for the project deployment given its simplicity to setup.</p>
 <p><img src="../images/design/linode.png" alt="Linode"></p>
 <p>As part of a continuous deployment practice, Activity League makes use of WatchTower on the Linode server. Every time a new commit is made to the the main branch, GitHub Actions runs our tests and if they pass, builds a new Docker image hosted on GitHub packages, which WatchTower looks for. WatchTower is configured to probe the project repository every 60 seconds, and if it detects a newer edition of the image being hosted by GitHub Packages, it takes the old version down and deploys the new image automatically.</p>
@@ -354,7 +372,6 @@ forms.py file. This file leverages the existing Django Forms API and contains th
     </article>
   </div>
 </div>
-
 
           </main>
           <footer id="colophon" class="site-footer">

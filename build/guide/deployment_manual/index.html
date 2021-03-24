@@ -415,14 +415,15 @@
                 
                 
                 <h1 id="deploying-activity-league">Deploying Activity League</h1>
+<p>These instructions should be followed on a production server.</p>
 <h2 id="install-docker-and-docker-compose-by-following-the-official-instructions">Install Docker and Docker Compose by following the official instructions:</h2>
 <ul>
 <li>Docker: <a href="https://docs.docker.com/get-docker/">https://docs.docker.com/get-docker/</a></li>
 <li>Docker Compose: <a href="https://docs.docker.com/compose/install/">https://docs.docker.com/compose/install/</a></li>
 </ul>
 <h2 id="starting-the-web-app">Starting the web app</h2>
-<p>Create a new directory in the <code>$HOME</code> directory.</p>
-<p>Copy the following <code>docker-compose.yml</code> into <code>~/deploy/</code>.</p>
+<p>Create a new directory called <code>deploy</code> in the <code>$HOME</code> directory.</p>
+<p>Copy the following <a href="docker-compose-production-example.yml"><code>docker-compose-production-example.yml</code></a> into <code>~/deploy/</code>.</p>
 <p>This file manages all the images and containers that the app requires.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span> <span class="s">&quot;3.9&quot;</span>
 
@@ -430,9 +431,9 @@
   <span class="nt">db</span><span class="p">:</span>
     <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">postgres</span>
     <span class="nt">environment</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">POSTGRES_DB=postgres</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">POSTGRES_USER=postgres</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">POSTGRES_PASSWORD=postgres</span>
+      <span class="nt">POSTGRES_DB</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">postgres</span>
+      <span class="nt">POSTGRES_USER</span><span class="p">:</span> <span class="p p-Indicator">{{</span> <span class="nv">POSTGRES_USER</span> <span class="p p-Indicator">}}</span>
+      <span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span> <span class="p p-Indicator">{{</span> <span class="nv">POSTGRES_PASSWORD</span> <span class="p p-Indicator">}}</span>
     <span class="nt">volumes</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">postgres_data:/var/lib/postgresql/data/</span>
   <span class="nt">web</span><span class="p">:</span>
@@ -441,15 +442,28 @@
       <span class="p p-Indicator">-</span> <span class="s">&quot;8000:8000&quot;</span>
     <span class="nt">depends_on</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">db</span>
-  <span class="nt">watchtower</span><span class="p">:</span>
+    <span class="nt">environment</span><span class="p">:</span>
+      <span class="nt">DB_USER</span><span class="p">:</span> <span class="p p-Indicator">{{</span> <span class="nv">POSTGRES_USER</span> <span class="p p-Indicator">}}</span>
+      <span class="nt">DB_PASSWORD</span><span class="p">:</span> <span class="p p-Indicator">{{</span> <span class="nv">POSTGRES_PASSWORD</span> <span class="p p-Indicator">}}</span>
+      <span class="nt">DEBUG</span><span class="p">:</span> <span class="s">&quot;False&quot;</span>
+      <span class="nt">EMAIL_HOST</span><span class="p">:</span> <span class="p p-Indicator">{{</span> <span class="nv">MAILSERVER.COM</span> <span class="p p-Indicator">}}</span>
+      <span class="nt">EMAIL_HOST_PASSWORD</span><span class="p">:</span> <span class="p p-Indicator">{{</span> <span class="nv">EMAIL_HOST_PASSWORD</span> <span class="p p-Indicator">}}</span>
+      <span class="nt">EMAIL_HOST_USER</span><span class="p">:</span> <span class="p p-Indicator">{{</span> <span class="nv">EMAIL_HOST_USER</span> <span class="p p-Indicator">}}</span>
+      <span class="nt">GOOGLE_CLIENT_ID</span><span class="p">:</span> <span class="p p-Indicator">{{</span> <span class="nv">GOOGLE_CLIENT_ID</span> <span class="p p-Indicator">}}</span>
+      <span class="nt">GOOGLE_SECRET</span><span class="p">:</span> <span class="p p-Indicator">{{</span> <span class="nv">GOOGLE_SECRET</span> <span class="p p-Indicator">}}</span>
+      <span class="nt">SECRET_KEY</span><span class="p">:</span> <span class="p p-Indicator">{{</span> <span class="nv">SECRET_KEY</span> <span class="p p-Indicator">}}</span>
+  <span class="nt">watchtower</span><span class="p">:</span> <span class="c1"># optional</span>
     <span class="nt">image</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">containrrr/watchtower</span>
     <span class="nt">volumes</span><span class="p">:</span>
       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/var/run/docker.sock:/var/run/docker.sock</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">/home/host/.docker/config.json:/config.json</span>
     <span class="nt">command</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">--interval 30</span>
 <span class="nt">volumes</span><span class="p">:</span>
   <span class="nt">postgres_data</span><span class="p">:</span>
 </code></pre></div>
-<p>The <code>watchtower</code> service is used to continuously check GitHub Packages for a newer build of the image and if it finds one, the new image is pulled and deployed.</p>
+<p>This is an example <code>docker-compose.yml</code> that can be used on a production server.
+The environment variables defined under the <code>web</code> service are used in <code>ActivityLeague/settings.py</code> and can be configured as your deployed instance requires.</p>
+<p>The <code>watchtower</code> service is used to continuously check GitHub Packages for a newer build of the image and if it finds one, the new image is pulled and deployed. This service is optional</p>
 <h2 id="configuring-the-server-to-run-activity-league-on-reboot">Configuring the server to run Activity League on reboot</h2>
 <p>To run Activity League on server reboot automatically, create a file called <code>activity_league.service</code> in <code>/etc/systemd/system</code> and populate it with the following:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[Unit]</span>
@@ -472,7 +486,7 @@
 <span class="k">[Install]</span>
 <span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
 </code></pre></div>
-<p>Change <code>USERNAMEE</code> to whichever user is being used to deploy Activity League.</p>
+<p>Change <code>USERNAME</code> to whichever user is being used to deploy Activity League.</p>
 <p>After you've copied this, save and close the file.</p>
 <ul>
 <li>Run <code>sudo systemctl daemon-reload</code> to allow the system to recognise the new service and once you've done this.</li>
@@ -502,12 +516,47 @@
         </div>
       </main>
       
-        
+        <!--
+  Copyright (c) 2016-2021 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+
+
+<!-- Footer -->
 <footer class="md-footer">
+
+  <!-- Link to previous and/or next page -->
   
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
+    <nav
+      class="md-footer__inner md-grid"
+      aria-label="Footer"
+    >
+
+      <!-- Link to previous page -->
       
-        <a href="../respondent/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a
+          href="../respondent/"
+          class="md-footer__link md-footer__link--prev"
+          rel="prev"
+        >
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -521,19 +570,23 @@
           </div>
         </a>
       
+
+      <!-- Link to next page -->
       
     </nav>
   
+
+  <!-- Further information -->
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
+
+      <!-- Copyright and theme information -->
       <div class="md-footer-copyright">
         
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
         
       </div>
+
+      <!-- Social links -->
       
     </div>
   </div>

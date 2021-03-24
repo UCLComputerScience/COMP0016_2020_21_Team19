@@ -152,7 +152,7 @@ layout: post
 
 <br>
 
-#### Contributions
+## Contributions
 
 <table class="table table-hover">
   <thead>
@@ -238,7 +238,7 @@ In addition to the features initially requested by our client, we added some som
 <br>
 
 * Chart.js rendering can occasionally take up a large vertical space (this is likely to be a bug within Chart.js)
-* On Internet Explorer, the Activity League logo occasionally does not appear at the top left conrer of the page.
+* On Internet Explorer, the Activity League logo occasionally does not appear at the top left corner of the page.
 
 <br>
 
@@ -250,10 +250,7 @@ In addition to the features initially requested by our client, we added some som
 
 ### User interface
 
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
+<br>
 
 UI/UX was an important consideration for us throughout the duration of the project, as we realised that it's directly tied to how users would perceive our site. Hence, we paid close attention to our page layouts and tried to adhere to [best practices](https://www.usability.gov/what-and-why/user-interface-design.html) as much as possible.
 
@@ -300,24 +297,17 @@ Due to the time constraints of the project, we weren't able to implement some sm
 
 ### Functionality
 
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star-half"></span>
+<br>
 
 We are pleased to have implemented 100% of the features our client requested and a few extra ones. Our web app meets the core needs of a clinic/school which wants to collect user-reported outcomes such as the creation of groups, tasks and ability for responses to be collected and analysed. In addition to this, we have added convenience features, such as the upload of spreadsheets to enable easier creation of groups, to enhance the user experience.
 
-All the dependencies of the application are completely open-sourced. We actively sought to use well-reputed third-party packages to handle mission-critical features such as authentication, following the principle of not designing our own security. Not only does this make our application components more **loosely coupled**, but ensures that our authentication system is **resilient to vulnerabilities** as updates to the open source package trickle down into our app without our direct intervention.
-e
+All the dependencies of the application are completely open-sourced. We actively sought to use well-reputed third-party packages to handle mission-critical features such as authentication, following the principle of not designing our own security. Not only does this reduce coupling among different components, but also ensures that our authentication system is **resilient to vulnerabilities** as updates to the open source packages trickle down into our app without our direct intervention.
+
 <br>
 
 ### Stability
 
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
+<br>
 
 Our application is stable and there are no major concerns regarding its stability. Our confidence in this claim is grounded by our **thorough approach to testing** individual components, end-to-end user actions, and webpage performance. Furthermore, our automated [Continuous Integration and Deployment](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions) workflows ensure that our web app retains consistent behaviour.
 
@@ -327,10 +317,7 @@ However, this should be very easy for future developers to circumvent especially
 
 ### Efficiency
 
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star-half"></span>
+<br>
 
 From the performance testing we conducted using [Lighthouse](https://developers.google.com/web/tools/lighthouse), our website was rated highly for performance. We acheived this by optimising our code in places where we could. This is also in part thanks to Django's ORM and [lazy `QuerysSets`](https://docs.djangoproject.com/en/3.1/topics/db/queries/#querysets-are-lazy) which ensured that database queries were highly optimised for Disk IO performance which is [often the bottleneck](https://go.forrester.com/blogs/11-02-13-the_nastiest_performance_bottleneck_is_often_the_database/).
 
@@ -373,10 +360,7 @@ With that being said, we think there are further optimisations that could be mad
 
 ### Compatibility
 
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
+<br>
 
 The web app has been tested extensively on a variety of browsers and mobile devices. Through [Cypress](https://www.cypress.io/), our framework of choice for end-to-end integration tests, we were able to automate testing on Chrome and Firefox. This covers a majority of use cases as these among the [most popular desktop browsers in the world](https://gs.statcounter.com/browser-market-share/desktop/worldwide).
 
@@ -390,11 +374,7 @@ Our app is fully responsive and can hence be used on mobile devices without an i
 
 ### Maintainability
 
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star-half"></span>
+<br>
 
 Code quality was an important consideration for us throughout the project, as we understood that our work would have little to no value if future developers couldn't easily work on the codebase. To that end, we have spent a lot of time documenting our code and implementing [Django design patterns and best practices](https://www.google.co.uk/books/edition/Django_Design_Patterns_and_Best_Practice/WzW9BwAAQBAJ).
 
@@ -407,11 +387,7 @@ We have also created a detailed deployment manual which is available on both the
 
 ### Project Management
 
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star-half"></span>
+<br>
 
 As a team, we met several times per week to work collaboratively on the code and the vast majority of work was completed using [Live Share](https://code.visualstudio.com/learn/collaboration/live-share). We found this to be the most productive method for coding as we could combine our ideas and work cohesively, whilst also making less mistakes.
 

@@ -37,20 +37,19 @@ sections:
       - title:
         price: Slow
         details: |-
-          * PROMs are typically collected by mailing paper questionnaires to patients.
-          * The NHS reports that for a single group of patients, PROMs data can take up to a year to collect.
-          * This inefficiency makes it hard for the clinicians to adjust treatment plans in a timely manner.
+          **PROMs are typically collected by mailing paper questionnaires to patients.
+          The NHS reports that for a single group of patients, PROMs data can take up to a year to collect.**
+        highlight: true
+      - title:
+        price: Difficult to analyse
+        details: |-
+          **Collecting responses of physical questionnaires means manually updating records - providing no quick and easy visualisations to assist in analysing the repsonse data.**
         highlight: true
       - title:
         price: Necessary
         details: |-
-          * It is becoming increasingly important for doctors to continue monitoring the health of their patients after they've been discharged.
-          * Many hospitals are now mandated to do so.
-        highlight: true
-      - title:
-        price: Difficult to Analyse
-        details: |-
-          * Collecting responses of physical questionnaires means manually updating records - providing no quick and easy visualisations to assist in analysing the repsonse data.
+          **It is becoming increasingly important for doctors to continue monitoring the health of their patients after they've been discharged.
+          Many hospitals are now mandated to do so.**
         highlight: true
 
   - section_id: solution
@@ -67,13 +66,13 @@ sections:
           * Patients can report the outcomes of these tasks
 
           * Progress visualisations provided for both clinicians and patients
-        # actions:
-        #   - label: Learn More
-        #     url: /features
-        #     style: secondary
-        #     has_icon: true
-        #     icon: arrow-right
-        #     icon_position: right
+        actions:
+          - label: Learn More
+            url: /features
+            style: secondary
+            has_icon: true
+            icon: arrow-right
+            icon_position: right
       - title: Collect & Analyse Results
         image: images/home/task_overview.png
         image_alt: App users welcoming a new member
