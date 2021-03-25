@@ -3,20 +3,20 @@ title: Home
 sections:
   - section_id: hero
     type: section_hero
-    image: images/home/surveyor_dashboard.png
+    video: videos/19_video.mp4
     image_alt: App preview
     title: Activity League
     content: >-
-      <img src="../images/ixn.png" style="max-width:40%">
+      <img src="images/ixn.png" style="max-width:40%">
       <br>
       <br>
       Team 19 – UCL Computer Science COMP0016 2020/21
       <br>
       Hamza Nasir · Karan Chawla · Jamie Weigold
-    actions:
-      - label: Watch demo
-        url: https://www.youtube.com/watch?v=dQw4w9WgXcQ
-        style: primary
+    # actions:
+    #   - label: Watch demo
+    #     url: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+    #     style: primary
   - section_id: problem
     type: section_features
     background: gray
@@ -66,13 +66,13 @@ sections:
           * Patients can report the outcomes of these tasks
 
           * Progress visualisations provided for both clinicians and patients
-        actions:
-          - label: Learn More
-            url: /features
-            style: secondary
-            has_icon: true
-            icon: arrow-right
-            icon_position: right
+        # actions:
+        #   - label: Learn More
+        #     url: /features
+        #     style: secondary
+        #     has_icon: true
+        #     icon: arrow-right
+        #     icon_position: right
       - title: Collect & Analyse Results
         image: images/home/task_overview.png
         image_alt: App users welcoming a new member

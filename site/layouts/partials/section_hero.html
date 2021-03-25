@@ -7,6 +7,13 @@
         <img src="{{ $section.image | relURL }}" alt="{{ $section.image_alt }}" />
       </div>
       {{ end }}
+      {{ if $section.video }}
+      <div class="cell block-preview">
+        <video controls>
+          <source src="{{ $section.video | relURL }}" type="video/mp4">
+        </video>
+      </div>
+      {{ end }}
       <div class="cell block-content">
         {{ if $section.title }}
         <h2 class="block-title underline">{{ $section.title }}</h2>
