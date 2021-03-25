@@ -72,6 +72,7 @@ urlpatterns = [
 
 And now go to the template that you usually use for logins (we use the standard allauth templates `/accounts/login.html`) and loop over the social account providers that you have configured to work with your project outside of the standard login form in the template:
 
+{% raw %}
 ```html
 ...
 
@@ -96,6 +97,7 @@ And now go to the template that you usually use for logins (we use the standard 
   ...
 
 ```
+{% endraw %}
 
 Opening this template in a browser should now show an option to Sign In with Google. Clicking on this won't work just yet though, we still need to register our application with Google in order to enable this.
 
