@@ -1,9 +1,7 @@
 ---
 title: Research
-excerpt: >-
-  A story about customer loyalty curabitur sed consectetur nisi. Integer sit
-  amet commodo massa.
 layout: post
+toc: true
 ---
 
 <br>

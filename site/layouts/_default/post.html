@@ -16,10 +16,12 @@
         <img src="{{ $.Params.image | relURL }}" alt="{{ $.Params.image_alt }}" />
       </div>
       {{ end }}
+      {{ if .Params.toc }}
       <aside class="hidden lg:block tableOfContentContainer" id="tableOfContentContainer">
           <h3>Table of contents</h3>
           {{ .TableOfContents }}
       </aside>
+      {{ end }}
       <div class="post-content">
         {{ .Content }}
       </div>

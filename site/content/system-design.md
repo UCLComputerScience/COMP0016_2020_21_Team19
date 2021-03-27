@@ -1,8 +1,7 @@
 ---
 title: System Design
-subtitle:
-excerpt: >-
 layout: post
+toc: true
 ---
 
 ## System Architecture Diagram

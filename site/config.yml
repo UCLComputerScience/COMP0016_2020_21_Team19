@@ -39,6 +39,9 @@ params:
       - label: Docs
         url: /docs
         style: link
+      - label: Legal
+        url: /legal
+        style: link
   footer:
     sections:
       - type: footer_text

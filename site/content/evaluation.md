@@ -1,9 +1,7 @@
 ---
 title: Evaluation
-excerpt: >-
-  A story about customer loyalty curabitur sed consectetur nisi Integer sit
-  amet commodo massa
 layout: post
+toc: true
 ---
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
