@@ -195,9 +195,9 @@ Nonetheless, this is still eventually determined by the way that we choose to st
 
 <br>
 
-Given our past project experience in Python, its ORM and handling of views and requests, we opted to use Django 
+Given our past project experience in Python, its ORM and handling of views and requests and our client's preference, we opted to use Django. On the frontend, we decided to use Bootstrap given we were using Django's HTML templates and didn't need the more complex functionalities provided by frameworks like React.js.
 
-Our eventual choice of database has been determined by our choice of web framework: Django does not officially support NoSQL databases [21] and integrations between Django and NoSQL database providers such as MongoDB are conducted using unofficial package [`djongo`](https://github.com/nesdis/djongo).
+Our eventual choice of database has been determined by our choice of web framework: Django does not officially support NoSQL databases [21] and integrations between Django and NoSQL database providers such as MongoDB are conducted using unofficial package [`djongo`](https://github.com/nesdis/djongo). Accordingly, we decided to use a PostgreSQL DBMS for our application due to its popularity and strong documentation within the Django community.
 
 <br>
 

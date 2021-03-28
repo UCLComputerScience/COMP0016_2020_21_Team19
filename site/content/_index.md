@@ -37,19 +37,19 @@ sections:
       - title:
         price: Slow
         details: |-
-          **PROMs are typically collected by mailing paper questionnaires to patients.
-          The NHS reports that for a single group of patients, PROMs data can take up to a year to collect.**
+          PROMs are typically collected by mailing paper questionnaires to patients.
+          The NHS reports that for a single group of patients, PROMs data can take up to a year to collect.
         highlight: true
       - title:
-        price: Difficult to analyse
+        price: Difficult to Analyse
         details: |-
-          **Collecting responses of physical questionnaires means manually updating records - providing no quick and easy visualisations to assist in analysing the repsonse data.**
+          Collecting responses of physical questionnaires means manually updating records - providing no quick and easy visualisations to assist in analysing the repsonse data.
         highlight: true
       - title:
         price: Necessary
         details: |-
-          **It is becoming increasingly important for doctors to continue monitoring the health of their patients after they've been discharged.
-          Many hospitals are now mandated to do so.**
+          It is becoming increasingly important for doctors to continue monitoring the health of their patients after they've been discharged.
+          Many hospitals are now mandated to do so.
         highlight: true
 
   - section_id: solution
@@ -57,7 +57,7 @@ sections:
     background: gray
     title: Our Solution
     features:
-      - title: Web-based solution to capturing user-reported outcomes
+      - title: Web-based solution to capturing PROMs
         image: images/home/surveyor_dashboard.png
         image_alt: App preview on a phone and tablet
         content: >-
@@ -139,7 +139,7 @@ sections:
   - section_id: call-to-action
     type: section_cta
     title: Project Management
-    subtitle: 05 Oct 2020 – 24 March 2021
+    subtitle: 05 Oct 2020 – 30 March 2021
     # actions:
     #   - label: Get Started
     #     url: /signup
@@ -170,7 +170,7 @@ sections:
         description: BSc Computer Science Student | UCL
 seo:
   title: Team 19 - Activity League
-  description: The preview of the Azimuth theme
+  description: COMP0016 Team 19 - Activity League
   extra:
     - name: 'og:type'
       value: website
@@ -179,7 +179,7 @@ seo:
       value: Team 19 - Activity League
       keyName: property
     - name: 'og:description'
-      value: The preview of the Azimuth theme
+      value: COMP0016 Team 19 - Activity League
       keyName: property
     - name: 'og:image'
       value: images/hero.png
@@ -190,7 +190,7 @@ seo:
     - name: 'twitter:title'
       value: Team 19 - Activity League
     - name: 'twitter:description'
-      value: The preview of the Azimuth theme
+      value: COMP0016 Team 19 - Activity League
     - name: 'twitter:image'
       value: images/hero.png
       relativeUrl: true

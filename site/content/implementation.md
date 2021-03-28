@@ -121,3 +121,143 @@ MVT allows Activity League to be easily scalable: the addition of a new page sim
 ### Adapter
 During the invitation processs (by email), Activity League uses two dependencies: django-invitations (takes care of the email invitations) and django-allauth (takes care of secure user authentication). As Activity League is invite-only and django-allauth doesn't support customisation of signup methods (signup is either closed or it isn't), we implemented the adapter design pattern to change the signal that was being passed from django-inviations to django-allauth. This allows us to selectively open the signup if a user is creating an organisation, but closes it off otherwise.
 
+## Key Features
+
+This section will describe a few of the key features and how they are implemented in Activity League. For more information, please refer to the [Docs][../docs] section and the [project README](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/blob/main/README.md).
+
+### Database Connection
+
+Since this project has been Dockerised, connecting the database is very simple.
+
+- A database image, in this case `postgres`, is specified in the `docker-compose.yml` with user-set credentials and exposed on port 5432.
+- Django's `settings.py` file must have a `DATABASES` dictionary like so:
+    ```python
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'postgres',
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': 'localhost' if os.getenv('GITHUB_WORKFLOW') else 'db',
+            'PORT': 5432,
+        }
+    }
+    ```
+    Here, the credentials must match those specified in the `docker-compose.yml` to allow the application container and the database containers to communicate.
+
+### Authentication
+
+Authentication is principally handled by [django-allauth](https://django-allauth.readthedocs.io/en/latest/index.html).
+
+#### SSO Providers
+
+Currently, Activity League allows users to authenticate using Google. However, this can be easily extended for more providers using only a few lines of code.
+
+In the `settings.py`, the following configuration can be see:
+
+```python
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': os.getenv('GOOGLE_CLIENT_ID'),
+            'secret': os.getenv('GOOGLE_SECRET'),
+            'key': ''
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+```
+
+To add another provider, you simply need to add another entry to the `SOCIALACCOUNT_PROVIDERS` dictionary. The specific values may differ between providers and it is best to refer to the package documentation for specific details. The django-allauth library has support for lots of different providers - a full list of which can be found [here](https://django-allauth.readthedocs.io/en/latest/providers.html).
+
+Activity League also makes use of the `user_signed_up` signal fired by django-allauth when a user creates an account.
+This is handled in `authentication/signals.py` by creating user objects in the database accordingly, and throwing the relevant exceptions otherwise.
+
+### Invitations
+
+An invitation system is implemented using [django-invitations](https://github.com/bee-keeper/django-invitations).
+
+Activity League implements a custom invitation model named `UserInvitation`, which can be found in `authentication/models.py`. Notably, this has a few extra fields compared to the `BaseInvitation` implemented by the package to accomodate for two different user types using a single invitation model.
+
+```python
+class UserInvitation(AbstractBaseInvitation):
+    """
+    Model representing an invitation to join the platform being sent to the user.
+    """
+    email = models.EmailField(unique=True, verbose_name=_('e-mail address'),
+                              max_length=app_settings.EMAIL_MAX_LENGTH)
+    created = models.DateTimeField(verbose_name=_('created'),
+                                   default=timezone.now)
+    organisation = models.ForeignKey(Organisation, blank=True, null=True, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, blank=True, null=True, on_delete=models.CASCADE)
+    is_respondent = models.BooleanField(default=False)
+```
+
+The model instances therefore take in a few extra parameters when being created:
+
+```python
+@classmethod
+def create(cls, email, inviter=None, organisation=None,
+           group=None, is_respondent=False, **kwargs):
+    ...
+```
+
+This invitations system of the application can be extended and modified by making changes to just this model as required.
+
+For cases where an Excel spreadsheet is uploaded to bulk-invite users, this is done in the relevant `view`, using [Tablib](https://tablib.readthedocs.io/en/stable/).
+
+For instance:
+```python
+dataset = Dataset()
+new_persons = request.FILES['file']
+imported_data = dataset.load(new_persons.read(), format='xlsx', headers=False)
+for entry in imported_data:
+    ...
+```
+
+### Visualisations
+
+Activity League uses [Chart.js](https://www.chartjs.org/) for all its visualisations. Since this is a client-side JavaScript library, we interface with it by passing in data to the relevant templates. This can be seen in `views.py`.
+
+For example:
+
+```python
+def dashboard(request):
+    """
+    The Dashboard page for the ``Surveyor``.
+    Displays each incomplete ``Task`` they have set, as well as an overview of the leaderboard and progress of each ``Group``.
+
+    :param request: The ``GET`` request made by the user.
+    :type request: django.http.HttpRequest
+    :return: The ``surveyor/dashboard.html`` template rendered using the given dictionary.
+    :rtype: django.http.HttpResponse
+    """
+    if request.method == 'GET':
+        ...
+        group_data = get_graphs_and_leaderboards(user)
+        return render(request, 'surveyor/dashboard.html',
+                    {..., 'group_data': group_data})
+```
+
+Consequently we must convert this data into a JS variable which Chart.js can access and use.
+
+```JavaScript
+var groupData = [
+  {% for gr in group_data %}
+    {
+      id: '{{ gr.id }}',
+      title: '{{ gr.title }}',
+      dates: {{ gr.labels | safe }},
+      scores: {{ gr.scores | safe }}
+    }{% if not forloop.last %},{% endif %}
+  {% endfor %}
+];
+```
+
+This `groupData` is then used by script `static/js/daterange-chart.js` to create the relevant charts with the given data.

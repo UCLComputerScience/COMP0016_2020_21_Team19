@@ -38,29 +38,29 @@ We identified our users by interviewing our client, who referred us to KS2 teach
 
 Questions to teachers (answered by pseudo-users):​
 
-<span style="color:blue">What do you consider the greatest pain point during the process of engaging students in school activities (physical or otherwise)?​</span>
+<span style="color:blue">What is the greatest pain point during the process of collecting PROMs?​</span>
 
-Aside from using pictures or animations and rewards, I don’t know what I could do to make the students engage more with my activities, and I don’t really have any way to know whether my students are reacting positively to the way that I am making changes or not.​
+Distributing PROMs is okay. We have loads of PROM resources internally which allows me to find the ones that I need quickly. The pain point is really the amount of time that it takes to extract useful information from the responses that we get. We submit the questionnaires to patients not expecting to see the outcomes of it until a year from now, which I think really doesn’t need to be the case. 
 
 <span style="color:blue">What do you think is the solution to this problem?​​</span>
 
-Some kind of application which allows me to get feedback from my students as to how they’re getting on.​
+I’m honestly not quite sure why we still mail these instead of using a website or something instead. I think it’d be much faster if we could send them all online, and then get their responses as soon as they’ve completed them, not until every single person has been chased up for a year to respond. 
 
 <span style="color:blue">Who would be the potential users of this solution, other than yourself?​</span>
 
-My students themselves – but they are only in Key Stage 2.​
+The patients, so that they can answer questions. 
 
 <span style="color:blue">What format do you think would be most suitable for the final solution (e.g., mobile application, web application, wearable device)?​​</span>
 
-I think a solution on the web would be most suitable, since most students their age don’t own a mobile phone, and we could even allocate some time during their existing IT sessions for them to provide this feedback.​
+Not a wearable device. These forms can be quite big sometimes, so I think they’d need something bigger than a phone to see it on, so a web app sounds best as far as I see it. It would be great if they could respond to this on their phone too though, in case they don’t have a computer. 
 
 <span style="color:blue">Where would this solution (mainly) be used?​​</span>
 
-In the classroom, since students will be interacting with the system during lesson time on the computers. Teachers may also want to access the system from home.​
+I’ll be using it at my desk most of the time. I presume the patients will probably be using it at home. 
 
 <span style="color:blue">When would this system be used?​​</span>
 
-The system would be used daily by students and probably up to multiple times per day by teachers.
+Every few days for me. Potentially more often for my colleagues. Ours normally go out in batches, so it’d really be used either when we get a response back or when we’re sending a batch out. 
 
 <!-- End of Teacher Questions -->
 
@@ -104,6 +104,48 @@ After interviewing our users, we created personas to represent the motivations a
 <br>
 
 ## Use Cases
+<div class="btn-group">
+  <button id="zoomInButton" type="button" class="btn btn-primary">Zoom In</button>
+  <button id="zoomOutButton" type="button" class="btn btn-primary">Zoom Out</button>
+  <button id="resetButton" type="button" class="btn btn-primary">Reset</button>
+</div>
+<input id="rangeSlider" class="range-input" type="range" min="0.1" max="3" step="0.01" value="1">
+<div class="border border-3 border-dark mt-3">
+  <img id="overall-class-diagram" src="../images/requirements/use-case.svg" alt="Use Case Diagram">
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom@4.3.2/dist/panzoom.min.js"></script>
+<script>
+const img = document.getElementById('overall-class-diagram');
+const zoomInButton = document.getElementById('zoomInButton');
+const zoomOutButton = document.getElementById('zoomOutButton');
+const resetButton = document.getElementById('resetButton');
+const rangeSlider = document.getElementById('rangeSlider');
+const panzoom = Panzoom(img, {
+  minScale: 0.1,
+  maxScale: 3
+  //contain: 'outside'
+})
+zoomInButton.addEventListener('click', (event) => {
+  panzoom.zoomIn();
+  rangeSlider.value = panzoom.getScale();
+})
+zoomOutButton.addEventListener('click', (event) => {
+  panzoom.zoomOut();
+  rangeSlider.value = panzoom.getScale();
+})
+resetButton.addEventListener('click', (event) => {
+  panzoom.reset();
+  rangeSlider.value = panzoom.getScale();
+})
+rangeSlider.addEventListener('input', (event) => {
+  panzoom.zoom(event.target.valueAsNumber)
+})
+img.parentElement.addEventListener('wheel', (event) => {
+  panzoom.zoomWithWheel(event);
+  rangeSlider.value = panzoom.getScale();
+})
+</script>
 
 <br>
 

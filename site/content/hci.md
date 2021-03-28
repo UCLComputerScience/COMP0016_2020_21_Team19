@@ -17,15 +17,15 @@ Users had a clear preference to having a menu bar on the side rather than the to
   </div>
   <div class="carousel-inner pb-4">
     <div class="carousel-item active">
-      <img src="../images/hci/sketches/initial/teacher_dashboard.png" class="d-block w-100" alt="Teacher Dashboard">
+      <img src="../images/hci/sketches/initial/teacher_dashboard.png" class="d-block w-100" alt="Surveyor Dashboard">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Teacher Dashboard</h5>
+        <h5>Surveyor Dashboard</h5>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="../images/hci/sketches/initial/student_dashboard.png" class="d-block w-100" alt="Student Dashboard">
+      <img src="../images/hci/sketches/initial/student_dashboard.png" class="d-block w-100" alt="Respondent Dashboard">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Student Dashboard</h5>
+        <h5>Respondent Dashboard</h5>
       </div>
     </div>
     <div class="carousel-item">
@@ -45,7 +45,7 @@ Users had a clear preference to having a menu bar on the side rather than the to
   </button>
 </div>
 
-After receiving early feedback from the user on each of the page designs, we proceeded to iterate on and create a series of more detailed editions of each of the most popular earlier designs. We then presented these subsequent iterations to our users for feedback – identifying which of the designs that the users liked the most (highlighted in green) for each of the pages and why. For the feedback form, users preferred multiple answer types compared to just Likert scales, as it allowed for a wider range of feedback to be gathered. For the teacher dashboard, the graph received positive feedback as a good way to quickly visualise student performance.
+After receiving early feedback from the user on each of the page designs, we proceeded to iterate on and create a series of more detailed editions of each of the most popular earlier designs. We then presented these subsequent iterations to our users for feedback – identifying which of the designs that the users liked the most (highlighted in green) for each of the pages and why. For the feedback form, users preferred multiple answer types compared to just Likert scales, as it allowed for a wider range of feedback to be gathered. For the surveyor dashboard, the graph received positive feedback as a good way to quickly visualise respondent performance.
 
 <div id="carouselSketchesImproved" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
   <div class="carousel-indicators" style="bottom:-30px">
@@ -55,15 +55,15 @@ After receiving early feedback from the user on each of the page designs, we pro
   </div>
   <div class="carousel-inner pb-4">
     <div class="carousel-item active">
-      <img src="../images/hci/sketches/improved/teacher_dashboard.png" class="d-block w-100" alt="Teacher Dashboard Improved">
+      <img src="../images/hci/sketches/improved/teacher_dashboard.png" class="d-block w-100" alt="Surveyor Dashboard Improved">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Teacher Dashboard Improved</h5>
+        <h5>Surveyor Dashboard Improved</h5>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="../images/hci/sketches/improved/student_dashboard.png" class="d-block w-100" alt="Student Dashboard Improved">
+      <img src="../images/hci/sketches/improved/student_dashboard.png" class="d-block w-100" alt="Respondent Dashboard Improved">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Student Dashboard Improved</h5>
+        <h5>Respondent Dashboard Improved</h5>
       </div>
     </div>
     <div class="carousel-item">
@@ -87,7 +87,7 @@ After receiving early feedback from the user on each of the page designs, we pro
 
 We used Figma to create an interactive, digital prototype consisting of our best and most refined sketch ideas to explore the usability of our design. This is both due to the current lockdown restrictions preventing us from meeting our pseudo-users to engage with cardboard prototypes or other physical alternatives and due to the figma prototype being a more accurate representation of the final solution.  To use it, pseudo-users simply logged into Figma, entered presentation mode and clicked through the screens as they would a normal website.
 
-The pages we prototyped outline the core functionality for our users (teacher and student).
+The pages we prototyped outline the core functionality for our users (Surveyor and Respondent).
 
 <div id="carouselPrototypesInitial" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
   <div class="carousel-indicators" style="bottom:-30px">
@@ -100,39 +100,39 @@ The pages we prototyped outline the core functionality for our users (teacher an
   </div>
   <div class="carousel-inner pb-4">
     <div class="carousel-item active">
-      <img src="../images/hci/prototypes/initial/teacher_dashboard.png" class="d-block w-100" alt="Teacher Dashboard Initial">
+      <img src="../images/hci/prototypes/initial/teacher_dashboard.png" class="d-block w-100" alt="Surveyor Dashboard Initial">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Teacher Dashboard Initial</h5>
+        <h5>Surveyor Dashboard Initial</h5>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="../images/hci/prototypes/initial/teacher_task_overview.png" class="d-block w-100" alt="Teacher Task Overview Initial">
+      <img src="../images/hci/prototypes/initial/teacher_task_overview.png" class="d-block w-100" alt="Surveyor Task Overview Initial">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Teacher Task Overview Initial</h5>
+        <h5>Surveyor Task Overview Initial</h5>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="../images/hci/prototypes/initial/teacher_leaderboard.png" class="d-block w-100" alt="Teacher Leaderboard Initial">
+      <img src="../images/hci/prototypes/initial/teacher_leaderboard.png" class="d-block w-100" alt="Surveyor Leaderboard Initial">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Teacher Leaderboard Initial</h5>
+        <h5>Surveyor Leaderboard Initial</h5>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="../images/hci/prototypes/initial/student_dashboard.png" class="d-block w-100" alt="Student Dashboard Initial">
+      <img src="../images/hci/prototypes/initial/student_dashboard.png" class="d-block w-100" alt="Respondent Dashboard Initial">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Student Dashboard Initial</h5>
+        <h5>Respondent Dashboard Initial</h5>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="../images/hci/prototypes/initial/student_feedback_form.png" class="d-block w-100" alt="Student Feedback Form Initial">
+      <img src="../images/hci/prototypes/initial/student_feedback_form.png" class="d-block w-100" alt="Respondent Feedback Form Initial">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Student Feedback Form Initial</h5>
+        <h5>Respondent Feedback Form Initial</h5>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="../images/hci/prototypes/initial/student_leaderboard.png" class="d-block w-100" alt="Student Leaderboard Initial">
+      <img src="../images/hci/prototypes/initial/student_leaderboard.png" class="d-block w-100" alt="Respondent Leaderboard Initial">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Student Leaderboard Initial</h5>
+        <h5>Respondent Leaderboard Initial</h5>
       </div>
     </div>
   </div>
@@ -148,33 +148,33 @@ The pages we prototyped outline the core functionality for our users (teacher an
 
 We chose to evaluate our prototype by performing a usability test (What is Usability Testing?, 2020) rather than an analytical evaluation, whereby we distributed our digital prototype to pseudo-users and asked them to perform basic, realistic tasks on the system while we watched over them on a video call and they shared their screen. We did this because of the complexity involved in finding experts to carry out a heuristic evaluation. Users were encouraged to think aloud (T07: Research Driven Think-Aloud Protocols in Usability Testing | HCI International 2014, 2020) and weren't responded to when they asked questions about the prototype. Through observation of our users, we identified and resolved the following issues with our prototype:
 
-1. (Student Dashboard): Students were confused by the "Deadline" heading.
+1. (Respondent Dashboard): Respondents were confused by the "Deadline" heading.
 
-2. (Student Dashboard): Students didn't know what the sort or filter options at the top of the page were.
+2. (Respondent Dashboard): Respondents didn't know what the sort or filter options at the top of the page were.
 
-3. (Student Dashboard): Students didn't know that they could click on individual tasks.
+3. (Respondent Dashboard): Respondents didn't know that they could click on individual tasks.
 
-4. (Student Leaderboard): Students had trouble finding leaderboards for each of their classes as they were organised in pages rather than through tabs.
+4. (Respondent Leaderboard): Respondents had trouble finding leaderboards for each of their classes as they were organised in pages rather than through tabs.
 
-5. (Student Leaderboard): There were no numbered rankings of students on each leaderboard so students had to count each position to work out where they ranked.
+5. (Respondent Leaderboard): There were no numbered rankings of respondents on each leaderboard so respondents had to count each position to work out where they ranked.
 
-6. (Student Leaderboard): The student was not clearly visible or highlighted on the leaderboard, so students often took longer than needed to find themselves.
+6. (Respondent Leaderboard): The respondent was not clearly visible or highlighted on the leaderboard, so respondents often took longer than needed to find themselves.
 
 7. (All Pages): Users didn't know what the search option was searching through.
 
-8. (Student Dashboard): Users were frustrated by the need to click through multiple pages.
+8. (Respondent Dashboard): Users were frustrated by the need to click through multiple pages.
 
-9. (Student Feedback Form): Students were confused by the phrasing of the final default question of the feedback form.
+9. (Respondent Feedback Form): Respondents were confused by the phrasing of the final default question of the feedback form.
 
-10. (Teacher Dashboard): Teachers couldn't interpret the example class progress graphs provided in the class leaderboard tabs.
+10. (Surveyor Dashboard): Surveyors couldn't interpret the example class progress graphs provided in the class leaderboard tabs.
 
-11. (Teacher Dashboard): Teachers did not know how to show all tasks.
+11. (Surveyor Dashboard): Surveyors did not know how to show all tasks.
 
-12. (Teacher Dashboard): Teachers didn't know how to sort the tasks by any of the headings on the task list.
+12. (Surveyor Dashboard): Surveyors didn't know how to sort the tasks by any of the headings on the task list.
 
-13. (Task Overview): Teachers couldn't interpret the results of the responses of each of the pages.
+13. (Task Overview): Surveyors couldn't interpret the results of the responses of each of the pages.
 
-14. (Teacher Dashboard): Teachers didn't know that they could scroll through the class leaderboards.
+14. (Surveyor Dashboard): Surveyors didn't know that they could scroll through the class leaderboards.
 
 
 <div id="carouselPrototypesImproved" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
@@ -188,39 +188,39 @@ We chose to evaluate our prototype by performing a usability test (What is Usabi
   </div>
   <div class="carousel-inner pb-4">
     <div class="carousel-item active">
-      <img src="../images/hci/prototypes/improved/teacher_dashboard.png" class="d-block w-100" alt="Teacher Dashboard Improved">
+      <img src="../images/hci/prototypes/improved/teacher_dashboard.png" class="d-block w-100" alt="Surveyor Dashboard Improved">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Teacher Dashboard Improved</h5>
+        <h5>Surveyor Dashboard Improved</h5>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="../images/hci/prototypes/improved/teacher_task_overview.png" class="d-block w-100" alt="Teacher Task Overview Improved">
+      <img src="../images/hci/prototypes/improved/teacher_task_overview.png" class="d-block w-100" alt="Surveyor Task Overview Improved">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Teacher Task Overview Improved</h5>
+        <h5>Surveyor Task Overview Improved</h5>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="../images/hci/prototypes/improved/teacher_leaderboard.png" class="d-block w-100" alt="Teacher Leaderboard Improved">
+      <img src="../images/hci/prototypes/improved/teacher_leaderboard.png" class="d-block w-100" alt="Surveyor Leaderboard Improved">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Teacher Leaderboard Improved</h5>
+        <h5>Surveyor Leaderboard Improved</h5>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="../images/hci/prototypes/improved/student_dashboard.png" class="d-block w-100" alt="Student Dashboard Improved">
+      <img src="../images/hci/prototypes/improved/student_dashboard.png" class="d-block w-100" alt="Respondent Dashboard Improved">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Student Dashboard Improved</h5>
+        <h5>Respondent Dashboard Improved</h5>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="../images/hci/prototypes/improved/student_feedback_form.png" class="d-block w-100" alt="Student Feedback Form Improved">
+      <img src="../images/hci/prototypes/improved/student_feedback_form.png" class="d-block w-100" alt="Respondent Feedback Form Improved">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Student Feedback Form Improved</h5>
+        <h5>Respondent Feedback Form Improved</h5>
       </div>
     </div>
     <div class="carousel-item">
-      <img src="../images/hci/prototypes/improved/student_leaderboard.png" class="d-block w-100" alt="Student Leaderboard Improved">
+      <img src="../images/hci/prototypes/improved/student_leaderboard.png" class="d-block w-100" alt="Respondent Leaderboard Improved">
       <div class="carousel-caption d-none d-md-block" style="bottom:-50px">
-        <h5>Student Leaderboard Improved</h5>
+        <h5>Respondent Leaderboard Improved</h5>
       </div>
     </div>
   </div>

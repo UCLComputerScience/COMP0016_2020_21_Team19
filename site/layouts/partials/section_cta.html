@@ -1,5 +1,6 @@
 {{ $section := .section }}
-<section id="{{ $section.section_id }}" class="block cta-block bg-accent outer">
+<!-- <section id="{{ $section.section_id }}" class="block cta-block bg-accent outer"> -->
+<section id="{{ $section.section_id }}" class="block cta-block bg-white outer">
   <div class="inner-large">
     <div class="grid">
       <div class="cell block-content text-center">
@@ -12,7 +13,98 @@
         </p>
         {{ end }}
       </div>
-      <img src="images/home/gantt.svg" class="img-fluid">
+      <!-- <img src="images/home/gantt.svg" class="img-fluid"> -->
+
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <script type="text/javascript">
+        google.charts.load('current', {'packages':['gantt']});
+        google.charts.setOnLoadCallback(drawChart);
+        
+        function week(n) {
+          const date = new Date(2020, 9, 5);
+          date.setDate(date.getDate() + n * 7);
+          return date;
+        }
+
+        function drawChart() {
+
+          var data = new google.visualization.DataTable();
+          data.addColumn('string', 'Task ID');
+          data.addColumn('string', 'Task Name');
+          data.addColumn('string', 'Resource');
+          data.addColumn('date', 'Start Date');
+          data.addColumn('date', 'End Date');
+          data.addColumn('number', 'Duration');
+          data.addColumn('number', 'Percent Complete');
+          data.addColumn('string', 'Dependencies');
+
+
+          data.addRows([
+            ['id1',  'Gathering Requirements',     'Planning',   week(0),  week(1),  null, 100, null],
+            ['id2',  'Personas',                   'Planning',   week(1),  week(2),  null, 100, 'id1'],
+            ['id3',  'Scenarios',                  'Planning',   week(1),  week(2),  null, 100, 'id1'],
+            ['id4',  'Sketching',                  'Planning',   week(2),  week(3),  null, 100, 'id2,id3'],
+            ['id5',  'Prototyping',                'Planning',   week(3),  week(4),  null, 100, 'id2,id3'],
+            ['id6',  'System Architecture Design', 'Developing', week(4),  week(5),  null, 100, null],
+            ['id7',  'Front-end',                  'Developing', week(5),  week(7),  null, 100, 'id5'],
+            ['id8',  'Back-end',                   'Developing', week(7),  week(10), null, 100, 'id6'],
+            ['id9',  'Dockerising',                'Developing', week(10), week(11), null, 100, null],
+            ['id10', 'Deploying',                  'Developing', week(11), week(12), null, 100, 'id9'],
+            ['id11', 'Elevator Pitch',             'Releasing',  week(12), week(13), null, 100, 'id2,id3,id4,id5'],
+            ['id12', 'Authentication',             'Developing', week(13), week(14), null, 100, null],
+            ['id13', 'Invitations',                'Developing', week(14), week(16), null, 100, 'id12'],
+            ['id14', 'Unit Testing',               'Developing', week(10), week(17), null, 100, 'id8'],
+            ['id15', 'User Manual',                'Releasing',  week(16), week(17), null, 100, null],
+            ['id16', 'Refactoring',                'Releasing',  week(13), week(17), null, 100, null],
+            ['id17', 'Integration Testing',        'Developing', week(16), week(18), null, 100, 'id7,id8'],
+            ['id18', 'Bug Fixing',                 'Developing',  week(15), week(18), null, 100, null],
+            ['id19', 'Docker Secrets',             'Releasing',  week(17), week(18), null, 100, 'id9'],
+            ['id20', 'Creating Diagrams',          'Releasing',  week(18), week(20), null, 100, null],
+            ['id21', 'Report Website',             'Releasing',  week(20), week(23), null, 100, 'id20'],
+            ['id22', 'Reports',                    'Releasing',  week(21), week(23), null, 100, null],
+            ['id23', 'Articles',                   'Releasing',  week(22), week(23), null, 100, null],
+          ]);
+
+          var options = {
+            width: 1500,
+            height: 800,
+            gantt: {
+              criticalPathEnabled: false,
+              trackHeight: 30,
+              palette: [
+                {
+                  "color": "#5e97f6",
+                  "dark": "#2a56c6",
+                  "light": "#c6dafc"
+                },
+                {
+                  "color": "#f2a600",
+                  "dark": "#ee8100",
+                  "light": "#fce8b2"
+                },
+                {
+                  "color": "#0f9d58",
+                  "dark": "#0b8043",
+                  "light": "#b7e1cd"
+                }
+              ]
+            }
+          };
+
+          var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
+
+          chart.draw(data, options);
+        }
+      </script>
+
+      <div id="chart_div"></div>
+
+      <style>
+        text {
+          font-family: sans-serif !important;
+        }
+      </style>
+
       {{ if $section.actions }}
       <div class="cell block-buttons">
         {{ $include_dict := dict "actions" $section.actions }}

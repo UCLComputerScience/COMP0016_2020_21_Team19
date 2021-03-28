@@ -6,9 +6,21 @@ toc: true
 
 ## System Architecture Diagram
 
+<br>
+
+There are two types of users for our application: `Surveyor`s (those asking the questions) and `Respondent`s (those responding to the questions). Both of these users follow the same general flow throughout the program: they sign in from their device and make requests to our (dockerised) Django application, currently deployed on a Linode Server.
+
+Our PostgreSQL database is not depicted as a part of the diagram. The reason for this is that we've stored the contents of the database as a persistent volume on the Linode server which is referred to by our dockerised app.
+
+<br>
+
 ![System Architecture Diagram](../images/design/architecture.png)
 
 ## User Sequence Diagrams
+
+<br>
+
+Activity League has a large number of functionalities available to the end user. To help understand how each of these functionalities work in sequence, we've added the following sequence diagrams with functionalities described by page below.
 
 <div id="carouselSequence" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
   <div class="carousel-indicators" style="bottom:-30px">
@@ -52,19 +64,34 @@ toc: true
 
 ## User Authentication Sequence Diagram
 
+<br>
+
+After receiving an invite, there are two ways that a user can sign up to Activity League:
+
+1. The user could sign up regularly using the Sign Up form. If the user has accessed /accounts/signup, this means that they have been invited or are creating an organisation. Submitting this form via a `POST` request (assuming that the form validates) shall cause the backend to create a new associated user object and return a redirect to the user's dashboard.
+2. The user could sign up using Google SSO. If the user chooses to sign up using SSO, Activity League makes an authentication request to Google. If the authentication is successful, the Activity League backend will create the associated user object associated with the new user and redirect them to their dashboard.
+
+
 ![User Authentication Sequence Diagram](../images/design/signup.png)
+
+<br>
 
 ## Class Diagrams (Entity Relationship)
 
 <br>
 
 ### Overall
+
+<br>
+
+For a better understanding of the entity relations of the system, zoom in and out of the entity relationship diagram below.
+
 <div class="btn-group">
   <button id="zoomInButton" type="button" class="btn btn-primary">Zoom In</button>
   <button id="zoomOutButton" type="button" class="btn btn-primary">Zoom Out</button>
   <button id="resetButton" type="button" class="btn btn-primary">Reset</button>
 </div>
-<input id="rangeSlider" class="range-input" type="range" min="1" max="8" step="0.01" value="1">
+<input id="rangeSlider" class="range-input" type="range" min="0.1" max="8" step="0.01" value="1">
 <div class="border border-3 border-dark mt-3">
   <img id="overall-class-diagram" src="../images/design/overall.svg" alt="Overall class diagram">
 </div>
@@ -77,7 +104,8 @@ const zoomOutButton = document.getElementById('zoomOutButton');
 const resetButton = document.getElementById('resetButton');
 const rangeSlider = document.getElementById('rangeSlider');
 const panzoom = Panzoom(img, {
-  maxScale: 8,
+  minScale: 0.1,
+  maxScale: 8
   //contain: 'outside'
 })
 zoomInButton.addEventListener('click', (event) => {
@@ -104,6 +132,10 @@ img.parentElement.addEventListener('wheel', (event) => {
 <br>
 
 ### App-specific
+
+<br>
+
+For each app in our Django project (Surveyor, Respondent, Core and Authentication), we've included an application-specific entity relationship diagram below.
 
 <div id="carouselClassDiagrams" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">
   <div class="carousel-indicators" style="bottom:-30px">

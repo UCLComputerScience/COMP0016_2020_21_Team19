@@ -23,7 +23,7 @@
     </head>
         <div id="page" class="site">
           <header id="masthead" class="site-header outer">
-  <div class="inner">
+  
     <div class="site-header-inside">
       <div class="site-branding">
         
@@ -229,13 +229,32 @@
 
               </li>
             
+              
+              
+              
+              <li class="menu-item">
+                
+                
+
+
+
+<a href="/2020/group19/legal"
+  
+  
+  class="">
+  
+  <span >Legal</span>
+</a>
+
+              </li>
+            
           </ul>
         </div>
       </nav>
       <button id="menu-open" class="menu-toggle"><span class="screen-reader-text">Close Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
       
     </div>
-  </div>
+  
 </header>
 
           <main id="content" class="site-content">
@@ -248,6 +267,7 @@
         <h1 class="post-title">Implementation</h1>
         
       </header>
+      
       
       <aside class="hidden lg:block tableOfContentContainer" id="tableOfContentContainer">
           <h3>Table of contents</h3>
@@ -264,9 +284,18 @@
         <li><a href="#adapter">Adapter</a></li>
       </ul>
     </li>
+    <li><a href="#key-features">Key Features</a>
+      <ul>
+        <li><a href="#database-connection">Database Connection</a></li>
+        <li><a href="#authentication">Authentication</a></li>
+        <li><a href="#invitations">Invitations</a></li>
+        <li><a href="#visualisations">Visualisations</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
       </aside>
+      
       <div class="post-content">
         <h2 id="django">Django</h2>
 <p>Activity League has been developed using Django. Django proved to be a very good choice for the development of our web app, as it handled standard cases of functionalities
@@ -364,6 +393,107 @@ forms.py file. This file leverages the existing Django Forms API and contains th
 <p>MVT allows Activity League to be easily scalable: the addition of a new page simply requires the creation of a new template, a URL being added and a single function being written within the application to render the newly defined template. We hope that in future, our design choice here significantly speeds the process by which developers may add new pages and functionalities to Activity League.</p>
 <h3 id="adapter">Adapter</h3>
 <p>During the invitation processs (by email), Activity League uses two dependencies: django-invitations (takes care of the email invitations) and django-allauth (takes care of secure user authentication). As Activity League is invite-only and django-allauth doesn&rsquo;t support customisation of signup methods (signup is either closed or it isn&rsquo;t), we implemented the adapter design pattern to change the signal that was being passed from django-inviations to django-allauth. This allows us to selectively open the signup if a user is creating an organisation, but closes it off otherwise.</p>
+<h2 id="key-features">Key Features</h2>
+<p>This section will describe a few of the key features and how they are implemented in Activity League. For more information, please refer to the [Docs][../docs] section and the <a href="https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/blob/main/README.md">project README</a>.</p>
+<h3 id="database-connection">Database Connection</h3>
+<p>Since this project has been Dockerised, connecting the database is very simple.</p>
+<ul>
+<li>A database image, in this case <code>postgres</code>, is specified in the <code>docker-compose.yml</code> with user-set credentials and exposed on port 5432.</li>
+<li>Django&rsquo;s <code>settings.py</code> file must have a <code>DATABASES</code> dictionary like so:
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#111">DATABASES</span> <span style="color:#f92672">=</span> <span style="color:#111">{</span>
+    <span style="color:#d88200">&#39;default&#39;</span><span style="color:#111">:</span> <span style="color:#111">{</span>
+        <span style="color:#d88200">&#39;ENGINE&#39;</span><span style="color:#111">:</span> <span style="color:#d88200">&#39;django.db.backends.postgresql&#39;</span><span style="color:#111">,</span>
+        <span style="color:#d88200">&#39;NAME&#39;</span><span style="color:#111">:</span> <span style="color:#d88200">&#39;postgres&#39;</span><span style="color:#111">,</span>
+        <span style="color:#d88200">&#39;USER&#39;</span><span style="color:#111">:</span> <span style="color:#111">os</span><span style="color:#f92672">.</span><span style="color:#111">getenv</span><span style="color:#111">(</span><span style="color:#d88200">&#39;DB_USER&#39;</span><span style="color:#111">),</span>
+        <span style="color:#d88200">&#39;PASSWORD&#39;</span><span style="color:#111">:</span> <span style="color:#111">os</span><span style="color:#f92672">.</span><span style="color:#111">getenv</span><span style="color:#111">(</span><span style="color:#d88200">&#39;DB_PASSWORD&#39;</span><span style="color:#111">),</span>
+        <span style="color:#d88200">&#39;HOST&#39;</span><span style="color:#111">:</span> <span style="color:#d88200">&#39;localhost&#39;</span> <span style="color:#00a8c8">if</span> <span style="color:#111">os</span><span style="color:#f92672">.</span><span style="color:#111">getenv</span><span style="color:#111">(</span><span style="color:#d88200">&#39;GITHUB_WORKFLOW&#39;</span><span style="color:#111">)</span> <span style="color:#00a8c8">else</span> <span style="color:#d88200">&#39;db&#39;</span><span style="color:#111">,</span>
+        <span style="color:#d88200">&#39;PORT&#39;</span><span style="color:#111">:</span> <span style="color:#ae81ff">5432</span><span style="color:#111">,</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">}</span>
+</code></pre></div><p>Here, the credentials must match those specified in the <code>docker-compose.yml</code> to allow the application container and the database containers to communicate.</p>
+</li>
+</ul>
+<h3 id="authentication">Authentication</h3>
+<p>Authentication is principally handled by <a href="https://django-allauth.readthedocs.io/en/latest/index.html">django-allauth</a>.</p>
+<h4 id="sso-providers">SSO Providers</h4>
+<p>Currently, Activity League allows users to authenticate using Google. However, this can be easily extended for more providers using only a few lines of code.</p>
+<p>In the <code>settings.py</code>, the following configuration can be see:</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#111">SOCIALACCOUNT_PROVIDERS</span> <span style="color:#f92672">=</span> <span style="color:#111">{</span>
+    <span style="color:#d88200">&#39;google&#39;</span><span style="color:#111">:</span> <span style="color:#111">{</span>
+        <span style="color:#d88200">&#39;APP&#39;</span><span style="color:#111">:</span> <span style="color:#111">{</span>
+            <span style="color:#d88200">&#39;client_id&#39;</span><span style="color:#111">:</span> <span style="color:#111">os</span><span style="color:#f92672">.</span><span style="color:#111">getenv</span><span style="color:#111">(</span><span style="color:#d88200">&#39;GOOGLE_CLIENT_ID&#39;</span><span style="color:#111">),</span>
+            <span style="color:#d88200">&#39;secret&#39;</span><span style="color:#111">:</span> <span style="color:#111">os</span><span style="color:#f92672">.</span><span style="color:#111">getenv</span><span style="color:#111">(</span><span style="color:#d88200">&#39;GOOGLE_SECRET&#39;</span><span style="color:#111">),</span>
+            <span style="color:#d88200">&#39;key&#39;</span><span style="color:#111">:</span> <span style="color:#d88200">&#39;&#39;</span>
+        <span style="color:#111">},</span>
+        <span style="color:#d88200">&#39;SCOPE&#39;</span><span style="color:#111">:</span> <span style="color:#111">[</span>
+            <span style="color:#d88200">&#39;profile&#39;</span><span style="color:#111">,</span>
+            <span style="color:#d88200">&#39;email&#39;</span><span style="color:#111">,</span>
+        <span style="color:#111">],</span>
+        <span style="color:#d88200">&#39;AUTH_PARAMS&#39;</span><span style="color:#111">:</span> <span style="color:#111">{</span>
+            <span style="color:#d88200">&#39;access_type&#39;</span><span style="color:#111">:</span> <span style="color:#d88200">&#39;online&#39;</span><span style="color:#111">,</span>
+        <span style="color:#111">}</span>
+    <span style="color:#111">}</span>
+<span style="color:#111">}</span>
+</code></pre></div><p>To add another provider, you simply need to add another entry to the <code>SOCIALACCOUNT_PROVIDERS</code> dictionary. The specific values may differ between providers and it is best to refer to the package documentation for specific details. The django-allauth library has support for lots of different providers - a full list of which can be found <a href="https://django-allauth.readthedocs.io/en/latest/providers.html">here</a>.</p>
+<p>Activity League also makes use of the <code>user_signed_up</code> signal fired by django-allauth when a user creates an account.
+This is handled in <code>authentication/signals.py</code> by creating user objects in the database accordingly, and throwing the relevant exceptions otherwise.</p>
+<h3 id="invitations">Invitations</h3>
+<p>An invitation system is implemented using <a href="https://github.com/bee-keeper/django-invitations">django-invitations</a>.</p>
+<p>Activity League implements a custom invitation model named <code>UserInvitation</code>, which can be found in <code>authentication/models.py</code>. Notably, this has a few extra fields compared to the <code>BaseInvitation</code> implemented by the package to accomodate for two different user types using a single invitation model.</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#00a8c8">class</span> <span style="color:#75af00">UserInvitation</span><span style="color:#111">(</span><span style="color:#111">AbstractBaseInvitation</span><span style="color:#111">):</span>
+    <span style="color:#d88200">&#34;&#34;&#34;
+</span><span style="color:#d88200">    Model representing an invitation to join the platform being sent to the user.
+</span><span style="color:#d88200">    &#34;&#34;&#34;</span>
+    <span style="color:#111">email</span> <span style="color:#f92672">=</span> <span style="color:#111">models</span><span style="color:#f92672">.</span><span style="color:#111">EmailField</span><span style="color:#111">(</span><span style="color:#111">unique</span><span style="color:#f92672">=</span><span style="color:#111">True</span><span style="color:#111">,</span> <span style="color:#111">verbose_name</span><span style="color:#f92672">=</span><span style="color:#111">_</span><span style="color:#111">(</span><span style="color:#d88200">&#39;e-mail address&#39;</span><span style="color:#111">),</span>
+                              <span style="color:#111">max_length</span><span style="color:#f92672">=</span><span style="color:#111">app_settings</span><span style="color:#f92672">.</span><span style="color:#111">EMAIL_MAX_LENGTH</span><span style="color:#111">)</span>
+    <span style="color:#111">created</span> <span style="color:#f92672">=</span> <span style="color:#111">models</span><span style="color:#f92672">.</span><span style="color:#111">DateTimeField</span><span style="color:#111">(</span><span style="color:#111">verbose_name</span><span style="color:#f92672">=</span><span style="color:#111">_</span><span style="color:#111">(</span><span style="color:#d88200">&#39;created&#39;</span><span style="color:#111">),</span>
+                                   <span style="color:#111">default</span><span style="color:#f92672">=</span><span style="color:#111">timezone</span><span style="color:#f92672">.</span><span style="color:#111">now</span><span style="color:#111">)</span>
+    <span style="color:#111">organisation</span> <span style="color:#f92672">=</span> <span style="color:#111">models</span><span style="color:#f92672">.</span><span style="color:#111">ForeignKey</span><span style="color:#111">(</span><span style="color:#111">Organisation</span><span style="color:#111">,</span> <span style="color:#111">blank</span><span style="color:#f92672">=</span><span style="color:#111">True</span><span style="color:#111">,</span> <span style="color:#111">null</span><span style="color:#f92672">=</span><span style="color:#111">True</span><span style="color:#111">,</span> <span style="color:#111">on_delete</span><span style="color:#f92672">=</span><span style="color:#111">models</span><span style="color:#f92672">.</span><span style="color:#111">CASCADE</span><span style="color:#111">)</span>
+    <span style="color:#111">group</span> <span style="color:#f92672">=</span> <span style="color:#111">models</span><span style="color:#f92672">.</span><span style="color:#111">ForeignKey</span><span style="color:#111">(</span><span style="color:#111">Group</span><span style="color:#111">,</span> <span style="color:#111">blank</span><span style="color:#f92672">=</span><span style="color:#111">True</span><span style="color:#111">,</span> <span style="color:#111">null</span><span style="color:#f92672">=</span><span style="color:#111">True</span><span style="color:#111">,</span> <span style="color:#111">on_delete</span><span style="color:#f92672">=</span><span style="color:#111">models</span><span style="color:#f92672">.</span><span style="color:#111">CASCADE</span><span style="color:#111">)</span>
+    <span style="color:#111">is_respondent</span> <span style="color:#f92672">=</span> <span style="color:#111">models</span><span style="color:#f92672">.</span><span style="color:#111">BooleanField</span><span style="color:#111">(</span><span style="color:#111">default</span><span style="color:#f92672">=</span><span style="color:#111">False</span><span style="color:#111">)</span>
+</code></pre></div><p>The model instances therefore take in a few extra parameters when being created:</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75af00">@classmethod</span>
+<span style="color:#00a8c8">def</span> <span style="color:#75af00">create</span><span style="color:#111">(</span><span style="color:#111">cls</span><span style="color:#111">,</span> <span style="color:#111">email</span><span style="color:#111">,</span> <span style="color:#111">inviter</span><span style="color:#f92672">=</span><span style="color:#111">None</span><span style="color:#111">,</span> <span style="color:#111">organisation</span><span style="color:#f92672">=</span><span style="color:#111">None</span><span style="color:#111">,</span>
+           <span style="color:#111">group</span><span style="color:#f92672">=</span><span style="color:#111">None</span><span style="color:#111">,</span> <span style="color:#111">is_respondent</span><span style="color:#f92672">=</span><span style="color:#111">False</span><span style="color:#111">,</span> <span style="color:#f92672">**</span><span style="color:#111">kwargs</span><span style="color:#111">):</span>
+    <span style="color:#f92672">...</span>
+</code></pre></div><p>This invitations system of the application can be extended and modified by making changes to just this model as required.</p>
+<p>For cases where an Excel spreadsheet is uploaded to bulk-invite users, this is done in the relevant <code>view</code>, using <a href="https://tablib.readthedocs.io/en/stable/">Tablib</a>.</p>
+<p>For instance:</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#111">dataset</span> <span style="color:#f92672">=</span> <span style="color:#111">Dataset</span><span style="color:#111">()</span>
+<span style="color:#111">new_persons</span> <span style="color:#f92672">=</span> <span style="color:#111">request</span><span style="color:#f92672">.</span><span style="color:#111">FILES</span><span style="color:#111">[</span><span style="color:#d88200">&#39;file&#39;</span><span style="color:#111">]</span>
+<span style="color:#111">imported_data</span> <span style="color:#f92672">=</span> <span style="color:#111">dataset</span><span style="color:#f92672">.</span><span style="color:#111">load</span><span style="color:#111">(</span><span style="color:#111">new_persons</span><span style="color:#f92672">.</span><span style="color:#111">read</span><span style="color:#111">(),</span> <span style="color:#111">format</span><span style="color:#f92672">=</span><span style="color:#d88200">&#39;xlsx&#39;</span><span style="color:#111">,</span> <span style="color:#111">headers</span><span style="color:#f92672">=</span><span style="color:#111">False</span><span style="color:#111">)</span>
+<span style="color:#00a8c8">for</span> <span style="color:#111">entry</span> <span style="color:#f92672">in</span> <span style="color:#111">imported_data</span><span style="color:#111">:</span>
+    <span style="color:#f92672">...</span>
+</code></pre></div><h3 id="visualisations">Visualisations</h3>
+<p>Activity League uses <a href="https://www.chartjs.org/">Chart.js</a> for all its visualisations. Since this is a client-side JavaScript library, we interface with it by passing in data to the relevant templates. This can be seen in <code>views.py</code>.</p>
+<p>For example:</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#00a8c8">def</span> <span style="color:#75af00">dashboard</span><span style="color:#111">(</span><span style="color:#111">request</span><span style="color:#111">):</span>
+    <span style="color:#d88200">&#34;&#34;&#34;
+</span><span style="color:#d88200">    The Dashboard page for the ``Surveyor``.
+</span><span style="color:#d88200">    Displays each incomplete ``Task`` they have set, as well as an overview of the leaderboard and progress of each ``Group``.
+</span><span style="color:#d88200">
+</span><span style="color:#d88200">    :param request: The ``GET`` request made by the user.
+</span><span style="color:#d88200">    :type request: django.http.HttpRequest
+</span><span style="color:#d88200">    :return: The ``surveyor/dashboard.html`` template rendered using the given dictionary.
+</span><span style="color:#d88200">    :rtype: django.http.HttpResponse
+</span><span style="color:#d88200">    &#34;&#34;&#34;</span>
+    <span style="color:#00a8c8">if</span> <span style="color:#111">request</span><span style="color:#f92672">.</span><span style="color:#111">method</span> <span style="color:#f92672">==</span> <span style="color:#d88200">&#39;GET&#39;</span><span style="color:#111">:</span>
+        <span style="color:#f92672">...</span>
+        <span style="color:#111">group_data</span> <span style="color:#f92672">=</span> <span style="color:#111">get_graphs_and_leaderboards</span><span style="color:#111">(</span><span style="color:#111">user</span><span style="color:#111">)</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">render</span><span style="color:#111">(</span><span style="color:#111">request</span><span style="color:#111">,</span> <span style="color:#d88200">&#39;surveyor/dashboard.html&#39;</span><span style="color:#111">,</span>
+                    <span style="color:#111">{</span><span style="color:#f92672">...</span><span style="color:#111">,</span> <span style="color:#d88200">&#39;group_data&#39;</span><span style="color:#111">:</span> <span style="color:#111">group_data</span><span style="color:#111">})</span>
+</code></pre></div><p>Consequently we must convert this data into a JS variable which Chart.js can access and use.</p>
+<div class="highlight"><pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-JavaScript" data-lang="JavaScript"><span style="color:#00a8c8">var</span> <span style="color:#75af00">groupData</span> <span style="color:#f92672">=</span> <span style="color:#111">[</span>
+  <span style="color:#111">{</span><span style="color:#f92672">%</span> <span style="color:#00a8c8">for</span> <span style="color:#75af00">gr</span> <span style="color:#00a8c8">in</span> <span style="color:#75af00">group_data</span> <span style="color:#f92672">%</span><span style="color:#111">}</span>
+    <span style="color:#111">{</span>
+      <span style="color:#75af00">id</span><span style="color:#f92672">:</span> <span style="color:#d88200">&#39;{{ gr.id }}&#39;</span><span style="color:#111">,</span>
+      <span style="color:#75af00">title</span><span style="color:#f92672">:</span> <span style="color:#d88200">&#39;{{ gr.title }}&#39;</span><span style="color:#111">,</span>
+      <span style="color:#75af00">dates</span><span style="color:#f92672">:</span> <span style="color:#111">{{</span> <span style="color:#75af00">gr</span><span style="color:#111">.</span><span style="color:#75af00">labels</span> <span style="color:#f92672">|</span> <span style="color:#75af00">safe</span> <span style="color:#111">}},</span>
+      <span style="color:#75af00">scores</span><span style="color:#f92672">:</span> <span style="color:#111">{{</span> <span style="color:#75af00">gr</span><span style="color:#111">.</span><span style="color:#75af00">scores</span> <span style="color:#f92672">|</span> <span style="color:#75af00">safe</span> <span style="color:#111">}}</span>
+    <span style="color:#111">}{</span><span style="color:#f92672">%</span> <span style="color:#00a8c8">if</span> <span style="color:#75af00">not</span> <span style="color:#75af00">forloop</span><span style="color:#111">.</span><span style="color:#75af00">last</span> <span style="color:#f92672">%</span><span style="color:#111">},{</span><span style="color:#f92672">%</span> <span style="color:#75af00">endif</span> <span style="color:#f92672">%</span><span style="color:#111">}</span>
+  <span style="color:#111">{</span><span style="color:#f92672">%</span> <span style="color:#75af00">endfor</span> <span style="color:#f92672">%</span><span style="color:#111">}</span>
+<span style="color:#111">];</span>
+</code></pre></div><p>This <code>groupData</code> is then used by script <code>static/js/daterange-chart.js</code> to create the relevant charts with the given data.</p>
 
       </div>
       
