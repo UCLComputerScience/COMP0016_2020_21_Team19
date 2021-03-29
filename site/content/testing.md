@@ -240,9 +240,9 @@ The conclusion of our Responsiveness testing is that **the web application is re
 
 <br>
 
-Since our application is likely to be used by multiple organisations at the same time, it is important that the web app can function successfully under load.
+Since our application is likely to be used by multiple organisations at the same time, it is important that the web app can function successfully under load. During our research, most performance testing solutions we could find offered limited functionality for free and required a paid plan for more thorough testing, such as testing pages which were only accessible after logging in.
 
-To find performance savings and improvements, we used [Lighthouse](https://developers.google.com/web/tools/lighthouse), an automated tool for reporting on performance and accessibility. We've attached lighthouse-generated reports for some of our pages below:
+One viable option we came across was [Lighthouse](https://developers.google.com/web/tools/lighthouse), an automated tool for reporting on performance and accessibility. Lighthouse audit is based on [Deque’s aXe](https://www.deque.com/axe/) core rules engine, which is among leading digital accessibility toolkits. Furthermore, since it is entirely free and integrated into Google Chrome's Developer Tools, we could test all the pages of our application. Running the audit generates a comprehensive report that gives information on all of the tests that passed in addition to the ones that failed. We've attached Lighthouse-generated reports for some of our pages below:
 
 <br>
 
