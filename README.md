@@ -25,6 +25,8 @@ Documentation for Activity League can be found [here](students.cs.ucl.ac.uk/2020
 
 You will need to have [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
 
+> **Note for windows users**: You may need to change the line endings in the `init-db.sh`, `start.sh` and `test.sh` scripts as this has only been tested on a MacOS/Linux. You may get errors otherwise.
+
 1. Clone this repo and `cd` into the cloned folder.
     `git clone https://github.com/UCLComputerScience/COMP0016_2020_21_Team19`
     
@@ -59,15 +61,15 @@ You will need to have [Docker](https://docs.docker.com/get-docker/) and [Docker 
    docker-compose run web bash -c "./init-db.sh"
    ```
    This will create users on the platform and you can log in as one of them using the details below:
-   > - Surveyor
-   >    - email: `christine@black.com`
-   >    - password: `activityleague`
-   > - Respondent:
-   >    - email: `john@doe.com`
-   >    - password: `activityleague`
-   > - Django admin:
-   >    - username: `admin`
-   >    - password: `activityleague`
+    - Surveyor
+       - email: `christine@black.com`
+       - password: `activityleague`
+    - Respondent:
+       - email: `john@doe.com`
+     - password: `activityleague`
+    - Django admin:
+       - username: `admin`
+       - password: `activityleague`
 
 Since this is a Django app, it is recommended to familiarise yourself with the [documentation](https://docs.djangoproject.com/en/3.1/) before proceeding with development.
 
