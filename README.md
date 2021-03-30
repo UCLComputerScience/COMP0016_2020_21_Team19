@@ -25,7 +25,7 @@ Documentation for Activity League can be found [here](students.cs.ucl.ac.uk/2020
 
 You will need to have [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
 
-> **Note for windows users**: You may need to change the line endings in the `init-db.sh`, `start.sh` and `test.sh` scripts as this has only been tested on a MacOS/Linux. You may get errors otherwise.
+> **Note for windows users**: You may need to change the line endings in the `init_db.sh`, `start.sh` and `test.sh` scripts as this has only been tested on a MacOS/Linux. You may get errors otherwise.
 
 1. Clone this repo and `cd` into the cloned folder.
     `git clone https://github.com/UCLComputerScience/COMP0016_2020_21_Team19`
@@ -42,23 +42,43 @@ You will need to have [Docker](https://docs.docker.com/get-docker/) and [Docker 
    * `GOOGLE_SECRET` - Google API secret key ID
    * `SECRET_KEY` - Django production key
 
-   Each file should contain a single line containing the corresponding secret token.
+   It should look like this:
    
-   Only the `DB_PASSWORD` and `DB_USER`, and `SECRET_KEY` are strictly required. Read more about the secret key here [here](https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+   ```
+   .
+   └── secrets
+       ├── DB_PASSWORD
+       ├── DB_USER
+       ├── EMAIL_HOST
+       ├── EMAIL_HOST_PASSWORD
+       ├── EMAIL_HOST_USER
+       ├── GOOGLE_CLIENT_ID
+       ├── GOOGLE_SECRET
+       └── SECRET_KEY
+   ```
+
+   Each file should contain a single line containing the corresponding secret token.
+  
+   Note: **You must create a file for each of these secrets for the container to work. If you don't have any values for the secrets, leave the files empty but make sure you do create them.**
+
+   Only the `DB_PASSWORD` and `DB_USER`, and `SECRET_KEY` are strictly required. Read more about the `SECRET_KEY` [here](https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 ). If you don't need an email backend during development, you can use the following setting in [`settings.py`](ActivityLeague/settings.py) and not create the `EMAIL_HOST` `EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD` secrets.
    
    ```python
    EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
    ```
+
+   **If you don't use an email backend, the email invite functionality will not work.**
    
    If you don't intend on using Google SSO, you can also ignore the `GOOGLE*` secrets.
    
-   Note: **You will need to modify the [`docker-compose.yml`](docker-compose.yml) and [`settings.py`](ActivityLeague/settings.py) files in accordance with the secrets you intend on using.**
-3. Run `docker-compose build` to build the image. This will make the database migrations and install all dependencies.
-4. Run `docker-compose up`. This will start the application on `localhost:8000`.
-   > The application will have no data to begin with. If you wish to populate the database with some dummy data, simply run the `init-db.sh` script from within the container using
+   Note: **You will need to modify the [`docker-compose.yml`](docker-compose.yml) and [`settings.py`](ActivityLeague/settings.py) files in accordance with the secrets you intend on using if you confiure addtional secrets than those specified above.**
+
+1. Run `docker-compose build` to build the image. This will make the database migrations and install all dependencies.
+2. Run `docker-compose up`. This will start the application on `localhost:8000`.
+   > The application will have no data to begin with. If you wish to populate the database with some dummy data, simply run the `init_db.sh` script from within the container using
    ```
-   docker-compose run web bash -c "./init-db.sh"
+   docker-compose run web bash -c "./init_db.sh"
    ```
    This will create users on the platform and you can log in as one of them using the details below:
     - Surveyor
