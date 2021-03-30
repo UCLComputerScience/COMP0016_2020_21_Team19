@@ -8,6 +8,12 @@
 [![Integration Testing CI (Firefox)](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions/workflows/integration-testing-firefox.yml/badge.svg)](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions/workflows/integration-testing-firefox.yml)
 [![Publish Docker image](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions/workflows/publish.yml/badge.svg)](https://github.com/UCLComputerScience/COMP0016_2020_21_Team19/actions/workflows/publish.yml)
 
+Increasingly, hospitals are being mandated to monitor patient wellbeing post-treatment through Patient Reported Outcome Measures (PROMs). The NHS currently distributes a combination of paper and digital PROMs and suffer numerous delays before they can extract useful information from them. Currently, the process of collecting and analysing these measures can take up to a year to finalise. 
+
+Under the [UCL Industry Exchange Network](https://www.ucl.ac.uk/computer-science/collaborate/ucl-industry-exchange-network-ucl-ixn) (UCL IXN) and with support from [NHS Wales](https://www.wales.nhs.uk/), we've developed a generalized web application enabling clinicians to quickly gather PROM data per individual and allow them to visualise and analyse the factors that help and hinder an individual from adherence to set treatment plans. Surveyors can create new tasks and add questions with different response types. Our platform provides visualisations for the responses to these tasks. 
+
+Our solution dramatically reduces the time taken to collect and analyse responses to PROMs and may allow them to uncover health-related issues that would have gone undiscovered if assessed purely on the existing patient consultation framework. 
+
 ## Development
 
 This section will describe how to get started with development on your local machine.
@@ -24,8 +30,7 @@ You will need to have [Docker](https://docs.docker.com/get-docker/) and [Docker 
     
     `cd COMP0016_2020_21_Team19`
 
-2. Run `docker-compose build` to build the image. This will make the database migrations and install all dependencies.
-3. Since the repository has been created with use of a VCS such as git in mind, a secrets folder is required to avoid using and committing sensitive information (such as API keys) in code. Create a `secrets/` folder containing the following files:
+2. Since the repository has been created with use of a VCS such as git in mind, a secrets folder is required to avoid using and committing sensitive information (such as API keys) in code. Create a `secrets/` folder containing the following files:
    * `DB_USER` - database user
    * `DB_PASSWORD` - database password
    * `EMAIL_HOST` - email provider server name
@@ -37,7 +42,8 @@ You will need to have [Docker](https://docs.docker.com/get-docker/) and [Docker 
 
    Each file should contain a single line containing the corresponding secret token.
    
-   Only the `DB_PASSWORD` and `DB_USER`, and `SECRET_KEY` are strictly required. If you don't need an email backend during development, you can use the following setting in [`settings.py`](ActivityLeague/settings.py) and not create the `EMAIL_HOST` `EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD` secrets.
+   Only the `DB_PASSWORD` and `DB_USER`, and `SECRET_KEY` are strictly required. Read more about the secret key here [here](https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+). If you don't need an email backend during development, you can use the following setting in [`settings.py`](ActivityLeague/settings.py) and not create the `EMAIL_HOST` `EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD` secrets.
    
    ```python
    EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
@@ -46,6 +52,7 @@ You will need to have [Docker](https://docs.docker.com/get-docker/) and [Docker 
    If you don't intend on using Google SSO, you can also ignore the `GOOGLE*` secrets.
    
    Note: **You will need to modify the [`docker-compose.yml`](docker-compose.yml) and [`settings.py`](ActivityLeague/settings.py) files in accordance with the secrets you intend on using.**
+3. Run `docker-compose build` to build the image. This will make the database migrations and install all dependencies.
 4. Run `docker-compose up`. This will start the application on `localhost:8000`.
    > The application will have no data to begin with. If you wish to populate the database with some dummy data, simply run the `init-db.sh` script from within the container using
    ```
