@@ -43,7 +43,7 @@ sections:
       - title:
         price: Difficult to Analyse
         details: |-
-          Collecting responses of physical questionnaires means manually updating records - providing no quick and easy visualisations to assist in analysing the repsonse data.
+          Collecting responses of physical questionnaires means manually updating records - providing no quick and easy visualisations to assist in analysing the response data.
         highlight: true
       - title:
         price: Necessary
@@ -56,6 +56,8 @@ sections:
     type: section_features
     background: gray
     title: Our Solution
+    subtitle: >-
+      Our solution dramatically reduces the time taken to collect and analyse responses to PROMs and may allow them to uncover health-related issues that would have gone undiscovered if assessed purely on the existing patient consultation framework. 
     features:
       - title: Web-based solution to capturing PROMs
         image: images/home/surveyor_dashboard.png
@@ -135,7 +137,7 @@ sections:
         #     style: secondary
         #     has_icon: true
         #     icon: arrow-right
-        #     icon_position: right
+        #     icon_position: right 
   - section_id: call-to-action
     type: section_cta
     title: Project Management

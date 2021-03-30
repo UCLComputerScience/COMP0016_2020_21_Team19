@@ -199,7 +199,7 @@ toc: true
       <td>33%</td>
     </tr>
     <tr>
-      <td>Video Editing</td>
+      <td>Video</td>
       <td>33%</td>
       <td>33%</td>
       <td>33%</td>
@@ -241,8 +241,6 @@ In addition to the features initially requested by our client, we added some som
 <br>
 
 ## Critical evaluation
-
-<br>
 
 <br>
 

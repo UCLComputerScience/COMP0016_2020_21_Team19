@@ -1,5 +1,5 @@
 title: Activity League
-# baseURL: http://students.cs.ucl.ac.uk/2020/group19/
+baseURL: http://students.cs.ucl.ac.uk/2020/group19/
 publishDir: ../build
 params:
   base_font: nunito-sans

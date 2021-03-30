@@ -148,33 +148,33 @@ The pages we prototyped outline the core functionality for our users (Surveyor a
 
 We chose to evaluate our prototype by performing a usability test (What is Usability Testing?, 2020) rather than an analytical evaluation, whereby we distributed our digital prototype to pseudo-users and asked them to perform basic, realistic tasks on the system while we watched over them on a video call and they shared their screen. We did this because of the complexity involved in finding experts to carry out a heuristic evaluation. Users were encouraged to think aloud (T07: Research Driven Think-Aloud Protocols in Usability Testing | HCI International 2014, 2020) and weren't responded to when they asked questions about the prototype. Through observation of our users, we identified and resolved the following issues with our prototype:
 
-1. (Respondent Dashboard): Respondents were confused by the "Deadline" heading.
+1. **Respondent Dashboard**: Respondents were confused by the "Deadline" heading.
 
-2. (Respondent Dashboard): Respondents didn't know what the sort or filter options at the top of the page were.
+2. **Respondent Dashboard**: Respondents didn't know what the sort or filter options at the top of the page were.
 
-3. (Respondent Dashboard): Respondents didn't know that they could click on individual tasks.
+3. **Respondent Dashboard**: Respondents didn't know that they could click on individual tasks.
 
-4. (Respondent Leaderboard): Respondents had trouble finding leaderboards for each of their classes as they were organised in pages rather than through tabs.
+4. **Respondent Leaderboard**: Respondents had trouble finding leaderboards for each of their classes as they were organised in pages rather than through tabs.
 
-5. (Respondent Leaderboard): There were no numbered rankings of respondents on each leaderboard so respondents had to count each position to work out where they ranked.
+5. **Respondent Leaderboard**: There were no numbered rankings of respondents on each leaderboard so respondents had to count each position to work out where they ranked.
 
-6. (Respondent Leaderboard): The respondent was not clearly visible or highlighted on the leaderboard, so respondents often took longer than needed to find themselves.
+6. **Respondent Leaderboard**: The respondent was not clearly visible or highlighted on the leaderboard, so respondents often took longer than needed to find themselves.
 
-7. (All Pages): Users didn't know what the search option was searching through.
+7. **All Pages**: Users didn't know what the search option was searching through.
 
-8. (Respondent Dashboard): Users were frustrated by the need to click through multiple pages.
+8. **Respondent Dashboard**: Users were frustrated by the need to click through multiple pages.
 
-9. (Respondent Feedback Form): Respondents were confused by the phrasing of the final default question of the feedback form.
+9. **Respondent Feedback Form**: Respondents were confused by the phrasing of the final default question of the feedback form.
 
-10. (Surveyor Dashboard): Surveyors couldn't interpret the example class progress graphs provided in the class leaderboard tabs.
+10. **Surveyor Dashboard**: Surveyors couldn't interpret the example class progress graphs provided in the class leaderboard tabs.
 
-11. (Surveyor Dashboard): Surveyors did not know how to show all tasks.
+11. **Surveyor Dashboard**: Surveyors did not know how to show all tasks.
 
-12. (Surveyor Dashboard): Surveyors didn't know how to sort the tasks by any of the headings on the task list.
+12. **Surveyor Dashboard**: Surveyors didn't know how to sort the tasks by any of the headings on the task list.
 
-13. (Task Overview): Surveyors couldn't interpret the results of the responses of each of the pages.
+13. **Task Overview**: Surveyors couldn't interpret the results of the responses of each of the pages.
 
-14. (Surveyor Dashboard): Surveyors didn't know that they could scroll through the class leaderboards.
+14. **Surveyor Dashboard**: Surveyors didn't know that they could scroll through the class leaderboards.
 
 
 <div id="carouselPrototypesImproved" class="carousel carousel-dark slide mb-3" data-bs-ride="carousel">

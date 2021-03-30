@@ -67,7 +67,7 @@ The respective licenses of the third-party dependencies are as follows:
 
 Due to the sensitive nature of the data in institutions where this application may be provisioned, Activity League holds no personally identifiable data except user email addresses which are required to facilitate usage of core functionality.
 
-Our platform is compliant with the [Caldicott Principles](https://www.hacw.nhs.uk/quality-and-safety/caldicott-principles-943/)
+Our platform is compliant with the [Caldicott Principles](https://www.hacw.nhs.uk/quality-and-safety/caldicott-principles-943/).
 
 ## Credits
 
