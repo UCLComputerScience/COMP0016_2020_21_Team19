@@ -2,22 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://students.cs.ucl.ac.uk/2020/group19/evaluation/</loc>
+    <loc>/evaluation/</loc>
   </url><url>
-    <loc>http://students.cs.ucl.ac.uk/2020/group19/hci/</loc>
+    <loc>/hci/</loc>
   </url><url>
-    <loc>http://students.cs.ucl.ac.uk/2020/group19/</loc>
+    <loc>/</loc>
   </url><url>
-    <loc>http://students.cs.ucl.ac.uk/2020/group19/implementation/</loc>
+    <loc>/implementation/</loc>
   </url><url>
-    <loc>http://students.cs.ucl.ac.uk/2020/group19/legal/</loc>
+    <loc>/legal/</loc>
   </url><url>
-    <loc>http://students.cs.ucl.ac.uk/2020/group19/requirements/</loc>
+    <loc>/requirements/</loc>
   </url><url>
-    <loc>http://students.cs.ucl.ac.uk/2020/group19/research/</loc>
+    <loc>/research/</loc>
   </url><url>
-    <loc>http://students.cs.ucl.ac.uk/2020/group19/system-design/</loc>
+    <loc>/system-design/</loc>
   </url><url>
-    <loc>http://students.cs.ucl.ac.uk/2020/group19/testing/</loc>
+    <loc>/testing/</loc>
   </url>
 </urlset>
